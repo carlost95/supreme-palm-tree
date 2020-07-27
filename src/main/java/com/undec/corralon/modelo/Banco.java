@@ -1,16 +1,17 @@
 package com.undec.corralon.modelo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import javax.persistence.*;
 import java.util.Objects;
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Banco {
+public class Banco extends DateAudit{
     private Integer id;
     private String nombre;
     private String abreviatura;
-    private Byte habilitado;
+    private Boolean habilitado;
 
     @Id
     @Column(name = "id")
@@ -45,11 +46,11 @@ public class Banco {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
