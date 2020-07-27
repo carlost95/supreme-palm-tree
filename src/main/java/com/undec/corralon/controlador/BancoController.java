@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.io.FileNotFoundException;
 
-
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/bancos")
@@ -34,11 +33,6 @@ public class BancoController {
         return  new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/export/{format}")
-    public ResponseEntity <Response> exportReport( @PathVariable String format) {
-        Response response = bancoService.exportReport(format);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
     @PostMapping
     public ResponseEntity<Response> guardar(@Valid @RequestBody Banco banco) throws Exception {
         Response response = bancoService.guardarBanco(banco);
@@ -46,7 +40,7 @@ public class BancoController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<Response> listarPorId(@PathVariable("id") Integer id) throws Exception {
-        Response response = bancoService.listarBancoPorId(id);
+        Response response = bancoService.obtenerBancoPorId(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @PutMapping
@@ -55,9 +49,9 @@ public class BancoController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Response> eliminar(@PathVariable("id") Integer id) throws Exception {
-        Response response = bancoService.deshabilitarBanco(id);
+    @PutMapping("/{id}")
+    public ResponseEntity<Response> cambiarHabilitacion(@PathVariable("id") Integer id) throws Exception {
+        Response response = bancoService.cambiarHabilitacion(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
