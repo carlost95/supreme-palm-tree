@@ -35,9 +35,9 @@ public class ReporteArticulo {
             parametros.put("titulo", "Reporte de Articulos");
             parametros.put("c1", "id");
             parametros.put("c2", "nombre");
-            parametros.put("c3", "queso");
+            parametros.put("c3", "abreviatura");
 
-            String filename = "Reporte Articulo"+" "+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy-hh mm ss"));
+            String filename = "Reporte Articulo"+" "+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd-MM-yyyy-hh mm"));
             FileDTO fileDTO = new FileDTO();
             fileDTO.setFile(createReportService.createReport(data, plantilla,parametros));
             fileDTO.setName(filename);

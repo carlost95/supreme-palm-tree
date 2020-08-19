@@ -18,22 +18,29 @@
 
 
         <title >
-        <band height="70" splitType="Stretch">
+            <band height="70" splitType="Stretch">
             <frame>
-                <reportElement mode="Opaque" x="0" y="13" width="500" height="57" backcolor="#E6E6E6" uuid="597d4757-668f-477c-9ced-3229cff86d90"/>
-            <textField>
-                <reportElement style="Title" x="0" y="13" width="260" height="33" uuid="b29fc01f-fd05-4c6c-ad25-729ebb8514a6"/>
-                <textFieldExpression>
-                    <![CDATA[$P{titulo}]]>
-                </textFieldExpression>
-            </textField>
-            <image hAlign="Right">
-                <reportElement x="260" y="0" width="240" height="70" uuid="411553a1-1201-4f00-b90a-b7bd62eb35b7"/>
-                <imageExpression><![CDATA["classpath:image/logo.jpg"]]></imageExpression>
-            </image>
+                <reportElement mode="Opaque" x="0" y="13" width="555" height="57" backcolor="#E6E6E6" uuid="597d4757-668f-477c-9ced-3229cff86d90"/>
+                <textField>
+                    <reportElement style="Title" x="0" y="13" width="260" height="33" uuid="b29fc01f-fd05-4c6c-ad25-729ebb8514a6"/>
+                    <textFieldExpression>
+                        <![CDATA[$P{titulo}]]>
+                    </textFieldExpression>
+                </textField>
+                <image hAlign="Right">
+                    <reportElement x="490" y="0" width="65" height="57" uuid="411553a1-1201-4f00-b90a-b7bd62eb35b7"/>
+                    <imageExpression><![CDATA["classpath:image/logo1.jpg"]]></imageExpression>
+                </image>
+                    <staticText>
+                        <reportElement x="360" y="10" width="142" height="20" uuid="20882dfa-453a-463a-83c2-acd243d55dba"/>
+                        <text><![CDATA[Corralon Santo Domingo]]></text>
+                    </staticText>
+                    <staticText>
+                        <reportElement x="360" y="30" width="142" height="21" uuid="18a09479-231e-4989-8314-8dc47df762df"/>
+                        <text><![CDATA[Tel: 03825 42-5963]]></text>
+                    </staticText>
             </frame>
         </band>
-
     </title>
 
     <pageHeader>
@@ -51,6 +58,7 @@
                 <textFieldExpression>
                     <![CDATA[$P{c1}]]>
                 </textFieldExpression>
+
             </textField>
                 <textField>
                 <reportElement mode="Opaque" x="185" y="0" width="185" height="20" forecolor="#006699" backcolor="#E6E6E6" uuid="8cf5ef1c-3d1a-4864-94f9-ea002706e87e">
@@ -124,7 +132,9 @@
                 <reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="849a1ab1-d8bd-4f9d-b2a9-b06bc4cf78ba"/>
                 <textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
             </textField>
-            <textField pattern="EEEEE dd MMMMM yyyy">
+<!--            <textField pattern="EEEEE dd MMMMM yyyy">-->
+<!--            <textField pattern="dd.MMMMM.yyyy GGG hh:mm:ss aaa">-->
+            <textField pattern="dd MMMMM yyyy hh:mm">
                 <reportElement x="0" y="4" width="100" height="13" uuid="e28bf5c5-e418-4cbb-993d-ef0ca449c658"/>
                 <textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
             </textField>
