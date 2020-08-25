@@ -6,20 +6,26 @@ import java.util.Objects;
 
 
 @Entity
-@Table(name = "pedido", schema = "santo_domingo_corralon")
+//@Table(name = "pedido", schema = "santo_domingo_corralon")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Pedido {
     private int id;
-    private String fecha;
     private String nombre;
+    private String fecha;
+    private Integer proveedorId;
     private String descripcion;
     private Integer habilitacion;
+
 
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getId() {
         return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public void setId(int id) {
@@ -81,5 +87,15 @@ public class Pedido {
     @Override
     public int hashCode() {
         return Objects.hash(id, fecha, nombre, descripcion, habilitacion);
+    }
+
+    @Basic
+    @Column(name = "proveedor_id")
+    public Integer getProveedorId() {
+        return proveedorId;
+    }
+
+    public void setProveedorId(Integer proveedorId) {
+        this.proveedorId = proveedorId;
     }
 }
