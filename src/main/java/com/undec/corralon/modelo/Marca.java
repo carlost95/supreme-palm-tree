@@ -12,7 +12,7 @@ public class Marca {
     private int id;
     private String nombre;
     private String abreviatura;
-    private Integer habilitacion;
+    private boolean habilitacion;
     private Date fechaCreacion;
     private Date fechaModificacion;
     private Date fechaBaja;
@@ -50,11 +50,11 @@ public class Marca {
 
     @Basic
     @Column(name = "habilitacion")
-    public Integer getHabilitacion() {
+    public boolean getHabilitacion() {
         return habilitacion;
     }
 
-    public void setHabilitacion(Integer habilitacion) {
+    public void setHabilitacion(boolean habilitacion) {
         this.habilitacion = habilitacion;
     }
 

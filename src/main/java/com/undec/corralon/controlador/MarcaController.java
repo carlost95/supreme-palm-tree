@@ -54,4 +54,9 @@ public class MarcaController {
         Response response = this.marcaService.eliminarMarca(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+    @PutMapping("/{id}")
+    public ResponseEntity<Response> cambiarHabilitacion(@PathVariable("id") Integer id) throws Exception {
+        Response response = marcaService.cambiarHabilitacion(id);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
