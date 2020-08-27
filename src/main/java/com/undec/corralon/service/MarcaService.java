@@ -1,6 +1,7 @@
 package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.Response;
+import com.undec.corralon.excepciones.banco.BancoCambioEstadoException;
 import com.undec.corralon.excepciones.marca.MarcaNotFoundException;
 import com.undec.corralon.modelo.Marca;
 import com.undec.corralon.repository.MarcaRepository;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MarcaService {
@@ -46,7 +48,7 @@ public class MarcaService {
     public Response guardarMarca(Marca marca) throws MarcaNotFoundException {
         Response response = new Response();
         marca.setFechaCreacion(new Date());
-        marca.setHabilitacion(1);
+        marca.setHabilitacion(true);
         marca = this.marcaRepository.save(marca);
 
         if(marca == null)
@@ -79,7 +81,7 @@ public class MarcaService {
         Response response = new Response();
         Marca marcaToDelete = marcaRepository.findById(id).get();
 
-        marcaToDelete.setHabilitacion(0);
+        marcaToDelete.setHabilitacion(true);
         marcaToDelete.setFechaBaja(new Date());
         if (marcaToDelete == null){
             throw new MarcaNotFoundException();
@@ -87,6 +89,22 @@ public class MarcaService {
         response.setCode(200);
         response.setMsg("Baja de Marca");
         response.setData(marcaRepository.save(marcaToDelete));
+        return response;
+    }
+    public Response cambiarHabilitacion(Integer id) throws BancoCambioEstadoException {
+        Response response = new Response();
+
+        Optional<Marca> marcaOptional = marcaRepository.findById(id);
+        if (!marcaOptional.isPresent()){
+            throw new BancoCambioEstadoException();
+        }
+        Marca marca = marcaOptional.get();
+        marca.setHabilitacion(!marca.getHabilitacion());
+        marca = marcaRepository.save(marca);
+
+        response.setCode(200);
+        response.setMsg("El banco cambio el estado");
+        response.setData(marca);
         return response;
     }
 
