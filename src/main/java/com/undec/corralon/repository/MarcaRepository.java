@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface MarcaRepository extends JpaRepository<Marca, Integer> {
-    List<Marca> findAllByHabilitacionEquals(Integer habilitacion);
+    List<Marca> findAllByHabilitacionEquals(Boolean habilitado);
 }
