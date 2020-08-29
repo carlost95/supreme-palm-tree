@@ -38,7 +38,7 @@ public class MarcaService {
 
     public Response obtenerHabilitados() throws MarcaNotFoundException {
         Response response = new Response();
-        List<Marca> marcas = this.marcaRepository.findAllByHabilitacionEquals(1);
+        List<Marca> marcas = this.marcaRepository.findAllByHabilitacionEquals(true);
         response.setCode(200);
         response.setMsg("Marcas Habilitadas");
         response.setData(marcas);
