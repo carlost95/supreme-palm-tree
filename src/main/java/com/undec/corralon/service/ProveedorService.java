@@ -2,10 +2,7 @@ package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.Response;
 import com.undec.corralon.excepciones.banco.BancoCambioEstadoException;
-import com.undec.corralon.excepciones.proveedor.ProveedorErrorToDownException;
-import com.undec.corralon.excepciones.proveedor.ProveedorErrorToSaveException;
-import com.undec.corralon.excepciones.proveedor.ProveedorErrorToUpdateException;
-import com.undec.corralon.excepciones.proveedor.ProveedorNotFoundException;
+import com.undec.corralon.excepciones.proveedor.*;
 import com.undec.corralon.modelo.Proveedor;
 import com.undec.corralon.repository.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,19 +87,19 @@ public class ProveedorService {
         return response;
     }
 
-    public Response cambiarHabilitacion(Integer id) throws BancoCambioEstadoException {
+    public Response cambiarHabilitacion(Integer id) throws ProveedorCambioEstadoException {
         Response response = new Response();
 
         Optional<Proveedor> proveedorOptional = proveedorRepository.findById(id);
         if (!proveedorOptional.isPresent()){
-            throw new BancoCambioEstadoException();
+            throw new ProveedorCambioEstadoException();
         }
         Proveedor proveedor = proveedorOptional.get();
         proveedor.setHabilitado(!proveedor.getHabilitado());
-        proveedor = proveedorRepository.save(proveedor);
+        proveedorRepository.save(proveedor);
 
         response.setCode(200);
-        response.setMsg("El banco cambio el estado");
+        response.setMsg("El proveedor cambio el estado");
         response.setData(proveedor);
         return response;
     }
