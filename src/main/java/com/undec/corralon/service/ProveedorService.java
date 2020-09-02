@@ -79,7 +79,6 @@ public class ProveedorService {
         proveedorUpdate.setMail(proveedor.getMail());
         proveedorUpdate.setCelular(proveedor.getCelular());
         proveedorUpdate.setTelefono(proveedor.getTelefono());
-        proveedorUpdate.setHabilitado(proveedor.getHabilitado());
 
         response.setCode(200);
         response.setMsg("aproveedor ctualizado");
