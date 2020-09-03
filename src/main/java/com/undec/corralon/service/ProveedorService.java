@@ -73,7 +73,6 @@ public class ProveedorService {
         if(proveedorUpdate == null)
             throw new ProveedorErrorToUpdateException();
 
-//        proveedorUpdate.setId(proveedor.getId());
         proveedorUpdate.setRazonSocial(proveedor.getRazonSocial());
         proveedorUpdate.setDomicilio(proveedor.getDomicilio());
         proveedorUpdate.setMail(proveedor.getMail());
@@ -81,7 +80,7 @@ public class ProveedorService {
         proveedorUpdate.setTelefono(proveedor.getTelefono());
 
         response.setCode(200);
-        response.setMsg("aproveedor ctualizado");
+        response.setMsg(" proveedor actualizado");
         response.setData(proveedorRepository.save(proveedorUpdate));
         return response;
     }
