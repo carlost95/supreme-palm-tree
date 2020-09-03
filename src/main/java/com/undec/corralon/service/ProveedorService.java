@@ -1,16 +1,15 @@
 package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.proveedor.ProveedorErrorToDownException;
-import com.undec.corralon.excepciones.proveedor.ProveedorErrorToSaveException;
-import com.undec.corralon.excepciones.proveedor.ProveedorErrorToUpdateException;
-import com.undec.corralon.excepciones.proveedor.ProveedorNotFoundException;
+import com.undec.corralon.excepciones.banco.BancoCambioEstadoException;
+import com.undec.corralon.excepciones.proveedor.*;
 import com.undec.corralon.modelo.Proveedor;
 import com.undec.corralon.repository.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProveedorService {
@@ -55,12 +54,8 @@ public class ProveedorService {
     }
     public Response guardarProveedor(Proveedor proveedor) throws Exception {
         Response response = new Response();
-        proveedor.setHabilitado((byte) 1);
+        proveedor.setHabilitado((boolean) true);
         Proveedor proveedorSave = proveedorRepository.save(proveedor);
-//        cliente.setFechaalta(LocalDate.now());
-//        cliente.setFechaactualizacion(LocalDate.now());
-//        proveedorSave.setHabilitado((byte) 1);
-//        Cliente guardado = clienteRepository.save(cliente);
 
         if(proveedorSave == null)
             throw new ProveedorErrorToSaveException();
@@ -78,33 +73,32 @@ public class ProveedorService {
         if(proveedorUpdate == null)
             throw new ProveedorErrorToUpdateException();
 
-//        proveedorUpdate.setId(proveedor.getId());
         proveedorUpdate.setRazonSocial(proveedor.getRazonSocial());
         proveedorUpdate.setDomicilio(proveedor.getDomicilio());
         proveedorUpdate.setMail(proveedor.getMail());
         proveedorUpdate.setCelular(proveedor.getCelular());
         proveedorUpdate.setTelefono(proveedor.getTelefono());
-        proveedorUpdate.setHabilitado(proveedor.getHabilitado());
 
         response.setCode(200);
-        response.setMsg("aproveedor ctualizado");
+        response.setMsg(" proveedor actualizado");
         response.setData(proveedorRepository.save(proveedorUpdate));
         return response;
     }
-    public Response darBajaProveedor(Integer id) throws Exception{
-        Response response = new Response();
-        Proveedor proveedorDown = proveedorRepository.findById(id).get();
 
-        if(proveedorDown == null)
-            throw new ProveedorErrorToDownException();
-        proveedorDown.setHabilitado((byte) 0);
-        proveedorRepository.save(proveedorDown);
+    public Response cambiarHabilitacion(Integer id) throws ProveedorCambioEstadoException {
+        Response response = new Response();
+
+        Optional<Proveedor> proveedorOptional = proveedorRepository.findById(id);
+        if (!proveedorOptional.isPresent()){
+            throw new ProveedorCambioEstadoException();
+        }
+        Proveedor proveedor = proveedorOptional.get();
+        proveedor.setHabilitado(!proveedor.getHabilitado());
+        proveedorRepository.save(proveedor);
 
         response.setCode(200);
-        response.setMsg("proveedor deshabilitado");
-        response.setData(proveedorDown);
-
-
+        response.setMsg("El proveedor cambio el estado");
+        response.setData(proveedor);
         return response;
     }
 }

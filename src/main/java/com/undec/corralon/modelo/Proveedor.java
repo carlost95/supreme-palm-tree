@@ -11,7 +11,7 @@ public class Proveedor {
     private String mail;
     private String celular;
     private String telefono;
-    private Byte habilitado;
+    private boolean habilitado;
 
     @Id
     @Column(name = "id")
@@ -77,11 +77,11 @@ public class Proveedor {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 

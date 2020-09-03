@@ -45,9 +45,9 @@ public class ProveedorController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Response> eliminar(@PathVariable("id") Integer id) throws Exception {
-        Response response = proveedorService.darBajaProveedor(id);
+    @PutMapping("/{id}")
+    public ResponseEntity<Response> cambiarHabilitacion(@PathVariable("id") Integer id) throws Exception {
+        Response response = proveedorService.cambiarHabilitacion(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
