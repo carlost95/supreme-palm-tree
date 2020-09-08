@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface ProveedorRepository extends JpaRepository<Proveedor, Integer> {
-    List<Proveedor> findAllByHabilitadoEquals(Byte habilitado);
+    List<Proveedor> findAllByHabilitadoEquals(boolean habilitado);
     
 }
