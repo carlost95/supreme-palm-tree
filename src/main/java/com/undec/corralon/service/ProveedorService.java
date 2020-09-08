@@ -30,7 +30,7 @@ public class ProveedorService {
     }
     public Response listarTodosHabilitados() throws Exception {
         Response response = new Response();
-        List <Proveedor> proveedores = proveedorRepository.findAllByHabilitadoEquals((byte) 1);
+        List <Proveedor> proveedores = proveedorRepository.findAllByHabilitadoEquals((boolean) true);
         if (proveedores == null){
             throw new ProveedorNotFoundException();
         }
