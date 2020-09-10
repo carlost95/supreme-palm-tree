@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RubroService {
@@ -54,7 +55,7 @@ public class RubroService {
 
     public Response crearRubro(Rubro rubro) throws RubroException{
         Response response = new Response();
-        rubro.setHabilitacion(1);
+        rubro.setHabilitacion(true);
         rubro.setFechaCreacion(new Date());
         rubro =  this.rubroRepository.save(rubro);
 
@@ -87,20 +88,20 @@ public class RubroService {
         return response;
     }
 
-    public Response bajaRubro(Integer id) throws RubroException {
+
+    public Response cambiarHabilitacion(Integer id) throws RubroException {
         Response response = new Response();
+        Optional<Rubro> rubroOptional = rubroRepository.findById(id);
+        if (!rubroOptional.isPresent()){
+            throw new RubroCambioEstadoException();
+        }
+        Rubro rubro = rubroOptional.get();
+        rubro.setHabilitacion(!rubro.getHabilitacion());
+        rubroRepository.save(rubro);
 
-        Rubro rubroToDelete =  this.rubroRepository.findById(id).get();
-
-        if(rubroToDelete == null)
-            throw new RubroErrorToDeleteException();
-        rubroToDelete.setHabilitacion(0);
-        rubroToDelete.setFechaBaja(new Date());
-        rubroToDelete = this.rubroRepository.save(rubroToDelete);
-        response.setData(rubroToDelete);
         response.setCode(200);
-        response.setMsg("Eliminado");
+        response.setMsg("El rubro cambio el estado");
+        response.setData(rubro);
         return response;
     }
-
 }
