@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping("/rubro")
+@RequestMapping("/rubros")
 public class RubroController {
 
     @Autowired
@@ -48,9 +48,9 @@ public class RubroController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Response> darBajaRubro(@PathVariable Integer id) throws RubroException {
-        Response response = rubroService.bajaRubro(id);
+   @PutMapping("/{id}")
+    public ResponseEntity<Response> cambiarHabilitacion(@PathVariable("id") Integer id) throws Exception {
+        Response response = rubroService.cambiarHabilitacion(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

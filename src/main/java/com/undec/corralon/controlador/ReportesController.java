@@ -1,10 +1,7 @@
 package com.undec.corralon.controlador;
 
 import com.undec.corralon.DTO.Response;
-import com.undec.corralon.reportes.ReporteArticulo;
-import com.undec.corralon.reportes.ReporteBanco;
-import com.undec.corralon.reportes.ReporteMarca;
-import com.undec.corralon.reportes.ReporteProveedor;
+import com.undec.corralon.reportes.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +24,9 @@ public class ReportesController {
     @Autowired
     ReporteProveedor reporteProveedor;
 
+    @Autowired
+    ReporteRubro reporteRubro;
+
     @GetMapping("/banco")
     public ResponseEntity<Response> bancoReport() {
         Response response = reporteBanco.exportReport();
@@ -47,5 +47,10 @@ public class ReportesController {
     public ResponseEntity<Response> proveedorReport() {
         Response response = reporteProveedor.exportReport();
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @GetMapping("/rubro")
+    public  ResponseEntity<Response> rubroReport(){
+        Response response= reporteRubro.exportReport();
+        return  new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
