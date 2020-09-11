@@ -1,10 +1,7 @@
 package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.unidadMedida.UnidadMedidaErrorToDelete;
-import com.undec.corralon.excepciones.unidadMedida.UnidadMedidaErrorToSave;
-import com.undec.corralon.excepciones.unidadMedida.UnidadMedidaErrorToUpdate;
-import com.undec.corralon.excepciones.unidadMedida.UnidadMedidaException;
+import com.undec.corralon.excepciones.unidadMedida.*;
 import com.undec.corralon.modelo.UnidadMedida;
 import com.undec.corralon.repository.UnidadMedidaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UnidadMedidaService {
@@ -57,7 +55,7 @@ public class UnidadMedidaService {
     public Response crearUnidadMedida(UnidadMedida unidadMedida) throws UnidadMedidaException {
 
         Response response = new Response();
-        unidadMedida.setHabilitacion(1);
+        unidadMedida.setHabilitacion(true);
         unidadMedida.setFechaCreacion(new Date());
         UnidadMedida unidadMedidaToSave = this.unidadMedidaRepository.save(unidadMedida);
 
@@ -93,26 +91,21 @@ public class UnidadMedidaService {
         return response;
     }
 
-
-    public Response eliminarUnidadMedida(Integer id) throws UnidadMedidaException {
-
+    public Response cambiarHabilitacion(Integer id) throws UnidadMedidadCambioHabilitacionExceptioon {
         Response response = new Response();
-        UnidadMedida unidadMedidaToDelete = this.unidadMedidaRepository.findById(id).get();
 
-        if(unidadMedidaToDelete == null)
-            throw new UnidadMedidaErrorToDelete();
+        Optional<UnidadMedida> unidadMedidaOptional = unidadMedidaRepository.findById(id);
+        if (!unidadMedidaOptional.isPresent()){
+            throw new UnidadMedidadCambioHabilitacionExceptioon();
+        }
+        UnidadMedida unidadMedida = unidadMedidaOptional.get();
+        unidadMedida.setHabilitacion(!unidadMedida.getHabilitacion());
+        unidadMedida = unidadMedidaRepository.save(unidadMedida);
 
-        unidadMedidaToDelete.setFechaEliminacion(new Date());
-        unidadMedidaToDelete.setHabilitacion(0);
-
-        unidadMedidaToDelete = this.unidadMedidaRepository.save(unidadMedidaToDelete);
-
-        response.setMsg("Unidad medida deshabilitada");
         response.setCode(200);
-        response.setData(unidadMedidaToDelete);
-
+        response.setMsg("Unidad de Medida cambio el estado");
+        response.setData(unidadMedida);
         return response;
     }
-
 
 }
