@@ -49,10 +49,10 @@ public class UnidadMedidaController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<Response> deshabilitarUnidadMedida(@PathVariable("id") Integer id) throws UnidadMedidaException {
-        Response response = unidadMedidaService.eliminarUnidadMedida(id);
+    @PutMapping("/{id}")
+    public ResponseEntity<Response> cambiarHabilitacion(@PathVariable("id") Integer id) throws UnidadMedidaException {
+        Response response = unidadMedidaService.cambiarHabilitacion(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 }

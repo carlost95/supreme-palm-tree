@@ -13,7 +13,7 @@ public class UnidadMedida {
     private Integer id;
     private String nombre;
     private String abreviatura;
-    private Integer habilitacion;
+    private boolean habilitacion;
     private Date fechaCreacion;
     private Date fechaModificacion;
     private Date fechaEliminacion;
@@ -51,11 +51,11 @@ public class UnidadMedida {
 
     @Basic
     @Column(name = "habilitacion")
-    public Integer getHabilitacion() {
+    public boolean getHabilitacion() {
         return habilitacion;
     }
 
-    public void setHabilitacion(Integer habilitacion) {
+    public void setHabilitacion(boolean habilitacion) {
         this.habilitacion = habilitacion;
     }
 
