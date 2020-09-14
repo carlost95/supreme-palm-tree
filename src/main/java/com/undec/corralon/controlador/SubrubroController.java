@@ -54,9 +54,9 @@ public class SubrubroController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Response> darBajaSubrubro(@PathVariable("id") Integer id) throws SubrubroException {
-        Response response = subrubroService.darBajaSubrubro(id);
+    @PutMapping("/{id}")
+    public ResponseEntity<Response> cambiarHabilitacion(@PathVariable("id") Integer id) throws SubrubroException {
+        Response response = subrubroService.cambiarHabilitacion(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

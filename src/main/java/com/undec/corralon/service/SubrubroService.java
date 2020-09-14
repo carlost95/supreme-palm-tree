@@ -4,10 +4,8 @@ import com.undec.corralon.DTO.Response;
 import com.undec.corralon.DTO.SubrubroDTO;
 import com.undec.corralon.excepciones.departamento.DepartamentoErrorToUpdateException;
 import com.undec.corralon.excepciones.distrito.DistritoListNotFoundException;
-import com.undec.corralon.excepciones.subrubro.SubRubroErrorToDeleteException;
-import com.undec.corralon.excepciones.subrubro.SubRubroErrorToSaveException;
-import com.undec.corralon.excepciones.subrubro.SubRubroErrorToUpdateException;
-import com.undec.corralon.excepciones.subrubro.SubrubroException;
+import com.undec.corralon.excepciones.rubro.RubroCambioEstadoException;
+import com.undec.corralon.excepciones.subrubro.*;
 import com.undec.corralon.modelo.SubRubro;
 import com.undec.corralon.repository.RubroRepository;
 import com.undec.corralon.repository.SubRubroRepository;
@@ -16,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SubrubroService {
@@ -78,7 +77,7 @@ public class SubrubroService {
         if(subRubro == null)
             throw new SubRubroErrorToSaveException();
 
-        subRubro.setHabilitacion(1);
+        subRubro.setHabilitacion(true);
         subRubro.setFechaCreacion(new Date());
         subRubro = subRubroRepository.save(subRubro);
 
@@ -112,29 +111,6 @@ public class SubrubroService {
         return response;
     }
 
-
-    public Response darBajaSubrubro(Integer id) throws SubrubroException {
-        Response response = new Response();
-
-        SubRubro subRubroToDelete  = subRubroRepository.findById(id).get();
-
-        if(subRubroToDelete == null)
-            throw new SubRubroErrorToDeleteException();
-
-        subRubroToDelete.setHabilitacion(0);
-        subRubroToDelete.setFechaBaja(new Date());
-
-        subRubroToDelete = subRubroRepository.save(subRubroToDelete);
-
-        response.setCode(200);
-        response.setMsg("Dado de Baja");
-        response.setData(subRubroToDelete);
-
-        return response;
-
-    }
-
-
     private SubRubro mapDtoToEntity(SubrubroDTO subrubroDTO){
         SubRubro subRubro = new SubRubro();
         subRubro.setId(subrubroDTO.getId());
@@ -143,5 +119,21 @@ public class SubrubroService {
         subRubro.setHabilitacion(subrubroDTO.getHabilitacion());
         subRubro.setRubroId(rubroRepository.findById(subrubroDTO.getRubroId()).get());
         return  subRubro;
+    }
+
+    public Response cambiarHabilitacion(Integer id) throws SubrubroException {
+        Response response = new Response();
+        Optional<SubRubro> subRubroOptional = subRubroRepository.findById(id);
+        if (!subRubroOptional.isPresent()){
+            throw new SubRubroCambioEstadoException();
+        }
+        SubRubro subRubro = subRubroOptional.get();
+        subRubro.setHabilitacion(!subRubro.getHabilitacion());
+        subRubroRepository.save(subRubro);
+
+        response.setCode(200);
+        response.setMsg("El rubro cambio el estado");
+        response.setData(subRubro);
+        return response;
     }
 }
