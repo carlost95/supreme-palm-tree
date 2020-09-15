@@ -30,6 +30,9 @@ public class ReportesController {
     @Autowired
     ReporteUnidadMedida reporteUnidadMedida;
 
+    @Autowired
+    ReportSubRubro reportSubRubro;
+
     @GetMapping("/banco")
     public ResponseEntity<Response> bancoReport() {
         Response response = reporteBanco.exportReport();
@@ -59,6 +62,11 @@ public class ReportesController {
     @GetMapping("/unidad-medida")
     public  ResponseEntity<Response> unidadMedidaReport(){
         Response response= reporteUnidadMedida.exportReport();
+        return  new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @GetMapping("/sub-rubro")
+    public  ResponseEntity<Response> subRubroReport(){
+        Response response= reportSubRubro.exportReport();
         return  new ResponseEntity<>(response, HttpStatus.OK);
     }
 }
