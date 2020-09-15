@@ -38,7 +38,7 @@ public class SubrubroService {
 
     public Response buscarTodosLosSubrubrosHabilitados(){
         Response response = new Response();
-        List<SubRubro> subrubros = subRubroRepository.findAllByHabilitacionEquals(1);
+        List<SubRubro> subrubros = subRubroRepository.findAllByHabilitacionEquals(true);
 
         response.setCode(200);
         response.setMsg("Todos los subrubros habilitados");
