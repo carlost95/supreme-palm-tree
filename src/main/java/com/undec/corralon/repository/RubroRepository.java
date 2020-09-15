@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface RubroRepository extends JpaRepository<Rubro, Integer> {
 
-    List<Rubro> findByHabilitacionEquals(Integer habilitacion);
+    List<Rubro> findByHabilitacionEquals(boolean habilitacion);
 }
