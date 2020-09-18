@@ -12,8 +12,9 @@ public class Direccion extends DateAudit{
     private String calle;
     private String descripcion;
     private String numerocalle;
-    private Boolean habilitado;
+    private Boolean estado;
     private Cliente cliente;
+    private Ubicacion ubicacion;
     private Distrito distritosId;
 
     @Id
@@ -48,13 +49,13 @@ public class Direccion extends DateAudit{
     }
 
     @Basic
-    @Column(name = "habilitado")
-    public Boolean getHabilitado() {
-        return habilitado;
+    @Column(name = "estado")
+    public Boolean getEstado() {
+        return estado;
     }
 
-    public void setHabilitado(Boolean habilitado) {
-        this.habilitado = habilitado;
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
     }
 
     @Basic
@@ -89,6 +90,16 @@ public class Direccion extends DateAudit{
         this.distritosId = distritosId;
     }
 
+    @OneToOne
+    @JoinColumn(name = "ubicacion_id")
+    public Ubicacion getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(Ubicacion ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -97,7 +108,7 @@ public class Direccion extends DateAudit{
         return id == direccion.id &&
                 Objects.equals(calle, direccion.calle) &&
                 Objects.equals(descripcion, direccion.descripcion) &&
-                Objects.equals(habilitado, direccion.habilitado) &&
+                Objects.equals(estado, direccion.estado) &&
                 Objects.equals(numerocalle, direccion.numerocalle) &&
                 Objects.equals(cliente, direccion.cliente) &&
                 Objects.equals(distritosId, direccion.distritosId);
@@ -105,6 +116,6 @@ public class Direccion extends DateAudit{
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, calle, descripcion, habilitado, numerocalle, cliente, distritosId);
+        return Objects.hash(id, calle, descripcion, estado, numerocalle, cliente, distritosId);
     }
 }

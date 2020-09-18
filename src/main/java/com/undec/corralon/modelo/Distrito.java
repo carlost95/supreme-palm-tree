@@ -1,22 +1,16 @@
 package com.undec.corralon.modelo;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Distrito {
+public class Distrito extends DateAudit{
+
     private Integer id;
     private String nombre;
     private String abreviatura;
-    private Integer habilitado;
-    private LocalDate fechaalta;
-    private LocalDate fechaactualizacion;
-    private LocalDate fechabaja;
-    private Departamento departamentoByFkdepartamentosid;
+    private Boolean estado;
+    private Departamento departamento;
 
     @Id
     @Column(name = "id")
@@ -50,44 +44,15 @@ public class Distrito {
     }
 
     @Basic
-    @Column(name = "habilitado")
-    public Integer getHabilitado() {
-        return habilitado;
+    @Column(name = "estado")
+    public Boolean getEstado() {
+        return estado;
     }
 
-    public void setHabilitado(Integer habilitado) {
-        this.habilitado = habilitado;
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
     }
 
-    @Basic
-    @Column(name = "fechaalta")
-    public LocalDate getFechaalta() {
-        return fechaalta;
-    }
-
-    public void setFechaalta(LocalDate fechaalta) {
-        this.fechaalta = fechaalta;
-    }
-
-    @Basic
-    @Column(name = "fechaactualizacion")
-    public LocalDate getFechaactualizacion() {
-        return fechaactualizacion;
-    }
-
-    public void setFechaactualizacion(LocalDate fechaactualizacion) {
-        this.fechaactualizacion = fechaactualizacion;
-    }
-
-    @Basic
-    @Column(name = "fechabaja")
-    public LocalDate getFechabaja() {
-        return fechabaja;
-    }
-
-    public void setFechabaja(LocalDate fechabaja) {
-        this.fechabaja = fechabaja;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -97,25 +62,23 @@ public class Distrito {
         return Objects.equals(id, distrito.id) &&
                 Objects.equals(nombre, distrito.nombre) &&
                 Objects.equals(abreviatura, distrito.abreviatura) &&
-                Objects.equals(habilitado, distrito.habilitado) &&
-                Objects.equals(fechaalta, distrito.fechaalta) &&
-                Objects.equals(fechaactualizacion, distrito.fechaactualizacion) &&
-                Objects.equals(fechabaja, distrito.fechabaja);
+                Objects.equals(estado, distrito.estado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, abreviatura, habilitado, fechaalta, fechaactualizacion, fechabaja);
+        return Objects.hash(id, nombre, abreviatura, estado);
     }
 
 
     @ManyToOne
-    @JoinColumn(name = "fkdepartamentosid", referencedColumnName = "id")
-    public Departamento getDepartamentoByFkdepartamentosid() {
-        return departamentoByFkdepartamentosid;
+    @JoinColumn(name = "departamento_id", referencedColumnName = "id")
+    public Departamento getDepartamento() {
+        return departamento;
     }
 
-    public void setDepartamentoByFkdepartamentosid(Departamento departamentoByFkdepartamentosid) {
-        this.departamentoByFkdepartamentosid = departamentoByFkdepartamentosid;
+    public void setDepartamento(Departamento departamento) {
+        this.departamento = departamento;
     }
+
 }

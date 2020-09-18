@@ -13,7 +13,7 @@ public class Cliente extends DateAudit {
     private String nombre;
     private String apellido;
     private String dni;
-    private Boolean habilitacion;
+    private Boolean estado;
     private List<Direccion> direcciones;
 
     @Id
@@ -58,13 +58,13 @@ public class Cliente extends DateAudit {
     }
 
     @Basic
-    @Column(name = "habilitacion")
-    public Boolean getHabilitacion() {
-        return habilitacion;
+    @Column(name = "estado")
+    public Boolean getEstado() {
+        return estado;
     }
 
-    public void setHabilitacion(Boolean habilitacion) {
-        this.habilitacion = habilitacion;
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
     }
 
     @OneToMany(mappedBy = "cliente")
@@ -85,12 +85,12 @@ public class Cliente extends DateAudit {
                 Objects.equals(nombre, cliente.nombre) &&
                 Objects.equals(apellido, cliente.apellido) &&
                 Objects.equals(dni, cliente.dni) &&
-                Objects.equals(habilitacion, cliente.habilitacion);
+                Objects.equals(estado, cliente.estado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, apellido, dni, habilitacion);
+        return Objects.hash(id, nombre, apellido, dni, estado);
     }
 
 }
