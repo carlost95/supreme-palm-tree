@@ -1,6 +1,5 @@
 package com.undec.corralon.modelo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -11,7 +10,6 @@ public class Ubicacion extends DateAudit {
     private String latitud;
     private String longitud;
     private Boolean estado;
-    private Direccion direccion;
 
     @Id
     @Column(name = "id")
@@ -54,16 +52,6 @@ public class Ubicacion extends DateAudit {
         this.estado = estado;
     }
 
-    @OneToOne
-    @JoinColumn(name = "direccion_id")
-    @JsonIgnore
-    public Direccion getDireccion() {
-        return direccion;
-    }
-
-    public void setDireccion(Direccion direccion) {
-        this.direccion = direccion;
-    }
 
     @Override
     public boolean equals(Object o) {
