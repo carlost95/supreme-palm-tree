@@ -1,5 +1,9 @@
 package com.undec.corralon.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -73,6 +77,8 @@ public class Distrito extends DateAudit{
 
     @ManyToOne
     @JoinColumn(name = "departamento_id", referencedColumnName = "id")
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+    @JsonIdentityReference(alwaysAsId=true)
     public Departamento getDepartamento() {
         return departamento;
     }

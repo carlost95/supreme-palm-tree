@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
-    List<Cliente> findAllByHabilitacionEquals(Integer habilitacion);
+    List<Cliente> findAllByEstadoTrue();
 }

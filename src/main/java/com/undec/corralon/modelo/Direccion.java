@@ -14,7 +14,7 @@ public class Direccion extends DateAudit{
     private Boolean estado;
     private Cliente cliente;
     private Ubicacion ubicacion;
-    private Distrito distritosId;
+    private Distrito distrito;
 
     @Id
     @Column(name = "id")
@@ -69,6 +69,7 @@ public class Direccion extends DateAudit{
 
     @ManyToOne
     @JoinColumn(name="cliente_id")
+    @JsonIgnore
     public Cliente getCliente() {
         return cliente;
     }
@@ -80,13 +81,12 @@ public class Direccion extends DateAudit{
 
     @ManyToOne
     @JoinColumn(name="distritos_id")
-    @JsonIgnore
-    public Distrito getDistritosId() {
-        return distritosId;
+    public Distrito getDistrito() {
+        return distrito;
     }
 
-    public void setDistritosId(Distrito distritosId) {
-        this.distritosId = distritosId;
+    public void setDistrito(Distrito distrito) {
+        this.distrito = distrito;
     }
 
     @OneToOne
@@ -110,11 +110,11 @@ public class Direccion extends DateAudit{
                 Objects.equals(estado, direccion.estado) &&
                 Objects.equals(numerocalle, direccion.numerocalle) &&
                 Objects.equals(cliente, direccion.cliente) &&
-                Objects.equals(distritosId, direccion.distritosId);
+                Objects.equals(distrito, direccion.distrito);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, calle, descripcion, estado, numerocalle, cliente, distritosId);
+        return Objects.hash(id, calle, descripcion, estado, numerocalle, cliente, distrito);
     }
 }
