@@ -28,7 +28,7 @@ public class ClienteController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping(produces = "application/json")
+    @GetMapping
     public ResponseEntity<Response> listarTodos() throws Exception {
         Response response = clienteService.listarTodos();
         return new ResponseEntity<>(response, HttpStatus.OK);

@@ -9,6 +9,7 @@ public class Cliente extends DateAudit {
     private Integer id;
     private String nombre;
     private String apellido;
+    private String mail;
     private String dni;
     private Boolean estado;
     private List<Direccion> direcciones;
@@ -42,6 +43,16 @@ public class Cliente extends DateAudit {
 
     public void setApellido(String apellido) {
         this.apellido = apellido;
+    }
+
+    @Basic
+    @Column(name = "mail")
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 
     @Basic

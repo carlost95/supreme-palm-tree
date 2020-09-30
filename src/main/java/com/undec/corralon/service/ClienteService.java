@@ -3,7 +3,6 @@ package com.undec.corralon.service;
 import com.undec.corralon.DTO.ClienteDTO;
 import com.undec.corralon.DTO.DireccionDTO;
 import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.cliente.ClienteErrorToSaveException;
 import com.undec.corralon.excepciones.cliente.ClienteErrorToUpdateException;
 import com.undec.corralon.excepciones.cliente.ClienteListNoFoudException;
 import com.undec.corralon.excepciones.cliente.ClienteNotFounsException;
@@ -72,12 +71,12 @@ public class ClienteService {
         Cliente toSave = mapperDTOData(clienteDTO);
         toSave.setEstado(true);
         toSave = this.clienteRepository.save(toSave);
-        clienteDTO.setId(toSave.getId());
+//        clienteDTO.setId(toSave.getId());
 
-        if(toSave == null){
-            throw new ClienteErrorToSaveException();
-        }
-        toSave.setDirecciones(saveDirections(clienteDTO));
+//        if(toSave == null){
+//            throw new ClienteErrorToSaveException();
+//        }
+//        toSave.setDirecciones(saveDirections(clienteDTO));
         response.setCode(200);
         response.setMsg("Creado");
         response.setData(toSave);
@@ -99,6 +98,7 @@ public class ClienteService {
         cliente.setApellido(clienteDTO.getApellido());
         cliente.setNombre(clienteDTO.getNombre());
         cliente.setDni(clienteDTO.getDni());
+        cliente.setMail(clienteDTO.getMail());
         return cliente;
     }
 

@@ -7,8 +7,9 @@ public class ClienteDTO {
     private Integer id;
     private String nombre;
     private String apellido;
+    private String mail;
     private String dni;
-    private Boolean habilitacion;
+    private Boolean estado;
     private List<DireccionDTO> direcciones;
 
     public Integer getId() {
@@ -35,6 +36,14 @@ public class ClienteDTO {
         this.apellido = apellido;
     }
 
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
     public String getDni() {
         return dni;
     }
@@ -43,12 +52,12 @@ public class ClienteDTO {
         this.dni = dni;
     }
 
-    public Boolean getHabilitacion() {
-        return habilitacion;
+    public Boolean getEstado() {
+        return estado;
     }
 
-    public void setHabilitacion(Boolean habilitacion) {
-        this.habilitacion = habilitacion;
+    public void setEstado(Boolean estado) {
+        this.estado = estado;
     }
 
     public List<DireccionDTO> getDirecciones() {
