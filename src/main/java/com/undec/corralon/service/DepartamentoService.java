@@ -10,7 +10,6 @@ import com.undec.corralon.repository.DepartamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -35,7 +34,7 @@ public class DepartamentoService {
 
     public Response listarTodosHabilitados() throws Exception{
         Response response = new Response();
-        List<Departamento> departamentos = departamentoRepository.findAllByHabilitadoEquals(1);
+        List<Departamento> departamentos = departamentoRepository.findAllByEstadoTrue();
         if(departamentos == null)
             throw new DepartamentoListNotFoundException();
 
@@ -62,8 +61,6 @@ public class DepartamentoService {
 
     public Response guardar(Departamento departamento) throws Exception{
         Response response = new Response();
-        departamento.setFechaalta(LocalDate.now());
-        departamento.setFechaactualizacion(LocalDate.now());
         Departamento guardado = departamentoRepository.save(departamento);
 
         if(guardado == null)
@@ -86,8 +83,6 @@ public class DepartamentoService {
         actualizar.setNombre(departamento.getNombre());
         actualizar.setAbreviatura(departamento.getAbreviatura());
         actualizar.setNombre(departamento.getNombre());
-        actualizar.setFechaactualizacion(LocalDate.now());
-        actualizar.setHabilitado(departamento.getHabilitado());
 
         response.setCode(200);
         response.setMsg("actualizado");
@@ -103,8 +98,6 @@ public class DepartamentoService {
         if(darBaja == null)
             throw new DepartamentoErrorToUpdateException();
 
-        darBaja.setHabilitado(0);
-        darBaja.setFechabaja(LocalDate.now());
         departamentoRepository.save(darBaja);
 
         response.setCode(200);
@@ -114,7 +107,5 @@ public class DepartamentoService {
 
         return response;
     }
-
-
 
 }
