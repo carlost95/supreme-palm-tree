@@ -1,23 +1,23 @@
 package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.ClienteDTO;
-import com.undec.corralon.DTO.DireccionDTO;
 import com.undec.corralon.DTO.Response;
 import com.undec.corralon.excepciones.cliente.ClienteErrorToUpdateException;
 import com.undec.corralon.excepciones.cliente.ClienteListNoFoudException;
 import com.undec.corralon.excepciones.cliente.ClienteNotFounsException;
 import com.undec.corralon.modelo.Cliente;
-import com.undec.corralon.modelo.Direccion;
 import com.undec.corralon.repository.ClienteRepository;
 import com.undec.corralon.serviceData.DireccionServiceData;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class ClienteService {
+
+    protected final Log logger = LogFactory.getLog(this.getClass());
 
     @Autowired
     private ClienteRepository clienteRepository;
@@ -80,18 +80,19 @@ public class ClienteService {
         response.setCode(200);
         response.setMsg("Creado");
         response.setData(toSave);
+        logger.info("ClienteService: save");
 
         return response;
     }
 
-    private List<Direccion> saveDirections(ClienteDTO clienteDTO) throws Exception {
-        List<Direccion> direcciones = new ArrayList<>();
-        for (DireccionDTO direccionDTO: clienteDTO.getDirecciones()) {
-            direccionDTO.setClienteId(clienteDTO.getId());
-            direcciones.add(this.direccionServiceData.save(direccionDTO));
-        }
-        return direcciones;
-    }
+//    private List<Direccion> saveDirections(ClienteDTO clienteDTO) throws Exception {
+//        List<Direccion> direcciones = new ArrayList<>();
+//        for (DireccionDTO direccionDTO: clienteDTO.getDirecciones()) {
+//            direccionDTO.setClienteId(clienteDTO.getId());
+//            direcciones.add(this.direccionServiceData.save(direccionDTO));
+//        }
+//        return direcciones;
+//    }
 
     private Cliente mapperDTOData(ClienteDTO clienteDTO) {
         Cliente cliente = new Cliente();

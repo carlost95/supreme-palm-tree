@@ -1,7 +1,5 @@
 package com.undec.corralon.DTO;
 
-import java.util.List;
-
 public class ClienteDTO {
 
     private Integer id;
@@ -10,7 +8,6 @@ public class ClienteDTO {
     private String mail;
     private String dni;
     private Boolean estado;
-    private List<DireccionDTO> direcciones;
 
     public Integer getId() {
         return id;
@@ -58,13 +55,5 @@ public class ClienteDTO {
 
     public void setEstado(Boolean estado) {
         this.estado = estado;
-    }
-
-    public List<DireccionDTO> getDirecciones() {
-        return direcciones;
-    }
-
-    public void setDirecciones(List<DireccionDTO> direcciones) {
-        this.direcciones = direcciones;
     }
 }
