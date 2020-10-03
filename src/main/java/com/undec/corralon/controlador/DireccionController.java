@@ -17,18 +17,18 @@ import javax.validation.Valid;
 @RequestMapping("/direcciones")
 public class DireccionController {
 
-    @Autowired
-    DireccionService direccionService;
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Response> buscarPorCliente(@PathVariable("id") Integer idCliente) throws DireccionErrorToSaveException {
-        Response response = direccionService.buscarDireccionPorCliente(idCliente);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<Response> guardar(@Valid @RequestBody DireccionDTO direccionDTO) throws DireccionErrorToSaveException {
-        Response response = direccionService.guardarDireccion(direccionDTO);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+//    @Autowired
+//    DireccionService direccionService;
+//
+//    @GetMapping("/{id}")
+//    public ResponseEntity<Response> buscarPorCliente(@PathVariable("id") Integer idCliente) throws DireccionErrorToSaveException {
+//        Response response = direccionService.buscarDireccionPorCliente(idCliente);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
+//
+//    @PostMapping
+//    public ResponseEntity<Response> guardar(@Valid @RequestBody DireccionDTO direccionDTO) throws DireccionErrorToSaveException {
+//        Response response = direccionService.guardarDireccion(direccionDTO);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
 }

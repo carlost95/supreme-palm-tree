@@ -4,11 +4,11 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Departamento extends DateAudit{
+public class Ubicacion extends DateAudit {
 
     private Integer id;
-    private String nombre;
-    private String abreviatura;
+    private String latitud;
+    private String longitud;
     private Boolean estado;
 
     @Id
@@ -23,23 +23,23 @@ public class Departamento extends DateAudit{
     }
 
     @Basic
-    @Column(name = "nombre")
-    public String getNombre() {
-        return nombre;
+    @Column(name = "latitud")
+    public String getLatitud() {
+        return latitud;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
     }
 
     @Basic
-    @Column(name = "abreviatura")
-    public String getAbreviatura() {
-        return abreviatura;
+    @Column(name = "longitud")
+    public String getLongitud() {
+        return longitud;
     }
 
-    public void setAbreviatura(String abreviatura) {
-        this.abreviatura = abreviatura;
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
     }
 
     @Basic
@@ -52,20 +52,20 @@ public class Departamento extends DateAudit{
         this.estado = estado;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Departamento that = (Departamento) o;
-        return Objects.equals(id, that.id) &&
-                Objects.equals(nombre, that.nombre) &&
-                Objects.equals(abreviatura, that.abreviatura) &&
-                Objects.equals(estado, that.estado);
+        Ubicacion ubicacion = (Ubicacion) o;
+        return id.equals(ubicacion.id) &&
+                Objects.equals(latitud, ubicacion.latitud) &&
+                Objects.equals(longitud, ubicacion.longitud);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, abreviatura, estado);
+        return Objects.hash(id, latitud, longitud);
     }
-
 }
+

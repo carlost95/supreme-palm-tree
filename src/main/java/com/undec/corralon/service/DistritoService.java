@@ -11,8 +11,6 @@ import com.undec.corralon.repository.DepartamentoRepository;
 import com.undec.corralon.repository.DistritoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -40,7 +38,7 @@ public class DistritoService {
 
     public Response listarTodosHabilitados() throws Exception{
         Response response = new Response();
-        List<Distrito> distritos = distritoRepository.findAllByHabilitadoEquals(1);
+        List<Distrito> distritos = distritoRepository.findAllByEstadoTrue();
 
         if(distritos == null)
             throw new DistritoListNotFoundException();
@@ -70,9 +68,6 @@ public class DistritoService {
         Response response = new Response();
         Distrito distrito = dtoToDistrito(distritoDTO);
 
-        distrito.setFechaalta(LocalDate.now());
-        distrito.setFechaactualizacion(LocalDate.now());
-        distrito.setHabilitado( 1);
         Distrito guardado = distritoRepository.save(distrito);
 
         if(guardado == null)
@@ -90,11 +85,6 @@ public class DistritoService {
         Response response = new Response();
         Distrito actualizar = distritoRepository.findById(distritoDTO.getId()).get();
 
-        if(distritoDTO.getHabilitacion()==null)
-            actualizar.setHabilitado(1);
-        else
-            actualizar.setHabilitado(distritoDTO.getHabilitacion());
-
         if(actualizar == null)
             throw new DistritoErrorToUpdateException();
 
@@ -102,8 +92,6 @@ public class DistritoService {
         actualizar.setNombre(distritoDTO.getNombre());
         actualizar.setAbreviatura(distritoDTO.getAbreviatura());
         actualizar.setNombre(distritoDTO.getNombre());
-        actualizar.setFechaactualizacion(LocalDate.now());
-        actualizar.setDepartamentoByFkdepartamentosid(departamentoRepository.findById(distritoDTO.getIdDepartamento()).get());
         distritoRepository.save(actualizar);
         response.setCode(200);
         response.setMsg("actualizado");
@@ -119,9 +107,6 @@ public class DistritoService {
         if(darBaja == null)
             throw new DistritoErrorToUpdateException();
 
-        darBaja.setHabilitado(0);
-        darBaja.setFechabaja(LocalDate.now());
-
         response.setCode(200);
         response.setMsg("Dado de baja");
         response.setData(distritoRepository.save(darBaja));
@@ -134,9 +119,6 @@ public class DistritoService {
         Distrito distrito = new Distrito();
         distrito.setNombre(distritoDTO.getNombre());
         distrito.setAbreviatura(distritoDTO.getAbreviatura());
-        distrito.setFechaactualizacion(LocalDate.now());
-        distrito.setFechaalta(LocalDate.now());
-        distrito.setDepartamentoByFkdepartamentosid(departamentoRepository.findById(distritoDTO.getIdDepartamento()).get());
 
         return distrito;
     }
