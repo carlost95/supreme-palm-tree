@@ -18,8 +18,6 @@ public class Tipodireccion {
     private LocalDate fechaalta;
     private LocalDate fechaactualizacion;
     private LocalDate fechabaja;
-    @JsonIgnore
-    private Collection<Direccion> direccionsById;
 
     @Id
     @Column(name = "id")
@@ -111,12 +109,12 @@ public class Tipodireccion {
         return Objects.hash(id, nombre, abreviatura, habilitado, fechaalta, fechaactualizacion, fechabaja);
     }
 
-    @OneToMany(mappedBy = "tipodireccionByFktipodireccionesid")
-    public Collection<Direccion> getDireccionsById() {
-        return direccionsById;
-    }
-
-    public void setDireccionsById(Collection<Direccion> direccionsById) {
-        this.direccionsById = direccionsById;
-    }
+//    @OneToMany(mappedBy = "tipodireccionId")
+//    public Collection<Direccion> getDireccionsById() {
+//        return direccionsById;
+//    }
+//
+//    public void setDireccionsById(Collection<Direccion> direccionsById) {
+//        this.direccionsById = direccionsById;
+//    }
 }
