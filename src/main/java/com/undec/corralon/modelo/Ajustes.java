@@ -3,14 +3,18 @@ package com.undec.corralon.modelo;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
+import java.sql.Date;
 import java.util.Objects;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Ajustes {
     private int id;
-    private String descripcion;
     private String nombre;
+    private String descripcion;
+    private Date fecha;
+    private Boolean habilitacion;
+
 
     @Id
     @Column(name = "id")
@@ -19,10 +23,22 @@ public class Ajustes {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+    @Basic
+    @Column(name = "nombre")
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
     @Basic
     @Column(name = "descripcion")
     public String getDescripcion() {
@@ -34,27 +50,26 @@ public class Ajustes {
     }
 
     @Basic
-    @Column(name = "nombre")
-    public String getNombre() {
-        return nombre;
+    @Column(name = "fecha")
+    public Date getFecha() {
+        return fecha;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+    @Basic
+    @Column (name = "habilitacion")
+    public Boolean getHabilitacion() {
+        return habilitacion;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Ajustes ajustes = (Ajustes) o;
-        return id == ajustes.id &&
-                Objects.equals(descripcion, ajustes.descripcion) &&
-                Objects.equals(nombre, ajustes.nombre);
+    public void setHabilitacion(Boolean habilitacion) {
+        this.habilitacion = habilitacion;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, descripcion, nombre);
-    }
+
+
+
+
 }

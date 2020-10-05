@@ -12,7 +12,7 @@ public class AjusteService {
     @Autowired
     AjusteRepository ajusteRepository;
 
-    public Response obtenerTodosAjustes(){
+    public Response obtenerTodosLosAjustes(){
         Response response = new Response();
         List<Ajustes> ajustes = ajusteRepository.findAll();
 
