@@ -8,11 +8,11 @@ import java.util.Objects;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Ajustes {
+public class Ajustes extends DateAudit {
     private int id;
     private String nombre;
     private String descripcion;
-    private Date fecha;
+    private String fecha;
     private Boolean habilitacion;
 
 
@@ -51,11 +51,11 @@ public class Ajustes {
 
     @Basic
     @Column(name = "fecha")
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
     @Basic

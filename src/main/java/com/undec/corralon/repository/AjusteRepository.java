@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface AjusteRepository extends JpaRepository <Ajustes, Boolean> {
+public interface AjusteRepository extends JpaRepository <Ajustes, Integer> {
     List <Ajustes> findAjustesByHabilitacionEquals(boolean habilitacion);
+
 }
