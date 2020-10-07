@@ -11,6 +11,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,26 +26,18 @@ public class ClienteService {
     public Response listarTodos()throws Exception{
         Response response = new Response();
         List<Cliente> clientes = clienteRepository.findAll();
+        List<ClienteDTO> clienteDTOS = new ArrayList<ClienteDTO>();
 
         if(clientes == null)
             throw new ClienteListNoFoudException();
 
+        for (Cliente cliente: clientes) {
+            ClienteDTO clienteDTO = this.entityToDTO(cliente);
+            clienteDTOS.add(clienteDTO);
+        }
         response.setCode(200);
         response.setMsg("Listado Clientes");
-        response.setData(clientes);
-
-        return response;
-    }
-
-    public Response listarTodosHabilitados() throws Exception{
-        Response response = new Response();
-        List<Cliente> clientes = clienteRepository.findAllByEstadoTrue();
-        if(clientes == null)
-            throw new ClienteListNoFoudException();
-
-        response.setCode(200);
-        response.setMsg("Listado Clientes habiltados");
-        response.setData(clientes);
+        response.setData(clienteDTOS);
 
         return response;
     }
@@ -67,9 +61,10 @@ public class ClienteService {
         Cliente toSave = mapperDTOData(clienteDTO);
         toSave.setEstado(true);
         toSave = this.clienteRepository.save(toSave);
+        clienteDTO = this.entityToDTO(toSave);
         response.setCode(200);
         response.setMsg("Creado");
-        response.setData(toSave);
+        response.setData(clienteDTO);
         logger.info("ClienteService: save");
 
         return response;
@@ -90,7 +85,9 @@ public class ClienteService {
         clienteDTO.setId(cliente.getId());
         clienteDTO.setApellido(cliente.getApellido());
         clienteDTO.setNombre(cliente.getNombre());
+        clienteDTO.setMail(cliente.getMail());
         clienteDTO.setDni(cliente.getDni());
+        clienteDTO.setEstado(cliente.getEstado());
         return clienteDTO;
     }
 
@@ -100,9 +97,10 @@ public class ClienteService {
         toUpdate.setId(clienteDTO.getId());
         toUpdate.setEstado(clienteDTO.getEstado());
         toUpdate = this.clienteRepository.save(toUpdate);
+        clienteDTO = this.entityToDTO(toUpdate);
         response.setCode(200);
         response.setMsg("Actualizado");
-        response.setData(toUpdate);
+        response.setData(clienteDTO);
         logger.info("ClienteService: update");
 
         return response;
@@ -113,9 +111,10 @@ public class ClienteService {
         Cliente toUpdate = this.clienteRepository.findById(idCliente).get();
         toUpdate.setEstado(!toUpdate.getEstado());
         toUpdate = this.clienteRepository.save(toUpdate);
+        ClienteDTO clienteDTO = this.entityToDTO(toUpdate);
         response.setCode(200);
         response.setMsg("Changed Status");
-        response.setData(toUpdate);
+        response.setData(clienteDTO);
         logger.info("ClienteService: Change status");
         return response;
     }
