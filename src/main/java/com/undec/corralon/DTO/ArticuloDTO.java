@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ArticuloDTO {
 
     @JsonProperty(value = "id", required = false)
-    private Integer id ;
+    private Integer id;
     private String nombre;
     private String abreviatura;
     private String codigoArt;
@@ -15,13 +15,18 @@ public class ArticuloDTO {
     private Integer proveedorId;
     @JsonProperty(value = "unidadMedidaId", required = false)
     private Integer unidadMedidaId;
-    @JsonProperty(value = "marcaId",required = false)
+    @JsonProperty(value = "marcaId", required = false)
     private Integer marcaId;
-    @JsonProperty(value = "rubroId",required = false)
+    @JsonProperty(value = "rubroId", required = false)
     private Integer rubroId;
-    @JsonProperty(value = "subRubroId",required = false)
+    @JsonProperty(value = "subRubroId", required = false)
     private Integer subRubroId;
-    @JsonProperty(value = "habilitacion",required = false)
+    @JsonProperty(value = "subRubroId", required = false)
+    private Integer costoId;
+
+    @JsonProperty(value = "subRubroId", required = false)
+    private Integer precioId;
+    @JsonProperty(value = "habilitacion", required = false)
     private Integer habilitacion;
 
     public ArticuloDTO() {
@@ -113,6 +118,22 @@ public class ArticuloDTO {
 
     public void setSubRubroId(Integer subRubroId) {
         this.subRubroId = subRubroId;
+    }
+
+    public Integer getCostoId() {
+        return costoId;
+    }
+
+    public void setCostoId(Integer costoId) {
+        this.costoId = costoId;
+    }
+
+    public Integer getPrecioId() {
+        return precioId;
+    }
+
+    public void setPrecioId(Integer precioId) {
+        this.precioId = precioId;
     }
 
     public Integer getHabilitacion() {
