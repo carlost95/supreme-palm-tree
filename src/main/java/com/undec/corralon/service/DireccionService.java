@@ -1,5 +1,6 @@
 package com.undec.corralon.service;
 
+import com.undec.corralon.DTO.ClienteDTO;
 import com.undec.corralon.DTO.DireccionDTO;
 import com.undec.corralon.DTO.Response;
 import com.undec.corralon.DTO.UbicacionDTO;
@@ -14,6 +15,8 @@ import com.undec.corralon.repository.DistritoRepository;
 import com.undec.corralon.serviceData.UbicacionServiceData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,6 +33,26 @@ public class DireccionService {
 
     @Autowired
     UbicacionServiceData ubicacionServiceData;
+
+    public Response buscarDireccionPorCliente(Integer idCliente) throws DireccionErrorToSaveException {
+
+        Response response = new Response();
+        List<Direccion> direcciones = direccionRepository.findDireccionByClienteId(idCliente);
+        if( direcciones == null)
+            throw new DireccionErrorToSaveException();
+//        List<DireccionDTO> direccionDTOS = new ArrayList<>();
+//
+//        for (Direccion direccion: direcciones) {
+//            DireccionDTO direccionDTO = direccion
+//
+//        }
+
+        response.setMsg("Buscar por cliente");
+        response.setCode(200);
+        response.setData(direcciones);
+        return response;
+
+    }
 
 
     public Response guardarDireccion(DireccionDTO direccionDTO) throws Exception {
@@ -49,18 +72,7 @@ public class DireccionService {
         return response;
     }
 
-    public Response buscarDireccionPorCliente(Integer idCliente) throws DireccionErrorToSaveException {
 
-        Response response = new Response();
-        List<Direccion> direccion = direccionRepository.findDireccionByClienteId(idCliente);
-        if( direccion == null)
-            throw new DireccionErrorToSaveException();
-        response.setMsg("Buscar por clinete");
-        response.setCode(200);
-        response.setData(direccion);
-        return response;
-
-    }
 
 
     public Direccion mapDTOtoEntity(DireccionDTO direccionDTO){
