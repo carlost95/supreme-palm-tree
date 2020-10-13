@@ -11,6 +11,8 @@ public class ArticuloDTO {
     private String codigoArt;
     private Integer stockMin;
     private Integer stockMax;
+    private double costo;
+    private double precio ;
     @JsonProperty(value = "proveedorId", required = false)
     private Integer proveedorId;
     @JsonProperty(value = "unidadMedidaId", required = false)
