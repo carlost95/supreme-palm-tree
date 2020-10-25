@@ -28,4 +28,6 @@ public interface MovimientoArticuloRepository extends JpaRepository<MovimientoAr
 //    MovimientoArticulo buscarArticulos(@Param("idArticulo") Integer idArticulo, @Param("idPedido") Integer idPedido);
 
     List<MovimientoArticulo> findAllByPedidoId_Id( Integer pedidoId);
+
+    List<MovimientoArticulo> findAllByAjusteId_Id( Integer ajusteId);
 }

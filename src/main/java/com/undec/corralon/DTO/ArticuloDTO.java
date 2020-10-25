@@ -25,7 +25,6 @@ public class ArticuloDTO {
     private Integer subRubroId;
     @JsonProperty(value = "subRubroId", required = false)
     private Integer costoId;
-
     @JsonProperty(value = "subRubroId", required = false)
     private Integer precioId;
     @JsonProperty(value = "habilitacion", required = false)

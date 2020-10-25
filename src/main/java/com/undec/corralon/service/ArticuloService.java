@@ -40,7 +40,7 @@ public class ArticuloService {
     @Autowired
     FormaDePagoRepository formaDePagoRepository;
 
-    public Response obtenerTodosLosArticulos(){
+    public Response obtenerTodosLosArticulos() {
         Response response = new Response();
         List<Articulo> articulos = articuloRepository.findAll();
 
@@ -50,9 +50,9 @@ public class ArticuloService {
         return response;
     }
 
-    public Response obtenerTodosLosArticulosHabilitados(){
+    public Response obtenerTodosLosArticulosHabilitados() {
         Response response = new Response();
-        List<Articulo> articulos = articuloRepository.findArticuloByHabilitacionEquals(1);
+        List<Articulo> articulos = articuloRepository.findArticuloByHabilitacionEquals(true);
 
         response.setCode(200);
         response.setMsg("Todos los articulos habilitados: ");
@@ -60,7 +60,7 @@ public class ArticuloService {
         return response;
     }
 
-    public Response obtenerArticuloPorId(Integer id){
+    public Response obtenerArticuloPorId(Integer id) {
         Response response = new Response();
         Articulo articulo = articuloRepository.findById(id).get();
 
@@ -75,11 +75,11 @@ public class ArticuloService {
         Articulo articulo = dtoToEntity(articuloDTO);
 
 
-        if(articulo == null)
+        if (articulo == null)
             throw new ArticuloErrorToSaveException();
 
         articulo.setFechaCreacion(new Date());
-        articulo.setHabilitacion(1);
+        articulo.setHabilitacion(true);
         articulo = articuloRepository.save(articulo);
 
         response.setCode(200);
@@ -95,7 +95,7 @@ public class ArticuloService {
 
         mapperDtoEntity(articuloDTO, articulo);
 
-        if(articulo == null)
+        if (articulo == null)
             throw new ArticuloErrorToUpdateException();
 
         articulo.setFechaModificacion(new Date());
@@ -112,11 +112,11 @@ public class ArticuloService {
         Response response = new Response();
         Articulo articulo = articuloRepository.findById(id).get();
 
-        if(articulo == null)
+        if (articulo == null)
             throw new ArticuloErrorToDeleteException();
 
         articulo.setFechaBaja(new Date());
-        articulo.setHabilitacion(0);
+        articulo.setHabilitacion(false);
         articulo = articuloRepository.save(articulo);
 
         response.setCode(200);
@@ -139,19 +139,19 @@ public class ArticuloService {
         articulo.setCodigoArt(articuloDTO.getCodigoArt());
         articulo.setStockMin(articuloDTO.getStockMin());
         articulo.setStockMax(articuloDTO.getStockMax());
-        if(articuloDTO.getProveedorId() != null)
+        if (articuloDTO.getProveedorId() != null)
             articulo.setProveedorId(proveedorRepository.findById(articuloDTO.getProveedorId()).get());
 
-        if(articuloDTO.getUnidadMedidaId() != null)
+        if (articuloDTO.getUnidadMedidaId() != null)
             articulo.setUnidadMedidaId(unidadMedidaRepository.findById(articuloDTO.getUnidadMedidaId()).get());
 
-        if(articuloDTO.getMarcaId() != null)
+        if (articuloDTO.getMarcaId() != null)
             articulo.setMarcaId(marcaRepository.findById(articuloDTO.getMarcaId()).get());
 
-        if(articuloDTO.getRubroId() != null)
+        if (articuloDTO.getRubroId() != null)
             articulo.setRubroId(rubroRepository.findById(articuloDTO.getRubroId()).get());
 
-       if(articuloDTO.getSubRubroId() != null)
+        if (articuloDTO.getSubRubroId() != null)
             articulo.setSubRubroId(subRubroRepository.findById(articuloDTO.getSubRubroId()).get());
 
     }

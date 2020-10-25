@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "articulo", schema = "santo_domingo_corralon")
+@Table(name = "articulo")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Articulo {
     private Integer id;
@@ -21,7 +21,7 @@ public class Articulo {
     private Marca marcaId;
     private Rubro rubroId;
     private SubRubro subRubroId;
-    private Integer habilitacion;
+    private boolean habilitacion;
     private Date fechaCreacion;
     private Date fechaModificacion;
     private Date fechaBaja;
@@ -139,11 +139,11 @@ public class Articulo {
 
     @Basic
     @Column(name = "habilitacion")
-    public Integer getHabilitacion() {
+    public boolean getHabilitacion() {
         return habilitacion;
     }
 
-    public void setHabilitacion(Integer habilitacion) {
+    public void setHabilitacion(boolean habilitacion) {
         this.habilitacion = habilitacion;
     }
 
