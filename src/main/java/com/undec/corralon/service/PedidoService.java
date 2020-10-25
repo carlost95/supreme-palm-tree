@@ -28,21 +28,9 @@ public class PedidoService {
 
     public Response obtenerTodosLosPedidos() {
         Response response = new Response();
-        List<PedidoDTO> pedidosDTO = new ArrayList<>();
         List<Pedido> pedidos = pedidoRepository.findAll();
-        for (Pedido pedido : pedidos) {
-
-            PedidoDTO pedidoDTO = new PedidoDTO();
-            pedidoDTO.setId(pedido.getId());
-            pedidoDTO.setNombre(pedido.getNombre());
-            pedidoDTO.setDescripcion(pedido.getDescripcion());
-            pedidoDTO.setFecha(pedido.getFecha());
-            pedidoDTO.setProveedorId(pedido.getProveedorId());
-            pedidoDTO.setRazonSocial(proveedorRepository.findById(pedido.getProveedorId()).get().getRazonSocial());
-            pedidosDTO.add(pedidoDTO);
-        }
         response.setCode(200);
-        response.setData(pedidosDTO);
+        response.setData(pedidos);
         response.setMsg("Pedidos");
 
         return response;
