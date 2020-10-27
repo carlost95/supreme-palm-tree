@@ -7,6 +7,7 @@ import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -28,27 +29,32 @@ public class BancoController {
     }
 
     @GetMapping("/habilitados")
-    public ResponseEntity <Response> listarTodosHabilitados() throws Exception {
-        Response response= bancoService.listarTodosHabilitados();
-        return  new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Response> listarTodosHabilitados() throws Exception {
+        Response response = bancoService.listarTodosHabilitados();
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<Response> guardar(@Valid @RequestBody Banco banco) throws Exception {
         Response response = bancoService.guardarBanco(banco);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
     @GetMapping("/{id}")
     public ResponseEntity<Response> listarPorId(@PathVariable("id") Integer id) throws Exception {
         Response response = bancoService.obtenerBancoPorId(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
     public ResponseEntity<Response> actualizar(@Valid @RequestBody Banco banco) throws Exception {
         Response response = bancoService.actualizarBanco(banco);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Response> cambiarHabilitacion(@PathVariable("id") Integer id) throws Exception {
         Response response = bancoService.cambiarHabilitacion(id);
