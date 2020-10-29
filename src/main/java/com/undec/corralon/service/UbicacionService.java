@@ -17,8 +17,8 @@ public class UbicacionService {
         Response response = new Response();
         Ubicacion ubicacion = new Ubicacion();
 
-        ubicacion.setLatitud(ubicacionDTO.getLatitud());
-        ubicacion.setLongitud(ubicacionDTO.getLongitud());
+        ubicacion.setLatitud(ubicacionDTO.getLat());
+        ubicacion.setLongitud(ubicacionDTO.getLng());
         ubicacion.setEstado(true);
 
         ubicacion = this.ubicacionRepository.save(ubicacion);

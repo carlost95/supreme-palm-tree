@@ -29,4 +29,10 @@ public class DireccionController {
         Response response = direccionService.guardarDireccion(direccionDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PutMapping
+    public ResponseEntity<Response> actualizar(@RequestBody DireccionDTO direccionDTO) throws Exception {
+        Response response = direccionService.modificarDireccion(direccionDTO);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
