@@ -7,11 +7,12 @@ import com.undec.corralon.excepciones.cliente.ClienteListNoFoudException;
 import com.undec.corralon.excepciones.cliente.ClienteNotFounsException;
 import com.undec.corralon.modelo.Cliente;
 import com.undec.corralon.repository.ClienteRepository;
-import com.undec.corralon.serviceData.DireccionServiceData;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -22,32 +23,21 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    @Autowired
-    private DireccionServiceData direccionServiceData;
-
     public Response listarTodos()throws Exception{
         Response response = new Response();
         List<Cliente> clientes = clienteRepository.findAll();
+        List<ClienteDTO> clienteDTOS = new ArrayList<ClienteDTO>();
 
         if(clientes == null)
             throw new ClienteListNoFoudException();
 
+        for (Cliente cliente: clientes) {
+            ClienteDTO clienteDTO = this.entityToDTO(cliente);
+            clienteDTOS.add(clienteDTO);
+        }
         response.setCode(200);
         response.setMsg("Listado Clientes");
-        response.setData(clientes);
-
-        return response;
-    }
-
-    public Response listarTodosHabilitados() throws Exception{
-        Response response = new Response();
-        List<Cliente> clientes = clienteRepository.findAllByEstadoTrue();
-        if(clientes == null)
-            throw new ClienteListNoFoudException();
-
-        response.setCode(200);
-        response.setMsg("Listado Clientes habiltados");
-        response.setData(clientes);
+        response.setData(clienteDTOS);
 
         return response;
     }
@@ -71,28 +61,14 @@ public class ClienteService {
         Cliente toSave = mapperDTOData(clienteDTO);
         toSave.setEstado(true);
         toSave = this.clienteRepository.save(toSave);
-//        clienteDTO.setId(toSave.getId());
-
-//        if(toSave == null){
-//            throw new ClienteErrorToSaveException();
-//        }
-//        toSave.setDirecciones(saveDirections(clienteDTO));
+        clienteDTO = this.entityToDTO(toSave);
         response.setCode(200);
         response.setMsg("Creado");
-        response.setData(toSave);
+        response.setData(clienteDTO);
         logger.info("ClienteService: save");
 
         return response;
     }
-
-//    private List<Direccion> saveDirections(ClienteDTO clienteDTO) throws Exception {
-//        List<Direccion> direcciones = new ArrayList<>();
-//        for (DireccionDTO direccionDTO: clienteDTO.getDirecciones()) {
-//            direccionDTO.setClienteId(clienteDTO.getId());
-//            direcciones.add(this.direccionServiceData.save(direccionDTO));
-//        }
-//        return direcciones;
-//    }
 
     private Cliente mapperDTOData(ClienteDTO clienteDTO) {
         Cliente cliente = new Cliente();
@@ -109,41 +85,37 @@ public class ClienteService {
         clienteDTO.setId(cliente.getId());
         clienteDTO.setApellido(cliente.getApellido());
         clienteDTO.setNombre(cliente.getNombre());
+        clienteDTO.setMail(cliente.getMail());
         clienteDTO.setDni(cliente.getDni());
-//        clienteDTO.setDirecciones(cliente.getDirecciones());
+        clienteDTO.setEstado(cliente.getEstado());
         return clienteDTO;
     }
 
-    public Response actualizar(Cliente cliente) throws Exception {
+    public Response update(ClienteDTO clienteDTO) throws Exception {
         Response response = new Response();
-        Cliente actualizar = clienteRepository.findById(cliente.getId()).get();
-
-        if(actualizar == null)
-                throw new ClienteErrorToUpdateException();
-
-        actualizar.setNombre(cliente.getNombre());
-        actualizar.setApellido(cliente.getApellido());
-        actualizar.setDni(cliente.getDni());
-
+        Cliente toUpdate = mapperDTOData(clienteDTO);
+        toUpdate.setId(clienteDTO.getId());
+        toUpdate.setEstado(clienteDTO.getEstado());
+        toUpdate = this.clienteRepository.save(toUpdate);
+        clienteDTO = this.entityToDTO(toUpdate);
         response.setCode(200);
-        response.setMsg("actualizado");
-        response.setData(clienteRepository.save(actualizar));
+        response.setMsg("Actualizado");
+        response.setData(clienteDTO);
+        logger.info("ClienteService: update");
+
         return response;
     }
 
-    public Response darDeBaja(Integer id) throws Exception{
+    public Response changeStatus(Integer idCliente) throws Exception {
         Response response = new Response();
-        Cliente darBaja = clienteRepository.findById(id).get();
-
-        if(darBaja == null)
-            throw new ClienteErrorToUpdateException();
-
-        clienteRepository.save(darBaja);
-
+        Cliente toUpdate = this.clienteRepository.findById(idCliente).get();
+        toUpdate.setEstado(!toUpdate.getEstado());
+        toUpdate = this.clienteRepository.save(toUpdate);
+        ClienteDTO clienteDTO = this.entityToDTO(toUpdate);
         response.setCode(200);
-        response.setMsg("Dado de baja");
-        response.setData(darBaja);
-
+        response.setMsg("Changed Status");
+        response.setData(clienteDTO);
+        logger.info("ClienteService: Change status");
         return response;
     }
 
