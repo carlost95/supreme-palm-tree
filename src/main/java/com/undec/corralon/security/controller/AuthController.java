@@ -1,6 +1,7 @@
 package com.undec.corralon.security.controller;
 
 import com.undec.corralon.DTO.Mensaje;
+import com.undec.corralon.DTO.Response;
 import com.undec.corralon.security.dto.JwtDto;
 import com.undec.corralon.security.dto.LoginUsuario;
 import com.undec.corralon.security.dto.NewUsuario;
@@ -44,6 +45,16 @@ public class AuthController {
 
     @Autowired
     JwtProvider jwtProvider;
+    @GetMapping
+    public ResponseEntity<Response> listAll() throws Exception {
+        Response response = usuarioService.getListAll();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+    @PutMapping
+    public ResponseEntity<Response> update(@Valid @RequestBody Usuario usuario) throws Exception {
+        Response response = usuarioService.updateUser(usuario);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 
     @PostMapping("/nuevo")
     public ResponseEntity<?> nuevo(@Valid @RequestBody NewUsuario newUsuario, BindingResult bindingResult) {
