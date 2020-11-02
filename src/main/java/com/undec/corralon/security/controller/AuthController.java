@@ -45,15 +45,17 @@ public class AuthController {
 
     @Autowired
     JwtProvider jwtProvider;
+
     @GetMapping
     public ResponseEntity<Response> listAll() throws Exception {
         Response response = usuarioService.getListAll();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
     @PutMapping
-    public ResponseEntity<Response> update(@Valid @RequestBody Usuario usuario) throws Exception {
-        Response response = usuarioService.updateUser(usuario);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<?> update(@RequestBody NewUsuario newUsuario) {
+        usuarioService.updateUser(newUsuario);
+        return new ResponseEntity<>(new Mensaje("usuario actualizado"), HttpStatus.OK);
     }
 
     @PostMapping("/nuevo")
@@ -77,7 +79,7 @@ public class AuthController {
 
         usuario.setRoles(roles);
         usuarioService.save(usuario);
-        return new ResponseEntity(new Mensaje("usuario guardado"), HttpStatus.CREATED);
+        return new ResponseEntity(new Mensaje("usuario creado"), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
