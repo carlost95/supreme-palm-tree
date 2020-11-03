@@ -9,6 +9,7 @@ import com.undec.corralon.security.entity.Usuario;
 import com.undec.corralon.security.enums.RolNombre;
 import com.undec.corralon.security.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -25,6 +26,8 @@ public class UsuarioService {
     UsuarioRepository usuarioRepository;
     @Autowired
     RolService rolService;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public Optional<Usuario> getByNombreUsuario(String nombreUsuario) {
         return usuarioRepository.findByNombreUsuario(nombreUsuario);
@@ -47,13 +50,15 @@ public class UsuarioService {
         usuario.setNombre(newUsuario.getNombre());
         usuario.setNombreUsuario(newUsuario.getNombreUsuario());
         usuario.setEmail(newUsuario.getEmail());
-        usuario.setPassword(newUsuario.getPassword());
+        usuario.setPassword(passwordEncoder.encode(newUsuario.getPassword()));
         Set<Rol> roles = new HashSet<>();
-//        roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
-        if (newUsuario.getRoles().contains("admin"))
+        if (newUsuario.getRoles().contains("admin")) {
             roles.add(rolService.getByRolNombre(RolNombre.ROLE_ADMIN).get());
+            roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
+        } else {
+            roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
+        }
         usuario.setRoles(roles);
-
         usuarioRepository.save(usuario);
     }
 
