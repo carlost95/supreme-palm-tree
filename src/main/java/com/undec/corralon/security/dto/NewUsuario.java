@@ -1,11 +1,15 @@
 package com.undec.corralon.security.dto;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.HashSet;
 import java.util.Set;
 
 public class NewUsuario {
+    private Integer id;
     @NotBlank
     private String nombre;
     @NotBlank
@@ -15,6 +19,14 @@ public class NewUsuario {
     @NotBlank
     private String password;
     private Set<String> roles = new HashSet<>();
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getNombre() {
         return nombre;
