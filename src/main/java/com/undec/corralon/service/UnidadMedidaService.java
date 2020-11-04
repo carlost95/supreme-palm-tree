@@ -30,7 +30,7 @@ public class UnidadMedidaService {
     }
 
     public Response obtenerUnidadMedidaHabilitados() {
-        List<UnidadMedida> unidadDeMedida = this.unidadMedidaRepository.findAllByHabilitacionEquals(1);
+        List<UnidadMedida> unidadDeMedida = this.unidadMedidaRepository.findAllByHabilitacionEquals(true);
         Response response = new Response();
 
         response.setCode(200);

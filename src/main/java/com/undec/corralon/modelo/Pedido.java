@@ -1,6 +1,7 @@
 package com.undec.corralon.modelo;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -12,8 +13,18 @@ public class Pedido {
     private int id;
     private String nombre;
     private String fecha;
-    private Integer proveedorId;
     private String descripcion;
+    private Integer proveedorId;
+    private String razonSocial;
+
+    public String getRazonSocial() {
+        return razonSocial;
+    }
+
+    public void setRazonSocial(String razonSocial) {
+        this.razonSocial = razonSocial;
+    }
+
     private Integer habilitacion;
 
 
