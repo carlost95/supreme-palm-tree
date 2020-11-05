@@ -35,4 +35,10 @@ public class DireccionController {
         Response response = direccionService.modificarDireccion(direccionDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PutMapping("/status")
+    public ResponseEntity<Response> changeStatus(@RequestBody DireccionDTO direccionDTO) throws Exception {
+        Response response = direccionService.changeStatus(direccionDTO);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }

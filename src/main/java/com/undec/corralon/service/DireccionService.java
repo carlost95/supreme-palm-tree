@@ -1,5 +1,6 @@
 package com.undec.corralon.service;
 
+import com.undec.corralon.DTO.ClienteDTO;
 import com.undec.corralon.DTO.DireccionDTO;
 import com.undec.corralon.DTO.Response;
 import com.undec.corralon.DTO.UbicacionDTO;
@@ -12,6 +13,8 @@ import com.undec.corralon.repository.ClienteRepository;
 import com.undec.corralon.repository.DireccionRepository;
 import com.undec.corralon.repository.DistritoRepository;
 import com.undec.corralon.serviceData.UbicacionServiceData;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +35,8 @@ public class DireccionService {
 
     @Autowired
     UbicacionServiceData ubicacionServiceData;
+
+    protected final Log logger = LogFactory.getLog(this.getClass());
 
     public Response buscarDireccionPorCliente(Integer idCliente) throws DireccionErrorToSaveException {
 
@@ -133,4 +138,16 @@ public class DireccionService {
         return direccion;
     }
 
+    public Response changeStatus(DireccionDTO direccionDTO) throws Exception {
+        Response response = new Response();
+        Direccion toUpdate = this.direccionRepository.findById(direccionDTO.getId()).get();
+        toUpdate.setEstado(!toUpdate.getEstado());
+        toUpdate = this.direccionRepository.save(toUpdate);
+        direccionDTO.setEstado(toUpdate.getEstado());
+        response.setCode(200);
+        response.setMsg("Changed Status");
+        response.setData(direccionDTO);
+        logger.info("DireccionService: Change status");
+        return response;
+    }
 }
