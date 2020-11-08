@@ -42,15 +42,14 @@ public class DistritoController {
     }
 
     @PutMapping
-    public ResponseEntity<Response> actualizar(@Valid @RequestBody DistritoDTO  distritoDTO) throws Exception {
-        System.out.println(distritoDTO.getId() + " - " + distritoDTO.getNombre() + " - " + distritoDTO.getAbreviatura());
+    public ResponseEntity<Response> actualizar(@RequestBody DistritoDTO  distritoDTO) throws Exception {
         Response response = distritoService.actualizar( distritoDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Response> eliminar(@PathVariable("id") Integer id) throws Exception {
-        Response response = distritoService.darDeBaja(id);
+    @PutMapping("/status/{id}")
+    public ResponseEntity<Response> changeStatus(@PathVariable("id") Integer id) throws Exception {
+        Response response = distritoService.changeStatus(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

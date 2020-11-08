@@ -72,7 +72,7 @@ public class DistritoService {
         Integer idDepartament = distritoDTO.getDepartamento().getId();
         Departamento departamento = this.departamentoRepository.findById(idDepartament).get();
         distrito.setDepartamento(departamento);
-
+        distrito.setEstado(true);
         Distrito guardado = distritoRepository.save(distrito);
 
         if(guardado == null)
@@ -80,7 +80,7 @@ public class DistritoService {
 
         distritoDTO = distritoToDTO(guardado);
         response.setCode(200);
-        response.setMsg("Creado");
+        response.setMsg("Guardado exitosamente!!!");
         response.setData(distritoDTO);
 
         return response;
@@ -111,37 +111,38 @@ public class DistritoService {
 
     public Response actualizar(DistritoDTO distritoDTO) throws Exception{
         Response response = new Response();
-        Distrito actualizar = distritoRepository.findById(distritoDTO.getId()).get();
+        Distrito distrito = dtoToDistrito(distritoDTO);
 
-        if(actualizar == null)
-            throw new DistritoErrorToUpdateException();
+        Integer idDepartament = distritoDTO.getDepartamento().getId();
+        Departamento departamento = this.departamentoRepository.findById(idDepartament).get();
+        distrito.setId(distritoDTO.getId());
+        distrito.setDepartamento(departamento);
+        distrito.setEstado(distritoDTO.getEstado());
+        Distrito guardado = distritoRepository.save(distrito);
 
-        actualizar.setId(distritoDTO.getId());
-        actualizar.setNombre(distritoDTO.getNombre());
-        actualizar.setAbreviatura(distritoDTO.getAbreviatura());
-        actualizar.setNombre(distritoDTO.getNombre());
-        distritoRepository.save(actualizar);
+        if(guardado == null)
+            throw new DistritoErrorToSaveException();
+
+        distritoDTO = distritoToDTO(guardado);
         response.setCode(200);
-        response.setMsg("actualizado");
-        response.setData(actualizar);
+        response.setMsg("Actualizado exitosamente!!!");
+        response.setData(distritoDTO);
 
         return response;
     }
 
-    public Response darDeBaja(Integer id) throws Exception{
+    public Response changeStatus(Integer id) throws Exception{
         Response response = new Response();
-        Distrito darBaja = distritoRepository.findById(id).get();
-
-        if(darBaja == null)
-            throw new DistritoErrorToUpdateException();
+        Distrito changeStatus = distritoRepository.findById(id).get();
+        changeStatus.setEstado(!changeStatus.getEstado());
+        changeStatus = this.distritoRepository.save(changeStatus);
 
         response.setCode(200);
-        response.setMsg("Dado de baja");
-        response.setData(distritoRepository.save(darBaja));
+        response.setMsg("Se cambio estado exitosamente!!!");
+        response.setData(changeStatus);
 
         return response;
     }
-
 
     private Distrito dtoToDistrito(DistritoDTO distritoDTO) {
         Distrito distrito = new Distrito();
