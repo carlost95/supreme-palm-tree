@@ -25,7 +25,7 @@ public class DepartamentoController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/habilitados")
+    @GetMapping("/active")
     public ResponseEntity<Response> listarHabilitados() throws Exception {
         Response response = departamentoService.listarTodosHabilitados();
         return new ResponseEntity<>(response, HttpStatus.OK);
