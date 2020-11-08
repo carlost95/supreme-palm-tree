@@ -36,7 +36,7 @@ public class DistritoController {
     }
 
     @PostMapping
-    public ResponseEntity<Response> guardar(@Valid @RequestBody DistritoDTO distritoDTO) throws Exception {
+    public ResponseEntity<Response> guardar(@RequestBody DistritoDTO distritoDTO) throws Exception {
         Response response = distritoService.guardar( distritoDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
