@@ -1,17 +1,11 @@
 package com.undec.corralon.DTO;
 
-import com.undec.corralon.modelo.Departamento;
-
-public class DistritoDTO {
+public class DepartamentoDTO {
 
     private Integer id;
     private String nombre;
     private String abreviatura;
     private Boolean estado;
-    private DepartamentoDTO departamento;
-
-    public DistritoDTO() {
-    }
 
     public Integer getId() {
         return id;
@@ -43,13 +37,5 @@ public class DistritoDTO {
 
     public void setEstado(Boolean estado) {
         this.estado = estado;
-    }
-
-    public DepartamentoDTO getDepartamento() {
-        return departamento;
-    }
-
-    public void setDepartamento(DepartamentoDTO departamento) {
-        this.departamento = departamento;
     }
 }

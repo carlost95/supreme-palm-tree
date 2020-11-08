@@ -1,5 +1,6 @@
 package com.undec.corralon.service;
 
+import com.undec.corralon.DTO.DepartamentoDTO;
 import com.undec.corralon.DTO.Response;
 import com.undec.corralon.excepciones.departamento.DepartamentoErrorToSaveException;
 import com.undec.corralon.excepciones.departamento.DepartamentoErrorToUpdateException;
@@ -59,49 +60,61 @@ public class DepartamentoService {
         return response;
     }
 
-    public Response guardar(Departamento departamento) throws Exception{
+    public Response guardar(DepartamentoDTO departamentoDTO) throws Exception{
         Response response = new Response();
-        Departamento guardado = departamentoRepository.save(departamento);
+        Departamento toSave = this.departamentoDTOToEntity(departamentoDTO);
+        toSave.setEstado(true);
+        toSave = departamentoRepository.save(toSave);
 
-        if(guardado == null)
+        if(toSave == null)
             throw new DepartamentoErrorToSaveException();
 
         response.setCode(200);
-        response.setMsg("Creado");
-        response.setData(guardado);
+        response.setMsg("Guardado exitosamente!!!");
+        response.setData(toSave);
 
         return response;
     }
 
-    public Response actualizar(Departamento departamento) throws Exception{
+    private Departamento departamentoDTOToEntity(DepartamentoDTO departamentoDTO) {
+        Departamento departamento = new Departamento();
+        departamento.setNombre(departamentoDTO.getNombre());
+        departamento.setAbreviatura(departamentoDTO.getAbreviatura());
+        return departamento;
+    }
+
+    public Response actualizar(DepartamentoDTO departamentoDTO) throws Exception{
         Response response = new Response();
-        Departamento actualizar = departamentoRepository.findById(departamento.getId()).get();
+        Departamento actualizar = departamentoRepository.findById(departamentoDTO.getId()).get();
 
         if(actualizar == null)
             throw new DepartamentoErrorToUpdateException();
 
-        actualizar.setNombre(departamento.getNombre());
-        actualizar.setAbreviatura(departamento.getAbreviatura());
-        actualizar.setNombre(departamento.getNombre());
+        actualizar.setNombre(departamentoDTO.getNombre());
+        actualizar.setAbreviatura(departamentoDTO.getAbreviatura());
+        actualizar.setNombre(departamentoDTO.getNombre());
+        actualizar.setEstado(departamentoDTO.getEstado());
 
         response.setCode(200);
-        response.setMsg("actualizado");
+        response.setMsg("Actualizado exitosamente!!!");
         response.setData(departamentoRepository.save(actualizar));
 
         return response;
     }
 
-    public Response darDeBaja(Integer id) throws Exception{
+    public Response changeStatus(Integer id) throws Exception{
+
         Response response = new Response();
         Departamento darBaja = departamentoRepository.findById(id).get();
 
         if(darBaja == null)
             throw new DepartamentoErrorToUpdateException();
 
+        darBaja.setEstado(!darBaja.getEstado());
         departamentoRepository.save(darBaja);
 
         response.setCode(200);
-        response.setMsg("Dado de baja");
+        response.setMsg("Se cambio estado exitosamente");
         response.setData(darBaja);
 
 

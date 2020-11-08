@@ -12,7 +12,6 @@ public class Cliente extends DateAudit {
     private String mail;
     private String dni;
     private Boolean estado;
-    private List<Direccion> direcciones;
 
     @Id
     @Column(name = "id")
@@ -75,14 +74,6 @@ public class Cliente extends DateAudit {
         this.estado = estado;
     }
 
-    @OneToMany(mappedBy = "cliente")
-    public List<Direccion> getDirecciones() {
-        return direcciones;
-    }
-
-    public void setDirecciones(List<Direccion> direcciones) {
-        this.direcciones = direcciones;
-    }
 
     @Override
     public boolean equals(Object o) {

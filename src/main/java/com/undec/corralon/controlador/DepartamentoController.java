@@ -1,5 +1,6 @@
 package com.undec.corralon.controlador;
 
+import com.undec.corralon.DTO.DepartamentoDTO;
 import com.undec.corralon.DTO.Response;
 import com.undec.corralon.modelo.Departamento;
 import com.undec.corralon.service.DepartamentoService;
@@ -24,7 +25,7 @@ public class DepartamentoController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/habilitados")
+    @GetMapping("/active")
     public ResponseEntity<Response> listarHabilitados() throws Exception {
         Response response = departamentoService.listarTodosHabilitados();
         return new ResponseEntity<>(response, HttpStatus.OK);
@@ -37,20 +38,20 @@ public class DepartamentoController {
     }
 
     @PostMapping
-    public ResponseEntity<Response> guardar(@Valid @RequestBody Departamento departamento) throws Exception {
+    public ResponseEntity<Response> guardar(@RequestBody DepartamentoDTO departamento) throws Exception {
         Response response = departamentoService.guardar(departamento);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<Response> actualizar(@Valid @RequestBody Departamento departamento) throws Exception {
+    public ResponseEntity<Response> actualizar(@RequestBody DepartamentoDTO departamento) throws Exception {
         Response response = departamentoService.actualizar(departamento);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Response> eliminar(@PathVariable("id") Integer id) throws Exception {
-        Response response = departamentoService.darDeBaja(id);
+    @PutMapping("/status/{id}")
+    public ResponseEntity<Response> changeStatus(@PathVariable("id") Integer id) throws Exception {
+        Response response = departamentoService.changeStatus(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

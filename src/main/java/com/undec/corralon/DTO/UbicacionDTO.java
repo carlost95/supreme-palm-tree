@@ -3,8 +3,8 @@ package com.undec.corralon.DTO;
 public class UbicacionDTO {
 
     private Integer id;
-    private String latitud;
-    private String longitud;
+    private String lat;
+    private String lng;
     private Boolean estado;
 
     public Integer getId() {
@@ -15,20 +15,20 @@ public class UbicacionDTO {
         this.id = id;
     }
 
-    public String getLatitud() {
-        return latitud;
+    public String getLat() {
+        return lat;
     }
 
-    public void setLatitud(String latitud) {
-        this.latitud = latitud;
+    public void setLat(String lat) {
+        this.lat = lat;
     }
 
-    public String getLongitud() {
-        return longitud;
+    public String getLng() {
+        return lng;
     }
 
-    public void setLongitud(String longitud) {
-        this.longitud = longitud;
+    public void setLng(String lng) {
+        this.lng = lng;
     }
 
     public Boolean getEstado() {
