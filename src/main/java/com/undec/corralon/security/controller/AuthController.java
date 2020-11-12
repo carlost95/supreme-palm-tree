@@ -52,6 +52,12 @@ public class AuthController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/{nombreUsuario}")
+    public ResponseEntity<Response> listUserName(@PathVariable("nombreUsuario") String nombreUsuario) throws Exception {
+        Response response = usuarioService.getListUserName(nombreUsuario);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @PutMapping
     public ResponseEntity<?> update(@RequestBody NewUsuario newUsuario) {
         usuarioService.updateUser(newUsuario);
@@ -74,9 +80,12 @@ public class AuthController {
                         passwordEncoder.encode(newUsuario.getPassword()));
         Set<Rol> roles = new HashSet<>();
         roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
-        if (newUsuario.getRoles().contains("admin"))
+        if (newUsuario.getRoles().contains("gerente")) {
+            roles.add(rolService.getByRolNombre(RolNombre.ROLE_GERENTE).get());
+        } else {
+            roles.add(rolService.getByRolNombre(RolNombre.ROLE_GERENTE).get());
             roles.add(rolService.getByRolNombre(RolNombre.ROLE_ADMIN).get());
-
+        }
         usuario.setRoles(roles);
         usuarioService.save(usuario);
         return new ResponseEntity(new Mensaje("usuario creado"), HttpStatus.CREATED);

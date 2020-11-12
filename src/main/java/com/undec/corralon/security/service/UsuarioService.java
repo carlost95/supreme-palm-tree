@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Entity;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.HashSet;
@@ -52,14 +53,25 @@ public class UsuarioService {
         usuario.setEmail(newUsuario.getEmail());
         usuario.setPassword(passwordEncoder.encode(newUsuario.getPassword()));
         Set<Rol> roles = new HashSet<>();
-        if (newUsuario.getRoles().contains("admin")) {
+        roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
+        if (newUsuario.getRoles().contains("gerente")) {
+            roles.add(rolService.getByRolNombre(RolNombre.ROLE_GERENTE).get());
+        } else if (newUsuario.getRoles().contains("admin")) {
             roles.add(rolService.getByRolNombre(RolNombre.ROLE_ADMIN).get());
-            roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
-        } else {
-            roles.add(rolService.getByRolNombre(RolNombre.ROLE_USER).get());
         }
         usuario.setRoles(roles);
         usuarioRepository.save(usuario);
+    }
+
+    public Response getListUserName(String nombreUsuario) {
+        Response response = new Response();
+        Optional<Usuario> user = usuarioRepository.findByNombreUsuario(nombreUsuario);
+        if (user == null)
+            throw new EntityNotFoundException();
+        response.setCode(200);
+        response.setMsg("usuario Encontrado");
+        response.setData(user);
+        return response;
     }
 
     public Response getListAll() {
