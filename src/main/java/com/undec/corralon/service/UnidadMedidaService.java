@@ -59,10 +59,10 @@ public class UnidadMedidaService {
         unidadMedida.setFechaCreacion(new Date());
         UnidadMedida unidadMedidaToSave = this.unidadMedidaRepository.save(unidadMedida);
 
-        if(unidadMedidaToSave == null)
+        if (unidadMedidaToSave == null)
             throw new UnidadMedidaErrorToSave();
 
-        response.setMsg("Unidad medida Guardada");
+        response.setMsg("Unidad medida guardada correctamente");
         response.setCode(200);
         response.setData(unidadMedidaToSave);
 
@@ -74,17 +74,16 @@ public class UnidadMedidaService {
         Response response = new Response();
         UnidadMedida unidadMedidaToUpdate = this.unidadMedidaRepository.findById(unidadMedida.getId()).get();
 
-        if(unidadMedidaToUpdate == null)
+        if (unidadMedidaToUpdate == null)
             throw new UnidadMedidaErrorToUpdate();
 
         unidadMedidaToUpdate.setNombre(unidadMedida.getNombre());
         unidadMedidaToUpdate.setAbreviatura(unidadMedida.getAbreviatura());
         unidadMedidaToUpdate.setFechaModificacion(new Date());
-//        unidadMedidaToUpdate.setHabilitacion(unidadMedida.getHabilitacion());
 
         unidadMedidaToUpdate = this.unidadMedidaRepository.save(unidadMedidaToUpdate);
 
-        response.setMsg("Unidad medida actualizada");
+        response.setMsg("Unidad medida actualizada correctamente");
         response.setCode(200);
         response.setData(unidadMedidaToUpdate);
 
@@ -95,7 +94,7 @@ public class UnidadMedidaService {
         Response response = new Response();
 
         Optional<UnidadMedida> unidadMedidaOptional = unidadMedidaRepository.findById(id);
-        if (!unidadMedidaOptional.isPresent()){
+        if (!unidadMedidaOptional.isPresent()) {
             throw new UnidadMedidadCambioHabilitacionExceptioon();
         }
         UnidadMedida unidadMedida = unidadMedidaOptional.get();

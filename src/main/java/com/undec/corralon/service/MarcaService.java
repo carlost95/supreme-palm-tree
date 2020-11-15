@@ -22,7 +22,7 @@ public class MarcaService {
         Response response = new Response();
         Marca marca = this.marcaRepository.findById(id).get();
         response.setCode(200);
-        response.setMsg("Marca" );
+        response.setMsg("Marca");
         response.setData(marca);
         return response;
     }
@@ -51,11 +51,11 @@ public class MarcaService {
         marca.setHabilitacion(true);
         marca = this.marcaRepository.save(marca);
 
-        if(marca == null)
+        if (marca == null)
             throw new MarcaNotFoundException();
 
         response.setData(marca);
-        response.setMsg("Guardado");
+        response.setMsg("Marca guardada correctamente");
         response.setCode(200);
 
         return response;
@@ -68,7 +68,7 @@ public class MarcaService {
         marcaToUpdate.setNombre(marca.getNombre());
         marcaToUpdate.setAbreviatura(marca.getAbreviatura());
         marcaToUpdate.setFechaModificacion(new Date());
-        if (marcaToUpdate == null){
+        if (marcaToUpdate == null) {
             throw new MarcaNotFoundException();
         }
         response.setCode(200);
@@ -83,7 +83,7 @@ public class MarcaService {
 
         marcaToDelete.setHabilitacion(true);
         marcaToDelete.setFechaBaja(new Date());
-        if (marcaToDelete == null){
+        if (marcaToDelete == null) {
             throw new MarcaNotFoundException();
         }
         response.setCode(200);
@@ -91,11 +91,12 @@ public class MarcaService {
         response.setData(marcaRepository.save(marcaToDelete));
         return response;
     }
+
     public Response cambiarHabilitacion(Integer id) throws BancoCambioEstadoException {
         Response response = new Response();
 
         Optional<Marca> marcaOptional = marcaRepository.findById(id);
-        if (!marcaOptional.isPresent()){
+        if (!marcaOptional.isPresent()) {
             throw new BancoCambioEstadoException();
         }
         Marca marca = marcaOptional.get();
@@ -103,7 +104,7 @@ public class MarcaService {
         marca = marcaRepository.save(marca);
 
         response.setCode(200);
-        response.setMsg("El banco cambio el estado");
+        response.setMsg("El banco cambio de estado exitosamente");
         response.setData(marca);
         return response;
     }
