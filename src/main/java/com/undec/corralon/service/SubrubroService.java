@@ -82,7 +82,7 @@ public class SubrubroService {
         subRubro = subRubroRepository.save(subRubro);
 
         response.setCode(200);
-        response.setMsg("Creado");
+        response.setMsg("Sub-rubro creado correctamente");
         response.setData(subRubro);
 
         return response;
@@ -105,7 +105,7 @@ public class SubrubroService {
         subRubroToUpdate = subRubroRepository.save(subRubroToUpdate);
 
         response.setCode(200);
-        response.setMsg("Actualizado");
+        response.setMsg("Sub-rubro actualizado correctamente");
         response.setData(subRubroToUpdate);
 
         return response;

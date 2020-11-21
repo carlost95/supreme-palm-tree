@@ -83,7 +83,7 @@ public class ArticuloService {
         articulo = articuloRepository.save(articulo);
 
         response.setCode(200);
-        response.setMsg("Creado");
+        response.setMsg("Articulo creado Correctamente");
         response.setData(articulo);
 
         return response;
@@ -102,7 +102,7 @@ public class ArticuloService {
         articulo = articuloRepository.save(articulo);
 
         response.setCode(200);
-        response.setMsg("Actualizado");
+        response.setMsg("Articulo actualizado correctamente");
         response.setData(articulo);
 
         return response;
@@ -129,7 +129,6 @@ public class ArticuloService {
     private Articulo dtoToEntity(ArticuloDTO articuloDTO) {
         Articulo articulo = new Articulo();
         mapperDtoEntity(articuloDTO, articulo);
-//        articulo.setHabilitacion(articuloDTO.getHabilitacion());
         return articulo;
     }
 

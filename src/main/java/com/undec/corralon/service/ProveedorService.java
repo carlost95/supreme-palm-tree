@@ -22,7 +22,7 @@ public class ProveedorService {
         if (proveedores == null){
             throw new ProveedorNotFoundException();
         }
-        response.setMsg("lista de todos los proveedores");
+        response.setMsg("Lista de todos los proveedores");
         response.setCode(200);
         response.setData(proveedores);
 
@@ -61,7 +61,7 @@ public class ProveedorService {
             throw new ProveedorErrorToSaveException();
 
         response.setCode(200);
-        response.setMsg("Nuevo Proveedor almacenado");
+        response.setMsg("Proveedor creado correctamente");
         response.setData(proveedorSave);
 
         return response;
@@ -80,7 +80,7 @@ public class ProveedorService {
         proveedorUpdate.setTelefono(proveedor.getTelefono());
 
         response.setCode(200);
-        response.setMsg(" proveedor actualizado");
+        response.setMsg("Proveedor actualizado correctamente");
         response.setData(proveedorRepository.save(proveedorUpdate));
         return response;
     }
