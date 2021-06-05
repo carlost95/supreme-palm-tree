@@ -1,25 +1,25 @@
 package com.undec.corralon.modelo;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-public class Ubicacion extends DateAudit {
-
-    private Integer id;
+public class Ubicacion {
+    private Integer idUbicacion;
     private String latitud;
     private String longitud;
-    private Boolean estado;
+    private Byte habilitado;
+    private Collection<Direccion> direccionsByIdUbicacion;
 
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getId() {
-        return id;
+    @Column(name = "id_ubicacion")
+    public Integer getIdUbicacion() {
+        return idUbicacion;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdUbicacion(Integer idUbicacion) {
+        this.idUbicacion = idUbicacion;
     }
 
     @Basic
@@ -43,29 +43,37 @@ public class Ubicacion extends DateAudit {
     }
 
     @Basic
-    @Column(name = "estado")
-    public Boolean getEstado() {
-        return estado;
+    @Column(name = "habilitado")
+    public Byte getHabilitado() {
+        return habilitado;
     }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
+    public void setHabilitado(Byte habilitado) {
+        this.habilitado = habilitado;
     }
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ubicacion ubicacion = (Ubicacion) o;
-        return id.equals(ubicacion.id) &&
+        return Objects.equals(idUbicacion, ubicacion.idUbicacion) &&
                 Objects.equals(latitud, ubicacion.latitud) &&
-                Objects.equals(longitud, ubicacion.longitud);
+                Objects.equals(longitud, ubicacion.longitud) &&
+                Objects.equals(habilitado, ubicacion.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, latitud, longitud);
+        return Objects.hash(idUbicacion, latitud, longitud, habilitado);
+    }
+
+    @OneToMany(mappedBy = "ubicacionByIdUbicacion")
+    public Collection<Direccion> getDireccionsByIdUbicacion() {
+        return direccionsByIdUbicacion;
+    }
+
+    public void setDireccionsByIdUbicacion(Collection<Direccion> direccionsByIdUbicacion) {
+        this.direccionsByIdUbicacion = direccionsByIdUbicacion;
     }
 }
-

@@ -1,40 +1,43 @@
 package com.undec.corralon.modelo;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import java.util.Date;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "articulo")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Articulo {
-    private Integer id;
+    private Integer idArticulo;
     private String nombre;
+    private Integer stockMinimo;
+    private Integer stockMaximo;
+    private String codigo;
     private String abreviatura;
-    private String codigoArt;
-    private Integer stockMin;
-    private Integer stockMax;
-    private Proveedor proveedorId;
-    private UnidadMedida unidadMedidaId;
-    private Marca marcaId;
-    private Rubro rubroId;
-    private SubRubro subRubroId;
-    private boolean habilitacion;
-    private Date fechaCreacion;
-    private Date fechaModificacion;
-    private Date fechaBaja;
+    private Integer idProveedor;
+    private Integer idUnidadMedida;
+    private Integer idRubro;
+    private Integer idMarca;
+    private Integer idSubRubro;
+    private Proveedor proveedorByIdProveedor;
+    private UnidadMedida unidadMedidaByIdUnidadMedida;
+    private Rubro rubroByIdRubro;
+    private Marca marcaByIdMarca;
+    private SubRubro subRubroByIdSubRubro;
+    private Collection<CostoArticulo> costoArticulosByIdArticulo;
+    private Collection<DetalleAjuste> detalleAjustesByIdArticulo;
+    private Collection<DetallePedido> detallePedidosByIdArticulo;
+    private Collection<DetalleRemito> detalleRemitosByIdArticulo;
+    private Collection<DetalleVenta> detalleVentasByIdArticulo;
+    private Collection<MovimientoArticulo> movimientoArticulosByIdArticulo;
+    private Collection<PrecioArticulo> precioArticulosByIdArticulo;
 
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getId() {
-        return id;
+    @Column(name = "id_articulo")
+    public Integer getIdArticulo() {
+        return idArticulo;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdArticulo(Integer idArticulo) {
+        this.idArticulo = idArticulo;
     }
 
     @Basic
@@ -48,6 +51,36 @@ public class Articulo {
     }
 
     @Basic
+    @Column(name = "stock_minimo")
+    public Integer getStockMinimo() {
+        return stockMinimo;
+    }
+
+    public void setStockMinimo(Integer stockMinimo) {
+        this.stockMinimo = stockMinimo;
+    }
+
+    @Basic
+    @Column(name = "stock_maximo")
+    public Integer getStockMaximo() {
+        return stockMaximo;
+    }
+
+    public void setStockMaximo(Integer stockMaximo) {
+        this.stockMaximo = stockMaximo;
+    }
+
+    @Basic
+    @Column(name = "codigo")
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    @Basic
     @Column(name = "abreviatura")
     public String getAbreviatura() {
         return abreviatura;
@@ -58,123 +91,53 @@ public class Articulo {
     }
 
     @Basic
-    @Column(name = "codigo_art")
-    public String getCodigoArt() {
-        return codigoArt;
+    @Column(name = "id_proveedor")
+    public Integer getIdProveedor() {
+        return idProveedor;
     }
 
-    public void setCodigoArt(String codigoArt) {
-        this.codigoArt = codigoArt;
-    }
-
-    @Basic
-    @Column(name = "stock_min")
-    public Integer getStockMin() {
-        return stockMin;
-    }
-
-    public void setStockMin(Integer stockMin) {
-        this.stockMin = stockMin;
+    public void setIdProveedor(Integer idProveedor) {
+        this.idProveedor = idProveedor;
     }
 
     @Basic
-    @Column(name = "stock_max")
-    public Integer getStockMax() {
-        return stockMax;
+    @Column(name = "id_unidad_medida")
+    public Integer getIdUnidadMedida() {
+        return idUnidadMedida;
     }
 
-    public void setStockMax(Integer stockMax) {
-        this.stockMax = stockMax;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "proveedor_id", referencedColumnName = "id")
-    public Proveedor getProveedorId() {
-        return proveedorId;
-    }
-
-    public void setProveedorId(Proveedor proveedorId) {
-        this.proveedorId = proveedorId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "unidad_medida_id", referencedColumnName = "id")
-    public UnidadMedida getUnidadMedidaId() {
-        return unidadMedidaId;
-    }
-
-    public void setUnidadMedidaId(UnidadMedida unidadMedidaId) {
-        this.unidadMedidaId = unidadMedidaId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "marca_id", referencedColumnName = "id")
-    public Marca getMarcaId() {
-        return marcaId;
-    }
-
-    public void setMarcaId(Marca marcaId) {
-        this.marcaId = marcaId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "rubro_id", referencedColumnName = "id")
-    public Rubro getRubroId() {
-        return rubroId;
-    }
-
-    public void setRubroId(Rubro rubroId) {
-        this.rubroId = rubroId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "sub_rubro_id", referencedColumnName = "id")
-    public SubRubro getSubRubroId() {
-        return subRubroId;
-    }
-
-    public void setSubRubroId(SubRubro subRubroId) {
-        this.subRubroId = subRubroId;
+    public void setIdUnidadMedida(Integer idUnidadMedida) {
+        this.idUnidadMedida = idUnidadMedida;
     }
 
     @Basic
-    @Column(name = "habilitacion")
-    public boolean getHabilitacion() {
-        return habilitacion;
+    @Column(name = "id_rubro")
+    public Integer getIdRubro() {
+        return idRubro;
     }
 
-    public void setHabilitacion(boolean habilitacion) {
-        this.habilitacion = habilitacion;
-    }
-
-    @Basic
-    @Column(name = "fecha_creacion")
-    public Date getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
+    public void setIdRubro(Integer idRubro) {
+        this.idRubro = idRubro;
     }
 
     @Basic
-    @Column(name = "fecha_modificacion")
-    public Date getFechaModificacion() {
-        return fechaModificacion;
+    @Column(name = "id_marca")
+    public Integer getIdMarca() {
+        return idMarca;
     }
 
-    public void setFechaModificacion(Date fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
+    public void setIdMarca(Integer idMarca) {
+        this.idMarca = idMarca;
     }
 
     @Basic
-    @Column(name = "fecha_baja")
-    public Date getFechaBaja() {
-        return fechaBaja;
+    @Column(name = "id_sub_rubro")
+    public Integer getIdSubRubro() {
+        return idSubRubro;
     }
 
-    public void setFechaBaja(Date fechaBaja) {
-        this.fechaBaja = fechaBaja;
+    public void setIdSubRubro(Integer idSubRubro) {
+        this.idSubRubro = idSubRubro;
     }
 
     @Override
@@ -182,25 +145,134 @@ public class Articulo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Articulo articulo = (Articulo) o;
-        return Objects.equals(id, articulo.id) &&
+        return Objects.equals(idArticulo, articulo.idArticulo) &&
                 Objects.equals(nombre, articulo.nombre) &&
+                Objects.equals(stockMinimo, articulo.stockMinimo) &&
+                Objects.equals(stockMaximo, articulo.stockMaximo) &&
+                Objects.equals(codigo, articulo.codigo) &&
                 Objects.equals(abreviatura, articulo.abreviatura) &&
-                Objects.equals(codigoArt, articulo.codigoArt) &&
-                Objects.equals(stockMin, articulo.stockMin) &&
-                Objects.equals(stockMax, articulo.stockMax) &&
-                Objects.equals(proveedorId, articulo.proveedorId) &&
-                Objects.equals(unidadMedidaId, articulo.unidadMedidaId) &&
-                Objects.equals(marcaId, articulo.marcaId) &&
-                Objects.equals(rubroId, articulo.rubroId) &&
-                Objects.equals(subRubroId, articulo.subRubroId) &&
-                Objects.equals(habilitacion, articulo.habilitacion) &&
-                Objects.equals(fechaCreacion, articulo.fechaCreacion) &&
-                Objects.equals(fechaModificacion, articulo.fechaModificacion) &&
-                Objects.equals(fechaBaja, articulo.fechaBaja);
+                Objects.equals(idProveedor, articulo.idProveedor) &&
+                Objects.equals(idUnidadMedida, articulo.idUnidadMedida) &&
+                Objects.equals(idRubro, articulo.idRubro) &&
+                Objects.equals(idMarca, articulo.idMarca) &&
+                Objects.equals(idSubRubro, articulo.idSubRubro);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, abreviatura, codigoArt, stockMin, stockMax, proveedorId, unidadMedidaId, marcaId, rubroId, subRubroId, habilitacion, fechaCreacion, fechaModificacion, fechaBaja);
+        return Objects.hash(idArticulo, nombre, stockMinimo, stockMaximo, codigo, abreviatura, idProveedor, idUnidadMedida, idRubro, idMarca, idSubRubro);
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "id_proveedor", referencedColumnName = "id_proveedor", nullable = false)
+    public Proveedor getProveedorByIdProveedor() {
+        return proveedorByIdProveedor;
+    }
+
+    public void setProveedorByIdProveedor(Proveedor proveedorByIdProveedor) {
+        this.proveedorByIdProveedor = proveedorByIdProveedor;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "id_unidad_medida", referencedColumnName = "id_unidad_medida", nullable = false)
+    public UnidadMedida getUnidadMedidaByIdUnidadMedida() {
+        return unidadMedidaByIdUnidadMedida;
+    }
+
+    public void setUnidadMedidaByIdUnidadMedida(UnidadMedida unidadMedidaByIdUnidadMedida) {
+        this.unidadMedidaByIdUnidadMedida = unidadMedidaByIdUnidadMedida;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "id_rubro", referencedColumnName = "id_rubro", nullable = false)
+    public Rubro getRubroByIdRubro() {
+        return rubroByIdRubro;
+    }
+
+    public void setRubroByIdRubro(Rubro rubroByIdRubro) {
+        this.rubroByIdRubro = rubroByIdRubro;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "id_marca", referencedColumnName = "id_marca", nullable = false)
+    public Marca getMarcaByIdMarca() {
+        return marcaByIdMarca;
+    }
+
+    public void setMarcaByIdMarca(Marca marcaByIdMarca) {
+        this.marcaByIdMarca = marcaByIdMarca;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "id_sub_rubro", referencedColumnName = "id_sub_rubro", nullable = false)
+    public SubRubro getSubRubroByIdSubRubro() {
+        return subRubroByIdSubRubro;
+    }
+
+    public void setSubRubroByIdSubRubro(SubRubro subRubroByIdSubRubro) {
+        this.subRubroByIdSubRubro = subRubroByIdSubRubro;
+    }
+
+    @OneToMany(mappedBy = "articuloByIdArticulo")
+    public Collection<CostoArticulo> getCostoArticulosByIdArticulo() {
+        return costoArticulosByIdArticulo;
+    }
+
+    public void setCostoArticulosByIdArticulo(Collection<CostoArticulo> costoArticulosByIdArticulo) {
+        this.costoArticulosByIdArticulo = costoArticulosByIdArticulo;
+    }
+
+    @OneToMany(mappedBy = "articuloByIdArticulo")
+    public Collection<DetalleAjuste> getDetalleAjustesByIdArticulo() {
+        return detalleAjustesByIdArticulo;
+    }
+
+    public void setDetalleAjustesByIdArticulo(Collection<DetalleAjuste> detalleAjustesByIdArticulo) {
+        this.detalleAjustesByIdArticulo = detalleAjustesByIdArticulo;
+    }
+
+    @OneToMany(mappedBy = "articuloByIdArticulo")
+    public Collection<DetallePedido> getDetallePedidosByIdArticulo() {
+        return detallePedidosByIdArticulo;
+    }
+
+    public void setDetallePedidosByIdArticulo(Collection<DetallePedido> detallePedidosByIdArticulo) {
+        this.detallePedidosByIdArticulo = detallePedidosByIdArticulo;
+    }
+
+    @OneToMany(mappedBy = "articuloByIdArticulo")
+    public Collection<DetalleRemito> getDetalleRemitosByIdArticulo() {
+        return detalleRemitosByIdArticulo;
+    }
+
+    public void setDetalleRemitosByIdArticulo(Collection<DetalleRemito> detalleRemitosByIdArticulo) {
+        this.detalleRemitosByIdArticulo = detalleRemitosByIdArticulo;
+    }
+
+    @OneToMany(mappedBy = "articuloByIdArticulo")
+    public Collection<DetalleVenta> getDetalleVentasByIdArticulo() {
+        return detalleVentasByIdArticulo;
+    }
+
+    public void setDetalleVentasByIdArticulo(Collection<DetalleVenta> detalleVentasByIdArticulo) {
+        this.detalleVentasByIdArticulo = detalleVentasByIdArticulo;
+    }
+
+    @OneToMany(mappedBy = "articuloByIdArticulo")
+    public Collection<MovimientoArticulo> getMovimientoArticulosByIdArticulo() {
+        return movimientoArticulosByIdArticulo;
+    }
+
+    public void setMovimientoArticulosByIdArticulo(Collection<MovimientoArticulo> movimientoArticulosByIdArticulo) {
+        this.movimientoArticulosByIdArticulo = movimientoArticulosByIdArticulo;
+    }
+
+    @OneToMany(mappedBy = "articuloByIdArticulo")
+    public Collection<PrecioArticulo> getPrecioArticulosByIdArticulo() {
+        return precioArticulosByIdArticulo;
+    }
+
+    public void setPrecioArticulosByIdArticulo(Collection<PrecioArticulo> precioArticulosByIdArticulo) {
+        this.precioArticulosByIdArticulo = precioArticulosByIdArticulo;
     }
 }

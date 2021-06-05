@@ -1,28 +1,27 @@
 package com.undec.corralon.modelo;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
 public class Proveedor {
-    private Integer id;
+    private Integer idProveedor;
     private String razonSocial;
     private String domicilio;
-    private String mail;
-    private String celular;
+    private String email;
     private String telefono;
-    private boolean habilitado;
+    private Collection<Articulo> articulosByIdProveedor;
+    private Collection<BancoProveedor> bancoProveedorsByIdProveedor;
 
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    public Integer getId() {
-        return id;
+    @Column(name = "id_proveedor")
+    public Integer getIdProveedor() {
+        return idProveedor;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdProveedor(Integer idProveedor) {
+        this.idProveedor = idProveedor;
     }
 
     @Basic
@@ -46,23 +45,13 @@ public class Proveedor {
     }
 
     @Basic
-    @Column(name = "mail")
-    public String getMail() {
-        return mail;
+    @Column(name = "email")
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    @Basic
-    @Column(name = "celular")
-    public String getCelular() {
-        return celular;
-    }
-
-    public void setCelular(String celular) {
-        this.celular = celular;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Basic
@@ -75,32 +64,38 @@ public class Proveedor {
         this.telefono = telefono;
     }
 
-    @Basic
-    @Column(name = "habilitado")
-    public Boolean getHabilitado() {
-        return habilitado;
-    }
-
-    public void setHabilitado(boolean habilitado) {
-        this.habilitado = habilitado;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Proveedor proveedor = (Proveedor) o;
-        return Objects.equals(id, proveedor.id) &&
+        return Objects.equals(idProveedor, proveedor.idProveedor) &&
                 Objects.equals(razonSocial, proveedor.razonSocial) &&
                 Objects.equals(domicilio, proveedor.domicilio) &&
-                Objects.equals(mail, proveedor.mail) &&
-                Objects.equals(celular, proveedor.celular) &&
-                Objects.equals(telefono, proveedor.telefono) &&
-                Objects.equals(habilitado, proveedor.habilitado);
+                Objects.equals(email, proveedor.email) &&
+                Objects.equals(telefono, proveedor.telefono);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, razonSocial, domicilio, mail, celular, telefono, habilitado);
+        return Objects.hash(idProveedor, razonSocial, domicilio, email, telefono);
+    }
+
+    @OneToMany(mappedBy = "proveedorByIdProveedor")
+    public Collection<Articulo> getArticulosByIdProveedor() {
+        return articulosByIdProveedor;
+    }
+
+    public void setArticulosByIdProveedor(Collection<Articulo> articulosByIdProveedor) {
+        this.articulosByIdProveedor = articulosByIdProveedor;
+    }
+
+    @OneToMany(mappedBy = "proveedorByIdProveedor")
+    public Collection<BancoProveedor> getBancoProveedorsByIdProveedor() {
+        return bancoProveedorsByIdProveedor;
+    }
+
+    public void setBancoProveedorsByIdProveedor(Collection<BancoProveedor> bancoProveedorsByIdProveedor) {
+        this.bancoProveedorsByIdProveedor = bancoProveedorsByIdProveedor;
     }
 }

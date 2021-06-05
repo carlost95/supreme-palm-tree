@@ -1,33 +1,28 @@
 package com.undec.corralon.modelo;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import java.util.Date;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-@Table(name = "sub_rubro", schema = "santo_domingo_corralon")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+@Table(name = "sub_rubro", schema = "corralon_dev", catalog = "")
 public class SubRubro {
-    private Integer id;
+    private Integer idSubRubro;
     private String nombre;
-    private String descripcion;
-    private boolean habilitacion;
-    private Date fechaCreacion;
-    private Date fechaModificacion;
-    private Date fechaBaja;
-    private Rubro rubroId;
+    private String abreviatura;
+    private Byte habilitado;
+    private Integer idRubro;
+    private Collection<Articulo> articulosByIdSubRubro;
+    private Rubro rubroByIdRubro;
 
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getId() {
-        return id;
+    @Column(name = "id_sub_rubro")
+    public Integer getIdSubRubro() {
+        return idSubRubro;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdSubRubro(Integer idSubRubro) {
+        this.idSubRubro = idSubRubro;
     }
 
     @Basic
@@ -41,63 +36,33 @@ public class SubRubro {
     }
 
     @Basic
-    @Column(name = "descripcion")
-    public String getDescripcion() {
-        return descripcion;
+    @Column(name = "abreviatura")
+    public String getAbreviatura() {
+        return abreviatura;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    @Basic
-    @Column(name = "habilitacion")
-    public boolean getHabilitacion() {
-        return habilitacion;
-    }
-
-    public void setHabilitacion(boolean habilitacion) {
-        this.habilitacion = habilitacion;
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
     }
 
     @Basic
-    @Column(name = "fecha_creacion")
-    public Date getFechaCreacion() {
-        return fechaCreacion;
+    @Column(name = "habilitado")
+    public Byte getHabilitado() {
+        return habilitado;
     }
 
-    public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    @Basic
-    @Column(name = "fecha_modificacion")
-    public Date getFechaModificacion() {
-        return fechaModificacion;
-    }
-
-    public void setFechaModificacion(Date fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
+    public void setHabilitado(Byte habilitado) {
+        this.habilitado = habilitado;
     }
 
     @Basic
-    @Column(name = "fecha_baja")
-    public Date getFechaBaja() {
-        return fechaBaja;
+    @Column(name = "id_rubro")
+    public Integer getIdRubro() {
+        return idRubro;
     }
 
-    public void setFechaBaja(Date fechaBaja) {
-        this.fechaBaja = fechaBaja;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "rubro_id", referencedColumnName = "id")
-    public Rubro getRubroId() {
-        return rubroId;
-    }
-
-    public void setRubroId(Rubro rubroId) {
-        this.rubroId = rubroId;
+    public void setIdRubro(Integer idRubro) {
+        this.idRubro = idRubro;
     }
 
     @Override
@@ -105,18 +70,34 @@ public class SubRubro {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SubRubro subRubro = (SubRubro) o;
-        return Objects.equals(id, subRubro.id) &&
+        return Objects.equals(idSubRubro, subRubro.idSubRubro) &&
                 Objects.equals(nombre, subRubro.nombre) &&
-                Objects.equals(descripcion, subRubro.descripcion) &&
-                Objects.equals(habilitacion, subRubro.habilitacion) &&
-                Objects.equals(fechaCreacion, subRubro.fechaCreacion) &&
-                Objects.equals(fechaModificacion, subRubro.fechaModificacion) &&
-                Objects.equals(fechaBaja, subRubro.fechaBaja) &&
-                Objects.equals(rubroId, subRubro.rubroId);
+                Objects.equals(abreviatura, subRubro.abreviatura) &&
+                Objects.equals(habilitado, subRubro.habilitado) &&
+                Objects.equals(idRubro, subRubro.idRubro);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, descripcion, habilitacion, fechaCreacion, fechaModificacion, fechaBaja, rubroId);
+        return Objects.hash(idSubRubro, nombre, abreviatura, habilitado, idRubro);
+    }
+
+    @OneToMany(mappedBy = "subRubroByIdSubRubro")
+    public Collection<Articulo> getArticulosByIdSubRubro() {
+        return articulosByIdSubRubro;
+    }
+
+    public void setArticulosByIdSubRubro(Collection<Articulo> articulosByIdSubRubro) {
+        this.articulosByIdSubRubro = articulosByIdSubRubro;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "id_rubro", referencedColumnName = "id_rubro")
+    public Rubro getRubroByIdRubro() {
+        return rubroByIdRubro;
+    }
+
+    public void setRubroByIdRubro(Rubro rubroByIdRubro) {
+        this.rubroByIdRubro = rubroByIdRubro;
     }
 }

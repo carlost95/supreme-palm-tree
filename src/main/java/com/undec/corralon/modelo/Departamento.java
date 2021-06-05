@@ -1,25 +1,25 @@
 package com.undec.corralon.modelo;
 
 import javax.persistence.*;
+import java.util.Collection;
 import java.util.Objects;
 
 @Entity
-public class Departamento extends DateAudit{
-
-    private Integer id;
+public class Departamento {
+    private Integer idDepartamento;
     private String nombre;
     private String abreviatura;
-    private Boolean estado;
+    private Byte habilitado;
+    private Collection<Distrito> distritosByIdDepartamento;
 
     @Id
-    @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getId() {
-        return id;
+    @Column(name = "id_departamento")
+    public Integer getIdDepartamento() {
+        return idDepartamento;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdDepartamento(Integer idDepartamento) {
+        this.idDepartamento = idDepartamento;
     }
 
     @Basic
@@ -43,13 +43,13 @@ public class Departamento extends DateAudit{
     }
 
     @Basic
-    @Column(name = "estado")
-    public Boolean getEstado() {
-        return estado;
+    @Column(name = "habilitado")
+    public Byte getHabilitado() {
+        return habilitado;
     }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
+    public void setHabilitado(Byte habilitado) {
+        this.habilitado = habilitado;
     }
 
     @Override
@@ -57,15 +57,23 @@ public class Departamento extends DateAudit{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Departamento that = (Departamento) o;
-        return Objects.equals(id, that.id) &&
+        return Objects.equals(idDepartamento, that.idDepartamento) &&
                 Objects.equals(nombre, that.nombre) &&
                 Objects.equals(abreviatura, that.abreviatura) &&
-                Objects.equals(estado, that.estado);
+                Objects.equals(habilitado, that.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, abreviatura, estado);
+        return Objects.hash(idDepartamento, nombre, abreviatura, habilitado);
     }
 
+    @OneToMany(mappedBy = "departamentoByIdDepartamento")
+    public Collection<Distrito> getDistritosByIdDepartamento() {
+        return distritosByIdDepartamento;
+    }
+
+    public void setDistritosByIdDepartamento(Collection<Distrito> distritosByIdDepartamento) {
+        this.distritosByIdDepartamento = distritosByIdDepartamento;
+    }
 }

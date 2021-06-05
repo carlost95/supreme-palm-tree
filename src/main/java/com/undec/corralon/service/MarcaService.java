@@ -72,7 +72,7 @@ public class MarcaService {
             throw new MarcaNotFoundException();
         }
         response.setCode(200);
-        response.setMsg("Marca actualizada");
+        response.setMsg("Marca actualizada correctamente");
         response.setData(marcaRepository.save(marcaToUpdate));
         return response;
     }
