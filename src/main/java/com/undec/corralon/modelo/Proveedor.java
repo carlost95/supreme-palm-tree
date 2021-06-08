@@ -11,6 +11,7 @@ public class Proveedor {
     private String domicilio;
     private String email;
     private String telefono;
+    private Byte habilitado;
     private Collection<Articulo> articulosByIdProveedor;
     private Collection<BancoProveedor> bancoProveedorsByIdProveedor;
 
@@ -64,6 +65,16 @@ public class Proveedor {
         this.telefono = telefono;
     }
 
+    @Basic
+    @Column(name = "habilitado")
+    public Byte getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(Byte habilitado) {
+        this.habilitado = habilitado;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,12 +84,13 @@ public class Proveedor {
                 Objects.equals(razonSocial, proveedor.razonSocial) &&
                 Objects.equals(domicilio, proveedor.domicilio) &&
                 Objects.equals(email, proveedor.email) &&
-                Objects.equals(telefono, proveedor.telefono);
+                Objects.equals(telefono, proveedor.telefono) &&
+                Objects.equals(habilitado, proveedor.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProveedor, razonSocial, domicilio, email, telefono);
+        return Objects.hash(idProveedor, razonSocial, domicilio, email, telefono, habilitado);
     }
 
     @OneToMany(mappedBy = "proveedorByIdProveedor")

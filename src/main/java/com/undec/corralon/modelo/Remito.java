@@ -12,6 +12,7 @@ public class Remito {
     private String estadoRemito;
     private Integer idVenta;
     private Integer idDetalleRemito;
+    private Byte habilitado;
     private Collection<DetalleRemito> detalleRemitosByIdRemito;
     private Collection<MovimientoArticulo> movimientoArticulosByIdRemito;
     private Venta ventaByIdVenta;
@@ -66,6 +67,16 @@ public class Remito {
         this.idDetalleRemito = idDetalleRemito;
     }
 
+    @Basic
+    @Column(name = "habilitado")
+    public Byte getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(Byte habilitado) {
+        this.habilitado = habilitado;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,12 +86,13 @@ public class Remito {
                 Objects.equals(fechaRemito, remito.fechaRemito) &&
                 Objects.equals(estadoRemito, remito.estadoRemito) &&
                 Objects.equals(idVenta, remito.idVenta) &&
-                Objects.equals(idDetalleRemito, remito.idDetalleRemito);
+                Objects.equals(idDetalleRemito, remito.idDetalleRemito) &&
+                Objects.equals(habilitado, remito.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idRemito, fechaRemito, estadoRemito, idVenta, idDetalleRemito);
+        return Objects.hash(idRemito, fechaRemito, estadoRemito, idVenta, idDetalleRemito, habilitado);
     }
 
     @OneToMany(mappedBy = "remitoByIdRemito")

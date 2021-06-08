@@ -10,7 +10,7 @@ public class UnidadMedida {
     private Integer idUnidadMedida;
     private String nombre;
     private String abreviatura;
-    private Byte habiliotado;
+    private Byte habilitado;
     private Collection<Articulo> articulosByIdUnidadMedida;
 
     @Id
@@ -44,13 +44,13 @@ public class UnidadMedida {
     }
 
     @Basic
-    @Column(name = "habiliotado")
-    public Byte getHabiliotado() {
-        return habiliotado;
+    @Column(name = "habilitado")
+    public Byte getHabilitado() {
+        return habilitado;
     }
 
-    public void setHabiliotado(Byte habiliotado) {
-        this.habiliotado = habiliotado;
+    public void setHabilitado(Byte habilitado) {
+        this.habilitado = habilitado;
     }
 
     @Override
@@ -61,12 +61,12 @@ public class UnidadMedida {
         return Objects.equals(idUnidadMedida, that.idUnidadMedida) &&
                 Objects.equals(nombre, that.nombre) &&
                 Objects.equals(abreviatura, that.abreviatura) &&
-                Objects.equals(habiliotado, that.habiliotado);
+                Objects.equals(habilitado, that.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idUnidadMedida, nombre, abreviatura, habiliotado);
+        return Objects.hash(idUnidadMedida, nombre, abreviatura, habilitado);
     }
 
     @OneToMany(mappedBy = "unidadMedidaByIdUnidadMedida")

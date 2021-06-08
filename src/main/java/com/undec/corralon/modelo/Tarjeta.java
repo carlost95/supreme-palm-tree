@@ -10,6 +10,7 @@ public class Tarjeta {
     private String nombre;
     private String abreviatura;
     private Integer idTipoTarjeta;
+    private Byte habilitado;
     private Collection<PagoVenta> pagoVentasByIdTarjeta;
     private Tipotarjeta tipotarjetaByIdTipoTarjeta;
 
@@ -53,6 +54,16 @@ public class Tarjeta {
         this.idTipoTarjeta = idTipoTarjeta;
     }
 
+    @Basic
+    @Column(name = "habilitado")
+    public Byte getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(Byte habilitado) {
+        this.habilitado = habilitado;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -61,12 +72,13 @@ public class Tarjeta {
         return Objects.equals(idTarjeta, tarjeta.idTarjeta) &&
                 Objects.equals(nombre, tarjeta.nombre) &&
                 Objects.equals(abreviatura, tarjeta.abreviatura) &&
-                Objects.equals(idTipoTarjeta, tarjeta.idTipoTarjeta);
+                Objects.equals(idTipoTarjeta, tarjeta.idTipoTarjeta) &&
+                Objects.equals(habilitado, tarjeta.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idTarjeta, nombre, abreviatura, idTipoTarjeta);
+        return Objects.hash(idTarjeta, nombre, abreviatura, idTipoTarjeta, habilitado);
     }
 
     @OneToMany(mappedBy = "tarjetaByIdTarjeta")

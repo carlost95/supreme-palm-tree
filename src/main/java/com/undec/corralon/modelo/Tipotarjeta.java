@@ -8,6 +8,7 @@ import java.util.Objects;
 public class Tipotarjeta {
     private Integer idTipoTarjeta;
     private String nombreTipo;
+    private Byte habilitado;
     private Collection<Tarjeta> tarjetasByIdTipoTarjeta;
 
     @Id
@@ -30,18 +31,29 @@ public class Tipotarjeta {
         this.nombreTipo = nombreTipo;
     }
 
+    @Basic
+    @Column(name = "habilitado")
+    public Byte getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(Byte habilitado) {
+        this.habilitado = habilitado;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tipotarjeta that = (Tipotarjeta) o;
         return Objects.equals(idTipoTarjeta, that.idTipoTarjeta) &&
-                Objects.equals(nombreTipo, that.nombreTipo);
+                Objects.equals(nombreTipo, that.nombreTipo) &&
+                Objects.equals(habilitado, that.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idTipoTarjeta, nombreTipo);
+        return Objects.hash(idTipoTarjeta, nombreTipo, habilitado);
     }
 
     @OneToMany(mappedBy = "tipotarjetaByIdTipoTarjeta")

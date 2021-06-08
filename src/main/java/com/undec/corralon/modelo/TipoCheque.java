@@ -10,6 +10,7 @@ public class TipoCheque {
     private Integer idTipoCheque;
     private String nombre;
     private String descripcion;
+    private Integer habilitado;
     private Collection<Cheque> chequesByIdTipoCheque;
 
     @Id
@@ -42,6 +43,16 @@ public class TipoCheque {
         this.descripcion = descripcion;
     }
 
+    @Basic
+    @Column(name = "habilitado")
+    public Integer getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(Integer habilitado) {
+        this.habilitado = habilitado;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -49,12 +60,13 @@ public class TipoCheque {
         TipoCheque that = (TipoCheque) o;
         return Objects.equals(idTipoCheque, that.idTipoCheque) &&
                 Objects.equals(nombre, that.nombre) &&
-                Objects.equals(descripcion, that.descripcion);
+                Objects.equals(descripcion, that.descripcion) &&
+                Objects.equals(habilitado, that.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idTipoCheque, nombre, descripcion);
+        return Objects.hash(idTipoCheque, nombre, descripcion, habilitado);
     }
 
     @OneToMany(mappedBy = "tipoChequeByIdTipoCheque")

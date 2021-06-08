@@ -38,7 +38,6 @@ public class ArticuloService {
     SubRubroRepository subRubroRepository;
 
     @Autowired
-    FormaDePagoRepository formaDePagoRepository;
 
     public Response obtenerTodosLosArticulos() {
         Response response = new Response();

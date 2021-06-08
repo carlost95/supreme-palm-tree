@@ -11,6 +11,7 @@ public class Pedido {
     private String nombre;
     private String descripcion;
     private Timestamp fecha;
+    private Byte habilitado;
     private Collection<DetallePedido> detallePedidosByIdPedido;
     private Collection<MovimientoArticulo> movimientoArticulosByIdPedido;
 
@@ -54,6 +55,16 @@ public class Pedido {
         this.fecha = fecha;
     }
 
+    @Basic
+    @Column(name = "habilitado")
+    public Byte getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(Byte habilitado) {
+        this.habilitado = habilitado;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,12 +73,13 @@ public class Pedido {
         return Objects.equals(idPedido, pedido.idPedido) &&
                 Objects.equals(nombre, pedido.nombre) &&
                 Objects.equals(descripcion, pedido.descripcion) &&
-                Objects.equals(fecha, pedido.fecha);
+                Objects.equals(fecha, pedido.fecha) &&
+                Objects.equals(habilitado, pedido.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idPedido, nombre, descripcion, fecha);
+        return Objects.hash(idPedido, nombre, descripcion, fecha, habilitado);
     }
 
     @OneToMany(mappedBy = "pedidoByIdPedido")

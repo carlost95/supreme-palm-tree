@@ -15,6 +15,7 @@ public class Cheque {
     private Date fechaEmision;
     private Date fechaVenciomiento;
     private Date fechaCobro;
+    private Byte habilitado;
     private Banco bancoByIdBanco;
     private TipoCheque tipoChequeByIdTipoCheque;
     private Collection<PagoVenta> pagoVentasByIdCheque;
@@ -99,6 +100,16 @@ public class Cheque {
         this.fechaCobro = fechaCobro;
     }
 
+    @Basic
+    @Column(name = "habilitado")
+    public Byte getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(Byte habilitado) {
+        this.habilitado = habilitado;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -111,12 +122,13 @@ public class Cheque {
                 Objects.equals(fecha, cheque.fecha) &&
                 Objects.equals(fechaEmision, cheque.fechaEmision) &&
                 Objects.equals(fechaVenciomiento, cheque.fechaVenciomiento) &&
-                Objects.equals(fechaCobro, cheque.fechaCobro);
+                Objects.equals(fechaCobro, cheque.fechaCobro) &&
+                Objects.equals(habilitado, cheque.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCheque, idBanco, titularEmisor, idTipoCheque, fecha, fechaEmision, fechaVenciomiento, fechaCobro);
+        return Objects.hash(idCheque, idBanco, titularEmisor, idTipoCheque, fecha, fechaEmision, fechaVenciomiento, fechaCobro, habilitado);
     }
 
     @ManyToOne

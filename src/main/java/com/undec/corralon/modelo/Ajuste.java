@@ -10,6 +10,7 @@ public class Ajuste {
     private Integer idAjuste;
     private String nombre;
     private String descripcion;
+    private Byte habilitado;
     private Timestamp fecha;
     private Collection<DetalleAjuste> detalleAjustesByIdAjuste;
     private Collection<MovimientoArticulo> movimientoArticulosByIdAjuste;
@@ -26,6 +27,7 @@ public class Ajuste {
 
     @Basic
     @Column(name = "nombre")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public String getNombre() {
         return nombre;
     }
@@ -42,6 +44,16 @@ public class Ajuste {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    @Basic
+    @Column(name = "habilitado")
+    public Byte getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(Byte habilitado) {
+        this.habilitado = habilitado;
     }
 
     @Basic
@@ -62,12 +74,13 @@ public class Ajuste {
         return Objects.equals(idAjuste, ajuste.idAjuste) &&
                 Objects.equals(nombre, ajuste.nombre) &&
                 Objects.equals(descripcion, ajuste.descripcion) &&
+                Objects.equals(habilitado, ajuste.habilitado) &&
                 Objects.equals(fecha, ajuste.fecha);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idAjuste, nombre, descripcion, fecha);
+        return Objects.hash(idAjuste, nombre, descripcion, habilitado, fecha);
     }
 
     @OneToMany(mappedBy = "ajusteByIdAjuste")

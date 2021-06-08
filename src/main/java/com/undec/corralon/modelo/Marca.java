@@ -9,6 +9,7 @@ public class Marca {
     private Integer idMarca;
     private String nombre;
     private String abreviatura;
+    private Byte habilitado;
     private Collection<Articulo> articulosByIdMarca;
 
     @Id
@@ -41,6 +42,16 @@ public class Marca {
         this.abreviatura = abreviatura;
     }
 
+    @Basic
+    @Column(name = "habilitado")
+    public Byte getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(Byte habilitado) {
+        this.habilitado = habilitado;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -48,12 +59,13 @@ public class Marca {
         Marca marca = (Marca) o;
         return Objects.equals(idMarca, marca.idMarca) &&
                 Objects.equals(nombre, marca.nombre) &&
-                Objects.equals(abreviatura, marca.abreviatura);
+                Objects.equals(abreviatura, marca.abreviatura) &&
+                Objects.equals(habilitado, marca.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idMarca, nombre, abreviatura);
+        return Objects.hash(idMarca, nombre, abreviatura, habilitado);
     }
 
     @OneToMany(mappedBy = "marcaByIdMarca")
