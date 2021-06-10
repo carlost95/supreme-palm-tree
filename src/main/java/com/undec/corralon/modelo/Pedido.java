@@ -3,19 +3,21 @@ package com.undec.corralon.modelo;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Pedido {
+public class Pedido extends DateAudit {
     private Integer idPedido;
     private String nombre;
     private String descripcion;
     private Timestamp fecha;
-    private Byte habilitado;
-    private Collection<DetallePedido> detallePedidosByIdPedido;
-    private Collection<MovimientoArticulo> movimientoArticulosByIdPedido;
+    private boolean habilitado;
+    private List<DetallePedido> detallePedidosByIdPedido;
+    private List<MovimientoArticulo> movimientoArticulosByIdPedido;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pedido")
     public Integer getIdPedido() {
         return idPedido;
@@ -57,11 +59,11 @@ public class Pedido {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -83,20 +85,20 @@ public class Pedido {
     }
 
     @OneToMany(mappedBy = "pedidoByIdPedido")
-    public Collection<DetallePedido> getDetallePedidosByIdPedido() {
+    public List<DetallePedido> getDetallePedidosByIdPedido() {
         return detallePedidosByIdPedido;
     }
 
-    public void setDetallePedidosByIdPedido(Collection<DetallePedido> detallePedidosByIdPedido) {
+    public void setDetallePedidosByIdPedido(List<DetallePedido> detallePedidosByIdPedido) {
         this.detallePedidosByIdPedido = detallePedidosByIdPedido;
     }
 
     @OneToMany(mappedBy = "pedidoByIdPedido")
-    public Collection<MovimientoArticulo> getMovimientoArticulosByIdPedido() {
+    public List<MovimientoArticulo> getMovimientoArticulosByIdPedido() {
         return movimientoArticulosByIdPedido;
     }
 
-    public void setMovimientoArticulosByIdPedido(Collection<MovimientoArticulo> movimientoArticulosByIdPedido) {
+    public void setMovimientoArticulosByIdPedido(List<MovimientoArticulo> movimientoArticulosByIdPedido) {
         this.movimientoArticulosByIdPedido = movimientoArticulosByIdPedido;
     }
 }

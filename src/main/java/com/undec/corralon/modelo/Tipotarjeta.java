@@ -2,14 +2,15 @@ package com.undec.corralon.modelo;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Tipotarjeta {
+public class Tipotarjeta extends DateAudit{
     private Integer idTipoTarjeta;
     private String nombreTipo;
-    private Byte habilitado;
-    private Collection<Tarjeta> tarjetasByIdTipoTarjeta;
+    private boolean habilitado;
+    private List<Tarjeta> tarjetasByIdTipoTarjeta;
 
     @Id
     @Column(name = "id_tipo_tarjeta")
@@ -33,11 +34,11 @@ public class Tipotarjeta {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -57,11 +58,11 @@ public class Tipotarjeta {
     }
 
     @OneToMany(mappedBy = "tipotarjetaByIdTipoTarjeta")
-    public Collection<Tarjeta> getTarjetasByIdTipoTarjeta() {
+    public List<Tarjeta> getTarjetasByIdTipoTarjeta() {
         return tarjetasByIdTipoTarjeta;
     }
 
-    public void setTarjetasByIdTipoTarjeta(Collection<Tarjeta> tarjetasByIdTipoTarjeta) {
+    public void setTarjetasByIdTipoTarjeta(List<Tarjeta> tarjetasByIdTipoTarjeta) {
         this.tarjetasByIdTipoTarjeta = tarjetasByIdTipoTarjeta;
     }
 }

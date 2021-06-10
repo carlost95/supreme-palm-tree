@@ -2,18 +2,20 @@ package com.undec.corralon.modelo;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Banco {
+public class Banco extends DateAudit{
     private Integer idBanco;
     private String nombre;
     private String abreviatura;
-    private Byte habilitado;
-    private Collection<BancoProveedor> bancoProveedorsByIdBanco;
-    private Collection<Cheque> chequesByIdBanco;
+    private boolean habilitado;
+    private List<BancoProveedor> bancoProveedorsByIdBanco;
+    private List<Cheque> chequesByIdBanco;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_banco")
     public Integer getIdBanco() {
         return idBanco;
@@ -45,11 +47,11 @@ public class Banco {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -70,20 +72,20 @@ public class Banco {
     }
 
     @OneToMany(mappedBy = "bancoByIdBanco")
-    public Collection<BancoProveedor> getBancoProveedorsByIdBanco() {
+    public List<BancoProveedor> getBancoProveedorsByIdBanco() {
         return bancoProveedorsByIdBanco;
     }
 
-    public void setBancoProveedorsByIdBanco(Collection<BancoProveedor> bancoProveedorsByIdBanco) {
+    public void setBancoProveedorsByIdBanco(List<BancoProveedor> bancoProveedorsByIdBanco) {
         this.bancoProveedorsByIdBanco = bancoProveedorsByIdBanco;
     }
 
     @OneToMany(mappedBy = "bancoByIdBanco")
-    public Collection<Cheque> getChequesByIdBanco() {
+    public List<Cheque> getChequesByIdBanco() {
         return chequesByIdBanco;
     }
 
-    public void setChequesByIdBanco(Collection<Cheque> chequesByIdBanco) {
+    public void setChequesByIdBanco(List<Cheque> chequesByIdBanco) {
         this.chequesByIdBanco = chequesByIdBanco;
     }
 }

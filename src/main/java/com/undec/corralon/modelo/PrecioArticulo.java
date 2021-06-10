@@ -5,8 +5,8 @@ import java.sql.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "precio_articulo", schema = "corralon_dev", catalog = "")
-public class PrecioArticulo {
+@Table(name = "precio_articulo")
+public class PrecioArticulo extends DateAudit{
     private Integer idPrecio;
     private Double precio;
     private Date fechaDesde;
@@ -15,6 +15,7 @@ public class PrecioArticulo {
     private Articulo articuloByIdArticulo;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_precio")
     public Integer getIdPrecio() {
         return idPrecio;

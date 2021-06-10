@@ -2,19 +2,21 @@ package com.undec.corralon.modelo;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Distrito {
+public class Distrito extends DateAudit{
     private Integer idDistrito;
     private String nombre;
     private String abreviatura;
-    private Byte habilitado;
+    private boolean habilitado;
     private Integer idDepartamento;
-    private Collection<Direccion> direccionsByIdDistrito;
+    private List<Direccion> direccionsByIdDistrito;
     private Departamento departamentoByIdDepartamento;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_distrito")
     public Integer getIdDistrito() {
         return idDistrito;
@@ -46,11 +48,11 @@ public class Distrito {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -82,11 +84,11 @@ public class Distrito {
     }
 
     @OneToMany(mappedBy = "distritoByIdDistrito")
-    public Collection<Direccion> getDireccionsByIdDistrito() {
+    public List<Direccion> getDireccionsByIdDistrito() {
         return direccionsByIdDistrito;
     }
 
-    public void setDireccionsByIdDistrito(Collection<Direccion> direccionsByIdDistrito) {
+    public void setDireccionsByIdDistrito(List<Direccion> direccionsByIdDistrito) {
         this.direccionsByIdDistrito = direccionsByIdDistrito;
     }
 

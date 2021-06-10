@@ -4,14 +4,14 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Direccion {
+public class Direccion extends DateAudit{
     private Integer idDireccion;
     private String calle;
     private String numeroCalle;
     private String entreCalle;
     private String barrio;
     private String descripcion;
-    private Byte habilitado;
+    private boolean habilitado;
     private Integer idUbicacion;
     private Integer idCliente;
     private Integer idDistrito;
@@ -20,6 +20,7 @@ public class Direccion {
     private Distrito distritoByIdDistrito;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_direccion")
     public Integer getIdDireccion() {
         return idDireccion;
@@ -81,11 +82,11 @@ public class Direccion {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 

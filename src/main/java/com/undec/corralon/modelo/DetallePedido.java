@@ -5,8 +5,8 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-@Table(name = "detalle_pedido", schema = "corralon_dev", catalog = "")
-public class DetallePedido {
+@Table(name = "detalle_pedido")
+public class DetallePedido extends DateAudit{
     private Integer idDetallePedido;
     private Double cantidad;
     private Timestamp fecha;
@@ -16,6 +16,7 @@ public class DetallePedido {
     private Articulo articuloByIdArticulo;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_detalle_pedido")
     public Integer getIdDetallePedido() {
         return idDetallePedido;

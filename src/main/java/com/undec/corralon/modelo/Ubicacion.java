@@ -2,15 +2,16 @@ package com.undec.corralon.modelo;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Ubicacion {
+public class Ubicacion extends DateAudit{
     private Integer idUbicacion;
     private String latitud;
     private String longitud;
-    private Byte habilitado;
-    private Collection<Direccion> direccionsByIdUbicacion;
+    private boolean habilitado;
+    private List<Direccion> direccionsByIdUbicacion;
 
     @Id
     @Column(name = "id_ubicacion")
@@ -44,11 +45,11 @@ public class Ubicacion {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -69,11 +70,11 @@ public class Ubicacion {
     }
 
     @OneToMany(mappedBy = "ubicacionByIdUbicacion")
-    public Collection<Direccion> getDireccionsByIdUbicacion() {
+    public List<Direccion> getDireccionsByIdUbicacion() {
         return direccionsByIdUbicacion;
     }
 
-    public void setDireccionsByIdUbicacion(Collection<Direccion> direccionsByIdUbicacion) {
+    public void setDireccionsByIdUbicacion(List<Direccion> direccionsByIdUbicacion) {
         this.direccionsByIdUbicacion = direccionsByIdUbicacion;
     }
 }

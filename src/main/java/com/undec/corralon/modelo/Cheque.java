@@ -3,10 +3,11 @@ package com.undec.corralon.modelo;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Cheque {
+public class Cheque extends DateAudit{
     private Integer idCheque;
     private Integer idBanco;
     private String titularEmisor;
@@ -15,12 +16,13 @@ public class Cheque {
     private Date fechaEmision;
     private Date fechaVenciomiento;
     private Date fechaCobro;
-    private Byte habilitado;
+    private boolean habilitado;
     private Banco bancoByIdBanco;
     private TipoCheque tipoChequeByIdTipoCheque;
-    private Collection<PagoVenta> pagoVentasByIdCheque;
+    private List<PagoVenta> pagoVentasByIdCheque;
 
     @Id
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
     @Column(name = "id_cheque")
     public Integer getIdCheque() {
         return idCheque;
@@ -102,11 +104,11 @@ public class Cheque {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -152,11 +154,11 @@ public class Cheque {
     }
 
     @OneToMany(mappedBy = "chequeByIdCheque")
-    public Collection<PagoVenta> getPagoVentasByIdCheque() {
+    public List<PagoVenta> getPagoVentasByIdCheque() {
         return pagoVentasByIdCheque;
     }
 
-    public void setPagoVentasByIdCheque(Collection<PagoVenta> pagoVentasByIdCheque) {
+    public void setPagoVentasByIdCheque(List<PagoVenta> pagoVentasByIdCheque) {
         this.pagoVentasByIdCheque = pagoVentasByIdCheque;
     }
 }

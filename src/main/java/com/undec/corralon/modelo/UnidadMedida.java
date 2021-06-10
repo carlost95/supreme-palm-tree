@@ -2,18 +2,20 @@ package com.undec.corralon.modelo;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "unidad_medida", schema = "corralon_dev", catalog = "")
-public class UnidadMedida {
+@Table(name = "unidad_medida")
+public class UnidadMedida extends DateAudit{
     private Integer idUnidadMedida;
     private String nombre;
     private String abreviatura;
-    private Byte habilitado;
-    private Collection<Articulo> articulosByIdUnidadMedida;
+    private boolean habilitado;
+    private List<Articulo> articulosByIdUnidadMedida;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_unidad_medida")
     public Integer getIdUnidadMedida() {
         return idUnidadMedida;
@@ -45,11 +47,11 @@ public class UnidadMedida {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -70,11 +72,11 @@ public class UnidadMedida {
     }
 
     @OneToMany(mappedBy = "unidadMedidaByIdUnidadMedida")
-    public Collection<Articulo> getArticulosByIdUnidadMedida() {
+    public List<Articulo> getArticulosByIdUnidadMedida() {
         return articulosByIdUnidadMedida;
     }
 
-    public void setArticulosByIdUnidadMedida(Collection<Articulo> articulosByIdUnidadMedida) {
+    public void setArticulosByIdUnidadMedida(List<Articulo> articulosByIdUnidadMedida) {
         this.articulosByIdUnidadMedida = articulosByIdUnidadMedida;
     }
 }

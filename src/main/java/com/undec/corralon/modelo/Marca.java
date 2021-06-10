@@ -2,17 +2,19 @@ package com.undec.corralon.modelo;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Marca {
+public class Marca extends DateAudit {
     private Integer idMarca;
     private String nombre;
     private String abreviatura;
-    private Byte habilitado;
-    private Collection<Articulo> articulosByIdMarca;
+    private boolean habilitado;
+    private List<Articulo> articulosByIdMarca;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_marca")
     public Integer getIdMarca() {
         return idMarca;
@@ -44,11 +46,11 @@ public class Marca {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -69,11 +71,11 @@ public class Marca {
     }
 
     @OneToMany(mappedBy = "marcaByIdMarca")
-    public Collection<Articulo> getArticulosByIdMarca() {
+    public List<Articulo> getArticulosByIdMarca() {
         return articulosByIdMarca;
     }
 
-    public void setArticulosByIdMarca(Collection<Articulo> articulosByIdMarca) {
+    public void setArticulosByIdMarca(List<Articulo> articulosByIdMarca) {
         this.articulosByIdMarca = articulosByIdMarca;
     }
 }

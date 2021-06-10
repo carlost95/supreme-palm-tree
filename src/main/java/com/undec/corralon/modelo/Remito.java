@@ -3,21 +3,23 @@ package com.undec.corralon.modelo;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Remito {
+public class Remito extends DateAudit{
     private Integer idRemito;
     private Timestamp fechaRemito;
     private String estadoRemito;
     private Integer idVenta;
     private Integer idDetalleRemito;
-    private Byte habilitado;
-    private Collection<DetalleRemito> detalleRemitosByIdRemito;
-    private Collection<MovimientoArticulo> movimientoArticulosByIdRemito;
+    private boolean habilitado;
+    private List<DetalleRemito> detalleRemitosByIdRemito;
+    private List<MovimientoArticulo> movimientoArticulosByIdRemito;
     private Venta ventaByIdVenta;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_remito")
     public Integer getIdRemito() {
         return idRemito;
@@ -69,11 +71,11 @@ public class Remito {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -96,20 +98,20 @@ public class Remito {
     }
 
     @OneToMany(mappedBy = "remitoByIdRemito")
-    public Collection<DetalleRemito> getDetalleRemitosByIdRemito() {
+    public List<DetalleRemito> getDetalleRemitosByIdRemito() {
         return detalleRemitosByIdRemito;
     }
 
-    public void setDetalleRemitosByIdRemito(Collection<DetalleRemito> detalleRemitosByIdRemito) {
+    public void setDetalleRemitosByIdRemito(List<DetalleRemito> detalleRemitosByIdRemito) {
         this.detalleRemitosByIdRemito = detalleRemitosByIdRemito;
     }
 
     @OneToMany(mappedBy = "remitoByIdRemito")
-    public Collection<MovimientoArticulo> getMovimientoArticulosByIdRemito() {
+    public List<MovimientoArticulo> getMovimientoArticulosByIdRemito() {
         return movimientoArticulosByIdRemito;
     }
 
-    public void setMovimientoArticulosByIdRemito(Collection<MovimientoArticulo> movimientoArticulosByIdRemito) {
+    public void setMovimientoArticulosByIdRemito(List<MovimientoArticulo> movimientoArticulosByIdRemito) {
         this.movimientoArticulosByIdRemito = movimientoArticulosByIdRemito;
     }
 

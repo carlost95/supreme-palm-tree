@@ -2,20 +2,22 @@ package com.undec.corralon.modelo;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "sub_rubro", schema = "corralon_dev", catalog = "")
-public class SubRubro {
+@Table(name = "sub_rubro")
+public class SubRubro extends DateAudit{
     private Integer idSubRubro;
     private String nombre;
     private String abreviatura;
-    private Byte habilitado;
+    private boolean habilitado;
     private Integer idRubro;
-    private Collection<Articulo> articulosByIdSubRubro;
+    private List<Articulo> articulosByIdSubRubro;
     private Rubro rubroByIdRubro;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_sub_rubro")
     public Integer getIdSubRubro() {
         return idSubRubro;
@@ -47,11 +49,11 @@ public class SubRubro {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -83,11 +85,11 @@ public class SubRubro {
     }
 
     @OneToMany(mappedBy = "subRubroByIdSubRubro")
-    public Collection<Articulo> getArticulosByIdSubRubro() {
+    public List<Articulo> getArticulosByIdSubRubro() {
         return articulosByIdSubRubro;
     }
 
-    public void setArticulosByIdSubRubro(Collection<Articulo> articulosByIdSubRubro) {
+    public void setArticulosByIdSubRubro(List<Articulo> articulosByIdSubRubro) {
         this.articulosByIdSubRubro = articulosByIdSubRubro;
     }
 

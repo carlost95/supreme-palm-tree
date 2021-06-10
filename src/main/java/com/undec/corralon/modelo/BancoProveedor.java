@@ -4,8 +4,8 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "banco_proveedor", schema = "corralon_dev", catalog = "")
-public class BancoProveedor {
+@Table(name = "banco_proveedor")
+public class BancoProveedor extends DateAudit {
     private Integer idBancoProveedor;
     private String titularCuenta;
     private String cbu;
@@ -16,6 +16,7 @@ public class BancoProveedor {
     private Banco bancoByIdBanco;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_banco_proveedor")
     public Integer getIdBancoProveedor() {
         return idBancoProveedor;

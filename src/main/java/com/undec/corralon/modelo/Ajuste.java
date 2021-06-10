@@ -3,17 +3,18 @@ package com.undec.corralon.modelo;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Ajuste {
+public class Ajuste  extends DateAudit{
     private Integer idAjuste;
     private String nombre;
     private String descripcion;
-    private Byte habilitado;
+    private boolean habilitado;
     private Timestamp fecha;
-    private Collection<DetalleAjuste> detalleAjustesByIdAjuste;
-    private Collection<MovimientoArticulo> movimientoArticulosByIdAjuste;
+    private List<DetalleAjuste> detalleAjustesByIdAjuste;
+    private List<MovimientoArticulo> movimientoArticulosByIdAjuste;
 
     @Id
     @Column(name = "id_ajuste")
@@ -48,11 +49,11 @@ public class Ajuste {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -84,20 +85,20 @@ public class Ajuste {
     }
 
     @OneToMany(mappedBy = "ajusteByIdAjuste")
-    public Collection<DetalleAjuste> getDetalleAjustesByIdAjuste() {
+    public List<DetalleAjuste> getDetalleAjustesByIdAjuste() {
         return detalleAjustesByIdAjuste;
     }
 
-    public void setDetalleAjustesByIdAjuste(Collection<DetalleAjuste> detalleAjustesByIdAjuste) {
+    public void setDetalleAjustesByIdAjuste(List<DetalleAjuste> detalleAjustesByIdAjuste) {
         this.detalleAjustesByIdAjuste = detalleAjustesByIdAjuste;
     }
 
     @OneToMany(mappedBy = "ajusteByIdAjuste")
-    public Collection<MovimientoArticulo> getMovimientoArticulosByIdAjuste() {
+    public List<MovimientoArticulo> getMovimientoArticulosByIdAjuste() {
         return movimientoArticulosByIdAjuste;
     }
 
-    public void setMovimientoArticulosByIdAjuste(Collection<MovimientoArticulo> movimientoArticulosByIdAjuste) {
+    public void setMovimientoArticulosByIdAjuste(List<MovimientoArticulo> movimientoArticulosByIdAjuste) {
         this.movimientoArticulosByIdAjuste = movimientoArticulosByIdAjuste;
     }
 }

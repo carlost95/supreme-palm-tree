@@ -2,18 +2,20 @@ package com.undec.corralon.modelo;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tipo_cheque", schema = "corralon_dev", catalog = "")
-public class TipoCheque {
+@Table(name = "tipo_cheque")
+public class TipoCheque extends DateAudit{
     private Integer idTipoCheque;
     private String nombre;
     private String descripcion;
-    private Integer habilitado;
-    private Collection<Cheque> chequesByIdTipoCheque;
+    private boolean habilitado;
+    private List<Cheque> chequesByIdTipoCheque;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_tipo_cheque")
     public Integer getIdTipoCheque() {
         return idTipoCheque;
@@ -45,11 +47,11 @@ public class TipoCheque {
 
     @Basic
     @Column(name = "habilitado")
-    public Integer getHabilitado() {
+    public boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Integer habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -70,11 +72,11 @@ public class TipoCheque {
     }
 
     @OneToMany(mappedBy = "tipoChequeByIdTipoCheque")
-    public Collection<Cheque> getChequesByIdTipoCheque() {
+    public List<Cheque> getChequesByIdTipoCheque() {
         return chequesByIdTipoCheque;
     }
 
-    public void setChequesByIdTipoCheque(Collection<Cheque> chequesByIdTipoCheque) {
+    public void setChequesByIdTipoCheque(List<Cheque> chequesByIdTipoCheque) {
         this.chequesByIdTipoCheque = chequesByIdTipoCheque;
     }
 }

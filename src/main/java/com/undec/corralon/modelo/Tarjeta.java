@@ -2,19 +2,21 @@ package com.undec.corralon.modelo;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Tarjeta {
+public class Tarjeta extends DateAudit{
     private Integer idTarjeta;
     private String nombre;
     private String abreviatura;
     private Integer idTipoTarjeta;
-    private Byte habilitado;
-    private Collection<PagoVenta> pagoVentasByIdTarjeta;
+    private boolean habilitado;
+    private List<PagoVenta> pagoVentasByIdTarjeta;
     private Tipotarjeta tipotarjetaByIdTipoTarjeta;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_tarjeta")
     public Integer getIdTarjeta() {
         return idTarjeta;
@@ -56,11 +58,11 @@ public class Tarjeta {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -82,11 +84,11 @@ public class Tarjeta {
     }
 
     @OneToMany(mappedBy = "tarjetaByIdTarjeta")
-    public Collection<PagoVenta> getPagoVentasByIdTarjeta() {
+    public List<PagoVenta> getPagoVentasByIdTarjeta() {
         return pagoVentasByIdTarjeta;
     }
 
-    public void setPagoVentasByIdTarjeta(Collection<PagoVenta> pagoVentasByIdTarjeta) {
+    public void setPagoVentasByIdTarjeta(List<PagoVenta> pagoVentasByIdTarjeta) {
         this.pagoVentasByIdTarjeta = pagoVentasByIdTarjeta;
     }
 

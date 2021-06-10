@@ -2,20 +2,22 @@ package com.undec.corralon.modelo;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Cliente {
+public class Cliente extends DateAudit {
     private Integer idCliente;
     private String nombre;
     private String apellido;
     private String dni;
-    private Byte habilitado;
+    private boolean habilitado;
     private String mail;
-    private Collection<Direccion> direccionsByIdCliente;
-    private Collection<Venta> ventasByIdCliente;
+    private List<Direccion> direccionsByIdCliente;
+    private List<Venta> ventasByIdCliente;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cliente")
     public Integer getIdCliente() {
         return idCliente;
@@ -57,11 +59,11 @@ public class Cliente {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -94,20 +96,20 @@ public class Cliente {
     }
 
     @OneToMany(mappedBy = "clienteByIdCliente")
-    public Collection<Direccion> getDireccionsByIdCliente() {
+    public List<Direccion> getDireccionsByIdCliente() {
         return direccionsByIdCliente;
     }
 
-    public void setDireccionsByIdCliente(Collection<Direccion> direccionsByIdCliente) {
+    public void setDireccionsByIdCliente(List<Direccion> direccionsByIdCliente) {
         this.direccionsByIdCliente = direccionsByIdCliente;
     }
 
     @OneToMany(mappedBy = "clienteByIdCliente")
-    public Collection<Venta> getVentasByIdCliente() {
+    public List<Venta> getVentasByIdCliente() {
         return ventasByIdCliente;
     }
 
-    public void setVentasByIdCliente(Collection<Venta> ventasByIdCliente) {
+    public void setVentasByIdCliente(List<Venta> ventasByIdCliente) {
         this.ventasByIdCliente = ventasByIdCliente;
     }
 }

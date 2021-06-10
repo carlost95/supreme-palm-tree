@@ -2,20 +2,22 @@ package com.undec.corralon.modelo;
 
 import javax.persistence.*;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Proveedor {
+public class Proveedor extends DateAudit {
     private Integer idProveedor;
     private String razonSocial;
     private String domicilio;
     private String email;
     private String telefono;
-    private Byte habilitado;
-    private Collection<Articulo> articulosByIdProveedor;
-    private Collection<BancoProveedor> bancoProveedorsByIdProveedor;
+    private boolean habilitado;
+    private List<Articulo> articulosByIdProveedor;
+    private List<BancoProveedor> bancoProveedorsByIdProveedor;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_proveedor")
     public Integer getIdProveedor() {
         return idProveedor;
@@ -67,11 +69,11 @@ public class Proveedor {
 
     @Basic
     @Column(name = "habilitado")
-    public Byte getHabilitado() {
+    public boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Byte habilitado) {
+    public void setHabilitado(boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -94,20 +96,20 @@ public class Proveedor {
     }
 
     @OneToMany(mappedBy = "proveedorByIdProveedor")
-    public Collection<Articulo> getArticulosByIdProveedor() {
+    public List<Articulo> getArticulosByIdProveedor() {
         return articulosByIdProveedor;
     }
 
-    public void setArticulosByIdProveedor(Collection<Articulo> articulosByIdProveedor) {
+    public void setArticulosByIdProveedor(List<Articulo> articulosByIdProveedor) {
         this.articulosByIdProveedor = articulosByIdProveedor;
     }
 
     @OneToMany(mappedBy = "proveedorByIdProveedor")
-    public Collection<BancoProveedor> getBancoProveedorsByIdProveedor() {
+    public List<BancoProveedor> getBancoProveedorsByIdProveedor() {
         return bancoProveedorsByIdProveedor;
     }
 
-    public void setBancoProveedorsByIdProveedor(Collection<BancoProveedor> bancoProveedorsByIdProveedor) {
+    public void setBancoProveedorsByIdProveedor(List<BancoProveedor> bancoProveedorsByIdProveedor) {
         this.bancoProveedorsByIdProveedor = bancoProveedorsByIdProveedor;
     }
 }

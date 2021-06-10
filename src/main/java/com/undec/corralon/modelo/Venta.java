@@ -3,10 +3,11 @@ package com.undec.corralon.modelo;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Venta {
+public class Venta extends DateAudit{
     private Integer idVenta;
     private Integer idCliente;
     private Timestamp fechaVenta;
@@ -15,13 +16,14 @@ public class Venta {
     private Double recargo;
     private Double total;
     private Integer idPagoVenta;
-    private Collection<DetalleVenta> detalleVentasByIdVenta;
-    private Collection<MovimientoArticulo> movimientoArticulosByIdVenta;
-    private Collection<Remito> remitosByIdVenta;
+    private List<DetalleVenta> detalleVentasByIdVenta;
+    private List<MovimientoArticulo> movimientoArticulosByIdVenta;
+    private List<Remito> remitosByIdVenta;
     private Cliente clienteByIdCliente;
     private PagoVenta pagoVentaByIdPagoVenta;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_venta")
     public Integer getIdVenta() {
         return idVenta;
@@ -122,29 +124,29 @@ public class Venta {
     }
 
     @OneToMany(mappedBy = "ventaByIdVenta")
-    public Collection<DetalleVenta> getDetalleVentasByIdVenta() {
+    public List<DetalleVenta> getDetalleVentasByIdVenta() {
         return detalleVentasByIdVenta;
     }
 
-    public void setDetalleVentasByIdVenta(Collection<DetalleVenta> detalleVentasByIdVenta) {
+    public void setDetalleVentasByIdVenta(List<DetalleVenta> detalleVentasByIdVenta) {
         this.detalleVentasByIdVenta = detalleVentasByIdVenta;
     }
 
     @OneToMany(mappedBy = "ventaByIdVenta")
-    public Collection<MovimientoArticulo> getMovimientoArticulosByIdVenta() {
+    public List<MovimientoArticulo> getMovimientoArticulosByIdVenta() {
         return movimientoArticulosByIdVenta;
     }
 
-    public void setMovimientoArticulosByIdVenta(Collection<MovimientoArticulo> movimientoArticulosByIdVenta) {
+    public void setMovimientoArticulosByIdVenta(List<MovimientoArticulo> movimientoArticulosByIdVenta) {
         this.movimientoArticulosByIdVenta = movimientoArticulosByIdVenta;
     }
 
     @OneToMany(mappedBy = "ventaByIdVenta")
-    public Collection<Remito> getRemitosByIdVenta() {
+    public List<Remito> getRemitosByIdVenta() {
         return remitosByIdVenta;
     }
 
-    public void setRemitosByIdVenta(Collection<Remito> remitosByIdVenta) {
+    public void setRemitosByIdVenta(List<Remito> remitosByIdVenta) {
         this.remitosByIdVenta = remitosByIdVenta;
     }
 

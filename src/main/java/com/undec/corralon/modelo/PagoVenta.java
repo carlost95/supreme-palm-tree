@@ -3,11 +3,12 @@ package com.undec.corralon.modelo;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "pago_venta", schema = "corralon_dev", catalog = "")
-public class PagoVenta {
+@Table(name = "pago_venta")
+public class PagoVenta extends DateAudit {
     private Integer idPagoVenta;
     private Integer idCheque;
     private Integer idTarjeta;
@@ -15,9 +16,10 @@ public class PagoVenta {
     private Timestamp fechaPago;
     private Cheque chequeByIdCheque;
     private Tarjeta tarjetaByIdTarjeta;
-    private Collection<Venta> ventasByIdPagoVenta;
+    private List<Venta> ventasByIdPagoVenta;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_pago_venta")
     public Integer getIdPagoVenta() {
         return idPagoVenta;
@@ -105,11 +107,11 @@ public class PagoVenta {
     }
 
     @OneToMany(mappedBy = "pagoVentaByIdPagoVenta")
-    public Collection<Venta> getVentasByIdPagoVenta() {
+    public List<Venta> getVentasByIdPagoVenta() {
         return ventasByIdPagoVenta;
     }
 
-    public void setVentasByIdPagoVenta(Collection<Venta> ventasByIdPagoVenta) {
+    public void setVentasByIdPagoVenta(List<Venta> ventasByIdPagoVenta) {
         this.ventasByIdPagoVenta = ventasByIdPagoVenta;
     }
 }
