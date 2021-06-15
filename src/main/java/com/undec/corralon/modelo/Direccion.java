@@ -1,5 +1,7 @@
 package com.undec.corralon.modelo;
 
+import net.minidev.json.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -129,6 +131,7 @@ public class Direccion extends DateAudit{
 
     @ManyToOne
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente", nullable = false)
+    @JsonIgnore
     public Cliente getClienteByIdCliente() {
         return clienteByIdCliente;
     }

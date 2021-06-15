@@ -1,5 +1,7 @@
 package com.undec.corralon.modelo;
 
+import net.minidev.json.annotate.JsonIgnore;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
