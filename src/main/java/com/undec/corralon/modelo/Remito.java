@@ -11,7 +11,6 @@ public class Remito extends DateAudit{
     private Integer idRemito;
     private Timestamp fechaRemito;
     private String estadoRemito;
-    private Integer idVenta;
     private Integer idDetalleRemito;
     private Boolean habilitado;
     private Venta remitosByIdVenta;
@@ -50,16 +49,6 @@ public class Remito extends DateAudit{
     }
 
     @Basic
-    @Column(name = "id_venta")
-    public Integer getIdVenta() {
-        return idVenta;
-    }
-
-    public void setIdVenta(Integer idVenta) {
-        this.idVenta = idVenta;
-    }
-
-    @Basic
     @Column(name = "idDetalleRemito")
     public Integer getIdDetalleRemito() {
         return idDetalleRemito;
@@ -87,14 +76,13 @@ public class Remito extends DateAudit{
         return Objects.equals(idRemito, remito.idRemito) &&
                 Objects.equals(fechaRemito, remito.fechaRemito) &&
                 Objects.equals(estadoRemito, remito.estadoRemito) &&
-                Objects.equals(idVenta, remito.idVenta) &&
                 Objects.equals(idDetalleRemito, remito.idDetalleRemito) &&
                 Objects.equals(habilitado, remito.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idRemito, fechaRemito, estadoRemito, idVenta, idDetalleRemito, habilitado);
+        return Objects.hash(idRemito, fechaRemito, estadoRemito, idDetalleRemito, habilitado);
     }
 
 //    @OneToMany(mappedBy = "remitoByIdRemito")

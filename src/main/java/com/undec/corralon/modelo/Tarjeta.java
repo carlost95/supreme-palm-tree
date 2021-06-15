@@ -10,9 +10,8 @@ public class Tarjeta extends DateAudit{
     private Integer idTarjeta;
     private String nombre;
     private String abreviatura;
-    private Integer idTipoTarjeta;
     private Boolean habilitado;
-    private List<PagoVenta> pagoVentasByIdTarjeta;
+//    private List<PagoVenta> pagoVentasByIdTarjeta;
     private Tipotarjeta tipotarjetaByIdTipoTarjeta;
 
     @Id
@@ -47,16 +46,6 @@ public class Tarjeta extends DateAudit{
     }
 
     @Basic
-    @Column(name = "id_tipo_tarjeta")
-    public Integer getIdTipoTarjeta() {
-        return idTipoTarjeta;
-    }
-
-    public void setIdTipoTarjeta(Integer idTipoTarjeta) {
-        this.idTipoTarjeta = idTipoTarjeta;
-    }
-
-    @Basic
     @Column(name = "habilitado")
     public Boolean getHabilitado() {
         return habilitado;
@@ -74,13 +63,12 @@ public class Tarjeta extends DateAudit{
         return Objects.equals(idTarjeta, tarjeta.idTarjeta) &&
                 Objects.equals(nombre, tarjeta.nombre) &&
                 Objects.equals(abreviatura, tarjeta.abreviatura) &&
-                Objects.equals(idTipoTarjeta, tarjeta.idTipoTarjeta) &&
                 Objects.equals(habilitado, tarjeta.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idTarjeta, nombre, abreviatura, idTipoTarjeta, habilitado);
+        return Objects.hash(idTarjeta, nombre, abreviatura, habilitado);
     }
 
 //    @OneToMany(mappedBy = "tarjetaByIdTarjeta")

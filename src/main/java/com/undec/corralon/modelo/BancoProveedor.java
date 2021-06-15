@@ -10,8 +10,6 @@ public class BancoProveedor extends DateAudit {
     private String titularCuenta;
     private String cbu;
     private String numeroCuenta;
-    private Integer idProveedor;
-    private Integer idBanco;
     private Proveedor proveedorByIdProveedor;
     private Banco bancoByIdBanco;
 
@@ -56,26 +54,6 @@ public class BancoProveedor extends DateAudit {
         this.numeroCuenta = numeroCuenta;
     }
 
-    @Basic
-    @Column(name = "id_proveedor")
-    public Integer getIdProveedor() {
-        return idProveedor;
-    }
-
-    public void setIdProveedor(Integer idProveedor) {
-        this.idProveedor = idProveedor;
-    }
-
-    @Basic
-    @Column(name = "id_banco")
-    public Integer getIdBanco() {
-        return idBanco;
-    }
-
-    public void setIdBanco(Integer idBanco) {
-        this.idBanco = idBanco;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -84,14 +62,12 @@ public class BancoProveedor extends DateAudit {
         return Objects.equals(idBancoProveedor, that.idBancoProveedor) &&
                 Objects.equals(titularCuenta, that.titularCuenta) &&
                 Objects.equals(cbu, that.cbu) &&
-                Objects.equals(numeroCuenta, that.numeroCuenta) &&
-                Objects.equals(idProveedor, that.idProveedor) &&
-                Objects.equals(idBanco, that.idBanco);
+                Objects.equals(numeroCuenta, that.numeroCuenta);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idBancoProveedor, titularCuenta, cbu, numeroCuenta, idProveedor, idBanco);
+        return Objects.hash(idBancoProveedor, titularCuenta, cbu, numeroCuenta);
     }
 
     @ManyToOne

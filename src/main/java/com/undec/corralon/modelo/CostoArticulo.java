@@ -11,7 +11,6 @@ public class CostoArticulo extends DateAudit {
     private Double costo;
     private String fechaDesde;
     private String fechaHasta;
-    private Integer idArticulo;
     private Articulo articuloByIdArticulo;
 
     @Id
@@ -55,16 +54,6 @@ public class CostoArticulo extends DateAudit {
         this.fechaHasta = fechaHasta;
     }
 
-    @Basic
-    @Column(name = "id_articulo")
-    public Integer getIdArticulo() {
-        return idArticulo;
-    }
-
-    public void setIdArticulo(Integer idArticulo) {
-        this.idArticulo = idArticulo;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,13 +62,12 @@ public class CostoArticulo extends DateAudit {
         return Objects.equals(idCosto, that.idCosto) &&
                 Objects.equals(costo, that.costo) &&
                 Objects.equals(fechaDesde, that.fechaDesde) &&
-                Objects.equals(fechaHasta, that.fechaHasta) &&
-                Objects.equals(idArticulo, that.idArticulo);
+                Objects.equals(fechaHasta, that.fechaHasta);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCosto, costo, fechaDesde, fechaHasta, idArticulo);
+        return Objects.hash(idCosto, costo, fechaDesde, fechaHasta);
     }
 
     @ManyToOne

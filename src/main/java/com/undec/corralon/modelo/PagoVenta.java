@@ -10,8 +10,6 @@ import java.util.Objects;
 @Table(name = "pago_venta")
 public class PagoVenta extends DateAudit {
     private Integer idPagoVenta;
-    private Integer idCheque;
-    private Integer idTarjeta;
     private Double monto;
     private String fechaPago;
     private Cheque chequeByIdCheque;
@@ -27,26 +25,6 @@ public class PagoVenta extends DateAudit {
 
     public void setIdPagoVenta(Integer idPagoVenta) {
         this.idPagoVenta = idPagoVenta;
-    }
-
-    @Basic
-    @Column(name = "id_cheque")
-    public Integer getIdCheque() {
-        return idCheque;
-    }
-
-    public void setIdCheque(Integer idCheque) {
-        this.idCheque = idCheque;
-    }
-
-    @Basic
-    @Column(name = "id_tarjeta")
-    public Integer getIdTarjeta() {
-        return idTarjeta;
-    }
-
-    public void setIdTarjeta(Integer idTarjeta) {
-        this.idTarjeta = idTarjeta;
     }
 
     @Basic
@@ -75,15 +53,13 @@ public class PagoVenta extends DateAudit {
         if (o == null || getClass() != o.getClass()) return false;
         PagoVenta pagoVenta = (PagoVenta) o;
         return Objects.equals(idPagoVenta, pagoVenta.idPagoVenta) &&
-                Objects.equals(idCheque, pagoVenta.idCheque) &&
-                Objects.equals(idTarjeta, pagoVenta.idTarjeta) &&
                 Objects.equals(monto, pagoVenta.monto) &&
                 Objects.equals(fechaPago, pagoVenta.fechaPago);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idPagoVenta, idCheque, idTarjeta, monto, fechaPago);
+        return Objects.hash(idPagoVenta, monto, fechaPago);
     }
 
     @ManyToOne

@@ -10,11 +10,6 @@ public class MovimientoArticulo extends DateAudit{
     private Integer idMovimientoArticulo;
     private Integer movimiento;
     private String fecha;
-    private Integer idArticulo;
-    private Integer idVenta;
-    private Integer idAjuste;
-    private Integer idPedido;
-    private Integer idRemito;
     private Integer devolocion;
     private Articulo articuloByIdArticulo;
     private Venta ventaByIdVenta;
@@ -54,56 +49,6 @@ public class MovimientoArticulo extends DateAudit{
     }
 
     @Basic
-    @Column(name = "id_articulo")
-    public Integer getIdArticulo() {
-        return idArticulo;
-    }
-
-    public void setIdArticulo(Integer idArticulo) {
-        this.idArticulo = idArticulo;
-    }
-
-    @Basic
-    @Column(name = "id_venta")
-    public Integer getIdVenta() {
-        return idVenta;
-    }
-
-    public void setIdVenta(Integer idVenta) {
-        this.idVenta = idVenta;
-    }
-
-    @Basic
-    @Column(name = "id_ajuste")
-    public Integer getIdAjuste() {
-        return idAjuste;
-    }
-
-    public void setIdAjuste(Integer idAjuste) {
-        this.idAjuste = idAjuste;
-    }
-
-    @Basic
-    @Column(name = "id_pedido")
-    public Integer getIdPedido() {
-        return idPedido;
-    }
-
-    public void setIdPedido(Integer idPedido) {
-        this.idPedido = idPedido;
-    }
-
-    @Basic
-    @Column(name = "id_remito")
-    public Integer getIdRemito() {
-        return idRemito;
-    }
-
-    public void setIdRemito(Integer idRemito) {
-        this.idRemito = idRemito;
-    }
-
-    @Basic
     @Column(name = "devolocion")
     public Integer getDevolocion() {
         return devolocion;
@@ -121,17 +66,12 @@ public class MovimientoArticulo extends DateAudit{
         return Objects.equals(idMovimientoArticulo, that.idMovimientoArticulo) &&
                 Objects.equals(movimiento, that.movimiento) &&
                 Objects.equals(fecha, that.fecha) &&
-                Objects.equals(idArticulo, that.idArticulo) &&
-                Objects.equals(idVenta, that.idVenta) &&
-                Objects.equals(idAjuste, that.idAjuste) &&
-                Objects.equals(idPedido, that.idPedido) &&
-                Objects.equals(idRemito, that.idRemito) &&
                 Objects.equals(devolocion, that.devolocion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idMovimientoArticulo, movimiento, fecha, idArticulo, idVenta, idAjuste, idPedido, idRemito, devolocion);
+        return Objects.hash(idMovimientoArticulo, movimiento, fecha, devolocion);
     }
 
     @ManyToOne

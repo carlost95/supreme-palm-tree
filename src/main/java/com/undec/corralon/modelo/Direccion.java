@@ -6,15 +6,13 @@ import java.util.Objects;
 @Entity
 public class Direccion extends DateAudit{
     private Integer idDireccion;
+    private Integer idCliente;
     private String calle;
     private String numeroCalle;
     private String entreCalle;
     private String barrio;
     private String descripcion;
     private Boolean habilitado;
-    private Integer idUbicacion;
-    private Integer idCliente;
-    private Integer idDistrito;
     private Ubicacion ubicacionByIdUbicacion;
     private Cliente clienteByIdCliente;
     private Distrito distritoByIdDistrito;
@@ -91,16 +89,6 @@ public class Direccion extends DateAudit{
     }
 
     @Basic
-    @Column(name = "id_ubicacion")
-    public Integer getIdUbicacion() {
-        return idUbicacion;
-    }
-
-    public void setIdUbicacion(Integer idUbicacion) {
-        this.idUbicacion = idUbicacion;
-    }
-
-    @Basic
     @Column(name = "id_cliente")
     public Integer getIdCliente() {
         return idCliente;
@@ -108,16 +96,6 @@ public class Direccion extends DateAudit{
 
     public void setIdCliente(Integer idCliente) {
         this.idCliente = idCliente;
-    }
-
-    @Basic
-    @Column(name = "id_distrito")
-    public Integer getIdDistrito() {
-        return idDistrito;
-    }
-
-    public void setIdDistrito(Integer idDistrito) {
-        this.idDistrito = idDistrito;
     }
 
     @Override
@@ -131,15 +109,12 @@ public class Direccion extends DateAudit{
                 Objects.equals(entreCalle, direccion.entreCalle) &&
                 Objects.equals(barrio, direccion.barrio) &&
                 Objects.equals(descripcion, direccion.descripcion) &&
-                Objects.equals(habilitado, direccion.habilitado) &&
-                Objects.equals(idUbicacion, direccion.idUbicacion) &&
-                Objects.equals(idCliente, direccion.idCliente) &&
-                Objects.equals(idDistrito, direccion.idDistrito);
+                Objects.equals(habilitado, direccion.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idDireccion, calle, numeroCalle, entreCalle, barrio, descripcion, habilitado, idUbicacion, idCliente, idDistrito);
+        return Objects.hash(idDireccion, calle, numeroCalle, entreCalle, barrio, descripcion, habilitado);
     }
 
     @ManyToOne

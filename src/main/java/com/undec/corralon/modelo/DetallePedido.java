@@ -10,8 +10,6 @@ public class DetallePedido extends DateAudit{
     private Integer idDetallePedido;
     private Double cantidad;
     private String fecha;
-    private Integer idPedido;
-    private Integer idArticulo;
     private Pedido pedidoByIdPedido;
     private Articulo articuloByIdArticulo;
 
@@ -46,26 +44,6 @@ public class DetallePedido extends DateAudit{
         this.fecha = fecha;
     }
 
-    @Basic
-    @Column(name = "id_pedido")
-    public Integer getIdPedido() {
-        return idPedido;
-    }
-
-    public void setIdPedido(Integer idPedido) {
-        this.idPedido = idPedido;
-    }
-
-    @Basic
-    @Column(name = "id_articulo")
-    public Integer getIdArticulo() {
-        return idArticulo;
-    }
-
-    public void setIdArticulo(Integer idArticulo) {
-        this.idArticulo = idArticulo;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,14 +51,12 @@ public class DetallePedido extends DateAudit{
         DetallePedido that = (DetallePedido) o;
         return Objects.equals(idDetallePedido, that.idDetallePedido) &&
                 Objects.equals(cantidad, that.cantidad) &&
-                Objects.equals(fecha, that.fecha) &&
-                Objects.equals(idPedido, that.idPedido) &&
-                Objects.equals(idArticulo, that.idArticulo);
+                Objects.equals(fecha, that.fecha);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idDetallePedido, cantidad, fecha, idPedido, idArticulo);
+        return Objects.hash(idDetallePedido, cantidad, fecha);
     }
 
     @ManyToOne

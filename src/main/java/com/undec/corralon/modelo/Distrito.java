@@ -11,7 +11,6 @@ public class Distrito extends DateAudit{
     private String nombre;
     private String abreviatura;
     private Boolean habilitado;
-    private Integer idDepartamento;
     private Departamento departamentoByIdDepartamento;
 //    private List<Direccion> direccionsByIdDistrito;
 
@@ -56,16 +55,6 @@ public class Distrito extends DateAudit{
         this.habilitado = habilitado;
     }
 
-    @Basic
-    @Column(name = "id_departamento")
-    public Integer getIdDepartamento() {
-        return idDepartamento;
-    }
-
-    public void setIdDepartamento(Integer idDepartamento) {
-        this.idDepartamento = idDepartamento;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -74,13 +63,12 @@ public class Distrito extends DateAudit{
         return Objects.equals(idDistrito, distrito.idDistrito) &&
                 Objects.equals(nombre, distrito.nombre) &&
                 Objects.equals(abreviatura, distrito.abreviatura) &&
-                Objects.equals(habilitado, distrito.habilitado) &&
-                Objects.equals(idDepartamento, distrito.idDepartamento);
+                Objects.equals(habilitado, distrito.habilitado) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idDistrito, nombre, abreviatura, habilitado, idDepartamento);
+        return Objects.hash(idDistrito, nombre, abreviatura, habilitado);
     }
 
 //    @OneToMany(mappedBy = "distritoByIdDistrito")

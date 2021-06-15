@@ -9,13 +9,11 @@ import java.util.Objects;
 @Entity
 public class Venta extends DateAudit{
     private Integer idVenta;
-    private Integer idCliente;
     private String fechaVenta;
     private Double totalSinDescuento;
     private Double descuento;
     private Double recargo;
     private Double total;
-    private Integer idPagoVenta;
     private Cliente clienteByIdCliente;
     private PagoVenta pagoVentaByIdPagoVenta;
 //    private List<DetalleVenta> detalleVentasByIdVenta;
@@ -31,16 +29,6 @@ public class Venta extends DateAudit{
 
     public void setIdVenta(Integer idVenta) {
         this.idVenta = idVenta;
-    }
-
-    @Basic
-    @Column(name = "id_cliente")
-    public Integer getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(Integer idCliente) {
-        this.idCliente = idCliente;
     }
 
     @Basic
@@ -93,15 +81,6 @@ public class Venta extends DateAudit{
         this.total = total;
     }
 
-    @Basic
-    @Column(name = "id_pago_venta")
-    public Integer getIdPagoVenta() {
-        return idPagoVenta;
-    }
-
-    public void setIdPagoVenta(Integer idPagoVenta) {
-        this.idPagoVenta = idPagoVenta;
-    }
 
     @Override
     public boolean equals(Object o) {
@@ -109,18 +88,16 @@ public class Venta extends DateAudit{
         if (o == null || getClass() != o.getClass()) return false;
         Venta venta = (Venta) o;
         return Objects.equals(idVenta, venta.idVenta) &&
-                Objects.equals(idCliente, venta.idCliente) &&
                 Objects.equals(fechaVenta, venta.fechaVenta) &&
                 Objects.equals(totalSinDescuento, venta.totalSinDescuento) &&
                 Objects.equals(descuento, venta.descuento) &&
                 Objects.equals(recargo, venta.recargo) &&
-                Objects.equals(total, venta.total) &&
-                Objects.equals(idPagoVenta, venta.idPagoVenta);
+                Objects.equals(total, venta.total) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idVenta, idCliente, fechaVenta, totalSinDescuento, descuento, recargo, total, idPagoVenta);
+        return Objects.hash(idVenta, fechaVenta, totalSinDescuento, descuento, recargo, total);
     }
 
 //    @OneToMany(mappedBy = "ventaByIdVenta")

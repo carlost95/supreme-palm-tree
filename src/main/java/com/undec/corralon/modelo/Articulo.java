@@ -14,11 +14,7 @@ public class Articulo extends DateAudit {
     private Integer stockMinimo;
     private Integer stockMaximo;
     private Boolean habilitado;
-    private Integer idProveedor;
-    private Integer idUnidadMedida;
-    private Integer idRubro;
-    private Integer idMarca;
-    private Integer idSubRubro;
+
     private Proveedor proveedorByIdProveedor;
     private UnidadMedida unidadMedidaByIdUnidadMedida;
     private Rubro rubroByIdRubro;
@@ -94,56 +90,6 @@ public class Articulo extends DateAudit {
         this.abreviatura = abreviatura;
     }
 
-    @Basic
-    @Column(name = "id_proveedor")
-    public Integer getIdProveedor() {
-        return idProveedor;
-    }
-
-    public void setIdProveedor(Integer idProveedor) {
-        this.idProveedor = idProveedor;
-    }
-
-    @Basic
-    @Column(name = "id_unidad_medida")
-    public Integer getIdUnidadMedida() {
-        return idUnidadMedida;
-    }
-
-    public void setIdUnidadMedida(Integer idUnidadMedida) {
-        this.idUnidadMedida = idUnidadMedida;
-    }
-
-    @Basic
-    @Column(name = "id_rubro")
-    public Integer getIdRubro() {
-        return idRubro;
-    }
-
-    public void setIdRubro(Integer idRubro) {
-        this.idRubro = idRubro;
-    }
-
-    @Basic
-    @Column(name = "id_marca")
-    public Integer getIdMarca() {
-        return idMarca;
-    }
-
-    public void setIdMarca(Integer idMarca) {
-        this.idMarca = idMarca;
-    }
-
-    @Basic
-    @Column(name = "id_sub_rubro")
-    public Integer getIdSubRubro() {
-        return idSubRubro;
-    }
-
-    public void setIdSubRubro(Integer idSubRubro) {
-        this.idSubRubro = idSubRubro;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -154,17 +100,12 @@ public class Articulo extends DateAudit {
                 Objects.equals(stockMinimo, articulo.stockMinimo) &&
                 Objects.equals(stockMaximo, articulo.stockMaximo) &&
                 Objects.equals(codigo, articulo.codigo) &&
-                Objects.equals(abreviatura, articulo.abreviatura) &&
-                Objects.equals(idProveedor, articulo.idProveedor) &&
-                Objects.equals(idUnidadMedida, articulo.idUnidadMedida) &&
-                Objects.equals(idRubro, articulo.idRubro) &&
-                Objects.equals(idMarca, articulo.idMarca) &&
-                Objects.equals(idSubRubro, articulo.idSubRubro);
+                Objects.equals(abreviatura, articulo.abreviatura);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idArticulo, nombre, stockMinimo, stockMaximo, codigo, abreviatura, idProveedor, idUnidadMedida, idRubro, idMarca, idSubRubro);
+        return Objects.hash(idArticulo, nombre, stockMinimo, stockMaximo, codigo, abreviatura);
     }
 
     @ManyToOne
