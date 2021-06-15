@@ -77,8 +77,7 @@ public class ArticuloService {
         if (articulo == null)
             throw new ArticuloErrorToSaveException();
 
-        articulo.setFechaCreacion(new Date());
-        articulo.setHabilitacion(true);
+        articulo.setHabilitado(true);
         articulo = articuloRepository.save(articulo);
 
         response.setCode(200);
@@ -97,7 +96,7 @@ public class ArticuloService {
         if (articulo == null)
             throw new ArticuloErrorToUpdateException();
 
-        articulo.setFechaModificacion(new Date());
+//        articulo.setFechaModificacion(new Date());
         articulo = articuloRepository.save(articulo);
 
         response.setCode(200);
@@ -114,8 +113,8 @@ public class ArticuloService {
         if (articulo == null)
             throw new ArticuloErrorToDeleteException();
 
-        articulo.setFechaBaja(new Date());
-        articulo.setHabilitacion(false);
+//        articulo.setFechaBaja(new Date());
+        articulo.setHabilitado(false);
         articulo = articuloRepository.save(articulo);
 
         response.setCode(200);
@@ -134,23 +133,23 @@ public class ArticuloService {
     private void mapperDtoEntity(ArticuloDTO articuloDTO, Articulo articulo) {
         articulo.setNombre(articuloDTO.getNombre());
         articulo.setAbreviatura(articuloDTO.getAbreviatura());
-        articulo.setCodigoArt(articuloDTO.getCodigoArt());
-        articulo.setStockMin(articuloDTO.getStockMin());
-        articulo.setStockMax(articuloDTO.getStockMax());
+        articulo.setCodigo(articuloDTO.getCodigoArt());
+        articulo.setStockMinimo(articuloDTO.getStockMin());
+        articulo.setStockMaximo(articuloDTO.getStockMax());
         if (articuloDTO.getProveedorId() != null)
-            articulo.setProveedorId(proveedorRepository.findById(articuloDTO.getProveedorId()).get());
+            articulo.setProveedorByIdProveedor(proveedorRepository.findById(articuloDTO.getProveedorId()).get());
 
         if (articuloDTO.getUnidadMedidaId() != null)
-            articulo.setUnidadMedidaId(unidadMedidaRepository.findById(articuloDTO.getUnidadMedidaId()).get());
+            articulo.setUnidadMedidaByIdUnidadMedida(unidadMedidaRepository.findById(articuloDTO.getUnidadMedidaId()).get());
 
         if (articuloDTO.getMarcaId() != null)
-            articulo.setMarcaId(marcaRepository.findById(articuloDTO.getMarcaId()).get());
+            articulo.setMarcaByIdMarca(marcaRepository.findById(articuloDTO.getMarcaId()).get());
 
         if (articuloDTO.getRubroId() != null)
-            articulo.setRubroId(rubroRepository.findById(articuloDTO.getRubroId()).get());
+            articulo.setRubroByIdRubro(rubroRepository.findById(articuloDTO.getRubroId()).get());
 
         if (articuloDTO.getSubRubroId() != null)
-            articulo.setSubRubroId(subRubroRepository.findById(articuloDTO.getSubRubroId()).get());
+            articulo.setSubRubroByIdSubRubro(subRubroRepository.findById(articuloDTO.getSubRubroId()).get());
 
     }
 

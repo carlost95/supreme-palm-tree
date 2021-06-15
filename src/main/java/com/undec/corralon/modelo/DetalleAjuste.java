@@ -9,11 +9,11 @@ import java.util.Objects;
 public class DetalleAjuste extends DateAudit{
     private Integer idDetalleAjuste;
     private Double cantidad;
-    private Timestamp fecha;
+    private String fecha;
     private Integer idAjuste;
     private Integer idArticulo;
-    private Ajuste ajusteByIdAjuste;
-    private Articulo articuloByIdArticulo;
+//    private Ajuste ajusteByIdAjuste;
+//    private Articulo articuloByIdArticulo;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,11 +38,11 @@ public class DetalleAjuste extends DateAudit{
 
     @Basic
     @Column(name = "fecha")
-    public Timestamp getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Timestamp fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -83,23 +83,23 @@ public class DetalleAjuste extends DateAudit{
         return Objects.hash(idDetalleAjuste, cantidad, fecha, idAjuste, idArticulo);
     }
 
-    @ManyToOne
-    @JoinColumn(name = "id_ajuste", referencedColumnName = "id_ajuste", nullable = false)
-    public Ajuste getAjusteByIdAjuste() {
-        return ajusteByIdAjuste;
-    }
-
-    public void setAjusteByIdAjuste(Ajuste ajusteByIdAjuste) {
-        this.ajusteByIdAjuste = ajusteByIdAjuste;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "id_articulo", referencedColumnName = "id_articulo", nullable = false)
-    public Articulo getArticuloByIdArticulo() {
-        return articuloByIdArticulo;
-    }
-
-    public void setArticuloByIdArticulo(Articulo articuloByIdArticulo) {
-        this.articuloByIdArticulo = articuloByIdArticulo;
-    }
+//    @ManyToOne
+//    @JoinColumn(name = "id_ajuste", referencedColumnName = "id_ajuste", nullable = false)
+//    public Ajuste getAjusteByIdAjuste() {
+//        return ajusteByIdAjuste;
+//    }
+//
+//    public void setAjusteByIdAjuste(Ajuste ajusteByIdAjuste) {
+//        this.ajusteByIdAjuste = ajusteByIdAjuste;
+//    }
+//
+//    @ManyToOne
+//    @JoinColumn(name = "id_articulo", referencedColumnName = "id_articulo", nullable = false)
+//    public Articulo getArticuloByIdArticulo() {
+//        return articuloByIdArticulo;
+//    }
+//
+//    public void setArticuloByIdArticulo(Articulo articuloByIdArticulo) {
+//        this.articuloByIdArticulo = articuloByIdArticulo;
+//    }
 }

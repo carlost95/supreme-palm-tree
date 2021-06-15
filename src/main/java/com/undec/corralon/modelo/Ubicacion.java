@@ -10,7 +10,7 @@ public class Ubicacion extends DateAudit{
     private Integer idUbicacion;
     private String latitud;
     private String longitud;
-    private boolean habilitado;
+    private Boolean habilitado;
     private List<Direccion> direccionsByIdUbicacion;
 
     @Id
@@ -45,11 +45,11 @@ public class Ubicacion extends DateAudit{
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -69,12 +69,12 @@ public class Ubicacion extends DateAudit{
         return Objects.hash(idUbicacion, latitud, longitud, habilitado);
     }
 
-    @OneToMany(mappedBy = "ubicacionByIdUbicacion")
-    public List<Direccion> getDireccionsByIdUbicacion() {
-        return direccionsByIdUbicacion;
-    }
-
-    public void setDireccionsByIdUbicacion(List<Direccion> direccionsByIdUbicacion) {
-        this.direccionsByIdUbicacion = direccionsByIdUbicacion;
-    }
+//    @OneToMany(mappedBy = "ubicacionByIdUbicacion")
+//    public List<Direccion> getDireccionsByIdUbicacion() {
+//        return direccionsByIdUbicacion;
+//    }
+//
+//    public void setDireccionsByIdUbicacion(List<Direccion> direccionsByIdUbicacion) {
+//        this.direccionsByIdUbicacion = direccionsByIdUbicacion;
+//    }
 }

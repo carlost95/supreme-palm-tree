@@ -11,7 +11,7 @@ public class Tarjeta extends DateAudit{
     private String nombre;
     private String abreviatura;
     private Integer idTipoTarjeta;
-    private boolean habilitado;
+    private Boolean habilitado;
     private List<PagoVenta> pagoVentasByIdTarjeta;
     private Tipotarjeta tipotarjetaByIdTipoTarjeta;
 
@@ -58,11 +58,11 @@ public class Tarjeta extends DateAudit{
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -83,15 +83,15 @@ public class Tarjeta extends DateAudit{
         return Objects.hash(idTarjeta, nombre, abreviatura, idTipoTarjeta, habilitado);
     }
 
-    @OneToMany(mappedBy = "tarjetaByIdTarjeta")
-    public List<PagoVenta> getPagoVentasByIdTarjeta() {
-        return pagoVentasByIdTarjeta;
-    }
-
-    public void setPagoVentasByIdTarjeta(List<PagoVenta> pagoVentasByIdTarjeta) {
-        this.pagoVentasByIdTarjeta = pagoVentasByIdTarjeta;
-    }
-
+//    @OneToMany(mappedBy = "tarjetaByIdTarjeta")
+//    public List<PagoVenta> getPagoVentasByIdTarjeta() {
+//        return pagoVentasByIdTarjeta;
+//    }
+//
+//    public void setPagoVentasByIdTarjeta(List<PagoVenta> pagoVentasByIdTarjeta) {
+//        this.pagoVentasByIdTarjeta = pagoVentasByIdTarjeta;
+//    }
+//
     @ManyToOne
     @JoinColumn(name = "id_tipo_tarjeta", referencedColumnName = "id_tipo_tarjeta", nullable = false)
     public Tipotarjeta getTipotarjetaByIdTipoTarjeta() {

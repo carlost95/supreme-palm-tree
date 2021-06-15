@@ -9,7 +9,7 @@ import java.util.Objects;
 public class DetallePedido extends DateAudit{
     private Integer idDetallePedido;
     private Double cantidad;
-    private Timestamp fecha;
+    private String fecha;
     private Integer idPedido;
     private Integer idArticulo;
     private Pedido pedidoByIdPedido;
@@ -38,11 +38,11 @@ public class DetallePedido extends DateAudit{
 
     @Basic
     @Column(name = "fecha")
-    public Timestamp getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Timestamp fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 

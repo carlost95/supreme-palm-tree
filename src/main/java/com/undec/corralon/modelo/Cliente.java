@@ -11,10 +11,10 @@ public class Cliente extends DateAudit {
     private String nombre;
     private String apellido;
     private String dni;
-    private boolean habilitado;
+    private Boolean habilitado;
     private String mail;
-    private List<Direccion> direccionsByIdCliente;
-    private List<Venta> ventasByIdCliente;
+//    private List<Direccion> direccionsByIdCliente;
+//    private List<Venta> ventasByIdCliente;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,11 +59,11 @@ public class Cliente extends DateAudit {
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -95,21 +95,21 @@ public class Cliente extends DateAudit {
         return Objects.hash(idCliente, nombre, apellido, dni, habilitado, mail);
     }
 
-    @OneToMany(mappedBy = "clienteByIdCliente")
-    public List<Direccion> getDireccionsByIdCliente() {
-        return direccionsByIdCliente;
-    }
+//    @OneToMany(mappedBy = "clienteByIdCliente")
+//    public List<Direccion> getDireccionsByIdCliente() {
+//        return direccionsByIdCliente;
+//    }
+//
+//    public void setDireccionsByIdCliente(List<Direccion> direccionsByIdCliente) {
+//        this.direccionsByIdCliente = direccionsByIdCliente;
+//    }
 
-    public void setDireccionsByIdCliente(List<Direccion> direccionsByIdCliente) {
-        this.direccionsByIdCliente = direccionsByIdCliente;
-    }
-
-    @OneToMany(mappedBy = "clienteByIdCliente")
-    public List<Venta> getVentasByIdCliente() {
-        return ventasByIdCliente;
-    }
-
-    public void setVentasByIdCliente(List<Venta> ventasByIdCliente) {
-        this.ventasByIdCliente = ventasByIdCliente;
-    }
+//    @OneToMany(mappedBy = "clienteByIdCliente")
+//    public List<Venta> getVentasByIdCliente() {
+//        return ventasByIdCliente;
+//    }
+//
+//    public void setVentasByIdCliente(List<Venta> ventasByIdCliente) {
+//        this.ventasByIdCliente = ventasByIdCliente;
+//    }
 }

@@ -10,8 +10,8 @@ public class Departamento extends DateAudit{
     private Integer idDepartamento;
     private String nombre;
     private String abreviatura;
-    private boolean habilitado;
-    private List<Distrito> distritosByIdDepartamento;
+    private Boolean habilitado;
+//    private List<Distrito> distritosByIdDepartamento;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,11 +46,11 @@ public class Departamento extends DateAudit{
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -70,12 +70,13 @@ public class Departamento extends DateAudit{
         return Objects.hash(idDepartamento, nombre, abreviatura, habilitado);
     }
 
-    @OneToMany(mappedBy = "departamentoByIdDepartamento")
-    public List<Distrito> getDistritosByIdDepartamento() {
-        return distritosByIdDepartamento;
-    }
-
-    public void setDistritosByIdDepartamento(List<Distrito> distritosByIdDepartamento) {
-        this.distritosByIdDepartamento = distritosByIdDepartamento;
-    }
+//    @OneToMany(mappedBy = "departamentoByIdDepartamento")
+//    @JoinColumn(name = "id_departamento", referencedColumnName = "id_departamento")
+//    public List<Distrito> getDistritosByIdDepartamento() {
+//        return distritosByIdDepartamento;
+//    }
+//
+//    public void setDistritosByIdDepartamento(List<Distrito> distritosByIdDepartamento) {
+//        this.distritosByIdDepartamento = distritosByIdDepartamento;
+//    }
 }

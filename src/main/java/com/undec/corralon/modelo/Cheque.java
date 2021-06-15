@@ -12,14 +12,14 @@ public class Cheque extends DateAudit{
     private Integer idBanco;
     private String titularEmisor;
     private Integer idTipoCheque;
-    private Date fecha;
-    private Date fechaEmision;
-    private Date fechaVenciomiento;
-    private Date fechaCobro;
-    private boolean habilitado;
+    private String fecha;
+    private String fechaEmision;
+    private String fechaVenciomiento;
+    private String fechaCobro;
+    private Boolean habilitado;
     private Banco bancoByIdBanco;
     private TipoCheque tipoChequeByIdTipoCheque;
-    private List<PagoVenta> pagoVentasByIdCheque;
+//    private List<PagoVenta> pagoVentasByIdCheque;
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -64,51 +64,51 @@ public class Cheque extends DateAudit{
 
     @Basic
     @Column(name = "fecha")
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
     @Basic
     @Column(name = "fecha_emision")
-    public Date getFechaEmision() {
+    public String getFechaEmision() {
         return fechaEmision;
     }
 
-    public void setFechaEmision(Date fechaEmision) {
+    public void setFechaEmision(String fechaEmision) {
         this.fechaEmision = fechaEmision;
     }
 
     @Basic
     @Column(name = "fecha_venciomiento")
-    public Date getFechaVenciomiento() {
+    public String getFechaVenciomiento() {
         return fechaVenciomiento;
     }
 
-    public void setFechaVenciomiento(Date fechaVenciomiento) {
+    public void setFechaVenciomiento(String fechaVenciomiento) {
         this.fechaVenciomiento = fechaVenciomiento;
     }
 
     @Basic
     @Column(name = "fecha_cobro")
-    public Date getFechaCobro() {
+    public String getFechaCobro() {
         return fechaCobro;
     }
 
-    public void setFechaCobro(Date fechaCobro) {
+    public void setFechaCobro(String fechaCobro) {
         this.fechaCobro = fechaCobro;
     }
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -153,12 +153,12 @@ public class Cheque extends DateAudit{
         this.tipoChequeByIdTipoCheque = tipoChequeByIdTipoCheque;
     }
 
-    @OneToMany(mappedBy = "chequeByIdCheque")
-    public List<PagoVenta> getPagoVentasByIdCheque() {
-        return pagoVentasByIdCheque;
-    }
-
-    public void setPagoVentasByIdCheque(List<PagoVenta> pagoVentasByIdCheque) {
-        this.pagoVentasByIdCheque = pagoVentasByIdCheque;
-    }
+//    @OneToMany(mappedBy = "chequeByIdCheque")
+//    public List<PagoVenta> getPagoVentasByIdCheque() {
+//        return pagoVentasByIdCheque;
+//    }
+//
+//    public void setPagoVentasByIdCheque(List<PagoVenta> pagoVentasByIdCheque) {
+//        this.pagoVentasByIdCheque = pagoVentasByIdCheque;
+//    }
 }

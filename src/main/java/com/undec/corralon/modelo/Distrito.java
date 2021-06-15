@@ -10,10 +10,10 @@ public class Distrito extends DateAudit{
     private Integer idDistrito;
     private String nombre;
     private String abreviatura;
-    private boolean habilitado;
+    private Boolean habilitado;
     private Integer idDepartamento;
-    private List<Direccion> direccionsByIdDistrito;
     private Departamento departamentoByIdDepartamento;
+//    private List<Direccion> direccionsByIdDistrito;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -48,11 +48,11 @@ public class Distrito extends DateAudit{
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -83,15 +83,15 @@ public class Distrito extends DateAudit{
         return Objects.hash(idDistrito, nombre, abreviatura, habilitado, idDepartamento);
     }
 
-    @OneToMany(mappedBy = "distritoByIdDistrito")
-    public List<Direccion> getDireccionsByIdDistrito() {
-        return direccionsByIdDistrito;
-    }
-
-    public void setDireccionsByIdDistrito(List<Direccion> direccionsByIdDistrito) {
-        this.direccionsByIdDistrito = direccionsByIdDistrito;
-    }
-
+//    @OneToMany(mappedBy = "distritoByIdDistrito")
+//    public List<Direccion> getDireccionsByIdDistrito() {
+//        return direccionsByIdDistrito;
+//    }
+//
+//    public void setDireccionsByIdDistrito(List<Direccion> direccionsByIdDistrito) {
+//        this.direccionsByIdDistrito = direccionsByIdDistrito;
+//    }
+//
     @ManyToOne
     @JoinColumn(name = "id_departamento", referencedColumnName = "id_departamento", nullable = false)
     public Departamento getDepartamentoByIdDepartamento() {

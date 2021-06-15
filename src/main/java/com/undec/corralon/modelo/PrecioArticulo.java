@@ -2,17 +2,17 @@ package com.undec.corralon.modelo;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "precio_articulo")
-public class PrecioArticulo extends DateAudit{
+public class PrecioArticulo {
     private Integer idPrecio;
     private Double precio;
-    private Date fechaDesde;
-    private Date fechaHasta;
+    private String fechaDesde;
+    private String fechaHasta;
     private Integer idArticulo;
-    private Articulo articuloByIdArticulo;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -37,32 +37,25 @@ public class PrecioArticulo extends DateAudit{
 
     @Basic
     @Column(name = "fecha_desde")
-    public Date getFechaDesde() {
+    public String getFechaDesde() {
         return fechaDesde;
     }
 
-    public void setFechaDesde(Date fechaDesde) {
+
+
+    public void setFechaDesde(String fechaDesde) {
         this.fechaDesde = fechaDesde;
     }
 
     @Basic
     @Column(name = "fecha_hasta")
-    public Date getFechaHasta() {
+    public String getFechaHasta() {
         return fechaHasta;
     }
 
-    public void setFechaHasta(Date fechaHasta) {
+
+    public void setFechaHasta(String fechaHasta) {
         this.fechaHasta = fechaHasta;
-    }
-
-    @Basic
-    @Column(name = "id_articulo")
-    public Integer getIdArticulo() {
-        return idArticulo;
-    }
-
-    public void setIdArticulo(Integer idArticulo) {
-        this.idArticulo = idArticulo;
     }
 
     @Override
@@ -73,22 +66,21 @@ public class PrecioArticulo extends DateAudit{
         return Objects.equals(idPrecio, that.idPrecio) &&
                 Objects.equals(precio, that.precio) &&
                 Objects.equals(fechaDesde, that.fechaDesde) &&
-                Objects.equals(fechaHasta, that.fechaHasta) &&
-                Objects.equals(idArticulo, that.idArticulo);
+                Objects.equals(fechaHasta, that.fechaHasta);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idPrecio, precio, fechaDesde, fechaHasta, idArticulo);
+        return Objects.hash(idPrecio, precio, fechaDesde, fechaHasta);
     }
 
-    @ManyToOne
-    @JoinColumn(name = "id_articulo", referencedColumnName = "id_articulo")
-    public Articulo getArticuloByIdArticulo() {
-        return articuloByIdArticulo;
+    @Basic
+    @Column(name = "id_articulo")
+    public Integer getIdArticulo() {
+        return idArticulo;
     }
 
-    public void setArticuloByIdArticulo(Articulo articuloByIdArticulo) {
-        this.articuloByIdArticulo = articuloByIdArticulo;
+    public void setIdArticulo(Integer idArticulo) {
+        this.idArticulo = idArticulo;
     }
 }

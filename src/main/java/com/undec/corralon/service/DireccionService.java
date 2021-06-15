@@ -48,14 +48,14 @@ public class DireccionService {
 
         for (Direccion direccion: direcciones) {
             DireccionDTO direccionDTO = new DireccionDTO();
-            direccionDTO.setId(direccion.getId());
-            direccionDTO.setDistritoId(direccion.getDistrito().getId());
+            direccionDTO.setId(direccion.getIdDireccion());
+            direccionDTO.setDistritoId(direccion.getDistritoByIdDistrito().getIdDistrito());
             direccionDTO.setCalle(direccion.getCalle());
-            direccionDTO.setNumerocalle(direccion.getNumerocalle());
-            direccionDTO.setEstado(direccion.getEstado());
+            direccionDTO.setNumerocalle(direccion.getNumeroCalle());
+            direccionDTO.setEstado(direccion.getHabilitado());
             direccionDTO.setDescripcion(direccion.getDescripcion());
-            direccionDTO.setClienteId(direccion.getCliente().getId());
-            direccionDTO.setUbicacion(this.ubicacionDTO(direccion.getUbicacion()));
+            direccionDTO.setClienteId(direccion.getClienteByIdCliente().getIdCliente());
+            direccionDTO.setUbicacion(this.ubicacionDTO(direccion.getUbicacionByIdUbicacion()));
             direccionDTOS.add(direccionDTO);
         }
 
@@ -68,8 +68,8 @@ public class DireccionService {
 
     private UbicacionDTO ubicacionDTO(Ubicacion ubicacion) {
         UbicacionDTO ubicacionDTO = new UbicacionDTO();
-        ubicacionDTO.setId(ubicacion.getId());
-        ubicacionDTO.setEstado(ubicacion.getEstado());
+        ubicacionDTO.setId(ubicacion.getIdUbicacion());
+        ubicacionDTO.setEstado(ubicacion.getHabilitado());
         ubicacionDTO.setLat(ubicacion.getLatitud());
         ubicacionDTO.setLng(ubicacion.getLongitud());
         return ubicacionDTO;
@@ -80,8 +80,9 @@ public class DireccionService {
         Direccion direccion =  mapDTOtoEntity(direccionDTO);
 
         Ubicacion ubicacion = this.ubicacionServiceData.save(direccionDTO.getUbicacion());
-        direccion.setUbicacion(ubicacion);
-        direccion.setEstado(true);
+        direccion.setUbicacionByIdUbicacion(ubicacion);
+        direccion.setHabilitado(
+                true);
         direccion = direccionRepository.save(direccion);
 
         if( direccion == null)
@@ -100,11 +101,11 @@ public class DireccionService {
 
         Direccion direccionToUpdate = this.direccionRepository.findById(direccionDTO.getId()).get();
 
-        Ubicacion ubicacion = this.updateUbicacion(direccionToUpdate.getUbicacion(), direccionDTO.getUbicacion());
-        direccion.setId(direccionDTO.getId());
-        direccion.setUbicacion(ubicacion);
+        Ubicacion ubicacion = this.updateUbicacion(direccionToUpdate.getUbicacionByIdUbicacion(), direccionDTO.getUbicacion());
+        direccion.setIdCliente(direccionDTO.getId());
+        direccion.setUbicacionByIdUbicacion(ubicacion);
 
-        direccion.setEstado(direccionDTO.getEstado());
+        direccion.setHabilitado(direccionDTO.getEstado());
         direccion = direccionRepository.save(direccion);
 
         if( direccion == null)
@@ -116,8 +117,8 @@ public class DireccionService {
     }
 
     private Ubicacion updateUbicacion(Ubicacion ubicacion, UbicacionDTO ubicacionDTO) throws Exception {
-        ubicacionDTO.setId(ubicacion.getId());
-        ubicacionDTO.setEstado(ubicacion.getEstado());
+        ubicacionDTO.setId(ubicacion.getIdUbicacion());
+        ubicacionDTO.setEstado(ubicacion.getHabilitado());
         ubicacion = this.ubicacionServiceData.save(ubicacionDTO);
         return ubicacion;
     }
@@ -127,13 +128,13 @@ public class DireccionService {
 
         direccion.setCalle(direccionDTO.getCalle());
         direccion.setDescripcion(direccionDTO.getDescripcion());
-        direccion.setNumerocalle(direccionDTO.getNumerocalle());
+        direccion.setNumeroCalle(direccionDTO.getNumerocalle());
 
         Cliente cliente = this.clienteRepository.findById(direccionDTO.getClienteId()).get();
         Distrito distrito = this.distritoRepository.findById(direccionDTO.getDistritoId()).get();
 
-        direccion.setCliente(cliente);
-        direccion.setDistrito(distrito);
+        direccion.setClienteByIdCliente(cliente);
+        direccion.setDistritoByIdDistrito(distrito);
 
         return direccion;
     }
@@ -141,9 +142,9 @@ public class DireccionService {
     public Response changeStatus(DireccionDTO direccionDTO) throws Exception {
         Response response = new Response();
         Direccion toUpdate = this.direccionRepository.findById(direccionDTO.getId()).get();
-        toUpdate.setEstado(!toUpdate.getEstado());
+        toUpdate.setHabilitado(!toUpdate.getHabilitado());
         toUpdate = this.direccionRepository.save(toUpdate);
-        direccionDTO.setEstado(toUpdate.getEstado());
+        direccionDTO.setEstado(toUpdate.getHabilitado());
         response.setCode(200);
         response.setMsg("Changed Status");
         response.setData(direccionDTO);

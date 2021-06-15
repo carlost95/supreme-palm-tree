@@ -9,7 +9,7 @@ import java.util.Objects;
 public class Tipotarjeta extends DateAudit{
     private Integer idTipoTarjeta;
     private String nombreTipo;
-    private boolean habilitado;
+    private Boolean habilitado;
     private List<Tarjeta> tarjetasByIdTipoTarjeta;
 
     @Id
@@ -34,11 +34,11 @@ public class Tipotarjeta extends DateAudit{
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -57,12 +57,12 @@ public class Tipotarjeta extends DateAudit{
         return Objects.hash(idTipoTarjeta, nombreTipo, habilitado);
     }
 
-    @OneToMany(mappedBy = "tipotarjetaByIdTipoTarjeta")
-    public List<Tarjeta> getTarjetasByIdTipoTarjeta() {
-        return tarjetasByIdTipoTarjeta;
-    }
-
-    public void setTarjetasByIdTipoTarjeta(List<Tarjeta> tarjetasByIdTipoTarjeta) {
-        this.tarjetasByIdTipoTarjeta = tarjetasByIdTipoTarjeta;
-    }
+//    @OneToMany(mappedBy = "tipotarjetaByIdTipoTarjeta")
+//    public List<Tarjeta> getTarjetasByIdTipoTarjeta() {
+//        return tarjetasByIdTipoTarjeta;
+//    }
+//
+//    public void setTarjetasByIdTipoTarjeta(List<Tarjeta> tarjetasByIdTipoTarjeta) {
+//        this.tarjetasByIdTipoTarjeta = tarjetasByIdTipoTarjeta;
+//    }
 }

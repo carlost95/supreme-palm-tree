@@ -12,9 +12,9 @@ public class Proveedor extends DateAudit {
     private String domicilio;
     private String email;
     private String telefono;
-    private boolean habilitado;
-    private List<Articulo> articulosByIdProveedor;
-    private List<BancoProveedor> bancoProveedorsByIdProveedor;
+    private Boolean habilitado;
+//    private List<Articulo> articulosByIdProveedor;
+//    private List<BancoProveedor> bancoProveedorsByIdProveedor;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,11 +69,11 @@ public class Proveedor extends DateAudit {
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -95,21 +95,21 @@ public class Proveedor extends DateAudit {
         return Objects.hash(idProveedor, razonSocial, domicilio, email, telefono, habilitado);
     }
 
-    @OneToMany(mappedBy = "proveedorByIdProveedor")
-    public List<Articulo> getArticulosByIdProveedor() {
-        return articulosByIdProveedor;
-    }
-
-    public void setArticulosByIdProveedor(List<Articulo> articulosByIdProveedor) {
-        this.articulosByIdProveedor = articulosByIdProveedor;
-    }
-
-    @OneToMany(mappedBy = "proveedorByIdProveedor")
-    public List<BancoProveedor> getBancoProveedorsByIdProveedor() {
-        return bancoProveedorsByIdProveedor;
-    }
-
-    public void setBancoProveedorsByIdProveedor(List<BancoProveedor> bancoProveedorsByIdProveedor) {
-        this.bancoProveedorsByIdProveedor = bancoProveedorsByIdProveedor;
-    }
+//    @OneToMany(mappedBy = "proveedorByIdProveedor")
+//    public List<Articulo> getArticulosByIdProveedor() {
+//        return articulosByIdProveedor;
+//    }
+//
+//    public void setArticulosByIdProveedor(List<Articulo> articulosByIdProveedor) {
+//        this.articulosByIdProveedor = articulosByIdProveedor;
+//    }
+//
+//    @OneToMany(mappedBy = "proveedorByIdProveedor")
+//    public List<BancoProveedor> getBancoProveedorsByIdProveedor() {
+//        return bancoProveedorsByIdProveedor;
+//    }
+//
+//    public void setBancoProveedorsByIdProveedor(List<BancoProveedor> bancoProveedorsByIdProveedor) {
+//        this.bancoProveedorsByIdProveedor = bancoProveedorsByIdProveedor;
+//    }
 }

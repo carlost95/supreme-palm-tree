@@ -55,8 +55,7 @@ public class RubroService {
 
     public Response crearRubro(Rubro rubro) throws RubroException {
         Response response = new Response();
-        rubro.setHabilitacion(true);
-        rubro.setFechaCreacion(new Date());
+        rubro.setHabilitado(true);
         rubro = this.rubroRepository.save(rubro);
 
         if (rubro == null)
@@ -71,13 +70,11 @@ public class RubroService {
     public Response actualizarRubro(Rubro rubro) throws RubroException {
         Response response = new Response();
 
-        Rubro rubroToUpdate = this.rubroRepository.findById(rubro.getId()).get();
+        Rubro rubroToUpdate = this.rubroRepository.findById(rubro.getIdRubro()).get();
 
         if (rubroToUpdate == null)
             throw new RubroErrorToUpdateException();
         rubroToUpdate.setNombre(rubro.getNombre());
-        rubroToUpdate.setDescripcion(rubro.getDescripcion());
-        rubroToUpdate.setFechaModificacion(new Date());
 
         rubroToUpdate = rubroRepository.save(rubroToUpdate);
 
@@ -96,7 +93,7 @@ public class RubroService {
             throw new RubroCambioEstadoException();
         }
         Rubro rubro = rubroOptional.get();
-        rubro.setHabilitacion(!rubro.getHabilitacion());
+        rubro.setHabilitado(!rubro.getHabilitado());
         rubroRepository.save(rubro);
 
         response.setCode(200);

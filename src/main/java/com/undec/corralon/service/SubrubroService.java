@@ -77,8 +77,7 @@ public class SubrubroService {
         if(subRubro == null)
             throw new SubRubroErrorToSaveException();
 
-        subRubro.setHabilitacion(true);
-        subRubro.setFechaCreacion(new Date());
+        subRubro.setHabilitado(true);
         subRubro = subRubroRepository.save(subRubro);
 
         response.setCode(200);
@@ -97,10 +96,8 @@ public class SubrubroService {
             throw new SubRubroErrorToUpdateException();
 
         subRubroToUpdate.setNombre(subrubroDTO.getNombre());
-        subRubroToUpdate.setDescripcion(subrubroDTO.getDescripcion());
-        subRubroToUpdate.setHabilitacion(subrubroDTO.getHabilitacion());
-        subRubroToUpdate.setFechaModificacion(new Date());
-        subRubroToUpdate.setRubroId(rubroRepository.findById(subrubroDTO.getRubroId()).get());
+        subRubroToUpdate.setHabilitado(subrubroDTO.getHabilitacion());
+        subRubroToUpdate.setRubroByIdRubro(rubroRepository.findById(subrubroDTO.getRubroId()).get());
 
         subRubroToUpdate = subRubroRepository.save(subRubroToUpdate);
 
@@ -113,11 +110,10 @@ public class SubrubroService {
 
     private SubRubro mapDtoToEntity(SubrubroDTO subrubroDTO){
         SubRubro subRubro = new SubRubro();
-        subRubro.setId(subrubroDTO.getId());
+        subRubro.setIdSubRubro(subrubroDTO.getId());
         subRubro.setNombre(subrubroDTO.getNombre());
-        subRubro.setDescripcion(subrubroDTO.getDescripcion());
-        subRubro.setHabilitacion(subrubroDTO.getHabilitacion());
-        subRubro.setRubroId(rubroRepository.findById(subrubroDTO.getRubroId()).get());
+        subRubro.setHabilitado(subrubroDTO.getHabilitacion());
+        subRubro.setRubroByIdRubro(rubroRepository.findById(subrubroDTO.getRubroId()).get());
         return  subRubro;
     }
 
@@ -128,7 +124,7 @@ public class SubrubroService {
             throw new SubRubroCambioEstadoException();
         }
         SubRubro subRubro = subRubroOptional.get();
-        subRubro.setHabilitacion(!subRubro.getHabilitacion());
+        subRubro.setHabilitado(!subRubro.getHabilitado());
         subRubroRepository.save(subRubro);
 
         response.setCode(200);

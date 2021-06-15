@@ -8,6 +8,7 @@ import java.util.Objects;
 public class DetalleVenta extends DateAudit{
     private Integer idDetalleVenta;
     private Integer cantidad;
+    private String fecha;
     private Integer idVenta;
     private Integer idArticulo;
     private Venta ventaByIdVenta;
@@ -32,6 +33,16 @@ public class DetalleVenta extends DateAudit{
 
     public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
+    }
+
+    @Basic
+    @Column(name="fecha")
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 
     @Basic

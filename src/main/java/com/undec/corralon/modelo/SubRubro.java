@@ -11,9 +11,9 @@ public class SubRubro extends DateAudit{
     private Integer idSubRubro;
     private String nombre;
     private String abreviatura;
-    private boolean habilitado;
+    private Boolean habilitado;
     private Integer idRubro;
-    private List<Articulo> articulosByIdSubRubro;
+//    private List<Articulo> articulosByIdSubRubro;
     private Rubro rubroByIdRubro;
 
     @Id
@@ -49,11 +49,11 @@ public class SubRubro extends DateAudit{
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -84,14 +84,15 @@ public class SubRubro extends DateAudit{
         return Objects.hash(idSubRubro, nombre, abreviatura, habilitado, idRubro);
     }
 
-    @OneToMany(mappedBy = "subRubroByIdSubRubro")
-    public List<Articulo> getArticulosByIdSubRubro() {
-        return articulosByIdSubRubro;
-    }
-
-    public void setArticulosByIdSubRubro(List<Articulo> articulosByIdSubRubro) {
-        this.articulosByIdSubRubro = articulosByIdSubRubro;
-    }
+//    @OneToMany(mappedBy = "subRubroByIdSubRubro")
+//    @JoinColumn(name = "id_sub_rubro", referencedColumnName = "id_sub_rubro")
+//    public List<Articulo> getArticulosByIdSubRubro() {
+//        return articulosByIdSubRubro;
+//    }
+//
+//    public void setArticulosByIdSubRubro(List<Articulo> articulosByIdSubRubro) {
+//        this.articulosByIdSubRubro = articulosByIdSubRubro;
+//    }
 
     @ManyToOne
     @JoinColumn(name = "id_rubro", referencedColumnName = "id_rubro")

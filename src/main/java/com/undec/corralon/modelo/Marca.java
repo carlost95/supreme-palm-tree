@@ -10,8 +10,8 @@ public class Marca extends DateAudit {
     private Integer idMarca;
     private String nombre;
     private String abreviatura;
-    private boolean habilitado;
-    private List<Articulo> articulosByIdMarca;
+    private Boolean habilitado;
+//    private List<Articulo> articulosByIdMarca;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,11 +46,11 @@ public class Marca extends DateAudit {
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -70,12 +70,12 @@ public class Marca extends DateAudit {
         return Objects.hash(idMarca, nombre, abreviatura, habilitado);
     }
 
-    @OneToMany(mappedBy = "marcaByIdMarca")
-    public List<Articulo> getArticulosByIdMarca() {
-        return articulosByIdMarca;
-    }
-
-    public void setArticulosByIdMarca(List<Articulo> articulosByIdMarca) {
-        this.articulosByIdMarca = articulosByIdMarca;
-    }
+//    @OneToMany(mappedBy = "marcaByIdMarca")
+//    public List<Articulo> getArticulosByIdMarca() {
+//        return articulosByIdMarca;
+//    }
+//
+//    public void setArticulosByIdMarca(List<Articulo> articulosByIdMarca) {
+//        this.articulosByIdMarca = articulosByIdMarca;
+//    }
 }

@@ -13,7 +13,7 @@ public class Articulo extends DateAudit {
     private String abreviatura;
     private Integer stockMinimo;
     private Integer stockMaximo;
-    private boolean habilitado;
+    private Boolean habilitado;
     private Integer idProveedor;
     private Integer idUnidadMedida;
     private Integer idRubro;
@@ -24,13 +24,14 @@ public class Articulo extends DateAudit {
     private Rubro rubroByIdRubro;
     private Marca marcaByIdMarca;
     private SubRubro subRubroByIdSubRubro;
-    private List<CostoArticulo> costoArticulosByIdArticulo;
-    private List<DetalleAjuste> detalleAjustesByIdArticulo;
-    private List<DetallePedido> detallePedidosByIdArticulo;
-    private List<DetalleRemito> detalleRemitosByIdArticulo;
-    private List<DetalleVenta> detalleVentasByIdArticulo;
-    private List<MovimientoArticulo> movimientoArticulosByIdArticulo;
-    private List<PrecioArticulo> precioArticulosByIdArticulo;
+
+//    private List<CostoArticulo> costoArticulosByIdArticulo;
+//    private List<DetalleAjuste> detalleAjustesByIdArticulo;
+//    private List<DetallePedido> detallePedidosByIdArticulo;
+//    private List<DetalleRemito> detalleRemitosByIdArticulo;
+//    private List<DetalleVenta> detalleVentasByIdArticulo;
+//    private List<MovimientoArticulo> movimientoArticulosByIdArticulo;
+//    private List<PrecioArticulo> precioArticulosByIdArticulo;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -216,76 +217,76 @@ public class Articulo extends DateAudit {
         this.subRubroByIdSubRubro = subRubroByIdSubRubro;
     }
 
-    @OneToMany(mappedBy = "articuloByIdArticulo")
-    public List<CostoArticulo> getCostoArticulosByIdArticulo() {
-        return costoArticulosByIdArticulo;
-    }
+//    @OneToMany(mappedBy = "articuloByIdArticulo")
+//    public List<CostoArticulo> getCostoArticulosByIdArticulo() {
+//        return costoArticulosByIdArticulo;
+//    }
+//
+//    public void setCostoArticulosByIdArticulo(List<CostoArticulo> costoArticulosByIdArticulo) {
+//        this.costoArticulosByIdArticulo = costoArticulosByIdArticulo;
+//    }
+//
+//    @OneToMany(mappedBy = "articuloByIdArticulo")
+//    public List<DetalleAjuste> getDetalleAjustesByIdArticulo() {
+//        return detalleAjustesByIdArticulo;
+//    }
+//
+//    public void setDetalleAjustesByIdArticulo(List<DetalleAjuste> detalleAjustesByIdArticulo) {
+//        this.detalleAjustesByIdArticulo = detalleAjustesByIdArticulo;
+//    }
+//
+//    @OneToMany(mappedBy = "articuloByIdArticulo")
+//    public List<DetallePedido> getDetallePedidosByIdArticulo() {
+//        return detallePedidosByIdArticulo;
+//    }
+//
+//    public void setDetallePedidosByIdArticulo(List<DetallePedido> detallePedidosByIdArticulo) {
+//        this.detallePedidosByIdArticulo = detallePedidosByIdArticulo;
+//    }
+//
+//    @OneToMany(mappedBy = "articuloByIdArticulo")
+//    public List<DetalleRemito> getDetalleRemitosByIdArticulo() {
+//        return detalleRemitosByIdArticulo;
+//    }
+//
+//    public void setDetalleRemitosByIdArticulo(List<DetalleRemito> detalleRemitosByIdArticulo) {
+//        this.detalleRemitosByIdArticulo = detalleRemitosByIdArticulo;
+//    }
+//
+//    @OneToMany(mappedBy = "articuloByIdArticulo")
+//    public List<DetalleVenta> getDetalleVentasByIdArticulo() {
+//        return detalleVentasByIdArticulo;
+//    }
+//
+//    public void setDetalleVentasByIdArticulo(List<DetalleVenta> detalleVentasByIdArticulo) {
+//        this.detalleVentasByIdArticulo = detalleVentasByIdArticulo;
+//    }
 
-    public void setCostoArticulosByIdArticulo(List<CostoArticulo> costoArticulosByIdArticulo) {
-        this.costoArticulosByIdArticulo = costoArticulosByIdArticulo;
-    }
-
-    @OneToMany(mappedBy = "articuloByIdArticulo")
-    public List<DetalleAjuste> getDetalleAjustesByIdArticulo() {
-        return detalleAjustesByIdArticulo;
-    }
-
-    public void setDetalleAjustesByIdArticulo(List<DetalleAjuste> detalleAjustesByIdArticulo) {
-        this.detalleAjustesByIdArticulo = detalleAjustesByIdArticulo;
-    }
-
-    @OneToMany(mappedBy = "articuloByIdArticulo")
-    public List<DetallePedido> getDetallePedidosByIdArticulo() {
-        return detallePedidosByIdArticulo;
-    }
-
-    public void setDetallePedidosByIdArticulo(List<DetallePedido> detallePedidosByIdArticulo) {
-        this.detallePedidosByIdArticulo = detallePedidosByIdArticulo;
-    }
-
-    @OneToMany(mappedBy = "articuloByIdArticulo")
-    public List<DetalleRemito> getDetalleRemitosByIdArticulo() {
-        return detalleRemitosByIdArticulo;
-    }
-
-    public void setDetalleRemitosByIdArticulo(List<DetalleRemito> detalleRemitosByIdArticulo) {
-        this.detalleRemitosByIdArticulo = detalleRemitosByIdArticulo;
-    }
-
-    @OneToMany(mappedBy = "articuloByIdArticulo")
-    public List<DetalleVenta> getDetalleVentasByIdArticulo() {
-        return detalleVentasByIdArticulo;
-    }
-
-    public void setDetalleVentasByIdArticulo(List<DetalleVenta> detalleVentasByIdArticulo) {
-        this.detalleVentasByIdArticulo = detalleVentasByIdArticulo;
-    }
-
-    @OneToMany(mappedBy = "articuloByIdArticulo")
-    public List<MovimientoArticulo> getMovimientoArticulosByIdArticulo() {
-        return movimientoArticulosByIdArticulo;
-    }
-
-    public void setMovimientoArticulosByIdArticulo(List<MovimientoArticulo> movimientoArticulosByIdArticulo) {
-        this.movimientoArticulosByIdArticulo = movimientoArticulosByIdArticulo;
-    }
-
-    @OneToMany(mappedBy = "articuloByIdArticulo")
-    public List<PrecioArticulo> getPrecioArticulosByIdArticulo() {
-        return precioArticulosByIdArticulo;
-    }
-
-    public void setPrecioArticulosByIdArticulo(List<PrecioArticulo> precioArticulosByIdArticulo) {
-        this.precioArticulosByIdArticulo = precioArticulosByIdArticulo;
-    }
+//    @OneToMany(mappedBy = "articuloByIdArticulo")
+//    public List<MovimientoArticulo> getMovimientoArticulosByIdArticulo() {
+//        return movimientoArticulosByIdArticulo;
+//    }
+//
+//    public void setMovimientoArticulosByIdArticulo(List<MovimientoArticulo> movimientoArticulosByIdArticulo) {
+//        this.movimientoArticulosByIdArticulo = movimientoArticulosByIdArticulo;
+//    }
+//
+//    @OneToMany(mappedBy = "articuloByIdArticulo")
+//    public List<PrecioArticulo> getPrecioArticulosByIdArticulo() {
+//        return precioArticulosByIdArticulo;
+//    }
+//
+//    public void setPrecioArticulosByIdArticulo(List<PrecioArticulo> precioArticulosByIdArticulo) {
+//        this.precioArticulosByIdArticulo = precioArticulosByIdArticulo;
+//    }
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 }

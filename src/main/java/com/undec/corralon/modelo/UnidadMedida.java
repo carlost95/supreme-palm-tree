@@ -11,7 +11,7 @@ public class UnidadMedida extends DateAudit{
     private Integer idUnidadMedida;
     private String nombre;
     private String abreviatura;
-    private boolean habilitado;
+    private Boolean habilitado;
     private List<Articulo> articulosByIdUnidadMedida;
 
     @Id
@@ -47,11 +47,11 @@ public class UnidadMedida extends DateAudit{
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -71,12 +71,12 @@ public class UnidadMedida extends DateAudit{
         return Objects.hash(idUnidadMedida, nombre, abreviatura, habilitado);
     }
 
-    @OneToMany(mappedBy = "unidadMedidaByIdUnidadMedida")
-    public List<Articulo> getArticulosByIdUnidadMedida() {
-        return articulosByIdUnidadMedida;
-    }
-
-    public void setArticulosByIdUnidadMedida(List<Articulo> articulosByIdUnidadMedida) {
-        this.articulosByIdUnidadMedida = articulosByIdUnidadMedida;
-    }
+//    @OneToMany(mappedBy = "unidadMedidaByIdUnidadMedida")
+//    public List<Articulo> getArticulosByIdUnidadMedida() {
+//        return articulosByIdUnidadMedida;
+//    }
+//
+//    public void setArticulosByIdUnidadMedida(List<Articulo> articulosByIdUnidadMedida) {
+//        this.articulosByIdUnidadMedida = articulosByIdUnidadMedida;
+//    }
 }

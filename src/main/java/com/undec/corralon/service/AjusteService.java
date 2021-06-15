@@ -5,7 +5,6 @@ import com.undec.corralon.excepciones.Ajuste.AjusteErrorToSaveException;
 import com.undec.corralon.excepciones.Ajuste.AjusteErrorToUpdateException;
 import com.undec.corralon.excepciones.Ajuste.AjusteErrorToUpdateHabilitacion;
 import com.undec.corralon.excepciones.Ajuste.AjusteException;
-import com.undec.corralon.excepciones.Pedido.PedidoErrorToSaveException;
 import com.undec.corralon.modelo.Ajuste;
 import com.undec.corralon.repository.AjusteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AjusteService {
@@ -50,11 +48,11 @@ public class AjusteService {
     public Response saveAjuste(Ajuste ajuste) throws AjusteException {
         Response response = new Response();
         Ajuste ajusteToSave = new Ajuste();
-//        ajuste.setHabilitacion(true);
+        ajuste.setHabilitado(true);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String horaDeCarga = LocalDateTime.now().format(formatter).toString();
         horaDeCarga = horaDeCarga.substring(10, horaDeCarga.length());
-//        ajuste.setFecha(ajuste.getFecha()+ horaDeCarga);
+        ajuste.setFecha(ajuste.getFecha()+ horaDeCarga);
         ajusteToSave = this.ajusteRepository.save(ajuste);
 
         if (ajusteToSave == null) {
@@ -94,7 +92,7 @@ public class AjusteService {
             throw new AjusteErrorToUpdateHabilitacion("error the update habilitacion");
         }
 
-//        ajusteOptional.setHabilitacion(!ajusteOptional.getHabilitacion());
+        ajusteOptional.setHabilitado(!ajusteOptional.getHabilitado());
         ajusteOptional = ajusteRepository.save(ajusteOptional);
         response.setCode(200);
         response.setMsg("se cambio habilitacion de ajuste");

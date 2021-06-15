@@ -59,7 +59,7 @@ public class PedidoService {
 
     public Response crearPedido(Pedido pedido) throws PedidoException {
         Response response = new Response();
-        pedido.setHabilitacion(1);
+        pedido.setHabilitado(true);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String horaDeCarga = LocalDateTime.now().format(formatter).toString();
         horaDeCarga = horaDeCarga.substring(10, horaDeCarga.length());
@@ -77,7 +77,7 @@ public class PedidoService {
 
     public Response modificarPedido(Pedido pedido) throws PedidoException {
         Response response = new Response();
-        Pedido pedidoToSave = this.pedidoRepository.findById(pedido.getId()).get();
+        Pedido pedidoToSave = this.pedidoRepository.findById(pedido.getIdPedido()).get();
 
         pedidoToSave.setNombre(pedido.getNombre());
         pedidoToSave.setDescripcion(pedido.getDescripcion());
@@ -98,7 +98,7 @@ public class PedidoService {
         Response response = new Response();
         Pedido pedido = this.pedidoRepository.findById(id).get();
 
-        pedido.setHabilitacion(0);
+        pedido.setHabilitado(false);
 
         if (pedido == null)
             throw new PedidoErrorToDeleteException();

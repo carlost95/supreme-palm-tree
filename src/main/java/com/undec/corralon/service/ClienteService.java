@@ -59,7 +59,7 @@ public class ClienteService {
 
         Response response = new Response();
         Cliente toSave = mapperDTOData(clienteDTO);
-        toSave.setEstado(true);
+        toSave.setHabilitado(true);
         toSave = this.clienteRepository.save(toSave);
         clienteDTO = this.entityToDTO(toSave);
         response.setCode(200);
@@ -82,20 +82,20 @@ public class ClienteService {
     private ClienteDTO entityToDTO(Cliente cliente) {
         ClienteDTO clienteDTO = new ClienteDTO();
 
-        clienteDTO.setId(cliente.getId());
+        clienteDTO.setId(cliente.getIdCliente());
         clienteDTO.setApellido(cliente.getApellido());
         clienteDTO.setNombre(cliente.getNombre());
         clienteDTO.setMail(cliente.getMail());
         clienteDTO.setDni(cliente.getDni());
-        clienteDTO.setEstado(cliente.getEstado());
+        clienteDTO.setEstado(cliente.getHabilitado());
         return clienteDTO;
     }
 
     public Response update(ClienteDTO clienteDTO) throws Exception {
         Response response = new Response();
         Cliente toUpdate = mapperDTOData(clienteDTO);
-        toUpdate.setId(clienteDTO.getId());
-        toUpdate.setEstado(clienteDTO.getEstado());
+        toUpdate.setIdCliente(clienteDTO.getId());
+        toUpdate.setHabilitado(clienteDTO.getEstado());
         toUpdate = this.clienteRepository.save(toUpdate);
         clienteDTO = this.entityToDTO(toUpdate);
         response.setCode(200);
@@ -109,7 +109,7 @@ public class ClienteService {
     public Response changeStatus(Integer idCliente) throws Exception {
         Response response = new Response();
         Cliente toUpdate = this.clienteRepository.findById(idCliente).get();
-        toUpdate.setEstado(!toUpdate.getEstado());
+        toUpdate.setHabilitado(!toUpdate.getHabilitado());
         toUpdate = this.clienteRepository.save(toUpdate);
         ClienteDTO clienteDTO = this.entityToDTO(toUpdate);
         response.setCode(200);

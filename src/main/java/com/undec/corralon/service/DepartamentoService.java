@@ -63,7 +63,7 @@ public class DepartamentoService {
     public Response guardar(DepartamentoDTO departamentoDTO) throws Exception{
         Response response = new Response();
         Departamento toSave = this.departamentoDTOToEntity(departamentoDTO);
-        toSave.setEstado(true);
+        toSave.setHabilitado(true);
         toSave = departamentoRepository.save(toSave);
 
         if(toSave == null)
@@ -93,7 +93,7 @@ public class DepartamentoService {
         actualizar.setNombre(departamentoDTO.getNombre());
         actualizar.setAbreviatura(departamentoDTO.getAbreviatura());
         actualizar.setNombre(departamentoDTO.getNombre());
-        actualizar.setEstado(departamentoDTO.getEstado());
+        actualizar.setHabilitado(departamentoDTO.getEstado());
 
         response.setCode(200);
         response.setMsg("Actualizado exitosamente!!!");
@@ -110,7 +110,7 @@ public class DepartamentoService {
         if(darBaja == null)
             throw new DepartamentoErrorToUpdateException();
 
-        darBaja.setEstado(!darBaja.getEstado());
+        darBaja.setHabilitado(!darBaja.getHabilitado());
         departamentoRepository.save(darBaja);
 
         response.setCode(200);

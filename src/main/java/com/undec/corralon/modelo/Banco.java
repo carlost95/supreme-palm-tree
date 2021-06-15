@@ -10,9 +10,9 @@ public class Banco extends DateAudit{
     private Integer idBanco;
     private String nombre;
     private String abreviatura;
-    private boolean habilitado;
-    private List<BancoProveedor> bancoProveedorsByIdBanco;
-    private List<Cheque> chequesByIdBanco;
+    private Boolean habilitado;
+//    private List<BancoProveedor> bancoProveedorsByIdBanco;
+//    private List<Cheque> chequesByIdBanco;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,11 +47,11 @@ public class Banco extends DateAudit{
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -71,21 +71,21 @@ public class Banco extends DateAudit{
         return Objects.hash(idBanco, nombre, abreviatura, habilitado);
     }
 
-    @OneToMany(mappedBy = "bancoByIdBanco")
-    public List<BancoProveedor> getBancoProveedorsByIdBanco() {
-        return bancoProveedorsByIdBanco;
-    }
-
-    public void setBancoProveedorsByIdBanco(List<BancoProveedor> bancoProveedorsByIdBanco) {
-        this.bancoProveedorsByIdBanco = bancoProveedorsByIdBanco;
-    }
-
-    @OneToMany(mappedBy = "bancoByIdBanco")
-    public List<Cheque> getChequesByIdBanco() {
-        return chequesByIdBanco;
-    }
-
-    public void setChequesByIdBanco(List<Cheque> chequesByIdBanco) {
-        this.chequesByIdBanco = chequesByIdBanco;
-    }
+//    @OneToMany(mappedBy = "bancoByIdBanco")
+//    public List<BancoProveedor> getBancoProveedorsByIdBanco() {
+//        return bancoProveedorsByIdBanco;
+//    }
+//
+//    public void setBancoProveedorsByIdBanco(List<BancoProveedor> bancoProveedorsByIdBanco) {
+//        this.bancoProveedorsByIdBanco = bancoProveedorsByIdBanco;
+//    }
+//
+//    @OneToMany(mappedBy = "bancoByIdBanco")
+//    public List<Cheque> getChequesByIdBanco() {
+//        return chequesByIdBanco;
+//    }
+//
+//    public void setChequesByIdBanco(List<Cheque> chequesByIdBanco) {
+//        this.chequesByIdBanco = chequesByIdBanco;
+//    }
 }

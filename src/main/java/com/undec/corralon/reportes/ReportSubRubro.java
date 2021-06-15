@@ -38,8 +38,7 @@ public class ReportSubRubro {
             for (SubRubro subRub : subRubroList) {
                 SubrubroDTOPDF subRubro = new SubrubroDTOPDF();
                 subRubro.setNombre(subRub.getNombre());
-                subRubro.setDescripcion(subRub.getDescripcion());
-                subRubro.setNombreRubro(subRub.getRubroId().getNombre());
+//                subRubro.setNombreRubro(subRub.getIdRubro());
                 subRubrosPdf.add(subRubro);
             }
 

@@ -9,7 +9,7 @@ import java.util.Objects;
 public class MovimientoArticulo extends DateAudit{
     private Integer idMovimientoArticulo;
     private Integer movimiento;
-    private Timestamp fecha;
+    private String fecha;
     private Integer idArticulo;
     private Integer idVenta;
     private Integer idAjuste;
@@ -45,11 +45,11 @@ public class MovimientoArticulo extends DateAudit{
 
     @Basic
     @Column(name = "fecha")
-    public Timestamp getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Timestamp fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 

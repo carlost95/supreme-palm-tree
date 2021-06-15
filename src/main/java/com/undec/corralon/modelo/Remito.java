@@ -13,10 +13,10 @@ public class Remito extends DateAudit{
     private String estadoRemito;
     private Integer idVenta;
     private Integer idDetalleRemito;
-    private boolean habilitado;
-    private List<DetalleRemito> detalleRemitosByIdRemito;
-    private List<MovimientoArticulo> movimientoArticulosByIdRemito;
-    private Venta ventaByIdVenta;
+    private Boolean habilitado;
+    private Venta remitosByIdVenta;
+//    private List<DetalleRemito> detalleRemitosByIdRemito;
+//    private List<MovimientoArticulo> movimientoArticulosByIdRemito;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,11 +71,11 @@ public class Remito extends DateAudit{
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -97,31 +97,31 @@ public class Remito extends DateAudit{
         return Objects.hash(idRemito, fechaRemito, estadoRemito, idVenta, idDetalleRemito, habilitado);
     }
 
-    @OneToMany(mappedBy = "remitoByIdRemito")
-    public List<DetalleRemito> getDetalleRemitosByIdRemito() {
-        return detalleRemitosByIdRemito;
-    }
-
-    public void setDetalleRemitosByIdRemito(List<DetalleRemito> detalleRemitosByIdRemito) {
-        this.detalleRemitosByIdRemito = detalleRemitosByIdRemito;
-    }
-
-    @OneToMany(mappedBy = "remitoByIdRemito")
-    public List<MovimientoArticulo> getMovimientoArticulosByIdRemito() {
-        return movimientoArticulosByIdRemito;
-    }
-
-    public void setMovimientoArticulosByIdRemito(List<MovimientoArticulo> movimientoArticulosByIdRemito) {
-        this.movimientoArticulosByIdRemito = movimientoArticulosByIdRemito;
-    }
-
+//    @OneToMany(mappedBy = "remitoByIdRemito")
+//    public List<DetalleRemito> getDetalleRemitosByIdRemito() {
+//        return detalleRemitosByIdRemito;
+//    }
+//
+//    public void setDetalleRemitosByIdRemito(List<DetalleRemito> detalleRemitosByIdRemito) {
+//        this.detalleRemitosByIdRemito = detalleRemitosByIdRemito;
+//    }
+//
+//    @OneToMany(mappedBy = "remitoByIdRemito")
+//    public List<MovimientoArticulo> getMovimientoArticulosByIdRemito() {
+//        return movimientoArticulosByIdRemito;
+//    }
+//
+//    public void setMovimientoArticulosByIdRemito(List<MovimientoArticulo> movimientoArticulosByIdRemito) {
+//        this.movimientoArticulosByIdRemito = movimientoArticulosByIdRemito;
+//    }
+//
     @ManyToOne
     @JoinColumn(name = "id_venta", referencedColumnName = "id_venta", nullable = false)
-    public Venta getVentaByIdVenta() {
-        return ventaByIdVenta;
+    public Venta getRemitosByIdVenta() {
+        return remitosByIdVenta;
     }
 
-    public void setVentaByIdVenta(Venta ventaByIdVenta) {
-        this.ventaByIdVenta = ventaByIdVenta;
+    public void setRemitosByIdVenta(Venta remitosByIdVenta) {
+        this.remitosByIdVenta = remitosByIdVenta;
     }
 }

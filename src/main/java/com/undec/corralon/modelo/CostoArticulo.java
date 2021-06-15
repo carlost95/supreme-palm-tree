@@ -9,8 +9,8 @@ import java.util.Objects;
 public class CostoArticulo extends DateAudit {
     private Integer idCosto;
     private Double costo;
-    private Timestamp fechaDesde;
-    private Timestamp fechaHasta;
+    private String fechaDesde;
+    private String fechaHasta;
     private Integer idArticulo;
     private Articulo articuloByIdArticulo;
 
@@ -37,21 +37,21 @@ public class CostoArticulo extends DateAudit {
 
     @Basic
     @Column(name = "fecha_desde")
-    public Timestamp getFechaDesde() {
+    public String getFechaDesde() {
         return fechaDesde;
     }
 
-    public void setFechaDesde(Timestamp fechaDesde) {
+    public void setFechaDesde(String fechaDesde) {
         this.fechaDesde = fechaDesde;
     }
 
     @Basic
     @Column(name = "fecha_hasta")
-    public Timestamp getFechaHasta() {
+    public String getFechaHasta() {
         return fechaHasta;
     }
 
-    public void setFechaHasta(Timestamp fechaHasta) {
+    public void setFechaHasta(String fechaHasta) {
         this.fechaHasta = fechaHasta;
     }
 

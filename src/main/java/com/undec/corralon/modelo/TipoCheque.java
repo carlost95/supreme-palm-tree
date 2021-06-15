@@ -11,7 +11,7 @@ public class TipoCheque extends DateAudit{
     private Integer idTipoCheque;
     private String nombre;
     private String descripcion;
-    private boolean habilitado;
+    private Boolean habilitado;
     private List<Cheque> chequesByIdTipoCheque;
 
     @Id
@@ -47,11 +47,11 @@ public class TipoCheque extends DateAudit{
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -71,12 +71,12 @@ public class TipoCheque extends DateAudit{
         return Objects.hash(idTipoCheque, nombre, descripcion, habilitado);
     }
 
-    @OneToMany(mappedBy = "tipoChequeByIdTipoCheque")
-    public List<Cheque> getChequesByIdTipoCheque() {
-        return chequesByIdTipoCheque;
-    }
-
-    public void setChequesByIdTipoCheque(List<Cheque> chequesByIdTipoCheque) {
-        this.chequesByIdTipoCheque = chequesByIdTipoCheque;
-    }
+//    @OneToMany(mappedBy = "tipoChequeByIdTipoCheque")
+//    public List<Cheque> getChequesByIdTipoCheque() {
+//        return chequesByIdTipoCheque;
+//    }
+//
+//    public void setChequesByIdTipoCheque(List<Cheque> chequesByIdTipoCheque) {
+//        this.chequesByIdTipoCheque = chequesByIdTipoCheque;
+//    }
 }

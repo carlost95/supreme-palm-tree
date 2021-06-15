@@ -19,7 +19,6 @@ public class UbicacionService {
 
         ubicacion.setLatitud(ubicacionDTO.getLat());
         ubicacion.setLongitud(ubicacionDTO.getLng());
-        ubicacion.setEstado(true);
 
         ubicacion = this.ubicacionRepository.save(ubicacion);
 

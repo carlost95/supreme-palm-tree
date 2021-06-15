@@ -11,10 +11,10 @@ public class Ajuste  extends DateAudit{
     private Integer idAjuste;
     private String nombre;
     private String descripcion;
-    private boolean habilitado;
-    private Timestamp fecha;
-    private List<DetalleAjuste> detalleAjustesByIdAjuste;
-    private List<MovimientoArticulo> movimientoArticulosByIdAjuste;
+    private Boolean habilitado;
+    private String fecha;
+//    private List<DetalleAjuste> detalleAjustesByIdAjuste;
+//    private List<MovimientoArticulo> movimientoArticulosByIdAjuste;
 
     @Id
     @Column(name = "id_ajuste")
@@ -49,21 +49,21 @@ public class Ajuste  extends DateAudit{
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
     @Basic
     @Column(name = "fecha")
-    public Timestamp getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Timestamp fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -84,21 +84,21 @@ public class Ajuste  extends DateAudit{
         return Objects.hash(idAjuste, nombre, descripcion, habilitado, fecha);
     }
 
-    @OneToMany(mappedBy = "ajusteByIdAjuste")
-    public List<DetalleAjuste> getDetalleAjustesByIdAjuste() {
-        return detalleAjustesByIdAjuste;
-    }
-
-    public void setDetalleAjustesByIdAjuste(List<DetalleAjuste> detalleAjustesByIdAjuste) {
-        this.detalleAjustesByIdAjuste = detalleAjustesByIdAjuste;
-    }
-
-    @OneToMany(mappedBy = "ajusteByIdAjuste")
-    public List<MovimientoArticulo> getMovimientoArticulosByIdAjuste() {
-        return movimientoArticulosByIdAjuste;
-    }
-
-    public void setMovimientoArticulosByIdAjuste(List<MovimientoArticulo> movimientoArticulosByIdAjuste) {
-        this.movimientoArticulosByIdAjuste = movimientoArticulosByIdAjuste;
-    }
+//    @OneToMany(mappedBy = "ajusteByIdAjuste")
+//    public List<DetalleAjuste> getDetalleAjustesByIdAjuste() {
+//        return detalleAjustesByIdAjuste;
+//    }
+//
+//    public void setDetalleAjustesByIdAjuste(List<DetalleAjuste> detalleAjustesByIdAjuste) {
+//        this.detalleAjustesByIdAjuste = detalleAjustesByIdAjuste;
+//    }
+//
+//    @OneToMany(mappedBy = "ajusteByIdAjuste")
+//    public List<MovimientoArticulo> getMovimientoArticulosByIdAjuste() {
+//        return movimientoArticulosByIdAjuste;
+//    }
+//
+//    public void setMovimientoArticulosByIdAjuste(List<MovimientoArticulo> movimientoArticulosByIdAjuste) {
+//        this.movimientoArticulosByIdAjuste = movimientoArticulosByIdAjuste;
+//    }
 }

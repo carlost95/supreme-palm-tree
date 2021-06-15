@@ -10,17 +10,17 @@ import java.util.Objects;
 public class Venta extends DateAudit{
     private Integer idVenta;
     private Integer idCliente;
-    private Timestamp fechaVenta;
+    private String fechaVenta;
     private Double totalSinDescuento;
     private Double descuento;
     private Double recargo;
     private Double total;
     private Integer idPagoVenta;
-    private List<DetalleVenta> detalleVentasByIdVenta;
-    private List<MovimientoArticulo> movimientoArticulosByIdVenta;
-    private List<Remito> remitosByIdVenta;
     private Cliente clienteByIdCliente;
     private PagoVenta pagoVentaByIdPagoVenta;
+//    private List<DetalleVenta> detalleVentasByIdVenta;
+//    private List<MovimientoArticulo> movimientoArticulosByIdVenta;
+//    private List<Remito> remitosByIdVenta;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -45,11 +45,11 @@ public class Venta extends DateAudit{
 
     @Basic
     @Column(name = "fechaVenta")
-    public Timestamp getFechaVenta() {
+    public String getFechaVenta() {
         return fechaVenta;
     }
 
-    public void setFechaVenta(Timestamp fechaVenta) {
+    public void setFechaVenta(String fechaVenta) {
         this.fechaVenta = fechaVenta;
     }
 
@@ -123,33 +123,33 @@ public class Venta extends DateAudit{
         return Objects.hash(idVenta, idCliente, fechaVenta, totalSinDescuento, descuento, recargo, total, idPagoVenta);
     }
 
-    @OneToMany(mappedBy = "ventaByIdVenta")
-    public List<DetalleVenta> getDetalleVentasByIdVenta() {
-        return detalleVentasByIdVenta;
-    }
-
-    public void setDetalleVentasByIdVenta(List<DetalleVenta> detalleVentasByIdVenta) {
-        this.detalleVentasByIdVenta = detalleVentasByIdVenta;
-    }
-
-    @OneToMany(mappedBy = "ventaByIdVenta")
-    public List<MovimientoArticulo> getMovimientoArticulosByIdVenta() {
-        return movimientoArticulosByIdVenta;
-    }
-
-    public void setMovimientoArticulosByIdVenta(List<MovimientoArticulo> movimientoArticulosByIdVenta) {
-        this.movimientoArticulosByIdVenta = movimientoArticulosByIdVenta;
-    }
-
-    @OneToMany(mappedBy = "ventaByIdVenta")
-    public List<Remito> getRemitosByIdVenta() {
-        return remitosByIdVenta;
-    }
-
-    public void setRemitosByIdVenta(List<Remito> remitosByIdVenta) {
-        this.remitosByIdVenta = remitosByIdVenta;
-    }
-
+//    @OneToMany(mappedBy = "ventaByIdVenta")
+//    public List<DetalleVenta> getDetalleVentasByIdVenta() {
+//        return detalleVentasByIdVenta;
+//    }
+//
+//    public void setDetalleVentasByIdVenta(List<DetalleVenta> detalleVentasByIdVenta) {
+//        this.detalleVentasByIdVenta = detalleVentasByIdVenta;
+//    }
+//
+//    @OneToMany(mappedBy = "ventaByIdVenta")
+//    public List<MovimientoArticulo> getMovimientoArticulosByIdVenta() {
+//        return movimientoArticulosByIdVenta;
+//    }
+//
+//    public void setMovimientoArticulosByIdVenta(List<MovimientoArticulo> movimientoArticulosByIdVenta) {
+//        this.movimientoArticulosByIdVenta = movimientoArticulosByIdVenta;
+//    }
+//
+//    @OneToMany(mappedBy = "ventaByIdVenta")
+//    public List<Remito> getRemitosByIdVenta() {
+//        return remitosByIdVenta;
+//    }
+//
+//    public void setRemitosByIdVenta(List<Remito> remitosByIdVenta) {
+//        this.remitosByIdVenta = remitosByIdVenta;
+//    }
+//
     @ManyToOne
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente", nullable = false)
     public Cliente getClienteByIdCliente() {

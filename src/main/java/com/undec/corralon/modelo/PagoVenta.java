@@ -13,10 +13,10 @@ public class PagoVenta extends DateAudit {
     private Integer idCheque;
     private Integer idTarjeta;
     private Double monto;
-    private Timestamp fechaPago;
+    private String fechaPago;
     private Cheque chequeByIdCheque;
     private Tarjeta tarjetaByIdTarjeta;
-    private List<Venta> ventasByIdPagoVenta;
+//    private List<Venta> ventasByIdPagoVenta;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,11 +61,11 @@ public class PagoVenta extends DateAudit {
 
     @Basic
     @Column(name = "fecha_pago")
-    public Timestamp getFechaPago() {
+    public String getFechaPago() {
         return fechaPago;
     }
 
-    public void setFechaPago(Timestamp fechaPago) {
+    public void setFechaPago(String fechaPago) {
         this.fechaPago = fechaPago;
     }
 
@@ -106,12 +106,12 @@ public class PagoVenta extends DateAudit {
         this.tarjetaByIdTarjeta = tarjetaByIdTarjeta;
     }
 
-    @OneToMany(mappedBy = "pagoVentaByIdPagoVenta")
-    public List<Venta> getVentasByIdPagoVenta() {
-        return ventasByIdPagoVenta;
-    }
-
-    public void setVentasByIdPagoVenta(List<Venta> ventasByIdPagoVenta) {
-        this.ventasByIdPagoVenta = ventasByIdPagoVenta;
-    }
+//    @OneToMany(mappedBy = "pagoVentaByIdPagoVenta")
+//    public List<Venta> getVentasByIdPagoVenta() {
+//        return ventasByIdPagoVenta;
+//    }
+//
+//    public void setVentasByIdPagoVenta(List<Venta> ventasByIdPagoVenta) {
+//        this.ventasByIdPagoVenta = ventasByIdPagoVenta;
+//    }
 }

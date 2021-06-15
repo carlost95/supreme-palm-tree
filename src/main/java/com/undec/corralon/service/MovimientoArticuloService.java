@@ -81,10 +81,7 @@ public class MovimientoArticuloService {
         Map<Integer, Double> stock = new HashMap<Integer, Double>();
         List<Articulo> articulos = this.articuloRepository.findAll();
         List<MovimientoArticulo> movimientos = this.movimientoArticuloRepository.findAll();
-        //VALOR ORIGINAL
-//        String fechaPedido = this.pedidoRepository.findById(idTipoMov).get().getFecha();
-        Timestamp fechaPedido = this.pedidoRepository.findById(idTipoMov).get().getFecha();
-
+        Timestamp fechaPedido = Timestamp.valueOf(this.pedidoRepository.findById(idTipoMov).get().getFecha());
         movimientos = movimientos.stream().sorted(Comparator.comparing(MovimientoArticulo::getFecha)).collect(Collectors.toList());
         movimientos.stream().forEach(System.out::println);
 
@@ -114,16 +111,15 @@ public class MovimientoArticuloService {
         Map<Integer, Double> stock = new HashMap<Integer, Double>();
         List<Articulo> articulos = this.articuloRepository.findAll();
         List<MovimientoArticulo> movimientos = this.movimientoArticuloRepository.findAll();
-        //VALORES ORGINALES
-//        String fechaAjuste = this.ajusteRepository.findById(idTipoMov).get().getFecha();
-        Timestamp fechaAjuste = this.ajusteRepository.findById(idTipoMov).get().getFecha();
+        Timestamp fechaAjuste = Timestamp.valueOf(this.ajusteRepository.findById(idTipoMov).get().getFecha());
 
         movimientos = movimientos.stream().sorted(Comparator.comparing(MovimientoArticulo::getFecha)).collect(Collectors.toList());
         movimientos.stream().forEach(System.out::println);
         movimientos = movimientos.stream().filter(m -> m.getArticuloByIdArticulo().getIdArticulo() < idTipoMov).collect(Collectors.toList());
         articulos.forEach(p -> {
             Integer idArticulo = p.getIdArticulo();
-            Double stockArt = this.movimientoArticuloRepository.stockPorArticulo(idArticulo, fechaAjuste);
+            Double stockArt = this.movimientoArticuloRepository.stockPorArticulo(idArticulo, fechaAjuste );
+
             if (stockArt == null)
                 stockArt = 0.0;
             stock.put(idArticulo, stockArt);
@@ -143,10 +139,10 @@ public class MovimientoArticuloService {
         String horaDeCarga = LocalDateTime.now().format(formatter).toString();
         horaDeCarga = horaDeCarga.substring(10, horaDeCarga.length());
 //        VERIFIACR SETEO DE DATOS
-//        movimientoArticulo.setFecha(movimientoArticuloDTO.getFecha() + horaDeCarga);
-//        movimientoArticulo.setMovimiento(movimientoArticuloDTO.getMovimiento());
-//        movimientoArticulo.setArticuloId(this.articuloRepository.findById(movimientoArticuloDTO.getArticuloId()).get());
-//        movimientoArticulo.setPedidoId(this.pedidoRepository.findById(movimientoArticuloDTO.getPedidoId()).get());
+        movimientoArticulo.setFecha(movimientoArticuloDTO.getFecha() + horaDeCarga);
+        movimientoArticulo.setMovimiento(movimientoArticuloDTO.getMovimiento());
+        movimientoArticulo.setArticuloByIdArticulo(this.articuloRepository.findById(movimientoArticuloDTO.getArticuloId()).get());
+        movimientoArticulo.setPedidoByIdPedido(this.pedidoRepository.findById(movimientoArticuloDTO.getPedidoId()).get());
 
         movimientoArticulo = this.movimientoArticuloRepository.save(movimientoArticulo);
 
@@ -162,11 +158,10 @@ public class MovimientoArticuloService {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String horaDeCarga = LocalDateTime.now().format(formatter).toString();
         horaDeCarga = horaDeCarga.substring(10, horaDeCarga.length());
-        //VERIFICAR SETEO DE DATOS
-//        movimientoArticulo.setFecha(movimientoArticuloDTO.getFecha() + horaDeCarga);
-//        movimientoArticulo.setMovimiento(movimientoArticuloDTO.getMovimiento());
-//        movimientoArticulo.setArticuloId(this.articuloRepository.findById(movimientoArticuloDTO.getArticuloId()).get());
-//        movimientoArticulo.setAjusteId(this.ajusteRepository.findById(movimientoArticuloDTO.getAjusteId()).get());
+        movimientoArticulo.setFecha(movimientoArticuloDTO.getFecha() + horaDeCarga);
+        movimientoArticulo.setMovimiento(movimientoArticuloDTO.getMovimiento());
+        movimientoArticulo.setArticuloByIdArticulo(this.articuloRepository.findById(movimientoArticuloDTO.getArticuloId()).get());
+        movimientoArticulo.setAjusteByIdAjuste(this.ajusteRepository.findById(movimientoArticuloDTO.getAjusteId()).get());
 
         movimientoArticulo = this.movimientoArticuloRepository.save(movimientoArticulo);
 
@@ -183,21 +178,17 @@ public class MovimientoArticuloService {
         List<Double> movimientoArticulo = new ArrayList<Double>();
 
         articulos.stream().forEach(art -> {
-            //VERIFICAR HABILITACION
-//            if (art.getHabilitacion() == true) {
-//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//                String fecha = LocalDateTime.now().format(formatter).toString();
-//                System.out.println(fecha);
-//                Double mov = this.movimientoArticuloRepository.stockPorArticulo(art.getId(), fecha);
-//                System.out.println(mov);
-//                if (mov == null)
-//                    mov = 0.0;
-//                movimientoArticulo.add(mov);
-//            }
+            if (art.getHabilitado() == true) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                Timestamp fecha = Timestamp.valueOf(LocalDateTime.now().format(formatter).toString());
+                Double mov = this.movimientoArticuloRepository.stockPorArticulo(art.getIdArticulo(), fecha);
+                System.out.println(mov);
+                if (mov == null)
+                    mov = 0.0;
+                movimientoArticulo.add(mov);
+            }
 
         });
-
-
         response.setCode(200);
         response.setMsg("Movimientos");
         response.setData(movimientoArticulo);
@@ -213,16 +204,15 @@ public class MovimientoArticuloService {
 
         articulos.stream().forEach(p -> {
             //HABILITACION VERIFICAR
-//            if (p.getHabilitacion()) {
-//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-//                String fecha = LocalDateTime.now().format(formatter).toString();
-//                System.out.println(fecha);
-//                Double mov = this.movimientoArticuloRepository.stockPorArticulo(p.getIdArticulo(), fecha);
-//                System.out.println(mov);
-//                if (mov == null)
-//                    mov = 0.0;
-//                movimientoArticulo.add(mov);
-//            }
+            if (p.getHabilitado()) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+                Timestamp fecha = Timestamp.valueOf(LocalDateTime.now().format(formatter).toString());
+                Double mov = this.movimientoArticuloRepository.stockPorArticulo(p.getIdArticulo(), fecha);
+                System.out.println(mov);
+                if (mov == null)
+                    mov = 0.0;
+                movimientoArticulo.add(mov);
+            }
 
         });
 

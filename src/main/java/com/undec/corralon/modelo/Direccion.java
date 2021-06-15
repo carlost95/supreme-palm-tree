@@ -11,7 +11,7 @@ public class Direccion extends DateAudit{
     private String entreCalle;
     private String barrio;
     private String descripcion;
-    private boolean habilitado;
+    private Boolean habilitado;
     private Integer idUbicacion;
     private Integer idCliente;
     private Integer idDistrito;
@@ -82,11 +82,11 @@ public class Direccion extends DateAudit{
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 

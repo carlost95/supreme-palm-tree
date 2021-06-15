@@ -71,8 +71,8 @@ public class DistritoService {
 
         Integer idDepartament = distritoDTO.getDepartamento().getId();
         Departamento departamento = this.departamentoRepository.findById(idDepartament).get();
-        distrito.setDepartamento(departamento);
-        distrito.setEstado(true);
+        distrito.setDepartamentoByIdDepartamento(departamento);
+        distrito.setHabilitado(true);
         Distrito guardado = distritoRepository.save(distrito);
 
         if(guardado == null)
@@ -88,11 +88,11 @@ public class DistritoService {
 
     private DistritoDTO distritoToDTO(Distrito distrito) {
         DistritoDTO distritoDTO = new DistritoDTO();
-        distritoDTO.setId(distrito.getId());
+        distritoDTO.setId(distrito.getIdDistrito());
         distritoDTO.setNombre(distrito.getNombre());
         distritoDTO.setAbreviatura(distrito.getAbreviatura());
-        distritoDTO.setEstado(distrito.getEstado());
-        distritoDTO.setDepartamento(this.departamentoToDTO(distrito.getDepartamento()));
+        distritoDTO.setEstado(distrito.getHabilitado());
+        distritoDTO.setDepartamento(this.departamentoToDTO(distrito.getDepartamentoByIdDepartamento()));
 
         return distritoDTO;
     }
@@ -100,10 +100,10 @@ public class DistritoService {
     private DepartamentoDTO departamentoToDTO(Departamento departamento){
         DepartamentoDTO departamentoDTO = new DepartamentoDTO();
 
-        departamentoDTO.setId(departamento.getId());
+        departamentoDTO.setId(departamento.getIdDepartamento());
         departamentoDTO.setNombre(departamento.getNombre());
         departamentoDTO.setAbreviatura(departamento.getAbreviatura());
-        departamentoDTO.setEstado(departamento.getEstado());
+        departamentoDTO.setEstado(departamento.getHabilitado());
 
         return departamentoDTO;
     }
@@ -115,9 +115,9 @@ public class DistritoService {
 
         Integer idDepartament = distritoDTO.getDepartamento().getId();
         Departamento departamento = this.departamentoRepository.findById(idDepartament).get();
-        distrito.setId(distritoDTO.getId());
-        distrito.setDepartamento(departamento);
-        distrito.setEstado(distritoDTO.getEstado());
+        distrito.setIdDistrito(distritoDTO.getId());
+        distrito.setDepartamentoByIdDepartamento(departamento);
+        distrito.setHabilitado(distritoDTO.getEstado());
         Distrito guardado = distritoRepository.save(distrito);
 
         if(guardado == null)
@@ -134,7 +134,7 @@ public class DistritoService {
     public Response changeStatus(Integer id) throws Exception{
         Response response = new Response();
         Distrito changeStatus = distritoRepository.findById(id).get();
-        changeStatus.setEstado(!changeStatus.getEstado());
+        changeStatus.setHabilitado(!changeStatus.getHabilitado());
         changeStatus = this.distritoRepository.save(changeStatus);
 
         response.setCode(200);

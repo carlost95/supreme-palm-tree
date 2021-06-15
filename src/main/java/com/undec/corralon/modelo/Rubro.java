@@ -10,9 +10,9 @@ public class Rubro extends DateAudit{
     private Integer idRubro;
     private String nombre;
     private String abreviatura;
-    private boolean habilitado;
-    private List<Articulo> articulosByIdRubro;
-    private List<SubRubro> subRubrosByIdRubro;
+    private Boolean habilitado;
+//    private List<Articulo> articulosByIdRubro;
+//    private List<SubRubro> subRubrosByIdRubro;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,11 +47,11 @@ public class Rubro extends DateAudit{
 
     @Basic
     @Column(name = "habilitado")
-    public boolean getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(boolean habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 
@@ -71,21 +71,21 @@ public class Rubro extends DateAudit{
         return Objects.hash(idRubro, nombre, abreviatura, habilitado);
     }
 
-    @OneToMany(mappedBy = "rubroByIdRubro")
-    public List<Articulo> getArticulosByIdRubro() {
-        return articulosByIdRubro;
-    }
-
-    public void setArticulosByIdRubro(List<Articulo> articulosByIdRubro) {
-        this.articulosByIdRubro = articulosByIdRubro;
-    }
-
-    @OneToMany(mappedBy = "rubroByIdRubro")
-    public List<SubRubro> getSubRubrosByIdRubro() {
-        return subRubrosByIdRubro;
-    }
-
-    public void setSubRubrosByIdRubro(List<SubRubro> subRubrosByIdRubro) {
-        this.subRubrosByIdRubro = subRubrosByIdRubro;
-    }
+//    @OneToMany(mappedBy = "rubroByIdRubro")
+//    public List<Articulo> getArticulosByIdRubro() {
+//        return articulosByIdRubro;
+//    }
+//
+//    public void setArticulosByIdRubro(List<Articulo> articulosByIdRubro) {
+//        this.articulosByIdRubro = articulosByIdRubro;
+//    }
+//
+//    @OneToMany(mappedBy = "rubroByIdRubro")
+//    public List<SubRubro> getSubRubrosByIdRubro() {
+//        return subRubrosByIdRubro;
+//    }
+//
+//    public void setSubRubrosByIdRubro(List<SubRubro> subRubrosByIdRubro) {
+//        this.subRubrosByIdRubro = subRubrosByIdRubro;
+//    }
 }

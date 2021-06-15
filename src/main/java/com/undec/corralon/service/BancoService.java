@@ -71,7 +71,7 @@ public class BancoService {
 
     public Response actualizarBanco(Banco banco) throws BancoErrorToUpdateException {
         Response response = new Response();
-        Banco bancoToUpdate = bancoRepository.findById(banco.getId()).get();
+        Banco bancoToUpdate = bancoRepository.findById(banco.getIdBanco()).get();
 
         if (bancoToUpdate == null) {
             throw new BancoErrorToUpdateException();
