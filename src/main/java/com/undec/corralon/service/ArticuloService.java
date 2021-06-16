@@ -137,20 +137,20 @@ public class ArticuloService {
         articulo.setCodigo(articuloDTO.getCodigoArt());
         articulo.setStockMinimo(articuloDTO.getStockMin());
         articulo.setStockMaximo(articuloDTO.getStockMax());
-        if (articuloDTO.getProveedorId() != null)
-            articulo.setProveedorByIdProveedor(proveedorRepository.findById(articuloDTO.getProveedorId()).get());
+        if (articuloDTO.getIdProveedor() != null)
+            articulo.setProveedorByIdProveedor(proveedorRepository.findById(articuloDTO.getIdProveedor()).get());
 
-        if (articuloDTO.getUnidadMedidaId() != null)
-            articulo.setUnidadMedidaByIdUnidadMedida(unidadMedidaRepository.findById(articuloDTO.getUnidadMedidaId()).get());
+        if (articuloDTO.getIdUnidadMedida() != null)
+            articulo.setUnidadMedidaByIdUnidadMedida(unidadMedidaRepository.findById(articuloDTO.getIdUnidadMedida()).get());
 
-        if (articuloDTO.getMarcaId() != null)
-            articulo.setMarcaByIdMarca(marcaRepository.findById(articuloDTO.getMarcaId()).get());
+        if (articuloDTO.getIdMarca() != null)
+            articulo.setMarcaByIdMarca(marcaRepository.findById(articuloDTO.getIdMarca()).get());
 
-        if (articuloDTO.getRubroId() != null)
-            articulo.setRubroByIdRubro(rubroRepository.findById(articuloDTO.getRubroId()).get());
+        if (articuloDTO.getIdRubro() != null)
+            articulo.setRubroByIdRubro(rubroRepository.findById(articuloDTO.getIdRubro()).get());
 
-        if (articuloDTO.getSubRubroId() != null)
-            articulo.setSubRubroByIdSubRubro(subRubroRepository.findById(articuloDTO.getSubRubroId()).get());
+        if (articuloDTO.getIdSubRubro() != null)
+            articulo.setSubRubroByIdSubRubro(subRubroRepository.findById(articuloDTO.getIdSubRubro()).get());
 
     }
 
