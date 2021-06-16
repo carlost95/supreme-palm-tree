@@ -30,7 +30,7 @@ public class RubroService {
 
     public Response obtenerTodosLosRubrosHabilitados() {
         Response response = new Response();
-        List<Rubro> rubros = this.rubroRepository.findByHabilitacionEquals(true);
+        List<Rubro> rubros = this.rubroRepository.findByHabilitadoEquals(true);
 
         response.setData(rubros);
         response.setCode(200);

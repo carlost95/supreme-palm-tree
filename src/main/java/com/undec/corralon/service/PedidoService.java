@@ -40,7 +40,7 @@ public class PedidoService {
         Response response = new Response();
 
         response.setCode(200);
-        response.setData(this.pedidoRepository.findByHabilitacionEquals(1));
+        response.setData(this.pedidoRepository.findByHabilitadoEquals(true));
         response.setMsg("Todos los pedidos");
 
         return response;

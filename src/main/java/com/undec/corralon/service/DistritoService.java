@@ -39,7 +39,7 @@ public class DistritoService {
 
     public Response listarTodosHabilitados() throws Exception{
         Response response = new Response();
-        List<Distrito> distritos = distritoRepository.findAllByEstadoTrue();
+        List<Distrito> distritos = distritoRepository.findByHabilitadoEquals(true);
 
         if(distritos == null)
             throw new DistritoListNotFoundException();

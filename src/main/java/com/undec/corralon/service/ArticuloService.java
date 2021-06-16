@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ArticuloService {
@@ -51,7 +52,7 @@ public class ArticuloService {
 
     public Response obtenerTodosLosArticulosHabilitados() {
         Response response = new Response();
-        List<Articulo> articulos = articuloRepository.findArticuloByHabilitacionEquals(true);
+        List<Articulo> articulos = articuloRepository.findArticuloByHabilitadoEquals(true);
 
         response.setCode(200);
         response.setMsg("Todos los articulos habilitados: ");

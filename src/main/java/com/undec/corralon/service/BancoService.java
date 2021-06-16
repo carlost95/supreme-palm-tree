@@ -31,7 +31,7 @@ public class BancoService {
 
     public Response listarTodosHabilitados() throws EntityNotFoundException {
         Response response = new Response();
-        List<Banco> bancos = bancoRepository.findAllByHabilitadoEquals((byte) 1);
+        List<Banco> bancos = bancoRepository.findAllByHabilitadoEquals(true);
         if (bancos == null)
             throw new EntityNotFoundException();
         response.setCode(200);

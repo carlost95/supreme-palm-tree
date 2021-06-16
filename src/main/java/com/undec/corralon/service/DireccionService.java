@@ -41,7 +41,7 @@ public class DireccionService {
     public Response buscarDireccionPorCliente(Integer idCliente) throws DireccionErrorToSaveException {
 
         Response response = new Response();
-        List<Direccion> direcciones = direccionRepository.findDireccionByClienteId(idCliente);
+        List<Direccion> direcciones = direccionRepository.findDireccionByClienteByIdCliente(idCliente);
         if( direcciones == null)
             throw new DireccionErrorToSaveException();
         List<DireccionDTO> direccionDTOS = new ArrayList<>();
@@ -102,7 +102,6 @@ public class DireccionService {
         Direccion direccionToUpdate = this.direccionRepository.findById(direccionDTO.getId()).get();
 
         Ubicacion ubicacion = this.updateUbicacion(direccionToUpdate.getUbicacionByIdUbicacion(), direccionDTO.getUbicacion());
-        direccion.setIdCliente(direccionDTO.getId());
         direccion.setUbicacionByIdUbicacion(ubicacion);
 
         direccion.setHabilitado(direccionDTO.getEstado());

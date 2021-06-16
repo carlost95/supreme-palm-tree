@@ -7,7 +7,7 @@ public class AjusteDTO {
     private Integer proveedorId;
     private String razonSocial;
     private String descripcion;
-    private Integer habilitacion;
+    private Integer habilitado;
 
     public int getId() {
         return id;
@@ -58,10 +58,10 @@ public class AjusteDTO {
     }
 
     public Integer getHabilitacion() {
-        return habilitacion;
+        return habilitado;
     }
 
-    public void setHabilitacion(Integer habilitacion) {
-        this.habilitacion = habilitacion;
+    public void setHabilitacion(Integer habilitado) {
+        this.habilitado = habilitado;
     }
 }

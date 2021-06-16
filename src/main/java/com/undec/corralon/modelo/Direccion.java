@@ -8,7 +8,6 @@ import java.util.Objects;
 @Entity
 public class Direccion extends DateAudit{
     private Integer idDireccion;
-    private Integer idCliente;
     private String calle;
     private String numeroCalle;
     private String entreCalle;
@@ -90,17 +89,7 @@ public class Direccion extends DateAudit{
         this.habilitado = habilitado;
     }
 
-    @Basic
-    @Column(name = "id_cliente")
-    public Integer getIdCliente() {
-        return idCliente;
-    }
-
-    public void setIdCliente(Integer idCliente) {
-        this.idCliente = idCliente;
-    }
-
-    @Override
+      @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

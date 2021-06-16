@@ -37,7 +37,7 @@ public class MovimientoArticuloService {
 
         Response response = new Response();
         Map<Integer, Integer> movimientosArticulos = new HashMap<Integer, Integer>();
-        List<MovimientoArticulo> articulos = this.movimientoArticuloRepository.findAllByPedidoId_Id(idPedido);
+        List<MovimientoArticulo> articulos = this.movimientoArticuloRepository.findAllByPedidoByIdPedido(idPedido);
         articulos.forEach(p -> {
             Integer idArticulo = p.getArticuloByIdArticulo().getIdArticulo();
             Integer movimiento = p.getMovimiento();
@@ -58,7 +58,7 @@ public class MovimientoArticuloService {
 
         Response response = new Response();
         Map<Integer, Integer> movimientosArticulos = new HashMap<Integer, Integer>();
-        List<MovimientoArticulo> articulos = this.movimientoArticuloRepository.findAllByAjusteId_Id(idAjuste);
+        List<MovimientoArticulo> articulos = this.movimientoArticuloRepository.findAllByAjusteByIdAjuste(idAjuste);
         articulos.forEach(p -> {
             Integer idArticulo = p.getArticuloByIdArticulo().getIdArticulo();
             Integer movimiento = p.getMovimiento();

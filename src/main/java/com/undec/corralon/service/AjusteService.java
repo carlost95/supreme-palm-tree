@@ -30,7 +30,7 @@ public class AjusteService {
     }
     public Response obtenerTodosLosAjustesHabilitados(){
         Response response = new Response();
-        List<Ajuste> ajustesHabilitados = this.ajusteRepository.findAjustesByHabilitacionEquals(true);
+        List<Ajuste> ajustesHabilitados = this.ajusteRepository.findAjusteByHabilitadoEquals(true);
         response.setCode(200);
         response.setMsg("Ajustes habilitados: ");
         response.setData(ajustesHabilitados);
@@ -67,7 +67,6 @@ public class AjusteService {
     public Response modificarAjuste (Ajuste ajuste) throws AjusteException{
         Response response = new Response();
         Ajuste ajusteToSave = this.ajusteRepository.findById(ajuste.getIdAjuste()).get();
-//        Pedido pedidoToSave = this.pedidoRepository.findById(pedido.getId()).get();
 
         ajusteToSave.setNombre(ajuste.getNombre());
         ajusteToSave.setDescripcion(ajuste.getDescripcion());

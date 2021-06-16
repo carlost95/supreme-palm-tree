@@ -13,8 +13,6 @@ public class Ajuste  extends DateAudit{
     private String descripcion;
     private Boolean habilitado;
     private String fecha;
-//    private List<DetalleAjuste> detalleAjustesByIdAjuste;
-//    private List<MovimientoArticulo> movimientoArticulosByIdAjuste;
 
     @Id
     @Column(name = "id_ajuste")
@@ -83,22 +81,4 @@ public class Ajuste  extends DateAudit{
     public int hashCode() {
         return Objects.hash(idAjuste, nombre, descripcion, habilitado, fecha);
     }
-
-//    @OneToMany(mappedBy = "ajusteByIdAjuste")
-//    public List<DetalleAjuste> getDetalleAjustesByIdAjuste() {
-//        return detalleAjustesByIdAjuste;
-//    }
-//
-//    public void setDetalleAjustesByIdAjuste(List<DetalleAjuste> detalleAjustesByIdAjuste) {
-//        this.detalleAjustesByIdAjuste = detalleAjustesByIdAjuste;
-//    }
-//
-//    @OneToMany(mappedBy = "ajusteByIdAjuste")
-//    public List<MovimientoArticulo> getMovimientoArticulosByIdAjuste() {
-//        return movimientoArticulosByIdAjuste;
-//    }
-//
-//    public void setMovimientoArticulosByIdAjuste(List<MovimientoArticulo> movimientoArticulosByIdAjuste) {
-//        this.movimientoArticulosByIdAjuste = movimientoArticulosByIdAjuste;
-//    }
 }

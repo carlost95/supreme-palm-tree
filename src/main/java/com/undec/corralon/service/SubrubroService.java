@@ -38,7 +38,7 @@ public class SubrubroService {
 
     public Response buscarTodosLosSubrubrosHabilitados(){
         Response response = new Response();
-        List<SubRubro> subrubros = subRubroRepository.findAllByHabilitacionEquals(true);
+        List<SubRubro> subrubros = subRubroRepository.findAllByHabilitadoEquals(true);
 
         response.setCode(200);
         response.setMsg("Todos los subrubros habilitados");
@@ -61,7 +61,7 @@ public class SubrubroService {
     public Response obtenerSubrubroPorRubro(Integer rubroId){
 
         Response response = new Response();
-        List<SubRubro> subrubro = subRubroRepository.findAllByRubroId_Id(rubroId);
+        List<SubRubro> subrubro = subRubroRepository.findAllByRubroByIdRubro(rubroId);
 
         response.setCode(200);
         response.setMsg("Subrubro pertenecientes al rubro: " + this.rubroRepository.findById(rubroId).get().getNombre());

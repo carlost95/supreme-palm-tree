@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Integer > {
-    List<Pedido> findByHabilitacionEquals(Integer habilitacion);
+    List<Pedido> findByHabilitadoEquals(boolean habilitado);
 }

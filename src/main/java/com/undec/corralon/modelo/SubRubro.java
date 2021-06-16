@@ -12,7 +12,6 @@ public class SubRubro extends DateAudit{
     private String nombre;
     private String abreviatura;
     private Boolean habilitado;
-    private Integer idRubro;
 //    private List<Articulo> articulosByIdSubRubro;
     private Rubro rubroByIdRubro;
 
@@ -57,16 +56,6 @@ public class SubRubro extends DateAudit{
         this.habilitado = habilitado;
     }
 
-    @Basic
-    @Column(name = "id_rubro")
-    public Integer getIdRubro() {
-        return idRubro;
-    }
-
-    public void setIdRubro(Integer idRubro) {
-        this.idRubro = idRubro;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,13 +64,12 @@ public class SubRubro extends DateAudit{
         return Objects.equals(idSubRubro, subRubro.idSubRubro) &&
                 Objects.equals(nombre, subRubro.nombre) &&
                 Objects.equals(abreviatura, subRubro.abreviatura) &&
-                Objects.equals(habilitado, subRubro.habilitado) &&
-                Objects.equals(idRubro, subRubro.idRubro);
+                Objects.equals(habilitado, subRubro.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idSubRubro, nombre, abreviatura, habilitado, idRubro);
+        return Objects.hash(idSubRubro, nombre, abreviatura, habilitado);
     }
 
 //    @OneToMany(mappedBy = "subRubroByIdSubRubro")

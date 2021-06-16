@@ -35,7 +35,7 @@ public class DepartamentoService {
 
     public Response listarTodosHabilitados() throws Exception{
         Response response = new Response();
-        List<Departamento> departamentos = departamentoRepository.findAllByEstadoTrue();
+        List<Departamento> departamentos = departamentoRepository.findByHabilitadoEquals(true);
         if(departamentos == null)
             throw new DepartamentoListNotFoundException();
 

@@ -9,9 +9,7 @@ import java.util.Objects;
 @Entity
 public class Cheque extends DateAudit{
     private Integer idCheque;
-    private Integer idBanco;
     private String titularEmisor;
-    private Integer idTipoCheque;
     private String fecha;
     private String fechaEmision;
     private String fechaVenciomiento;
@@ -33,16 +31,6 @@ public class Cheque extends DateAudit{
     }
 
     @Basic
-    @Column(name = "id_banco")
-    public Integer getIdBanco() {
-        return idBanco;
-    }
-
-    public void setIdBanco(Integer idBanco) {
-        this.idBanco = idBanco;
-    }
-
-    @Basic
     @Column(name = "titular_emisor")
     public String getTitularEmisor() {
         return titularEmisor;
@@ -50,16 +38,6 @@ public class Cheque extends DateAudit{
 
     public void setTitularEmisor(String titularEmisor) {
         this.titularEmisor = titularEmisor;
-    }
-
-    @Basic
-    @Column(name = "id_tipo_cheque")
-    public Integer getIdTipoCheque() {
-        return idTipoCheque;
-    }
-
-    public void setIdTipoCheque(Integer idTipoCheque) {
-        this.idTipoCheque = idTipoCheque;
     }
 
     @Basic
@@ -118,9 +96,7 @@ public class Cheque extends DateAudit{
         if (o == null || getClass() != o.getClass()) return false;
         Cheque cheque = (Cheque) o;
         return Objects.equals(idCheque, cheque.idCheque) &&
-                Objects.equals(idBanco, cheque.idBanco) &&
                 Objects.equals(titularEmisor, cheque.titularEmisor) &&
-                Objects.equals(idTipoCheque, cheque.idTipoCheque) &&
                 Objects.equals(fecha, cheque.fecha) &&
                 Objects.equals(fechaEmision, cheque.fechaEmision) &&
                 Objects.equals(fechaVenciomiento, cheque.fechaVenciomiento) &&
@@ -130,7 +106,7 @@ public class Cheque extends DateAudit{
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCheque, idBanco, titularEmisor, idTipoCheque, fecha, fechaEmision, fechaVenciomiento, fechaCobro, habilitado);
+        return Objects.hash(idCheque, titularEmisor, fecha, fechaEmision, fechaVenciomiento, fechaCobro, habilitado);
     }
 
     @ManyToOne
