@@ -85,7 +85,7 @@ public class DepartamentoService {
 
     public Response actualizar(DepartamentoDTO departamentoDTO) throws Exception{
         Response response = new Response();
-        Departamento actualizar = departamentoRepository.findById(departamentoDTO.getId()).get();
+        Departamento actualizar = departamentoRepository.findById(departamentoDTO.getIdDepartamento()).get();
 
         if(actualizar == null)
             throw new DepartamentoErrorToUpdateException();
@@ -93,7 +93,7 @@ public class DepartamentoService {
         actualizar.setNombre(departamentoDTO.getNombre());
         actualizar.setAbreviatura(departamentoDTO.getAbreviatura());
         actualizar.setNombre(departamentoDTO.getNombre());
-        actualizar.setHabilitado(departamentoDTO.getEstado());
+        actualizar.setHabilitado(departamentoDTO.getHabilitado());
 
         response.setCode(200);
         response.setMsg("Actualizado exitosamente!!!");

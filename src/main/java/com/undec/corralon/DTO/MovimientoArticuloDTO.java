@@ -7,23 +7,26 @@ import java.util.Date;
 
 public class MovimientoArticuloDTO {
 
-    @JsonProperty(value = "id", required = false)
-    private Integer id;
+    @JsonProperty(value = "idMovimientoArticulo", required = false)
+    private Integer idMovimientoArticulo;
     private String fecha;
     private Integer movimiento;
-    private Integer articuloId;
-    private Integer ajusteId;
-    private Integer pedidoId;
+    private Integer devolucion;
+    private Integer idArticulo;
+    private Integer idAjuste;
+    private Integer idPedido;
+    private Integer idRemito;
+    private Integer idVenta;
 
     public MovimientoArticuloDTO() {
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getIdMovimientoArticulo() {
+        return idMovimientoArticulo;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdMovimientoArticulo(Integer idMovimientoArticulo) {
+        this.idMovimientoArticulo = idMovimientoArticulo;
     }
 
     public String getFecha() {
@@ -42,27 +45,51 @@ public class MovimientoArticuloDTO {
         this.movimiento = movimiento;
     }
 
-    public Integer getArticuloId() {
-        return articuloId;
+    public Integer getDevolucion() {
+        return devolucion;
     }
 
-    public void setArticuloId(Integer articuloId) {
-        this.articuloId = articuloId;
+    public void setDevolucion(Integer devolucion) {
+        this.devolucion = devolucion;
     }
 
-    public Integer getAjusteId() {
-        return ajusteId;
+    public Integer getIdArticulo() {
+        return idArticulo;
     }
 
-    public void setAjusteId(Integer ajusteId) {
-        this.ajusteId = ajusteId;
+    public void setIdArticulo(Integer idArticulo) {
+        this.idArticulo = idArticulo;
     }
 
-    public Integer getPedidoId() {
-        return pedidoId;
+    public Integer getIdAjuste() {
+        return idAjuste;
     }
 
-    public void setPedidoId(Integer pedidoId) {
-        this.pedidoId = pedidoId;
+    public void setIdAjuste(Integer idAjuste) {
+        this.idAjuste = idAjuste;
+    }
+
+    public Integer getIdPedido() {
+        return idPedido;
+    }
+
+    public void setIdPedido(Integer idPedido) {
+        this.idPedido = idPedido;
+    }
+
+    public Integer getIdRemito() {
+        return idRemito;
+    }
+
+    public void setIdRemito(Integer idRemito) {
+        this.idRemito = idRemito;
+    }
+
+    public Integer getIdVenta() {
+        return idVenta;
+    }
+
+    public void setIdVenta(Integer idVenta) {
+        this.idVenta = idVenta;
     }
 }

@@ -2,17 +2,17 @@ package com.undec.corralon.DTO;
 
 public class DepartamentoDTO {
 
-    private Integer id;
+    private Integer idDepartamento;
     private String nombre;
     private String abreviatura;
-    private Boolean estado;
+    private Boolean habilitado;
 
-    public Integer getId() {
-        return id;
+    public Integer getIdDepartamento() {
+        return idDepartamento;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdDepartamento(Integer idDepartamento) {
+        this.idDepartamento = idDepartamento;
     }
 
     public String getNombre() {
@@ -31,11 +31,11 @@ public class DepartamentoDTO {
         this.abreviatura = abreviatura;
     }
 
-    public Boolean getEstado() {
-        return estado;
+    public Boolean getHabilitado() {
+        return habilitado;
     }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
 }

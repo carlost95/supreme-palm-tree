@@ -86,9 +86,7 @@ public class MovimientoArticuloService {
         movimientos.stream().forEach(System.out::println);
 
         movimientos = movimientos.stream().filter(m -> m.getArticuloByIdArticulo().getIdArticulo() < idTipoMov).collect(Collectors.toList());
-        System.out.println("----------------------");
         movimientos.stream().forEach(System.out::println);
-//SE REALIZO REFACTOR PARA CAMBIAR LOS TIPÓS DE DATOS PARA LAS FECHAS DE UN AJUSTE
         articulos.forEach(p -> {
             Integer idArticulo = p.getIdArticulo();
             Double stockArt = this.movimientoArticuloRepository.stockPorArticulo(idArticulo, fechaPedido);
@@ -141,8 +139,8 @@ public class MovimientoArticuloService {
 //        VERIFIACR SETEO DE DATOS
         movimientoArticulo.setFecha(movimientoArticuloDTO.getFecha() + horaDeCarga);
         movimientoArticulo.setMovimiento(movimientoArticuloDTO.getMovimiento());
-        movimientoArticulo.setArticuloByIdArticulo(this.articuloRepository.findById(movimientoArticuloDTO.getArticuloId()).get());
-        movimientoArticulo.setPedidoByIdPedido(this.pedidoRepository.findById(movimientoArticuloDTO.getPedidoId()).get());
+        movimientoArticulo.setArticuloByIdArticulo(this.articuloRepository.findById(movimientoArticuloDTO.getIdArticulo()).get());
+        movimientoArticulo.setPedidoByIdPedido(this.pedidoRepository.findById(movimientoArticuloDTO.getIdPedido()).get());
 
         movimientoArticulo = this.movimientoArticuloRepository.save(movimientoArticulo);
 
@@ -160,8 +158,8 @@ public class MovimientoArticuloService {
         horaDeCarga = horaDeCarga.substring(10, horaDeCarga.length());
         movimientoArticulo.setFecha(movimientoArticuloDTO.getFecha() + horaDeCarga);
         movimientoArticulo.setMovimiento(movimientoArticuloDTO.getMovimiento());
-        movimientoArticulo.setArticuloByIdArticulo(this.articuloRepository.findById(movimientoArticuloDTO.getArticuloId()).get());
-        movimientoArticulo.setAjusteByIdAjuste(this.ajusteRepository.findById(movimientoArticuloDTO.getAjusteId()).get());
+        movimientoArticulo.setArticuloByIdArticulo(this.articuloRepository.findById(movimientoArticuloDTO.getIdArticulo()).get());
+        movimientoArticulo.setAjusteByIdAjuste(this.ajusteRepository.findById(movimientoArticuloDTO.getIdAjuste()).get());
 
         movimientoArticulo = this.movimientoArticuloRepository.save(movimientoArticulo);
 
@@ -173,8 +171,8 @@ public class MovimientoArticuloService {
 
     public Response obtenerTodosLosMoviemientosPedido() {
         Response response = new Response();
-        List<Articulo> articulos = this.articuloRepository.findAll();
 
+        List<Articulo> articulos = this.articuloRepository.findAll();
         List<Double> movimientoArticulo = new ArrayList<Double>();
 
         articulos.stream().forEach(art -> {
@@ -182,7 +180,6 @@ public class MovimientoArticuloService {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 Timestamp fecha = Timestamp.valueOf(LocalDateTime.now().format(formatter).toString());
                 Double mov = this.movimientoArticuloRepository.stockPorArticulo(art.getIdArticulo(), fecha);
-                System.out.println(mov);
                 if (mov == null)
                     mov = 0.0;
                 movimientoArticulo.add(mov);
@@ -203,7 +200,6 @@ public class MovimientoArticuloService {
         List<Double> movimientoArticulo = new ArrayList<Double>();
 
         articulos.stream().forEach(p -> {
-            //HABILITACION VERIFICAR
             if (p.getHabilitado()) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 Timestamp fecha = Timestamp.valueOf(LocalDateTime.now().format(formatter).toString());
@@ -213,12 +209,10 @@ public class MovimientoArticuloService {
                     mov = 0.0;
                 movimientoArticulo.add(mov);
             }
-
         });
 
-
         response.setCode(200);
-        response.setMsg("Movimientos");
+        response.setMsg("Movimientos ajustes");
         response.setData(movimientoArticulo);
 
         return response;

@@ -90,13 +90,13 @@ public class SubrubroService {
     public Response actualizarSubrubro(SubrubroDTO subrubroDTO) throws SubrubroException {
 
         Response response = new Response();
-        SubRubro subRubroToUpdate = subRubroRepository.findById(subrubroDTO.getId()).get();
+        SubRubro subRubroToUpdate = subRubroRepository.findById(subrubroDTO.getIdSubRubro()).get();
 
         if(subRubroToUpdate == null)
             throw new SubRubroErrorToUpdateException();
 
         subRubroToUpdate.setNombre(subrubroDTO.getNombre());
-        subRubroToUpdate.setHabilitado(subrubroDTO.getHabilitacion());
+        subRubroToUpdate.setHabilitado(subrubroDTO.getHabilitado());
         subRubroToUpdate.setRubroByIdRubro(rubroRepository.findById(subrubroDTO.getRubroId()).get());
 
         subRubroToUpdate = subRubroRepository.save(subRubroToUpdate);
@@ -110,9 +110,9 @@ public class SubrubroService {
 
     private SubRubro mapDtoToEntity(SubrubroDTO subrubroDTO){
         SubRubro subRubro = new SubRubro();
-        subRubro.setIdSubRubro(subrubroDTO.getId());
+        subRubro.setIdSubRubro(subrubroDTO.getIdSubRubro());
         subRubro.setNombre(subrubroDTO.getNombre());
-        subRubro.setHabilitado(subrubroDTO.getHabilitacion());
+        subRubro.setHabilitado(subrubroDTO.getHabilitado());
         subRubro.setRubroByIdRubro(rubroRepository.findById(subrubroDTO.getRubroId()).get());
         return  subRubro;
     }
@@ -128,7 +128,7 @@ public class SubrubroService {
         subRubroRepository.save(subRubro);
 
         response.setCode(200);
-        response.setMsg("El rubro cambio el estado");
+        response.setMsg("cambio de estado subrubro");
         response.setData(subRubro);
         return response;
     }
