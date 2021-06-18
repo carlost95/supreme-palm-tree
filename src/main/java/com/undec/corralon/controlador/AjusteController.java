@@ -4,7 +4,7 @@ import com.undec.corralon.DTO.Response;
 import com.undec.corralon.excepciones.Ajuste.AjusteErrorToSaveException;
 import com.undec.corralon.excepciones.Ajuste.AjusteException;
 import com.undec.corralon.excepciones.Pedido.PedidoException;
-import com.undec.corralon.modelo.Ajustes;
+import com.undec.corralon.modelo.Ajuste;
 import com.undec.corralon.service.AjusteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,12 +34,12 @@ public class AjusteController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<Response> saveAjuste(@RequestBody Ajustes ajuste) throws AjusteException {
+    public ResponseEntity<Response> saveAjuste(@RequestBody Ajuste ajuste) throws AjusteException {
         Response response = ajusteService.saveAjuste(ajuste);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
     @PutMapping
-    public ResponseEntity<Response> modificarAjuste(@RequestBody Ajustes ajuste) throws AjusteException {
+    public ResponseEntity<Response> modificarAjuste(@RequestBody Ajuste ajuste) throws AjusteException {
         Response response = ajusteService.modificarAjuste(ajuste);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

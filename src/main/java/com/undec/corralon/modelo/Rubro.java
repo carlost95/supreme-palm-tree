@@ -1,31 +1,28 @@
 package com.undec.corralon.modelo;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import java.util.Date;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Rubro {
-    private Integer id;
+public class Rubro extends DateAudit{
+    private Integer idRubro;
     private String nombre;
-    private String descripcion;
-    private boolean habilitacion;
-    private Date fechaCreacion;
-    private Date fechaModificacion;
-    private Date fechaBaja;
+    private String abreviatura;
+    private Boolean habilitado;
+//    private List<Articulo> articulosByIdRubro;
+//    private List<SubRubro> subRubrosByIdRubro;
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getId() {
-        return id;
+    @Column(name = "id_rubro")
+    public Integer getIdRubro() {
+        return idRubro;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdRubro(Integer idRubro) {
+        this.idRubro = idRubro;
     }
 
     @Basic
@@ -39,53 +36,23 @@ public class Rubro {
     }
 
     @Basic
-    @Column(name = "descripcion")
-    public String getDescripcion() {
-        return descripcion;
+    @Column(name = "abreviatura")
+    public String getAbreviatura() {
+        return abreviatura;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    @Basic
-    @Column(name = "habilitacion")
-    public boolean getHabilitacion() {
-        return habilitacion;
-    }
-
-    public void setHabilitacion(boolean habilitacion) {
-        this.habilitacion = habilitacion;
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
     }
 
     @Basic
-    @Column(name = "fecha_creacion")
-    public Date getFechaCreacion() {
-        return fechaCreacion;
+    @Column(name = "habilitado")
+    public Boolean getHabilitado() {
+        return habilitado;
     }
 
-    public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    @Basic
-    @Column(name = "fecha_modificacion")
-    public Date getFechaModificacion() {
-        return fechaModificacion;
-    }
-
-    public void setFechaModificacion(Date fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
-    }
-
-    @Basic
-    @Column(name = "fecha_baja")
-    public Date getFechaBaja() {
-        return fechaBaja;
-    }
-
-    public void setFechaBaja(Date fechaBaja) {
-        this.fechaBaja = fechaBaja;
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
 
     @Override
@@ -93,17 +60,32 @@ public class Rubro {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Rubro rubro = (Rubro) o;
-        return Objects.equals(id, rubro.id) &&
+        return Objects.equals(idRubro, rubro.idRubro) &&
                 Objects.equals(nombre, rubro.nombre) &&
-                Objects.equals(descripcion, rubro.descripcion) &&
-                Objects.equals(habilitacion, rubro.habilitacion) &&
-                Objects.equals(fechaCreacion, rubro.fechaCreacion) &&
-                Objects.equals(fechaModificacion, rubro.fechaModificacion) &&
-                Objects.equals(fechaBaja, rubro.fechaBaja);
+                Objects.equals(abreviatura, rubro.abreviatura) &&
+                Objects.equals(habilitado, rubro.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, descripcion, habilitacion, fechaCreacion, fechaModificacion, fechaBaja);
+        return Objects.hash(idRubro, nombre, abreviatura, habilitado);
     }
+
+//    @OneToMany(mappedBy = "rubroByIdRubro")
+//    public List<Articulo> getArticulosByIdRubro() {
+//        return articulosByIdRubro;
+//    }
+//
+//    public void setArticulosByIdRubro(List<Articulo> articulosByIdRubro) {
+//        this.articulosByIdRubro = articulosByIdRubro;
+//    }
+//
+//    @OneToMany(mappedBy = "rubroByIdRubro")
+//    public List<SubRubro> getSubRubrosByIdRubro() {
+//        return subRubrosByIdRubro;
+//    }
+//
+//    public void setSubRubrosByIdRubro(List<SubRubro> subRubrosByIdRubro) {
+//        this.subRubrosByIdRubro = subRubrosByIdRubro;
+//    }
 }

@@ -1,23 +1,28 @@
 package com.undec.corralon.modelo;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tipo_cheque", schema = "santo_domingo_corralon", catalog = "")
-public class TipoCheque {
-    private Integer id;
+@Table(name = "tipo_cheque")
+public class TipoCheque extends DateAudit{
+    private Integer idTipoCheque;
     private String nombre;
     private String descripcion;
+    private Boolean habilitado;
+    private List<Cheque> chequesByIdTipoCheque;
 
     @Id
-    @Column(name = "id")
-    public Integer getId() {
-        return id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_tipo_cheque")
+    public Integer getIdTipoCheque() {
+        return idTipoCheque;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdTipoCheque(Integer idTipoCheque) {
+        this.idTipoCheque = idTipoCheque;
     }
 
     @Basic
@@ -40,18 +45,38 @@ public class TipoCheque {
         this.descripcion = descripcion;
     }
 
+    @Basic
+    @Column(name = "habilitado")
+    public Boolean getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TipoCheque that = (TipoCheque) o;
-        return Objects.equals(id, that.id) &&
+        return Objects.equals(idTipoCheque, that.idTipoCheque) &&
                 Objects.equals(nombre, that.nombre) &&
-                Objects.equals(descripcion, that.descripcion);
+                Objects.equals(descripcion, that.descripcion) &&
+                Objects.equals(habilitado, that.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, descripcion);
+        return Objects.hash(idTipoCheque, nombre, descripcion, habilitado);
     }
+
+//    @OneToMany(mappedBy = "tipoChequeByIdTipoCheque")
+//    public List<Cheque> getChequesByIdTipoCheque() {
+//        return chequesByIdTipoCheque;
+//    }
+//
+//    public void setChequesByIdTipoCheque(List<Cheque> chequesByIdTipoCheque) {
+//        this.chequesByIdTipoCheque = chequesByIdTipoCheque;
+//    }
 }

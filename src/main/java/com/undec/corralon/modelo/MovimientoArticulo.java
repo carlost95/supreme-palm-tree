@@ -1,32 +1,43 @@
 package com.undec.corralon.modelo;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "movimiento_articulo", schema = "santo_domingo_corralon")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class MovimientoArticulo {
-    private Integer id;
-    private String fecha;
+@Table(name = "movimiento_articulo")
+public class MovimientoArticulo extends DateAudit{
+    private Integer idMovimientoArticulo;
     private Integer movimiento;
-    private Articulo articuloId;
-    private Ajustes ajusteId;
-    private Pedido pedidoId;
+    private String fecha;
+    private Integer devolocion;
+    private Articulo articuloByIdArticulo;
+    private Venta ventaByIdVenta;
+    private Ajuste ajusteByIdAjuste;
+    private Pedido pedidoByIdPedido;
+    private Remito remitoByIdRemito;
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getId() {
-        return id;
+    @Column(name = "id_movimiento_articulo")
+    public Integer getIdMovimientoArticulo() {
+        return idMovimientoArticulo;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdMovimientoArticulo(Integer idMovimientoArticulo) {
+        this.idMovimientoArticulo = idMovimientoArticulo;
+    }
+
+    @Basic
+    @Column(name = "movimiento")
+    public Integer getMovimiento() {
+        return movimiento;
+    }
+
+    public void setMovimiento(Integer movimiento) {
+        this.movimiento = movimiento;
     }
 
     @Basic
@@ -40,43 +51,13 @@ public class MovimientoArticulo {
     }
 
     @Basic
-    @Column(name = "movimiento")
-    public Integer getMovimiento() {
-        return movimiento;
+    @Column(name = "devolocion")
+    public Integer getDevolocion() {
+        return devolocion;
     }
 
-    public void setMovimiento(Integer movimiento) {
-        this.movimiento = movimiento;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "articulo_id", referencedColumnName = "id")
-    public Articulo getArticuloId() {
-        return articuloId;
-    }
-
-    public void setArticuloId(Articulo articuloId) {
-        this.articuloId = articuloId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "ajuste_id", referencedColumnName = "id")
-    public Ajustes getAjusteId() {
-        return ajusteId;
-    }
-
-    public void setAjusteId(Ajustes ajusteId) {
-        this.ajusteId = ajusteId;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "pedido_id", referencedColumnName = "id")
-    public Pedido getPedidoId() {
-        return pedidoId;
-    }
-
-    public void setPedidoId(Pedido pedidoId) {
-        this.pedidoId = pedidoId;
+    public void setDevolocion(Integer devolocion) {
+        this.devolocion = devolocion;
     }
 
     @Override
@@ -84,28 +65,64 @@ public class MovimientoArticulo {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         MovimientoArticulo that = (MovimientoArticulo) o;
-        return id == that.id &&
-                movimiento == that.movimiento &&
-                articuloId == that.articuloId &&
+        return Objects.equals(idMovimientoArticulo, that.idMovimientoArticulo) &&
+                Objects.equals(movimiento, that.movimiento) &&
                 Objects.equals(fecha, that.fecha) &&
-                Objects.equals(ajusteId, that.ajusteId) &&
-                Objects.equals(pedidoId, that.pedidoId);
+                Objects.equals(devolocion, that.devolocion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fecha, movimiento, articuloId, ajusteId, pedidoId);
+        return Objects.hash(idMovimientoArticulo, movimiento, fecha, devolocion);
     }
 
-    @Override
-    public String toString() {
-        return "MovimientoArticulo{" +
-                "id=" + id +
-                ", fecha=" + fecha +
-                ", movimiento=" + movimiento +
-                ", articuloId=" + articuloId +
-                ", ajusteId=" + ajusteId +
-                ", pedidoId=" + pedidoId +
-                '}';
+    @ManyToOne
+    @JoinColumn(name = "id_articulo", referencedColumnName = "id_articulo", nullable = false)
+    public Articulo getArticuloByIdArticulo() {
+        return articuloByIdArticulo;
+    }
+
+    public void setArticuloByIdArticulo(Articulo articuloByIdArticulo) {
+        this.articuloByIdArticulo = articuloByIdArticulo;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "id_venta", referencedColumnName = "id_venta")
+    public Venta getVentaByIdVenta() {
+        return ventaByIdVenta;
+    }
+
+    public void setVentaByIdVenta(Venta ventaByIdVenta) {
+        this.ventaByIdVenta = ventaByIdVenta;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "id_ajuste", referencedColumnName = "id_ajuste")
+    public Ajuste getAjusteByIdAjuste() {
+        return ajusteByIdAjuste;
+    }
+
+    public void setAjusteByIdAjuste(Ajuste ajusteByIdAjuste) {
+        this.ajusteByIdAjuste = ajusteByIdAjuste;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
+    public Pedido getPedidoByIdPedido() {
+        return pedidoByIdPedido;
+    }
+
+    public void setPedidoByIdPedido(Pedido pedidoByIdPedido) {
+        this.pedidoByIdPedido = pedidoByIdPedido;
+    }
+
+    @ManyToOne
+    @JoinColumn(name = "id_remito", referencedColumnName = "id_remito")
+    public Remito getRemitoByIdRemito() {
+        return remitoByIdRemito;
+    }
+
+    public void setRemitoByIdRemito(Remito remitoByIdRemito) {
+        this.remitoByIdRemito = remitoByIdRemito;
     }
 }

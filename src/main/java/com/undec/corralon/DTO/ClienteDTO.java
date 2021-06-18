@@ -7,7 +7,7 @@ public class ClienteDTO {
     private String apellido;
     private String mail;
     private String dni;
-    private Boolean estado;
+    private Boolean habilitado;
 
     public Integer getId() {
         return id;
@@ -50,10 +50,10 @@ public class ClienteDTO {
     }
 
     public Boolean getEstado() {
-        return estado;
+        return habilitado;
     }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
+    public void setEstado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
 }

@@ -7,27 +7,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @Repository
 public interface MovimientoArticuloRepository extends JpaRepository<MovimientoArticulo, Integer> {
-    List<MovimientoArticulo> findMovimientoArticuloByPedidoId_IdEqualsAndFechaBefore(Integer id, String fecha);
 
-    @Query("SELECT SUM(m.movimiento) FROM MovimientoArticulo m WHERE m.articuloId.id = :id and m.articuloId.habilitacion = 1 and m.fecha <= :fechaPedido")
-    Double stockPorArticulo(@Param("id") Integer idArticulo, @Param("fechaPedido") String fechaPedido);
+    @Query("SELECT SUM(m.movimiento)  from MovimientoArticulo m WHERE m.articuloByIdArticulo = :idArticulo and m.fecha <= :fechaPedido and" +
+            "(m.ajusteByIdAjuste IS NOT NULL OR m.pedidoByIdPedido IS NOT NULL OR m.remitoByIdRemito IS NOT NULL) ")
+    Double stockPorArticulo(@Param("idArticulo") Integer idArticulo, @Param("fechaPedido") Timestamp fechaPedido);
 
-//    @Query("SELECT m FROM MovimientoArticulo m WHERE m.articuloId.id = :idArticulo and m.pedidoId.id = :idPedido")
-//    MovimientoArticulo buscarPorArticuloYPedido(@Param("idArticulo") Integer idArticulo, @Param("idPedido") Integer idPedido);
+    List<MovimientoArticulo> findAllByPedidoByIdPedido( Integer pedidoId);
 
-//    MovimientoArticulo findByArticuloIdEquals_IdAndPedidoId_IdEquals(Integer idArticulo, Integer idPedido);
-
-
-//    @Query("SELECT m.articuloId FROM MovimientoArticulo m WHERE m.pedidoId.id = :idPedido")
-//    MovimientoArticulo buscarArticulos(@Param("idArticulo") Integer idArticulo, @Param("idPedido") Integer idPedido);
-
-    List<MovimientoArticulo> findAllByPedidoId_Id( Integer pedidoId);
-
-    List<MovimientoArticulo> findAllByAjusteId_Id( Integer ajusteId);
+    List<MovimientoArticulo> findAllByAjusteByIdAjuste( Integer ajusteId);
 }

@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface DistritoRepository extends JpaRepository<Distrito, Integer> {
-    List<Distrito> findAllByEstadoTrue();
+    List<Distrito> findByHabilitadoEquals(boolean habilitado);
 }

@@ -31,7 +31,7 @@ public class BancoService {
 
     public Response listarTodosHabilitados() throws EntityNotFoundException {
         Response response = new Response();
-        List<Banco> bancos = bancoRepository.findAllByHabilitadoEquals((byte) 1);
+        List<Banco> bancos = bancoRepository.findAllByHabilitadoEquals(true);
         if (bancos == null)
             throw new EntityNotFoundException();
         response.setCode(200);
@@ -71,7 +71,7 @@ public class BancoService {
 
     public Response actualizarBanco(Banco banco) throws BancoErrorToUpdateException {
         Response response = new Response();
-        Banco bancoToUpdate = bancoRepository.findById(banco.getId()).get();
+        Banco bancoToUpdate = bancoRepository.findById(banco.getIdBanco()).get();
 
         if (bancoToUpdate == null) {
             throw new BancoErrorToUpdateException();

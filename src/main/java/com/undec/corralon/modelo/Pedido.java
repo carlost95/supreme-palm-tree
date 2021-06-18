@@ -1,56 +1,30 @@
 package com.undec.corralon.modelo;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
-
 @Entity
-//@Table(name = "pedido", schema = "santo_domingo_corralon")
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Pedido {
-    private int id;
+public class Pedido extends DateAudit {
+    private Integer idPedido;
     private String nombre;
-    private String fecha;
     private String descripcion;
-    private Integer proveedorId;
-    private String razonSocial;
-
-    public String getRazonSocial() {
-        return razonSocial;
-    }
-
-    public void setRazonSocial(String razonSocial) {
-        this.razonSocial = razonSocial;
-    }
-
-    private Integer habilitacion;
-
+    private String fecha;
+    private Boolean habilitado;
+//    private List<DetallePedido> detallePedidosByIdPedido;
+//    private List<MovimientoArticulo> movimientoArticulosByIdPedido;
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
-        return id;
+    @Column(name = "id_pedido")
+    public Integer getIdPedido() {
+        return idPedido;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Basic
-    @Column(name = "fecha")
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
+    public void setIdPedido(Integer idPedido) {
+        this.idPedido = idPedido;
     }
 
     @Basic
@@ -74,39 +48,57 @@ public class Pedido {
     }
 
     @Basic
-    @Column(name = "habilitacion")
-    public Integer getHabilitacion() {
-        return habilitacion;
+    @Column(name = "fecha")
+    public String getFecha() {
+        return fecha;
     }
 
-    public void setHabilitacion(Integer habilitacion) {
-        this.habilitacion = habilitacion;
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
+    }
+
+    @Basic
+    @Column(name = "habilitado")
+    public Boolean getHabilitado() {
+        return habilitado;
+    }
+
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Pedido that = (Pedido) o;
-        return id == that.id &&
-                Objects.equals(fecha, that.fecha) &&
-                Objects.equals(nombre, that.nombre) &&
-                Objects.equals(descripcion, that.descripcion) &&
-                Objects.equals(habilitacion, that.habilitacion);
+        Pedido pedido = (Pedido) o;
+        return Objects.equals(idPedido, pedido.idPedido) &&
+                Objects.equals(nombre, pedido.nombre) &&
+                Objects.equals(descripcion, pedido.descripcion) &&
+                Objects.equals(fecha, pedido.fecha) &&
+                Objects.equals(habilitado, pedido.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, fecha, nombre, descripcion, habilitacion);
+        return Objects.hash(idPedido, nombre, descripcion, fecha, habilitado);
     }
 
-    @Basic
-    @Column(name = "proveedor_id")
-    public Integer getProveedorId() {
-        return proveedorId;
-    }
-
-    public void setProveedorId(Integer proveedorId) {
-        this.proveedorId = proveedorId;
-    }
+//    @OneToMany(mappedBy = "pedidoByIdPedido")
+//    public List<DetallePedido> getDetallePedidosByIdPedido() {
+//        return detallePedidosByIdPedido;
+//    }
+//
+//    public void setDetallePedidosByIdPedido(List<DetallePedido> detallePedidosByIdPedido) {
+//        this.detallePedidosByIdPedido = detallePedidosByIdPedido;
+//    }
+//
+//    @OneToMany(mappedBy = "pedidoByIdPedido")
+//    public List<MovimientoArticulo> getMovimientoArticulosByIdPedido() {
+//        return movimientoArticulosByIdPedido;
+//    }
+//
+//    public void setMovimientoArticulosByIdPedido(List<MovimientoArticulo> movimientoArticulosByIdPedido) {
+//        this.movimientoArticulosByIdPedido = movimientoArticulosByIdPedido;
+//    }
 }

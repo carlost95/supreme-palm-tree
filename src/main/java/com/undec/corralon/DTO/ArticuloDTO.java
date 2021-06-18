@@ -11,24 +11,23 @@ public class ArticuloDTO {
     private String codigoArt;
     private Integer stockMin;
     private Integer stockMax;
-    private double costo;
-    private double precio ;
+
     @JsonProperty(value = "proveedorId", required = false)
-    private Integer proveedorId;
+    private Integer idProveedor;
     @JsonProperty(value = "unidadMedidaId", required = false)
-    private Integer unidadMedidaId;
+    private Integer idUnidadMedida;
     @JsonProperty(value = "marcaId", required = false)
-    private Integer marcaId;
+    private Integer idMarca;
     @JsonProperty(value = "rubroId", required = false)
-    private Integer rubroId;
+    private Integer idRubro;
     @JsonProperty(value = "subRubroId", required = false)
-    private Integer subRubroId;
-    @JsonProperty(value = "subRubroId", required = false)
-    private Integer costoId;
-    @JsonProperty(value = "subRubroId", required = false)
-    private Integer precioId;
-    @JsonProperty(value = "habilitacion", required = false)
-    private Integer habilitacion;
+    private Integer idSubRubro;
+    @JsonProperty(value = "costoId", required = false)
+    private Integer idCosto;
+    @JsonProperty(value = "precioId", required = false)
+    private Integer idPrecio;
+    @JsonProperty(value = "habilitado", required = false)
+    private Integer habilitado;
 
     public ArticuloDTO() {
     }
@@ -81,67 +80,67 @@ public class ArticuloDTO {
         this.stockMax = stockMax;
     }
 
-    public Integer getProveedorId() {
-        return proveedorId;
+    public Integer getIdProveedor() {
+        return idProveedor;
     }
 
-    public void setProveedorId(Integer proveedorId) {
-        this.proveedorId = proveedorId;
+    public void setIdProveedor(Integer idProveedor) {
+        this.idProveedor = idProveedor;
     }
 
-    public Integer getUnidadMedidaId() {
-        return unidadMedidaId;
+    public Integer getIdUnidadMedida() {
+        return idUnidadMedida;
     }
 
-    public void setUnidadMedidaId(Integer unidadMedidaId) {
-        this.unidadMedidaId = unidadMedidaId;
+    public void setIdUnidadMedida(Integer idUnidadMedida) {
+        this.idUnidadMedida = idUnidadMedida;
     }
 
-    public Integer getMarcaId() {
-        return marcaId;
+    public Integer getIdMarca() {
+        return idMarca;
     }
 
-    public void setMarcaId(Integer marcaId) {
-        this.marcaId = marcaId;
+    public void setIdMarca(Integer idMarca) {
+        this.idMarca = idMarca;
     }
 
-    public Integer getRubroId() {
-        return rubroId;
+    public Integer getIdRubro() {
+        return idRubro;
     }
 
-    public void setRubroId(Integer rubroId) {
-        this.rubroId = rubroId;
+    public void setIdRubro(Integer idRubro) {
+        this.idRubro = idRubro;
     }
 
-    public Integer getSubRubroId() {
-        return subRubroId;
+    public Integer getIdSubRubro() {
+        return idSubRubro;
     }
 
-    public void setSubRubroId(Integer subRubroId) {
-        this.subRubroId = subRubroId;
+    public void setIdSubRubro(Integer idSubRubro) {
+        this.idSubRubro = idSubRubro;
     }
 
-    public Integer getCostoId() {
-        return costoId;
+    public Integer getIdCosto() {
+        return idCosto;
     }
 
-    public void setCostoId(Integer costoId) {
-        this.costoId = costoId;
+    public void setIdCosto(Integer idCosto) {
+        this.idCosto = idCosto;
     }
 
-    public Integer getPrecioId() {
-        return precioId;
+    public Integer getIdPrecio() {
+        return idPrecio;
     }
 
-    public void setPrecioId(Integer precioId) {
-        this.precioId = precioId;
+    public void setIdPrecio(Integer idPrecio) {
+        this.idPrecio = idPrecio;
     }
 
-    public Integer getHabilitacion() {
-        return habilitacion;
+    public Integer getHabilitado() {
+        return habilitado;
     }
 
-    public void setHabilitacion(Integer habilitacion) {
-        this.habilitacion = habilitacion;
+    public void setHabilitado(Integer habilitado) {
+        this.habilitado = habilitado;
     }
 }

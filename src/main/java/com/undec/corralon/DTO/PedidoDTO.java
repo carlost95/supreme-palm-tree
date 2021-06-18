@@ -1,20 +1,20 @@
 package com.undec.corralon.DTO;
 
 public class PedidoDTO {
-    private int id;
+    private int idPedidoDto;
     private String nombre;
     private String fecha;
-    private Integer proveedorId;
+    private Integer idProveedor;
     private String razonSocial;
     private String descripcion;
-    private Integer habilitacion;
+    private Integer habilitado;
 
-    public int getId() {
-        return id;
+    public int getIdPedidoDto() {
+        return idPedidoDto;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdPedidoDto(int idPedidoDto) {
+        this.idPedidoDto = idPedidoDto;
     }
 
     public String getNombre() {
@@ -33,12 +33,12 @@ public class PedidoDTO {
         this.fecha = fecha;
     }
 
-    public Integer getProveedorId() {
-        return proveedorId;
+    public Integer getIdProveedor() {
+        return idProveedor;
     }
 
-    public void setProveedorId(Integer proveedorId) {
-        this.proveedorId = proveedorId;
+    public void setIdProveedor(Integer idProveedor) {
+        this.idProveedor = idProveedor;
     }
 
     public String getRazonSocial() {
@@ -57,11 +57,11 @@ public class PedidoDTO {
         this.descripcion = descripcion;
     }
 
-    public Integer getHabilitacion() {
-        return habilitacion;
+    public Integer getHabilitado() {
+        return habilitado;
     }
 
-    public void setHabilitacion(Integer habilitacion) {
-        this.habilitacion = habilitacion;
+    public void setHabilitado(Integer habilitado) {
+        this.habilitado = habilitado;
     }
 }

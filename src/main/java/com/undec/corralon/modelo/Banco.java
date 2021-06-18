@@ -1,27 +1,28 @@
 package com.undec.corralon.modelo;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
+
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Banco extends DateAudit{
-    private Integer id;
+    private Integer idBanco;
     private String nombre;
     private String abreviatura;
     private Boolean habilitado;
+//    private List<BancoProveedor> bancoProveedorsByIdBanco;
+//    private List<Cheque> chequesByIdBanco;
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getId() {
-        return id;
+    @Column(name = "id_banco")
+    public Integer getIdBanco() {
+        return idBanco;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdBanco(Integer idBanco) {
+        this.idBanco = idBanco;
     }
 
     @Basic
@@ -59,7 +60,7 @@ public class Banco extends DateAudit{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Banco banco = (Banco) o;
-        return Objects.equals(id, banco.id) &&
+        return Objects.equals(idBanco, banco.idBanco) &&
                 Objects.equals(nombre, banco.nombre) &&
                 Objects.equals(abreviatura, banco.abreviatura) &&
                 Objects.equals(habilitado, banco.habilitado);
@@ -67,6 +68,24 @@ public class Banco extends DateAudit{
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, abreviatura, habilitado);
+        return Objects.hash(idBanco, nombre, abreviatura, habilitado);
     }
+
+//    @OneToMany(mappedBy = "bancoByIdBanco")
+//    public List<BancoProveedor> getBancoProveedorsByIdBanco() {
+//        return bancoProveedorsByIdBanco;
+//    }
+//
+//    public void setBancoProveedorsByIdBanco(List<BancoProveedor> bancoProveedorsByIdBanco) {
+//        this.bancoProveedorsByIdBanco = bancoProveedorsByIdBanco;
+//    }
+//
+//    @OneToMany(mappedBy = "bancoByIdBanco")
+//    public List<Cheque> getChequesByIdBanco() {
+//        return chequesByIdBanco;
+//    }
+//
+//    public void setChequesByIdBanco(List<Cheque> chequesByIdBanco) {
+//        this.chequesByIdBanco = chequesByIdBanco;
+//    }
 }

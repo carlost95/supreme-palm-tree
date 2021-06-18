@@ -31,14 +31,14 @@ public class MarcaService {
         Response response = new Response();
         List<Marca> marcas = this.marcaRepository.findAll();
         response.setCode(200);
-        response.setMsg("Marcas");
+        response.setMsg("Listado de Marcas");
         response.setData(marcas);
         return response;
     }
 
     public Response obtenerHabilitados() throws MarcaNotFoundException {
         Response response = new Response();
-        List<Marca> marcas = this.marcaRepository.findAllByHabilitacionEquals(true);
+        List<Marca> marcas = this.marcaRepository.findAllByHabilitadoEquals(true);
         response.setCode(200);
         response.setMsg("Marcas Habilitadas");
         response.setData(marcas);
@@ -47,8 +47,7 @@ public class MarcaService {
 
     public Response guardarMarca(Marca marca) throws MarcaNotFoundException {
         Response response = new Response();
-        marca.setFechaCreacion(new Date());
-        marca.setHabilitacion(true);
+        marca.setHabilitado(true);
         marca = this.marcaRepository.save(marca);
 
         if (marca == null)
@@ -63,16 +62,15 @@ public class MarcaService {
 
     public Response actualizarMarca(Marca marca) throws MarcaNotFoundException {
         Response response = new Response();
-        Marca marcaToUpdate = marcaRepository.findById(marca.getId()).get();
+        Marca marcaToUpdate = marcaRepository.findById(marca.getIdMarca()).get();
 
         marcaToUpdate.setNombre(marca.getNombre());
         marcaToUpdate.setAbreviatura(marca.getAbreviatura());
-        marcaToUpdate.setFechaModificacion(new Date());
         if (marcaToUpdate == null) {
             throw new MarcaNotFoundException();
         }
         response.setCode(200);
-        response.setMsg("Marca actualizada");
+        response.setMsg("Marca actualizada correctamente");
         response.setData(marcaRepository.save(marcaToUpdate));
         return response;
     }
@@ -81,8 +79,7 @@ public class MarcaService {
         Response response = new Response();
         Marca marcaToDelete = marcaRepository.findById(id).get();
 
-        marcaToDelete.setHabilitacion(true);
-        marcaToDelete.setFechaBaja(new Date());
+        marcaToDelete.setHabilitado(true);
         if (marcaToDelete == null) {
             throw new MarcaNotFoundException();
         }
@@ -100,7 +97,7 @@ public class MarcaService {
             throw new BancoCambioEstadoException();
         }
         Marca marca = marcaOptional.get();
-        marca.setHabilitacion(!marca.getHabilitacion());
+        marca.setHabilitado(!marca.getHabilitado());
         marca = marcaRepository.save(marca);
 
         response.setCode(200);

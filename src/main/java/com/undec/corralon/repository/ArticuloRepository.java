@@ -7,5 +7,5 @@ import java.util.List;
 
 @Repository
 public interface ArticuloRepository extends JpaRepository<Articulo,Integer> {
-    List<Articulo> findArticuloByHabilitacionEquals(boolean habilitacion);
+    List<Articulo> findArticuloByHabilitadoEquals(boolean habilitado);
 }
