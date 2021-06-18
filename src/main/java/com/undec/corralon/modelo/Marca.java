@@ -1,31 +1,27 @@
 package com.undec.corralon.modelo;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import javax.persistence.*;
-import java.util.Date;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Marca {
-    private int id;
+public class Marca extends DateAudit {
+    private Integer idMarca;
     private String nombre;
     private String abreviatura;
-    private boolean habilitacion;
-    private Date fechaCreacion;
-    private Date fechaModificacion;
-    private Date fechaBaja;
+    private Boolean habilitado;
+//    private List<Articulo> articulosByIdMarca;
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public int getId() {
-        return id;
+    @Column(name = "id_marca")
+    public Integer getIdMarca() {
+        return idMarca;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdMarca(Integer idMarca) {
+        this.idMarca = idMarca;
     }
 
     @Basic
@@ -49,43 +45,13 @@ public class Marca {
     }
 
     @Basic
-    @Column(name = "habilitacion")
-    public boolean getHabilitacion() {
-        return habilitacion;
+    @Column(name = "habilitado")
+    public Boolean getHabilitado() {
+        return habilitado;
     }
 
-    public void setHabilitacion(boolean habilitacion) {
-        this.habilitacion = habilitacion;
-    }
-
-    @Basic
-    @Column(name = "fecha_creacion")
-    public Date getFechaCreacion() {
-        return fechaCreacion;
-    }
-
-    public void setFechaCreacion(Date fechaCreacion) {
-        this.fechaCreacion = fechaCreacion;
-    }
-
-    @Basic
-    @Column(name = "fecha_modificacion")
-    public Date getFechaModificacion() {
-        return fechaModificacion;
-    }
-
-    public void setFechaModificacion(Date fechaModificacion) {
-        this.fechaModificacion = fechaModificacion;
-    }
-
-    @Basic
-    @Column(name = "fecha_baja")
-    public Date getFechaBaja() {
-        return fechaBaja;
-    }
-
-    public void setFechaBaja(Date fechaBaja) {
-        this.fechaBaja = fechaBaja;
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
 
     @Override
@@ -93,17 +59,23 @@ public class Marca {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Marca marca = (Marca) o;
-        return id == marca.id &&
+        return Objects.equals(idMarca, marca.idMarca) &&
                 Objects.equals(nombre, marca.nombre) &&
                 Objects.equals(abreviatura, marca.abreviatura) &&
-                Objects.equals(habilitacion, marca.habilitacion) &&
-                Objects.equals(fechaCreacion, marca.fechaCreacion) &&
-                Objects.equals(fechaModificacion, marca.fechaModificacion) &&
-                Objects.equals(fechaBaja, marca.fechaBaja);
+                Objects.equals(habilitado, marca.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, abreviatura, habilitacion, fechaCreacion, fechaModificacion, fechaBaja);
+        return Objects.hash(idMarca, nombre, abreviatura, habilitado);
     }
+
+//    @OneToMany(mappedBy = "marcaByIdMarca")
+//    public List<Articulo> getArticulosByIdMarca() {
+//        return articulosByIdMarca;
+//    }
+//
+//    public void setArticulosByIdMarca(List<Articulo> articulosByIdMarca) {
+//        this.articulosByIdMarca = articulosByIdMarca;
+//    }
 }

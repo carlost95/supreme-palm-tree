@@ -7,8 +7,8 @@ public class DistritoDTO {
     private Integer id;
     private String nombre;
     private String abreviatura;
-    private Boolean estado;
-    private DepartamentoDTO departamento;
+    private Boolean habilitado;
+    private Integer idDepartamento;
 
     public DistritoDTO() {
     }
@@ -37,19 +37,19 @@ public class DistritoDTO {
         this.abreviatura = abreviatura;
     }
 
-    public Boolean getEstado() {
-        return estado;
+    public Boolean getHabilitado() {
+        return habilitado;
     }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
 
-    public DepartamentoDTO getDepartamento() {
-        return departamento;
+    public Integer getIdDepartamento() {
+        return idDepartamento;
     }
 
-    public void setDepartamento(DepartamentoDTO departamento) {
-        this.departamento = departamento;
+    public void setIdDepartamento(Integer idDepartamento) {
+        this.idDepartamento = idDepartamento;
     }
 }

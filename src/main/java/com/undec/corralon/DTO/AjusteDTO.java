@@ -1,22 +1,20 @@
 package com.undec.corralon.DTO;
 
 public class AjusteDTO {
-    private int id;
+    private Integer idAjuste;
     private String nombre;
     private String fecha;
-    private Integer proveedorId;
-    private String razonSocial;
+    private Integer idProveedor;
     private String descripcion;
-    private Integer habilitacion;
+    private Integer habilitado;
 
-    public int getId() {
-        return id;
+    public int getIdAjuste() {
+        return idAjuste;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setIdAjuste(int idAjuste) {
+        this.idAjuste = idAjuste;
     }
-
     public String getNombre() {
         return nombre;
     }
@@ -33,20 +31,12 @@ public class AjusteDTO {
         this.fecha = fecha;
     }
 
-    public Integer getProveedorId() {
-        return proveedorId;
+    public Integer getIdProveedor() {
+        return idProveedor;
     }
 
-    public void setProveedorId(Integer proveedorId) {
-        this.proveedorId = proveedorId;
-    }
-
-    public String getRazonSocial() {
-        return razonSocial;
-    }
-
-    public void setRazonSocial(String razonSocial) {
-        this.razonSocial = razonSocial;
+    public void setIdProveedor(Integer idProveedor) {
+        this.idProveedor = idProveedor;
     }
 
     public String getDescripcion() {
@@ -57,11 +47,11 @@ public class AjusteDTO {
         this.descripcion = descripcion;
     }
 
-    public Integer getHabilitacion() {
-        return habilitacion;
+    public Integer getHabilitado() {
+        return habilitado;
     }
 
-    public void setHabilitacion(Integer habilitacion) {
-        this.habilitacion = habilitacion;
+    public void setHabilitado(Integer habilitado) {
+        this.habilitado = habilitado;
     }
 }

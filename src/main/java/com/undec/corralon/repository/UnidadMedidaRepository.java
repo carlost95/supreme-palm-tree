@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface UnidadMedidaRepository extends JpaRepository<UnidadMedida, Integer> {
-    List<UnidadMedida> findAllByHabilitacionEquals(boolean habilitacion);
+    List<UnidadMedida> findAllByHabilitadoEquals(boolean habilitacion);
 }

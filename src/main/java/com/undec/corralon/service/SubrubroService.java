@@ -38,7 +38,7 @@ public class SubrubroService {
 
     public Response buscarTodosLosSubrubrosHabilitados(){
         Response response = new Response();
-        List<SubRubro> subrubros = subRubroRepository.findAllByHabilitacionEquals(true);
+        List<SubRubro> subrubros = subRubroRepository.findAllByHabilitadoEquals(true);
 
         response.setCode(200);
         response.setMsg("Todos los subrubros habilitados");
@@ -61,7 +61,7 @@ public class SubrubroService {
     public Response obtenerSubrubroPorRubro(Integer rubroId){
 
         Response response = new Response();
-        List<SubRubro> subrubro = subRubroRepository.findAllByRubroId_Id(rubroId);
+        List<SubRubro> subrubro = subRubroRepository.findAllByRubroByIdRubro(rubroId);
 
         response.setCode(200);
         response.setMsg("Subrubro pertenecientes al rubro: " + this.rubroRepository.findById(rubroId).get().getNombre());
@@ -77,8 +77,7 @@ public class SubrubroService {
         if(subRubro == null)
             throw new SubRubroErrorToSaveException();
 
-        subRubro.setHabilitacion(true);
-        subRubro.setFechaCreacion(new Date());
+        subRubro.setHabilitado(true);
         subRubro = subRubroRepository.save(subRubro);
 
         response.setCode(200);
@@ -91,16 +90,14 @@ public class SubrubroService {
     public Response actualizarSubrubro(SubrubroDTO subrubroDTO) throws SubrubroException {
 
         Response response = new Response();
-        SubRubro subRubroToUpdate = subRubroRepository.findById(subrubroDTO.getId()).get();
+        SubRubro subRubroToUpdate = subRubroRepository.findById(subrubroDTO.getIdSubRubro()).get();
 
         if(subRubroToUpdate == null)
             throw new SubRubroErrorToUpdateException();
 
         subRubroToUpdate.setNombre(subrubroDTO.getNombre());
-        subRubroToUpdate.setDescripcion(subrubroDTO.getDescripcion());
-        subRubroToUpdate.setHabilitacion(subrubroDTO.getHabilitacion());
-        subRubroToUpdate.setFechaModificacion(new Date());
-        subRubroToUpdate.setRubroId(rubroRepository.findById(subrubroDTO.getRubroId()).get());
+        subRubroToUpdate.setHabilitado(subrubroDTO.getHabilitado());
+        subRubroToUpdate.setRubroByIdRubro(rubroRepository.findById(subrubroDTO.getRubroId()).get());
 
         subRubroToUpdate = subRubroRepository.save(subRubroToUpdate);
 
@@ -113,11 +110,10 @@ public class SubrubroService {
 
     private SubRubro mapDtoToEntity(SubrubroDTO subrubroDTO){
         SubRubro subRubro = new SubRubro();
-        subRubro.setId(subrubroDTO.getId());
+        subRubro.setIdSubRubro(subrubroDTO.getIdSubRubro());
         subRubro.setNombre(subrubroDTO.getNombre());
-        subRubro.setDescripcion(subrubroDTO.getDescripcion());
-        subRubro.setHabilitacion(subrubroDTO.getHabilitacion());
-        subRubro.setRubroId(rubroRepository.findById(subrubroDTO.getRubroId()).get());
+        subRubro.setHabilitado(subrubroDTO.getHabilitado());
+        subRubro.setRubroByIdRubro(rubroRepository.findById(subrubroDTO.getRubroId()).get());
         return  subRubro;
     }
 
@@ -128,11 +124,11 @@ public class SubrubroService {
             throw new SubRubroCambioEstadoException();
         }
         SubRubro subRubro = subRubroOptional.get();
-        subRubro.setHabilitacion(!subRubro.getHabilitacion());
+        subRubro.setHabilitado(!subRubro.getHabilitado());
         subRubroRepository.save(subRubro);
 
         response.setCode(200);
-        response.setMsg("El rubro cambio el estado");
+        response.setMsg("cambio de estado subrubro");
         response.setData(subRubro);
         return response;
     }

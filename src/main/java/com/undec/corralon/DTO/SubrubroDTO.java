@@ -4,21 +4,21 @@ package com.undec.corralon.DTO;
 
 public class SubrubroDTO {
 
-    private Integer id;
+    private Integer idSubRubro;
     private String nombre;
     private String descripcion;
-    private boolean habilitacion;
+    private Boolean habilitado;
     private Integer rubroId;
 
     public SubrubroDTO() {
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getIdSubRubro() {
+        return idSubRubro;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdSubRubro(Integer idSubRubro) {
+        this.idSubRubro = idSubRubro;
     }
 
     public String getNombre() {
@@ -37,12 +37,12 @@ public class SubrubroDTO {
         this.descripcion = descripcion;
     }
 
-    public boolean getHabilitacion() {
-        return habilitacion;
+    public Boolean getHabilitado() {
+        return habilitado;
     }
 
-    public void setHabilitacion(boolean habilitacion) {
-        this.habilitacion = habilitacion;
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
 
     public Integer getRubroId() {

@@ -68,15 +68,14 @@ public class ProveedorService {
     }
     public Response actualizarProveedor(Proveedor proveedor) throws Exception {
         Response response = new Response();
-        Proveedor proveedorUpdate = proveedorRepository.findById(proveedor.getId()).get();
+        Proveedor proveedorUpdate = proveedorRepository.findById(proveedor.getIdProveedor()).get();
 
         if(proveedorUpdate == null)
             throw new ProveedorErrorToUpdateException();
 
         proveedorUpdate.setRazonSocial(proveedor.getRazonSocial());
         proveedorUpdate.setDomicilio(proveedor.getDomicilio());
-        proveedorUpdate.setMail(proveedor.getMail());
-        proveedorUpdate.setCelular(proveedor.getCelular());
+        proveedorUpdate.setEmail(proveedor.getEmail());
         proveedorUpdate.setTelefono(proveedor.getTelefono());
 
         response.setCode(200);

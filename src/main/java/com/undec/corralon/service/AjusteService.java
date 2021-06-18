@@ -5,8 +5,7 @@ import com.undec.corralon.excepciones.Ajuste.AjusteErrorToSaveException;
 import com.undec.corralon.excepciones.Ajuste.AjusteErrorToUpdateException;
 import com.undec.corralon.excepciones.Ajuste.AjusteErrorToUpdateHabilitacion;
 import com.undec.corralon.excepciones.Ajuste.AjusteException;
-import com.undec.corralon.excepciones.Pedido.PedidoErrorToSaveException;
-import com.undec.corralon.modelo.Ajustes;
+import com.undec.corralon.modelo.Ajuste;
 import com.undec.corralon.repository.AjusteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AjusteService {
@@ -23,7 +21,7 @@ public class AjusteService {
 
     public Response obtenerTodosLosAjustes(){
         Response response = new Response();
-        List<Ajustes> ajustes = this.ajusteRepository.findAll();
+        List<Ajuste> ajustes = this.ajusteRepository.findAll();
 
         response.setCode(200);
         response.setMsg("Todos los ajustes: ");
@@ -32,7 +30,7 @@ public class AjusteService {
     }
     public Response obtenerTodosLosAjustesHabilitados(){
         Response response = new Response();
-        List<Ajustes> ajustesHabilitados = this.ajusteRepository.findAjustesByHabilitacionEquals(true);
+        List<Ajuste> ajustesHabilitados = this.ajusteRepository.findAjusteByHabilitadoEquals(true);
         response.setCode(200);
         response.setMsg("Ajustes habilitados: ");
         response.setData(ajustesHabilitados);
@@ -40,21 +38,21 @@ public class AjusteService {
     }
     public Response obtenerAjustePorId(Integer id){
         Response response = new Response();
-        Ajustes ajusteSelected = this.ajusteRepository.findById(id).get();
+        Ajuste ajusteSelected = this.ajusteRepository.findById(id).get();
 
         response.setCode(200);
         response.setMsg(ajusteSelected.getNombre() + " seleccionado");
         response.setData(ajusteSelected);
         return response;
     }
-    public Response saveAjuste(Ajustes ajuste) throws AjusteException {
+    public Response saveAjuste(Ajuste ajuste) throws AjusteException {
         Response response = new Response();
-        Ajustes ajusteToSave = new Ajustes();
-        ajuste.setHabilitacion(true);
+        Ajuste ajusteToSave = new Ajuste();
+        ajuste.setHabilitado(true);
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String horaDeCarga = LocalDateTime.now().format(formatter).toString();
         horaDeCarga = horaDeCarga.substring(10, horaDeCarga.length());
-        ajuste.setFecha(ajuste.getFecha() + horaDeCarga);
+        ajuste.setFecha(ajuste.getFecha()+ horaDeCarga);
         ajusteToSave = this.ajusteRepository.save(ajuste);
 
         if (ajusteToSave == null) {
@@ -66,10 +64,9 @@ public class AjusteService {
         response.setMsg("ajuste guardado");
         return response;
     }
-    public Response modificarAjuste (Ajustes ajuste) throws AjusteException{
+    public Response modificarAjuste (Ajuste ajuste) throws AjusteException{
         Response response = new Response();
-        Ajustes ajusteToSave = this.ajusteRepository.findById(ajuste.getId()).get();
-//        Pedido pedidoToSave = this.pedidoRepository.findById(pedido.getId()).get();
+        Ajuste ajusteToSave = this.ajusteRepository.findById(ajuste.getIdAjuste()).get();
 
         ajusteToSave.setNombre(ajuste.getNombre());
         ajusteToSave.setDescripcion(ajuste.getDescripcion());
@@ -88,13 +85,13 @@ public class AjusteService {
     }
     public Response cambiarHabilitacionAjuste (Integer id) throws AjusteException{
         Response response = new Response();
-        Ajustes ajusteOptional= ajusteRepository.findById(id).get();
+        Ajuste ajusteOptional= ajusteRepository.findById(id).get();
 
         if (ajusteOptional==null){
             throw new AjusteErrorToUpdateHabilitacion("error the update habilitacion");
         }
 
-        ajusteOptional.setHabilitacion(!ajusteOptional.getHabilitacion());
+        ajusteOptional.setHabilitado(!ajusteOptional.getHabilitado());
         ajusteOptional = ajusteRepository.save(ajusteOptional);
         response.setCode(200);
         response.setMsg("se cambio habilitacion de ajuste");

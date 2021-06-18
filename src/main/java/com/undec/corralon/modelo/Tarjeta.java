@@ -1,24 +1,28 @@
 package com.undec.corralon.modelo;
 
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Tarjeta {
-    private Integer id;
+public class Tarjeta extends DateAudit{
+    private Integer idTarjeta;
     private String nombre;
-    private Integer tipoTarjetaId;
-    private Integer bancoId;
-    private TipoTarjeta tipoTarjetaByTipoTarjetaId;
+    private String abreviatura;
+    private Boolean habilitado;
+//    private List<PagoVenta> pagoVentasByIdTarjeta;
+    private Tipotarjeta tipotarjetaByIdTipoTarjeta;
 
     @Id
-    @Column(name = "id")
-    public Integer getId() {
-        return id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_tarjeta")
+    public Integer getIdTarjeta() {
+        return idTarjeta;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdTarjeta(Integer idTarjeta) {
+        this.idTarjeta = idTarjeta;
     }
 
     @Basic
@@ -32,23 +36,23 @@ public class Tarjeta {
     }
 
     @Basic
-    @Column(name = "tipo_tarjeta_id")
-    public Integer getTipoTarjetaId() {
-        return tipoTarjetaId;
+    @Column(name = "abreviatura")
+    public String getAbreviatura() {
+        return abreviatura;
     }
 
-    public void setTipoTarjetaId(Integer tipoTarjetaId) {
-        this.tipoTarjetaId = tipoTarjetaId;
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
     }
 
     @Basic
-    @Column(name = "banco_id")
-    public Integer getBancoId() {
-        return bancoId;
+    @Column(name = "habilitado")
+    public Boolean getHabilitado() {
+        return habilitado;
     }
 
-    public void setBancoId(Integer bancoId) {
-        this.bancoId = bancoId;
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
 
     @Override
@@ -56,24 +60,33 @@ public class Tarjeta {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Tarjeta tarjeta = (Tarjeta) o;
-        return Objects.equals(id, tarjeta.id) &&
+        return Objects.equals(idTarjeta, tarjeta.idTarjeta) &&
                 Objects.equals(nombre, tarjeta.nombre) &&
-                Objects.equals(tipoTarjetaId, tarjeta.tipoTarjetaId) &&
-                Objects.equals(bancoId, tarjeta.bancoId);
+                Objects.equals(abreviatura, tarjeta.abreviatura) &&
+                Objects.equals(habilitado, tarjeta.habilitado);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, tipoTarjetaId, bancoId);
+        return Objects.hash(idTarjeta, nombre, abreviatura, habilitado);
     }
 
-//    @ManyToOne
-//    @JoinColumn(name = "tipo_tarjeta_id", referencedColumnName = "id", nullable = false)
-//    public TipoTarjeta getTipoTarjetaByTipoTarjetaId() {
-//        return tipoTarjetaByTipoTarjetaId;
+//    @OneToMany(mappedBy = "tarjetaByIdTarjeta")
+//    public List<PagoVenta> getPagoVentasByIdTarjeta() {
+//        return pagoVentasByIdTarjeta;
 //    }
 //
-//    public void setTipoTarjetaByTipoTarjetaId(TipoTarjeta tipoTarjetaByTipoTarjetaId) {
-//        this.tipoTarjetaByTipoTarjetaId = tipoTarjetaByTipoTarjetaId;
+//    public void setPagoVentasByIdTarjeta(List<PagoVenta> pagoVentasByIdTarjeta) {
+//        this.pagoVentasByIdTarjeta = pagoVentasByIdTarjeta;
 //    }
+//
+    @ManyToOne
+    @JoinColumn(name = "id_tipo_tarjeta", referencedColumnName = "id_tipo_tarjeta", nullable = false)
+    public Tipotarjeta getTipotarjetaByIdTipoTarjeta() {
+        return tipotarjetaByIdTipoTarjeta;
+    }
+
+    public void setTipotarjetaByIdTipoTarjeta(Tipotarjeta tipotarjetaByIdTipoTarjeta) {
+        this.tipotarjetaByIdTipoTarjeta = tipotarjetaByIdTipoTarjeta;
+    }
 }

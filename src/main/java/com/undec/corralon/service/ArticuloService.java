@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class ArticuloService {
@@ -38,7 +39,6 @@ public class ArticuloService {
     SubRubroRepository subRubroRepository;
 
     @Autowired
-    FormaDePagoRepository formaDePagoRepository;
 
     public Response obtenerTodosLosArticulos() {
         Response response = new Response();
@@ -52,7 +52,7 @@ public class ArticuloService {
 
     public Response obtenerTodosLosArticulosHabilitados() {
         Response response = new Response();
-        List<Articulo> articulos = articuloRepository.findArticuloByHabilitacionEquals(true);
+        List<Articulo> articulos = articuloRepository.findArticuloByHabilitadoEquals(true);
 
         response.setCode(200);
         response.setMsg("Todos los articulos habilitados: ");
@@ -78,8 +78,7 @@ public class ArticuloService {
         if (articulo == null)
             throw new ArticuloErrorToSaveException();
 
-        articulo.setFechaCreacion(new Date());
-        articulo.setHabilitacion(true);
+        articulo.setHabilitado(true);
         articulo = articuloRepository.save(articulo);
 
         response.setCode(200);
@@ -98,7 +97,7 @@ public class ArticuloService {
         if (articulo == null)
             throw new ArticuloErrorToUpdateException();
 
-        articulo.setFechaModificacion(new Date());
+//        articulo.setFechaModificacion(new Date());
         articulo = articuloRepository.save(articulo);
 
         response.setCode(200);
@@ -115,8 +114,8 @@ public class ArticuloService {
         if (articulo == null)
             throw new ArticuloErrorToDeleteException();
 
-        articulo.setFechaBaja(new Date());
-        articulo.setHabilitacion(false);
+//        articulo.setFechaBaja(new Date());
+        articulo.setHabilitado(false);
         articulo = articuloRepository.save(articulo);
 
         response.setCode(200);
@@ -135,23 +134,23 @@ public class ArticuloService {
     private void mapperDtoEntity(ArticuloDTO articuloDTO, Articulo articulo) {
         articulo.setNombre(articuloDTO.getNombre());
         articulo.setAbreviatura(articuloDTO.getAbreviatura());
-        articulo.setCodigoArt(articuloDTO.getCodigoArt());
-        articulo.setStockMin(articuloDTO.getStockMin());
-        articulo.setStockMax(articuloDTO.getStockMax());
-        if (articuloDTO.getProveedorId() != null)
-            articulo.setProveedorId(proveedorRepository.findById(articuloDTO.getProveedorId()).get());
+        articulo.setCodigo(articuloDTO.getCodigoArt());
+        articulo.setStockMinimo(articuloDTO.getStockMin());
+        articulo.setStockMaximo(articuloDTO.getStockMax());
+        if (articuloDTO.getIdProveedor() != null)
+            articulo.setProveedorByIdProveedor(proveedorRepository.findById(articuloDTO.getIdProveedor()).get());
 
-        if (articuloDTO.getUnidadMedidaId() != null)
-            articulo.setUnidadMedidaId(unidadMedidaRepository.findById(articuloDTO.getUnidadMedidaId()).get());
+        if (articuloDTO.getIdUnidadMedida() != null)
+            articulo.setUnidadMedidaByIdUnidadMedida(unidadMedidaRepository.findById(articuloDTO.getIdUnidadMedida()).get());
 
-        if (articuloDTO.getMarcaId() != null)
-            articulo.setMarcaId(marcaRepository.findById(articuloDTO.getMarcaId()).get());
+        if (articuloDTO.getIdMarca() != null)
+            articulo.setMarcaByIdMarca(marcaRepository.findById(articuloDTO.getIdMarca()).get());
 
-        if (articuloDTO.getRubroId() != null)
-            articulo.setRubroId(rubroRepository.findById(articuloDTO.getRubroId()).get());
+        if (articuloDTO.getIdRubro() != null)
+            articulo.setRubroByIdRubro(rubroRepository.findById(articuloDTO.getIdRubro()).get());
 
-        if (articuloDTO.getSubRubroId() != null)
-            articulo.setSubRubroId(subRubroRepository.findById(articuloDTO.getSubRubroId()).get());
+        if (articuloDTO.getIdSubRubro() != null)
+            articulo.setSubRubroByIdSubRubro(subRubroRepository.findById(articuloDTO.getIdSubRubro()).get());
 
     }
 

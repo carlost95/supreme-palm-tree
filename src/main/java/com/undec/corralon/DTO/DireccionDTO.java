@@ -2,24 +2,26 @@ package com.undec.corralon.DTO;
 
 public class DireccionDTO {
 
-    private Integer id;
+    private Integer idDireccion;
     private String calle;
-    private String descripcion;
     private String numerocalle;
-    private Boolean estado;
-    private Integer clienteId;
-    private Integer distritoId;
-    private UbicacionDTO ubicacion;
+    private String entreCalle;
+    private String barrio;
+    private String descripcion;
+    private Boolean habilitado;
+    private Integer idCliente;
+    private Integer idDistrito;
+    private Integer idUbicacion;
 
-    public Integer getId() {
-        return id;
+    public Integer getIdDireccion() {
+        return idDireccion;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdDireccion(Integer idDireccion) {
+        this.idDireccion = idDireccion;
     }
 
-    public String getCalle() {
+     public String getCalle() {
         return calle;
     }
 
@@ -43,35 +45,51 @@ public class DireccionDTO {
         this.numerocalle = numerocalle;
     }
 
-    public Boolean getEstado() {
-        return estado;
+    public String getBarrio() {
+        return barrio;
     }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
+    public void setBarrio(String barrio) {
+        this.barrio = barrio;
     }
 
-    public Integer getClienteId() {
-        return clienteId;
+    public String getEntreCalle() {
+        return entreCalle;
     }
 
-    public void setClienteId(Integer clienteId) {
-        this.clienteId = clienteId;
+    public void setEntreCalle(String entreCalle) {
+        this.entreCalle = entreCalle;
     }
 
-    public Integer getDistritoId() {
-        return distritoId;
+    public Boolean getHabilitado() {
+        return habilitado;
     }
 
-    public void setDistritoId(Integer distritoId) {
-        this.distritoId = distritoId;
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
 
-    public UbicacionDTO getUbicacion() {
-        return ubicacion;
+    public Integer getIdCliente() {
+        return idCliente;
     }
 
-    public void setUbicacion(UbicacionDTO ubicacion) {
-        this.ubicacion = ubicacion;
+    public void setIdCliente(Integer idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public Integer getIdDistrito() {
+        return idDistrito;
+    }
+
+    public void setIdDistrito(Integer idDistrito) {
+        this.idDistrito = idDistrito;
+    }
+
+    public Integer getIdUbicacion() {
+        return idUbicacion;
+    }
+
+    public void setIdUbicacion(Integer idUbicacion) {
+        this.idUbicacion = idUbicacion;
     }
 }

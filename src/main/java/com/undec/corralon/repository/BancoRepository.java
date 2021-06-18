@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface BancoRepository extends JpaRepository <Banco, Integer> {
-    List<Banco>findAllByHabilitadoEquals(Byte habilitado);
+    List<Banco>findAllByHabilitadoEquals(boolean habilitado);
 }

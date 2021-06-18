@@ -1,27 +1,30 @@
 package com.undec.corralon.modelo;
 
 import javax.persistence.*;
-import java.util.*;
+import java.util.Collection;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 public class Cliente extends DateAudit {
-
-    private Integer id;
+    private Integer idCliente;
     private String nombre;
     private String apellido;
-    private String mail;
     private String dni;
-    private Boolean estado;
+    private Boolean habilitado;
+    private String mail;
+//    private List<Direccion> direccionsByIdCliente;
+//    private List<Venta> ventasByIdCliente;
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getId() {
-        return id;
+    @Column(name = "id_cliente")
+    public Integer getIdCliente() {
+        return idCliente;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdCliente(Integer idCliente) {
+        this.idCliente = idCliente;
     }
 
     @Basic
@@ -45,16 +48,6 @@ public class Cliente extends DateAudit {
     }
 
     @Basic
-    @Column(name = "mail")
-    public String getMail() {
-        return mail;
-    }
-
-    public void setMail(String mail) {
-        this.mail = mail;
-    }
-
-    @Basic
     @Column(name = "dni")
     public String getDni() {
         return dni;
@@ -65,31 +58,58 @@ public class Cliente extends DateAudit {
     }
 
     @Basic
-    @Column(name = "estado")
-    public Boolean getEstado() {
-        return estado;
+    @Column(name = "habilitado")
+    public Boolean getHabilitado() {
+        return habilitado;
     }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
 
+    @Basic
+    @Column(name = "mail")
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Cliente cliente = (Cliente) o;
-        return Objects.equals(id, cliente.id) &&
+        return Objects.equals(idCliente, cliente.idCliente) &&
                 Objects.equals(nombre, cliente.nombre) &&
                 Objects.equals(apellido, cliente.apellido) &&
                 Objects.equals(dni, cliente.dni) &&
-                Objects.equals(estado, cliente.estado);
+                Objects.equals(habilitado, cliente.habilitado) &&
+                Objects.equals(mail, cliente.mail);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, apellido, dni, estado);
+        return Objects.hash(idCliente, nombre, apellido, dni, habilitado, mail);
     }
 
+//    @OneToMany(mappedBy = "clienteByIdCliente")
+//    public List<Direccion> getDireccionsByIdCliente() {
+//        return direccionsByIdCliente;
+//    }
+//
+//    public void setDireccionsByIdCliente(List<Direccion> direccionsByIdCliente) {
+//        this.direccionsByIdCliente = direccionsByIdCliente;
+//    }
+
+//    @OneToMany(mappedBy = "clienteByIdCliente")
+//    public List<Venta> getVentasByIdCliente() {
+//        return ventasByIdCliente;
+//    }
+//
+//    public void setVentasByIdCliente(List<Venta> ventasByIdCliente) {
+//        this.ventasByIdCliente = ventasByIdCliente;
+//    }
 }

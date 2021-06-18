@@ -33,13 +33,12 @@ public class ReportSubRubro {
 
         try {
             List<SubrubroDTOPDF> subRubrosPdf = new ArrayList<SubrubroDTOPDF>();
-            List<SubRubro> subRubroList = subRubroRepository.findAllByHabilitacionEquals(true);
+            List<SubRubro> subRubroList = subRubroRepository.findAllByHabilitadoEquals(true);
 
             for (SubRubro subRub : subRubroList) {
                 SubrubroDTOPDF subRubro = new SubrubroDTOPDF();
                 subRubro.setNombre(subRub.getNombre());
-                subRubro.setDescripcion(subRub.getDescripcion());
-                subRubro.setNombreRubro(subRub.getRubroId().getNombre());
+//                subRubro.setNombreRubro(subRub.getIdRubro());
                 subRubrosPdf.add(subRubro);
             }
 

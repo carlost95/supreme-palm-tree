@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface DepartamentoRepository extends JpaRepository<Departamento, Integer> {
-    List<Departamento> findAllByEstadoTrue();
+    List<Departamento> findByHabilitadoEquals(boolean habilitado);
 }

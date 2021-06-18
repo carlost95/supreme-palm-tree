@@ -2,40 +2,40 @@ package com.undec.corralon.DTO;
 
 public class UbicacionDTO {
 
-    private Integer id;
-    private String lat;
-    private String lng;
-    private Boolean estado;
+    private Integer idUbicacion;
+    private String latitud;
+    private String longitud;
+    private Boolean habilitado;
 
-    public Integer getId() {
-        return id;
+    public Integer getIdUbicacion() {
+        return idUbicacion;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdUbicacion(Integer idUbicacion) {
+        this.idUbicacion = idUbicacion;
     }
 
-    public String getLat() {
-        return lat;
+    public String getLatitud() {
+        return latitud;
     }
 
-    public void setLat(String lat) {
-        this.lat = lat;
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
     }
 
-    public String getLng() {
-        return lng;
+    public String getLongitud() {
+        return longitud;
     }
 
-    public void setLng(String lng) {
-        this.lng = lng;
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
     }
 
-    public Boolean getEstado() {
-        return estado;
+    public Boolean getHabilitado() {
+        return habilitado;
     }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
 }

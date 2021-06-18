@@ -1,30 +1,28 @@
 package com.undec.corralon.modelo;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import javax.persistence.*;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class Distrito extends DateAudit{
-
-    private Integer id;
+    private Integer idDistrito;
     private String nombre;
     private String abreviatura;
-    private Boolean estado;
-    private Departamento departamento;
+    private Boolean habilitado;
+    private Departamento departamentoByIdDepartamento;
+//    private List<Direccion> direccionsByIdDistrito;
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getId() {
-        return id;
+    @Column(name = "id_distrito")
+    public Integer getIdDistrito() {
+        return idDistrito;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdDistrito(Integer idDistrito) {
+        this.idDistrito = idDistrito;
     }
 
     @Basic
@@ -48,43 +46,47 @@ public class Distrito extends DateAudit{
     }
 
     @Basic
-    @Column(name = "estado")
-    public Boolean getEstado() {
-        return estado;
+    @Column(name = "habilitado")
+    public Boolean getHabilitado() {
+        return habilitado;
     }
 
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
+    public void setHabilitado(Boolean habilitado) {
+        this.habilitado = habilitado;
     }
-
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Distrito distrito = (Distrito) o;
-        return Objects.equals(id, distrito.id) &&
+        return Objects.equals(idDistrito, distrito.idDistrito) &&
                 Objects.equals(nombre, distrito.nombre) &&
                 Objects.equals(abreviatura, distrito.abreviatura) &&
-                Objects.equals(estado, distrito.estado);
+                Objects.equals(habilitado, distrito.habilitado) ;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, nombre, abreviatura, estado);
+        return Objects.hash(idDistrito, nombre, abreviatura, habilitado);
     }
 
-
+//    @OneToMany(mappedBy = "distritoByIdDistrito")
+//    public List<Direccion> getDireccionsByIdDistrito() {
+//        return direccionsByIdDistrito;
+//    }
+//
+//    public void setDireccionsByIdDistrito(List<Direccion> direccionsByIdDistrito) {
+//        this.direccionsByIdDistrito = direccionsByIdDistrito;
+//    }
+//
     @ManyToOne
-    @JoinColumn(name = "departamento_id", referencedColumnName = "id")
-    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
-    @JsonIdentityReference(alwaysAsId=true)
-    public Departamento getDepartamento() {
-        return departamento;
+    @JoinColumn(name = "id_departamento", referencedColumnName = "id_departamento", nullable = false)
+    public Departamento getDepartamentoByIdDepartamento() {
+        return departamentoByIdDepartamento;
     }
 
-    public void setDepartamento(Departamento departamento) {
-        this.departamento = departamento;
+    public void setDepartamentoByIdDepartamento(Departamento departamentoByIdDepartamento) {
+        this.departamentoByIdDepartamento = departamentoByIdDepartamento;
     }
-
 }
