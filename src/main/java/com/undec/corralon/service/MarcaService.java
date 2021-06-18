@@ -31,7 +31,7 @@ public class MarcaService {
         Response response = new Response();
         List<Marca> marcas = this.marcaRepository.findAll();
         response.setCode(200);
-        response.setMsg("Marcas");
+        response.setMsg("Listado de Marcas");
         response.setData(marcas);
         return response;
     }

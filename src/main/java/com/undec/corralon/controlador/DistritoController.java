@@ -12,7 +12,7 @@ import javax.validation.Valid;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/distritos")
-public class DistritoController {
+public class  DistritoController {
 
     @Autowired
     DistritoService distritoService;
