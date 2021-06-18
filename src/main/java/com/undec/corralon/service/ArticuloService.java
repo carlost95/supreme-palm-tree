@@ -96,8 +96,6 @@ public class ArticuloService {
 
         if (articulo == null)
             throw new ArticuloErrorToUpdateException();
-
-//        articulo.setFechaModificacion(new Date());
         articulo = articuloRepository.save(articulo);
 
         response.setCode(200);
@@ -113,8 +111,6 @@ public class ArticuloService {
 
         if (articulo == null)
             throw new ArticuloErrorToDeleteException();
-
-//        articulo.setFechaBaja(new Date());
         articulo.setHabilitado(false);
         articulo = articuloRepository.save(articulo);
 
