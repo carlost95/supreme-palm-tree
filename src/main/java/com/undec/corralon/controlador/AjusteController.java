@@ -1,9 +1,7 @@
 package com.undec.corralon.controlador;
 
 import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.Ajuste.AjusteErrorToSaveException;
 import com.undec.corralon.excepciones.Ajuste.AjusteException;
-import com.undec.corralon.excepciones.Pedido.PedidoException;
 import com.undec.corralon.modelo.Ajuste;
 import com.undec.corralon.service.AjusteService;
 import org.springframework.beans.factory.annotation.Autowired;

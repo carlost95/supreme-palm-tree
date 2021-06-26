@@ -13,8 +13,6 @@ public class Proveedor extends DateAudit {
     private String email;
     private String telefono;
     private Boolean habilitado;
-//    private List<Articulo> articulosByIdProveedor;
-//    private List<BancoProveedor> bancoProveedorsByIdProveedor;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -94,22 +92,4 @@ public class Proveedor extends DateAudit {
     public int hashCode() {
         return Objects.hash(idProveedor, razonSocial, domicilio, email, telefono, habilitado);
     }
-
-//    @OneToMany(mappedBy = "proveedorByIdProveedor")
-//    public List<Articulo> getArticulosByIdProveedor() {
-//        return articulosByIdProveedor;
-//    }
-//
-//    public void setArticulosByIdProveedor(List<Articulo> articulosByIdProveedor) {
-//        this.articulosByIdProveedor = articulosByIdProveedor;
-//    }
-//
-//    @OneToMany(mappedBy = "proveedorByIdProveedor")
-//    public List<BancoProveedor> getBancoProveedorsByIdProveedor() {
-//        return bancoProveedorsByIdProveedor;
-//    }
-//
-//    public void setBancoProveedorsByIdProveedor(List<BancoProveedor> bancoProveedorsByIdProveedor) {
-//        this.bancoProveedorsByIdProveedor = bancoProveedorsByIdProveedor;
-//    }
 }

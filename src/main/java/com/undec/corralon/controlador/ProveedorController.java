@@ -1,6 +1,9 @@
 package com.undec.corralon.controlador;
 
+import com.undec.corralon.DTO.ProveedorDTO;
 import com.undec.corralon.DTO.Response;
+import com.undec.corralon.excepciones.proveedor.ProveedorBusquedaIdNotFoundException;
+import com.undec.corralon.excepciones.proveedor.ProveedorException;
 import com.undec.corralon.modelo.Proveedor;
 import com.undec.corralon.service.ProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,36 +21,36 @@ public class ProveedorController {
     ProveedorService proveedorService;
 
     @GetMapping
-    public ResponseEntity<Response> listarTodos() throws Exception {
-        Response response = proveedorService.listarTodos();
+    public ResponseEntity<Response> listOfAllSuppliers() {
+        Response response = proveedorService.listOfAllSuppliers();
         return  new ResponseEntity<>(response, HttpStatus.OK);
     }
     @GetMapping("/habilitados")
-    public ResponseEntity<Response> listarTodosHabilitados() throws Exception {
-        Response response = proveedorService.listarTodosHabilitados();
+    public ResponseEntity<Response> listOfSuppliersHabilitation(){
+        Response response = proveedorService.listOfSuppliersHabilitation();
         return  new ResponseEntity<>(response, HttpStatus.OK);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Response> listarPorId(@PathVariable("id") Integer id) throws Exception {
-        Response response = proveedorService.listarPorId(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Response> listSuppliersForId(@PathVariable Integer id){
+           Response response = proveedorService.listSuppliersForId(id);
+           return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<Response> guardar(@Valid @RequestBody Proveedor proveedor) throws Exception {
-        Response response = proveedorService.guardarProveedor(proveedor);
+    public ResponseEntity<Response> saveSupplier(@Valid @RequestBody ProveedorDTO proveedorDTO) {
+        Response response = proveedorService.saveSupplier(proveedorDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<Response> actualizar(@Valid @RequestBody Proveedor proveedor) throws Exception {
-        Response response = proveedorService.actualizarProveedor(proveedor);
+    public ResponseEntity<Response> updatedSupplier(@Valid @RequestBody Proveedor proveedor){
+        Response response = proveedorService.updatedSupplier(proveedor);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Response> cambiarHabilitacion(@PathVariable("id") Integer id) throws Exception {
-        Response response = proveedorService.cambiarHabilitacion(id);
+    public ResponseEntity<Response> habilitationChange(@PathVariable("id") Integer id){
+        Response response = proveedorService.habilitationChange(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

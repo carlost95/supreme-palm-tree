@@ -11,8 +11,6 @@ public class Banco extends DateAudit{
     private String nombre;
     private String abreviatura;
     private Boolean habilitado;
-//    private List<BancoProveedor> bancoProveedorsByIdBanco;
-//    private List<Cheque> chequesByIdBanco;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,21 +69,4 @@ public class Banco extends DateAudit{
         return Objects.hash(idBanco, nombre, abreviatura, habilitado);
     }
 
-//    @OneToMany(mappedBy = "bancoByIdBanco")
-//    public List<BancoProveedor> getBancoProveedorsByIdBanco() {
-//        return bancoProveedorsByIdBanco;
-//    }
-//
-//    public void setBancoProveedorsByIdBanco(List<BancoProveedor> bancoProveedorsByIdBanco) {
-//        this.bancoProveedorsByIdBanco = bancoProveedorsByIdBanco;
-//    }
-//
-//    @OneToMany(mappedBy = "bancoByIdBanco")
-//    public List<Cheque> getChequesByIdBanco() {
-//        return chequesByIdBanco;
-//    }
-//
-//    public void setChequesByIdBanco(List<Cheque> chequesByIdBanco) {
-//        this.chequesByIdBanco = chequesByIdBanco;
-//    }
 }

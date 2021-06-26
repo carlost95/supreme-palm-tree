@@ -16,48 +16,47 @@ import java.io.FileNotFoundException;
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/bancos")
-//ROLE permisos a configurar  @PreAuthorizer
 
 public class BancoController {
     @Autowired
     BancoService bancoService;
 
     @GetMapping
-    public ResponseEntity<Response> listarTodos() throws Exception {
-        Response response = bancoService.listarTodos();
+    public ResponseEntity<Response> listOfBank() throws Exception {
+        Response response = bancoService.listOfBank();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/habilitados")
-    public ResponseEntity<Response> listarTodosHabilitados() throws Exception {
-        Response response = bancoService.listarTodosHabilitados();
+    public ResponseEntity<Response> listOfBankHalilitation() throws Exception {
+        Response response = bancoService.listOfBankHalilitation();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<Response> guardar(@Valid @RequestBody Banco banco) throws Exception {
-        Response response = bancoService.guardarBanco(banco);
+    public ResponseEntity<Response> saveOfBank(@Valid @RequestBody Banco banco) throws Exception {
+        Response response = bancoService.saveOfBank(banco);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> listarPorId(@PathVariable("id") Integer id) throws Exception {
-        Response response = bancoService.obtenerBancoPorId(id);
+    public ResponseEntity<Response> listOfBankForId(@PathVariable("id") Integer id) throws Exception {
+        Response response = bancoService.listOfBankForId(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
-    public ResponseEntity<Response> actualizar(@Valid @RequestBody Banco banco) throws Exception {
-        Response response = bancoService.actualizarBanco(banco);
+    public ResponseEntity<Response> updatedBank(@Valid @RequestBody Banco banco) throws Exception {
+        Response response = bancoService.updatedBank(banco);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Response> cambiarHabilitacion(@PathVariable("id") Integer id) throws Exception {
-        Response response = bancoService.cambiarHabilitacion(id);
+    public ResponseEntity<Response> changeOfHabilitationBank(@PathVariable("id") Integer id) throws Exception {
+        Response response = bancoService.changeOfHabilitationBank(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

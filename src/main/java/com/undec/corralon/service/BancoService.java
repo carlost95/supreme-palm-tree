@@ -15,12 +15,12 @@ public class BancoService {
     @Autowired
     BancoRepository bancoRepository;
 
-    public Response listarTodos() throws EntityNotFoundException {
+    public Response listOfBank() throws BancoException {
         Response response = new Response();
         List<Banco> bancos = bancoRepository.findAll();
 
         if (bancos == null)
-            throw new EntityNotFoundException();
+            throw new BancoListNotFoundException("WARNING: Error en la busqueda de bancos");
 
         response.setCode(200);
         response.setMsg("Bancos listados correctamente");
@@ -29,11 +29,11 @@ public class BancoService {
         return response;
     }
 
-    public Response listarTodosHabilitados() throws EntityNotFoundException {
+    public Response listOfBankHalilitation() throws BancoException {
         Response response = new Response();
         List<Banco> bancos = bancoRepository.findAllByHabilitadoEquals(true);
         if (bancos == null)
-            throw new EntityNotFoundException();
+            throw new BancoListHbailitadosNotFountException("WARNING: Error en la busqueda de bancos habilitados");
         response.setCode(200);
         response.setMsg("Bancos habilitados listados correctamente");
         response.setData(bancos);
@@ -41,7 +41,7 @@ public class BancoService {
         return response;
     }
 
-    public Response obtenerBancoPorId(Integer id) throws BancoNotFoundException {
+    public Response listOfBankForId(Integer id) throws BancoException {
 
         Response response = new Response();
         Optional<Banco> bancoOptional = bancoRepository.findById(id);
@@ -56,25 +56,25 @@ public class BancoService {
         return response;
     }
 
-    public Response guardarBanco(Banco banco) throws BancoErrorToSaveException {
+    public Response saveOfBank(Banco banco) throws BancoException {
         Response response = new Response();
         banco.setHabilitado(true);
         Banco bancoToSave = bancoRepository.save(banco);
 
         if (bancoToSave == null)
-            throw new BancoErrorToSaveException();
+            throw new BancoErrorToSaveException("WARNING: Alert method toSave Bank");
         response.setCode(200);
         response.setMsg("banco guardado exitosamente");
         response.setData(bancoToSave);
         return response;
     }
 
-    public Response actualizarBanco(Banco banco) throws BancoErrorToUpdateException {
+    public Response updatedBank(Banco banco) throws BancoException {
         Response response = new Response();
         Banco bancoToUpdate = bancoRepository.findById(banco.getIdBanco()).get();
 
         if (bancoToUpdate == null) {
-            throw new BancoErrorToUpdateException();
+            throw new BancoErrorToUpdateException("WARNING: Error en la actualizacin de banco");
         }
 
         bancoToUpdate.setNombre(banco.getNombre());
@@ -86,12 +86,12 @@ public class BancoService {
         return response;
     }
 
-    public Response cambiarHabilitacion(Integer id) throws BancoCambioEstadoException {
+    public Response changeOfHabilitationBank(Integer id) throws BancoException {
         Response response = new Response();
 
         Optional<Banco> bancoOptional = bancoRepository.findById(id);
         if (!bancoOptional.isPresent()){
-            throw new BancoCambioEstadoException();
+            throw new BancoCambioEstadoException("WARNING: Error en la cambio de habilitacion de banco");
         }
         Banco banco = bancoOptional.get();
         banco.setHabilitado(!banco.getHabilitado());

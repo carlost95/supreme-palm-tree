@@ -13,6 +13,9 @@ public class BancoProveedor extends DateAudit {
     private Proveedor proveedorByIdProveedor;
     private Banco bancoByIdBanco;
 
+    public BancoProveedor() {
+    }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_banco_proveedor")

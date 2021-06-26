@@ -89,12 +89,12 @@ public class MarcaService {
         return response;
     }
 
-    public Response cambiarHabilitacion(Integer id) throws BancoCambioEstadoException {
+    public Response cambiarHabilitacion(Integer id) throws MarcaNotFoundException {
         Response response = new Response();
 
         Optional<Marca> marcaOptional = marcaRepository.findById(id);
         if (!marcaOptional.isPresent()) {
-            throw new BancoCambioEstadoException();
+            throw new MarcaNotFoundException();
         }
         Marca marca = marcaOptional.get();
         marca.setHabilitado(!marca.getHabilitado());
