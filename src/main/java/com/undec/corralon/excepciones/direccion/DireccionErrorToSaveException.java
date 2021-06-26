@@ -1,7 +1,7 @@
-package com.undec.corralon.excepciones;
+package com.undec.corralon.excepciones.direccion;
 
 public class DireccionErrorToSaveException extends Exception {
-    public DireccionErrorToSaveException(){
-        super("DireccionErrorToSaveException: Se genero error al guardar");
+    public DireccionErrorToSaveException(String msj){
+        super(msj);
     }
 }
