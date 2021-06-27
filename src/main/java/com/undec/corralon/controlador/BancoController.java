@@ -22,40 +22,40 @@ public class BancoController {
     BancoService bancoService;
 
     @GetMapping
-    public ResponseEntity<Response> listOfBank() throws Exception {
+    public ResponseEntity<Response> listOfBank(){
         Response response = bancoService.listOfBank();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/habilitados")
-    public ResponseEntity<Response> listOfBankHalilitation() throws Exception {
+    public ResponseEntity<Response> listOfBankHalilitation(){
         Response response = bancoService.listOfBankHalilitation();
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<Response> saveOfBank(@Valid @RequestBody Banco banco) throws Exception {
+    public ResponseEntity<Response> saveOfBank(@Valid @RequestBody Banco banco) {
         Response response = bancoService.saveOfBank(banco);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> listOfBankForId(@PathVariable("id") Integer id) throws Exception {
+    public ResponseEntity<Response> listOfBankForId(@PathVariable("id") Integer id) {
         Response response = bancoService.listOfBankForId(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
-    public ResponseEntity<Response> updatedBank(@Valid @RequestBody Banco banco) throws Exception {
+    public ResponseEntity<Response> updatedBank(@Valid @RequestBody Banco banco) {
         Response response = bancoService.updatedBank(banco);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
-    public ResponseEntity<Response> changeOfHabilitationBank(@PathVariable("id") Integer id) throws Exception {
+    public ResponseEntity<Response> changeOfHabilitationBank(@PathVariable("id") Integer id){
         Response response = bancoService.changeOfHabilitationBank(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
