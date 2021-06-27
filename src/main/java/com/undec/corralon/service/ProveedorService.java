@@ -4,7 +4,6 @@ import com.undec.corralon.DTO.ProveedorDTO;
 import com.undec.corralon.DTO.Response;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFounException;
-import com.undec.corralon.excepciones.proveedor.*;
 import com.undec.corralon.modelo.Banco;
 import com.undec.corralon.modelo.BancoProveedor;
 import com.undec.corralon.modelo.Proveedor;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProveedorService {
@@ -32,7 +30,7 @@ public class ProveedorService {
         Response response = new Response();
         List<Proveedor> proveedores = proveedorRepository.findAll();
         if (proveedores == null) {
-            throw new NotFounException("WARNING: No existen proveedore");
+            throw new NotFounException("WARNING: No existen proveedores");
         }
         response.setMsg("Lista de Proveedores");
         response.setCode(200);
@@ -41,7 +39,7 @@ public class ProveedorService {
         return response;
     }
 
-    public Response listOfSuppliersHabilitation(){
+    public Response listOfSuppliersHabilitation() {
         Response response = new Response();
         List<Proveedor> proveedores = proveedorRepository.findAllByHabilitadoEquals(true);
         if (proveedores == null) {
@@ -53,16 +51,15 @@ public class ProveedorService {
         return response;
     }
 
-    public Response listSuppliersForId(Integer id){
+    public Response listSuppliersForId(Integer id) {
         Response response = new Response();
         Proveedor proveedor = proveedorRepository.findById(id).
-                orElseThrow(() ->new NotFounException("WARNING: No existe el proveedor por id"));
-
+                orElseThrow(() -> new NotFounException("WARNING: No existe el proveedor por id"));
 
         response.setCode(200);
         response.setMsg("proveedor " + id);
         response.setData(proveedor);
-        return  response;
+        return response;
     }
 
     public Response saveSupplier(ProveedorDTO proveedorDTO) {
@@ -82,37 +79,43 @@ public class ProveedorService {
         return response;
     }
 
-    public Response updatedSupplier(Proveedor proveedor) {
+    public Response updatedSupplier(ProveedorDTO proveedorDTO) {
         Response response = new Response();
-        Proveedor proveedorUpdate = proveedorRepository.findById(proveedor.getIdProveedor()).get();
+        Proveedor proveedor = mappedOfSupplier(proveedorDTO);
 
-        if (proveedorUpdate == null)
-            throw new ProveedorErrorToUpdateException();
+        Proveedor proveedorUpdate = proveedorRepository.findById(proveedor.getIdProveedor()).
+                orElseThrow(() -> new NotFounException("WARNING: No se encuentra el proveedorDTO a actualizar"));
 
         proveedorUpdate.setRazonSocial(proveedor.getRazonSocial());
         proveedorUpdate.setDomicilio(proveedor.getDomicilio());
         proveedorUpdate.setEmail(proveedor.getEmail());
         proveedorUpdate.setTelefono(proveedor.getTelefono());
 
+        Proveedor proveedor1 = proveedorRepository.save(proveedorUpdate);
+        if (proveedor1 ==null)
+            throw new NotFounException("WARNING: No se puede actualizar datos del proveedor o no existe el proveedor");
+
+        mappedDateOfSupplier(proveedor1, proveedorDTO);
+
         response.setCode(200);
         response.setMsg("Proveedor actualizado correctamente");
-        response.setData(proveedorRepository.save(proveedorUpdate));
+        response.setData(proveedor1);
         return response;
     }
 
-    public Response habilitationChange(Integer id) throws ProveedorCambioEstadoException {
+    public Response habilitationChange(Integer id) {
         Response response = new Response();
 
-        Optional<Proveedor> proveedorOptional = proveedorRepository.findById(id);
-        if (!proveedorOptional.isPresent()) {
-            throw new ProveedorCambioEstadoException();
-        }
-        Proveedor proveedor = proveedorOptional.get();
+        Proveedor proveedorOptional = proveedorRepository.findById(id).
+                orElseThrow(() -> new NotFounException("WARNING: No se encuentra el proveedor para su habilitacion o deshabilitacion"));
+        Proveedor proveedor = proveedorOptional;
+
         proveedor.setHabilitado(!proveedor.getHabilitado());
-        proveedorRepository.save(proveedor);
+        if (proveedorRepository.save(proveedor)== null)
+            throw new NotFounException("WARNING: No existe el probveedor que se quiere cambiar habiulitacion o es null");
 
         response.setCode(200);
-        response.setMsg("El proveedor cambio el estado");
+        response.setMsg("El proveedor cambio el estado exitosamente");
         response.setData(proveedor);
         return response;
     }
@@ -126,7 +129,7 @@ public class ProveedorService {
         proveedor.setDomicilio(proveedorDTO.getDomicilio());
         proveedor.setHabilitado(true);
 
-        if(proveedorDuplicado(proveedor))
+        if (proveedorDuplicado(proveedor))
             throw new BadRequestException("WARNING: El proveedor cargado es invalido o ya existe");
         else
             return proveedor;
@@ -136,7 +139,7 @@ public class ProveedorService {
         BancoProveedor datosProveedor = new BancoProveedor();
         Banco banco = proveedorDTO.getBanco();
 
-        if (banco.getIdBanco()== null)
+        if (banco == null || banco.getIdBanco() == null)
             throw new BadRequestException("WARNING: No se cargaron los datos del banco para el proveedor");
 
         datosProveedor.setTitularCuenta(proveedorDTO.getTitularCuenta());
@@ -145,14 +148,15 @@ public class ProveedorService {
         datosProveedor.setProveedorByIdProveedor(proveedor);
         datosProveedor.setBancoByIdBanco(banco);
 
-        if(bancoProveedorRepository.save(datosProveedor) == null)
-            throw new NotFounException("WARNING: No se puede guardar los datos del banco del proveedor");
-        else{
+        if (bancoProveedorRepository.save(datosProveedor) == null)
+            throw new NotFounException("WARNING: No se puede guardar los datos de banco del proveedor");
+        else {
             BancoProveedor dateSupplier = bancoProveedorRepository.save(datosProveedor);
             return dateSupplier;
         }
     }
-    private Boolean proveedorDuplicado(Proveedor prov){
+
+    private Boolean proveedorDuplicado(Proveedor prov) {
         if (proveedorRepository.existsByRazonSocialAndEmail(prov.getRazonSocial(), prov.getEmail()))
             return true;
         return false;

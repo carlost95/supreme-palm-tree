@@ -2,8 +2,6 @@ package com.undec.corralon.controlador;
 
 import com.undec.corralon.DTO.ProveedorDTO;
 import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.proveedor.ProveedorBusquedaIdNotFoundException;
-import com.undec.corralon.excepciones.proveedor.ProveedorException;
 import com.undec.corralon.modelo.Proveedor;
 import com.undec.corralon.service.ProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,8 +41,8 @@ public class ProveedorController {
     }
 
     @PutMapping
-    public ResponseEntity<Response> updatedSupplier(@Valid @RequestBody Proveedor proveedor){
-        Response response = proveedorService.updatedSupplier(proveedor);
+    public ResponseEntity<Response> updatedSupplier(@Valid @RequestBody ProveedorDTO proveedorDTO){
+        Response response = proveedorService.updatedSupplier(proveedorDTO);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
