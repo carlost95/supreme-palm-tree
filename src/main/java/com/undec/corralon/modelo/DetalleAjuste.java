@@ -1,12 +1,13 @@
 package com.undec.corralon.modelo;
 
+import com.undec.corralon.modelo.audit.DateAudit;
+
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "detalle_ajuste")
-public class DetalleAjuste extends DateAudit{
+public class DetalleAjuste extends DateAudit {
     private Integer idDetalleAjuste;
     private Double cantidad;
     private String fecha;

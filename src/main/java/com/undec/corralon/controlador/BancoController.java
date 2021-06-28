@@ -34,7 +34,7 @@ public class BancoController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER') || hasRole('ROLE_GERENTE')")
     @PostMapping
     public ResponseEntity<Response> guardar(@Valid @RequestBody Banco banco) throws Exception {
         Response response = bancoService.guardarBanco(banco);
@@ -47,7 +47,7 @@ public class BancoController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER') || hasRole('ROLE_GERENTE')")
     @PutMapping
     public ResponseEntity<Response> actualizar(@Valid @RequestBody Banco banco) throws Exception {
         Response response = bancoService.actualizarBanco(banco);

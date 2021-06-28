@@ -1,12 +1,13 @@
 package com.undec.corralon.modelo;
 
+import com.undec.corralon.modelo.audit.DateAudit;
 import net.minidev.json.annotate.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Direccion extends DateAudit{
+public class Direccion extends DateAudit {
     private Integer idDireccion;
     private String calle;
     private String numeroCalle;

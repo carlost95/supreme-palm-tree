@@ -1,12 +1,13 @@
 package com.undec.corralon.modelo;
 
+import com.undec.corralon.modelo.audit.DateAudit;
+
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Ubicacion extends DateAudit{
+public class Ubicacion extends DateAudit {
     private Integer idUbicacion;
     private String latitud;
     private String longitud;

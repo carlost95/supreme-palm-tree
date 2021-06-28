@@ -1,14 +1,13 @@
 package com.undec.corralon.modelo;
 
-import net.minidev.json.annotate.JsonIgnore;
+import com.undec.corralon.modelo.audit.DateAudit;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "movimiento_articulo")
-public class MovimientoArticulo extends DateAudit{
+public class MovimientoArticulo extends DateAudit {
     private Integer idMovimientoArticulo;
     private Integer movimiento;
     private String fecha;
