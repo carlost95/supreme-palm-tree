@@ -1,13 +1,14 @@
 package com.undec.corralon.modelo;
 
+import com.undec.corralon.modelo.audit.DateAudit;
+
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "unidad_medida")
-public class UnidadMedida extends DateAudit{
+public class UnidadMedida extends DateAudit {
     private Integer idUnidadMedida;
     private String nombre;
     private String abreviatura;

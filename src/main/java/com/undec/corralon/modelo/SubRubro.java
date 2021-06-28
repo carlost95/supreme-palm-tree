@@ -1,13 +1,13 @@
 package com.undec.corralon.modelo;
 
+import com.undec.corralon.modelo.audit.DateAudit;
+
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "sub_rubro")
-public class SubRubro extends DateAudit{
+public class SubRubro extends DateAudit {
     private Integer idSubRubro;
     private String nombre;
     private String abreviatura;
