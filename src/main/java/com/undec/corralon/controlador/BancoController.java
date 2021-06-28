@@ -1,5 +1,6 @@
 package com.undec.corralon.controlador;
 
+import com.undec.corralon.DTO.BancoRequest;
 import com.undec.corralon.DTO.Response;
 import com.undec.corralon.modelo.Banco;
 import com.undec.corralon.service.BancoService;
@@ -35,8 +36,8 @@ public class BancoController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<Response> saveOfBank(@Valid @RequestBody Banco banco) {
-        Response response = bancoService.saveOfBank(banco);
+    public ResponseEntity<Response> saveOfBank(@Valid @RequestBody BancoRequest bancoRequest) {
+        Response response = bancoService.saveOfBank(bancoRequest);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -48,9 +49,9 @@ public class BancoController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
-    public ResponseEntity<Response> updatedBank(@Valid @RequestBody Banco banco) {
-        Response response = bancoService.updatedBank(banco);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Banco> updatedBank(@Valid @RequestBody Banco banco) {
+//        Response response = bancoService.updatedBank(banco);
+        return new ResponseEntity<>(bancoService.updatedBank(banco), HttpStatus.OK);
     }
 
     @PreAuthorize("hasRole('ADMIN')")

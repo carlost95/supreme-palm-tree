@@ -1,5 +1,6 @@
 package com.undec.corralon.service;
 
+import com.undec.corralon.DTO.BancoRequest;
 import com.undec.corralon.DTO.Response;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
@@ -54,10 +55,14 @@ public class BancoService {
         return response;
     }
 
-    public Response saveOfBank(Banco banco) {
+    public Response saveOfBank(BancoRequest bancoRequest) {
         Response response = new Response();
-        banco.setHabilitado(true);
-        Banco bancoToSave = bancoRepository.save(banco);
+        Banco bank = new Banco();
+        bank.setNombre(bancoRequest.getNombre());
+        bank.setAbreviatura(bancoRequest.getAbreviatuira());
+        bank.setHabilitado(true);
+
+        Banco bancoToSave = bancoRepository.save(bank);
 
         if (bancoToSave == null)
             throw new NotFoundException("WARNING: No se puede guardar banco");
@@ -68,7 +73,7 @@ public class BancoService {
         return response;
     }
 
-    public Response updatedBank(Banco banco) {
+    public Banco updatedBank(Banco banco) {
         Response response = new Response();
 
         if (banco.getIdBanco() == null) throw new BadRequestException("WARNING: No se cargaron los datos del banco");
@@ -78,12 +83,13 @@ public class BancoService {
 
         Banco bancoMapped = mappedBanco(bancoToUpdate);
         bancoToUpdate = bancoRepository.save(bancoMapped);
-        if (bancoToUpdate == null) throw new NotFoundException("WARNING: No se guiardo el banco a actualizar");
+        if (bancoToUpdate == null) throw new NotFoundException("WARNING: No se guardo el banco a actualizar");
 
-        response.setCode(200);
-        response.setMsg("Banco actualizado con exito");
-        response.setData(bancoToUpdate);
-        return response;
+//        response.setCode(200);
+//        response.setMsg("Banco actualizado con exito");
+//        response.setData(bancoToUpdate);
+//        return response;
+        return bancoToUpdate;
     }
 
 
