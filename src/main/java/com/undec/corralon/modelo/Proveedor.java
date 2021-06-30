@@ -1,12 +1,13 @@
 package com.undec.corralon.modelo;
 
 import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Proveedor extends DateAudit {
+public class Proveedor extends UserDateAudit {
     private Integer idProveedor;
     private String razonSocial;
     private String domicilio;

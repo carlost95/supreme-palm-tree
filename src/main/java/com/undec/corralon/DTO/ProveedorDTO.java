@@ -8,6 +8,7 @@ public class ProveedorDTO {
     private String email;
     private String telefono;
     private String domicilio;
+    private Boolean habilitado;
     private String titularCuenta;
     private String numeroCuenta;
     private String cbu;
@@ -17,64 +18,40 @@ public class ProveedorDTO {
         return idProveedor;
     }
 
-    public void setIdProveedor(Integer idProveedor) {
-        this.idProveedor = idProveedor;
-    }
 
     public String getRazonSocial() {
         return razonSocial;
     }
 
-    public void setRazonSocial(String razonSocial) {
-        this.razonSocial = razonSocial;
-    }
 
     public String getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
     public String getTelefono() {
         return telefono;
     }
 
-    public void setTelefono(String telefono) {
-        this.telefono = telefono;
-    }
 
     public String getDomicilio() {
         return domicilio;
-    }
-
-    public void setDomicilio(String domicilio) {
-        this.domicilio = domicilio;
     }
 
     public String getTitularCuenta() {
         return titularCuenta;
     }
 
-    public void setTitularCuenta(String titularCuenta) {
-        this.titularCuenta = titularCuenta;
-    }
-
     public String getNumeroCuenta() {
         return numeroCuenta;
-    }
-
-    public void setNumeroCuenta(String numeroCuenta) {
-        this.numeroCuenta = numeroCuenta;
     }
 
     public String getCbu() {
         return cbu;
     }
 
-    public void setCbu(String cbu) {
-        this.cbu = cbu;
+    public Boolean getHabilitado() {
+        return habilitado;
     }
 
     public Banco getBanco() {

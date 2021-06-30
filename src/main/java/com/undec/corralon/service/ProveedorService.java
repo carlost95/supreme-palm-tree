@@ -51,19 +51,14 @@ public class ProveedorService {
         return response;
     }
 
-    public Response listSuppliersForId(Integer id) {
-        Response response = new Response();
+    public Proveedor listSuppliersForId(Integer id) {
         Proveedor proveedor = proveedorRepository.findById(id).
                 orElseThrow(() -> new NotFoundException("WARNING: No existe el proveedor por id"));
 
-        response.setCode(200);
-        response.setMsg("proveedor " + id);
-        response.setData(proveedor);
-        return response;
+        return proveedor;
     }
 
-    public Response saveSupplier(ProveedorDTO proveedorDTO) {
-        Response response = new Response();
+    public Proveedor saveSupplier(ProveedorDTO proveedorDTO) {
         Proveedor proveedor = mappedOfSupplier(proveedorDTO);
         Proveedor supplierSave = proveedorRepository.save(proveedor);
 
@@ -72,52 +67,38 @@ public class ProveedorService {
         }
         mappedDateOfSupplier(supplierSave, proveedorDTO);
 
-        response.setCode(200);
-        response.setMsg("Proveedor creado correctamente");
-        response.setData(supplierSave);
-
-        return response;
+        return proveedor;
     }
 
-    public Response updatedSupplier(ProveedorDTO proveedorDTO) {
-        Response response = new Response();
-        Proveedor proveedor = mappedOfSupplier(proveedorDTO);
-
-        Proveedor proveedorUpdate = proveedorRepository.findById(proveedor.getIdProveedor()).
+    public Proveedor updatedSupplier(ProveedorDTO proveedorDTO) {
+        Proveedor proveedorUpdate = proveedorRepository.findById(proveedorDTO.getIdProveedor()).
                 orElseThrow(() -> new NotFoundException("WARNING: No se encuentra el proveedorDTO a actualizar"));
 
-        proveedorUpdate.setRazonSocial(proveedor.getRazonSocial());
-        proveedorUpdate.setDomicilio(proveedor.getDomicilio());
-        proveedorUpdate.setEmail(proveedor.getEmail());
-        proveedorUpdate.setTelefono(proveedor.getTelefono());
+        proveedorUpdate.setRazonSocial(proveedorDTO.getRazonSocial());
+        proveedorUpdate.setDomicilio(proveedorDTO.getDomicilio());
+        proveedorUpdate.setEmail(proveedorDTO.getEmail());
+        proveedorUpdate.setTelefono(proveedorDTO.getTelefono());
+        proveedorUpdate.setHabilitado(proveedorDTO.getHabilitado());
 
-        Proveedor proveedor1 = proveedorRepository.save(proveedorUpdate);
-        if (proveedor1 ==null)
+        proveedorUpdate = proveedorRepository.save(proveedorUpdate);
+        if (proveedorUpdate == null)
             throw new NotFoundException("WARNING: No se puede actualizar datos del proveedor o no existe el proveedor");
 
-        mappedDateOfSupplier(proveedor1, proveedorDTO);
+        mappedDateOfSupplier(proveedorUpdate, proveedorDTO);
 
-        response.setCode(200);
-        response.setMsg("Proveedor actualizado correctamente");
-        response.setData(proveedor1);
-        return response;
+        return proveedorUpdate;
     }
 
-    public Response habilitationChange(Integer id) {
-        Response response = new Response();
-
+    public Proveedor habilitationChange(Integer id) {
         Proveedor proveedorOptional = proveedorRepository.findById(id).
                 orElseThrow(() -> new NotFoundException("WARNING: No se encuentra el proveedor para su habilitacion o deshabilitacion"));
         Proveedor proveedor = proveedorOptional;
 
         proveedor.setHabilitado(!proveedor.getHabilitado());
-        if (proveedorRepository.save(proveedor)== null)
+        if (proveedorRepository.save(proveedor) == null)
             throw new NotFoundException("WARNING: No existe el probveedor que se quiere cambiar habiulitacion o es null");
 
-        response.setCode(200);
-        response.setMsg("El proveedor cambio el estado exitosamente");
-        response.setData(proveedor);
-        return response;
+        return proveedor;
     }
 
     private Proveedor mappedOfSupplier(ProveedorDTO proveedorDTO) {

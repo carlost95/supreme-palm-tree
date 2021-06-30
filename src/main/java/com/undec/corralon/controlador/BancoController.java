@@ -36,27 +36,25 @@ public class BancoController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER') || hasRole('ROLE_GERENTE')")
     @PostMapping
-    public ResponseEntity<Response> saveOfBank(@Valid @RequestBody BancoRequest bancoRequest) {
-        Response response = bancoService.saveOfBank(bancoRequest);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Banco> saveOfBank(@Valid @RequestBody Banco banco) {
+        return new ResponseEntity<>(bancoService.saveOfBank(banco),HttpStatus.OK);
     }
 
+    @PreAuthorize("hasRole('ADMIN')||hasRole('USER')")
     @GetMapping("/{id}")
-    public ResponseEntity<Response> listOfBankForId(@PathVariable("id") Integer id) {
-        Response response = bancoService.listOfBankForId(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Banco> listOfBankForId(@PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.OK).body(bancoService.listOfBankForId(id));
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER') || hasRole('ROLE_GERENTE')")
+    @PreAuthorize("hasRole('ADMIN') || hasRole('USER')")
     @PutMapping
     public ResponseEntity<Banco> updatedBank(@Valid @RequestBody Banco banco) {
-//        Response response = bancoService.updatedBank(banco);
-        return new ResponseEntity<>(bancoService.updatedBank(banco), HttpStatus.OK);
+        return new ResponseEntity<>(bancoService.updatedBank(banco),HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('ADMIN')|| hasRole('GERENTE')")
     @PutMapping("/{id}")
-    public ResponseEntity<Response> changeOfHabilitationBank(@PathVariable("id") Integer id){
+    public ResponseEntity<Response> changeOfHabilitationBank(@PathVariable Integer id){
         Response response = bancoService.changeOfHabilitationBank(id);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

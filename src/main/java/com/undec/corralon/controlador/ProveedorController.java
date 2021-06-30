@@ -29,26 +29,22 @@ public class ProveedorController {
         return  new ResponseEntity<>(response, HttpStatus.OK);
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Response> listSuppliersForId(@PathVariable Integer id){
-           Response response = proveedorService.listSuppliersForId(id);
-           return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Proveedor> listSuppliersForId(@PathVariable Integer id){
+           return ResponseEntity.status(HttpStatus.OK).body(proveedorService.listSuppliersForId(id));
     }
 
     @PostMapping
-    public ResponseEntity<Response> saveSupplier(@Valid @RequestBody ProveedorDTO proveedorDTO) {
-        Response response = proveedorService.saveSupplier(proveedorDTO);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Proveedor> saveSupplier(@Valid @RequestBody ProveedorDTO proveedorDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(proveedorService.saveSupplier(proveedorDTO));
     }
 
     @PutMapping
-    public ResponseEntity<Response> updatedSupplier(@Valid @RequestBody ProveedorDTO proveedorDTO){
-        Response response = proveedorService.updatedSupplier(proveedorDTO);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Proveedor> updatedSupplier(@Valid @RequestBody ProveedorDTO proveedorDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(proveedorService.updatedSupplier(proveedorDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Response> habilitationChange(@PathVariable("id") Integer id){
-        Response response = proveedorService.habilitationChange(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Proveedor> habilitationChange(@PathVariable("id") Integer id){
+        return ResponseEntity.status(HttpStatus.OK).body(proveedorService.habilitationChange(id));
     }
 }
