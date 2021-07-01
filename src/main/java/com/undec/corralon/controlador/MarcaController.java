@@ -1,7 +1,5 @@
 package com.undec.corralon.controlador;
 
-import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.marca.MarcaNotFoundException;
 import com.undec.corralon.modelo.Marca;
 import com.undec.corralon.service.MarcaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -20,43 +19,33 @@ public class MarcaController {
     MarcaService marcaService;
 
     @GetMapping
-    public ResponseEntity<Response> obtenerMarcas() throws MarcaNotFoundException {
-        Response response = this.marcaService.obtenerTodasLasMarcas();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<Marca>> listMark()  {
+        return ResponseEntity.status(HttpStatus.OK).body(marcaService.listMark());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> obtenerPorId(@PathVariable("id") Integer id) throws MarcaNotFoundException {
-        Response response = this.marcaService.obtenerMarcaPorId(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Marca> findById(@PathVariable("id") Integer id) {
+        return ResponseEntity.status(HttpStatus.OK).body(marcaService.findById(id));
     }
 
     @GetMapping("/habilitados")
-    public ResponseEntity<Response> obtenerHabilitados() throws MarcaNotFoundException {
-        Response response = this.marcaService.obtenerHabilitados();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<Marca>> findAllHabilitation(){
+        return ResponseEntity.status(HttpStatus.OK).body(marcaService.listMarkHabilitation());
     }
 
     @PostMapping
-    public ResponseEntity<Response> guardarMarca(@Valid @RequestBody Marca marca) throws MarcaNotFoundException {
-        Response response = this.marcaService.guardarMarca(marca);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Marca> saveMark(@Valid @RequestBody Marca marca) {
+        return ResponseEntity.status(HttpStatus.OK).body(marcaService.saveMark(marca));
     }
 
     @PutMapping
-    public ResponseEntity<Response> actualizarMarca(@Valid @RequestBody Marca marca) throws MarcaNotFoundException {
-        Response response = this.marcaService.actualizarMarca(marca);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Marca> updatedMarca(@Valid @RequestBody Marca marca) {
+        return ResponseEntity.status(HttpStatus.OK).body(marcaService.updatedMark(marca));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Response> darBajaMarca(@PathVariable("id") Integer id) throws MarcaNotFoundException {
-        Response response = this.marcaService.eliminarMarca(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Response> cambiarHabilitacion(@PathVariable("id") Integer id) throws Exception {
-        Response response = marcaService.cambiarHabilitacion(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Marca> changeHabilitation(@PathVariable Integer id){
+        return ResponseEntity.status(HttpStatus.OK).body(marcaService.changeHabilitation(id));
     }
 }

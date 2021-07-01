@@ -1,6 +1,5 @@
 package com.undec.corralon.service;
 
-import com.undec.corralon.DTO.Response;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.modelo.Banco;
@@ -15,37 +14,28 @@ public class BancoService {
     @Autowired
     BancoRepository bancoRepository;
 
-    public Response listOfBank() {
-        Response response = new Response();
+    public List<Banco> listOfBank() {
         List<Banco> bancos = bancoRepository.findAll();
 
         if (bancos == null)
-            throw new NotFoundException("WARNING: No existen bancos");
+            throw new NotFoundException("\nWARNING: No existen bancos");
 
-        response.setCode(200);
-        response.setMsg("Bancos listados correctamente");
-        response.setData(bancos);
-
-        return response;
+        return bancos;
     }
 
-    public Response listOfBankHalilitation() {
-        Response response = new Response();
+    public List<Banco> listOfBankHalilitation() {
         List<Banco> bancos = bancoRepository.findAllByHabilitadoEquals(true);
 
         if (bancos == null)
-            throw new NotFoundException("WARNING: No existen bancos habilitados");
-        response.setCode(200);
-        response.setMsg("lista de bancos habilitados");
-        response.setData(bancos);
+            throw new NotFoundException("\nWARNING: No existen bancos habilitados");
 
-        return response;
+        return bancos;
     }
 
     public Banco listOfBankForId(Integer id) {
         Banco bancoOptional = bancoRepository.findById(id).
                 orElseThrow(()
-                        -> new NotFoundException("WARNING: No existe el banco por id requerido"));
+                        -> new NotFoundException("\nWARNING: No existe el banco por id requerido"));
 
         return bancoOptional;
     }
@@ -60,16 +50,16 @@ public class BancoService {
         Banco bancoToSave = bancoRepository.save(bank);
 
         if (bancoToSave == null)
-            throw new NotFoundException("WARNING: No se puede guardar banco");
+            throw new NotFoundException("\nWARNING: No se puede guardar banco");
 
         return bancoToSave;
     }
 
     public Banco updatedBank(Banco banco) {
-        if (banco.getIdBanco() == null) throw new BadRequestException("WARNING: No se cargaron los datos del banco");
+        if (banco.getIdBanco() == null) throw new BadRequestException("\nWARNING: No se cargaron los datos del banco");
 
         Banco bancoToUpdate = bancoRepository.findById(banco.getIdBanco()).
-                orElseThrow(() -> new NotFoundException("WARNING: No existe el banco que se quiere actualizar"));
+                orElseThrow(() -> new NotFoundException("\nWARNING: No existe el banco que se quiere actualizar"));
 
         bancoToUpdate.setIdBanco(banco.getIdBanco());
         bancoToUpdate.setNombre(banco.getNombre());
@@ -77,26 +67,23 @@ public class BancoService {
         bancoToUpdate.setHabilitado(banco.getHabilitado());
 
         bancoToUpdate = bancoRepository.save(bancoToUpdate);
-        if (bancoToUpdate == null) throw new NotFoundException("WARNING: No se guardo el banco a actualizar");
+        if (bancoToUpdate == null) throw new NotFoundException("\nWARNING: No se guardo el banco a actualizar");
 
         return bancoToUpdate;
     }
 
 
-    public Response changeOfHabilitationBank(Integer id) {
-        Response response = new Response();
+    public Banco changeOfHabilitationBank(Integer id) {
         Banco bancoOptional = bancoRepository.findById(id)
                 .orElseThrow(()
-                        -> new NotFoundException("WARNING: No existe el banco que se quiere cambiar el estado de habilitacion"));
+                        -> new NotFoundException("\nWARNING: No existe el banco que se quiere cambiar el estado de habilitacion"));
 
         Banco banco = bancoOptional;
         banco.setHabilitado(!bancoOptional.getHabilitado());
         banco = bancoRepository.save(banco);
-
-        response.setCode(200);
-        response.setMsg("El banco cambio el estado de habilitacion");
-        response.setData(banco);
-        return response;
+        if (banco == null)
+            throw new NotFoundException("\nWARNING: Error al almacenar los cambios");
+        return banco;
     }
 
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.FileNotFoundException;
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -23,15 +24,13 @@ public class BancoController {
     BancoService bancoService;
 
     @GetMapping
-    public ResponseEntity<Response> listOfBank(){
-        Response response = bancoService.listOfBank();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<Banco>> listOfBank(){
+        return ResponseEntity.status(HttpStatus.OK).body(bancoService.listOfBank());
     }
 
     @GetMapping("/habilitados")
-    public ResponseEntity<Response> listOfBankHalilitation(){
-        Response response = bancoService.listOfBankHalilitation();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<Banco>> listOfBankHalilitation(){
+        return ResponseEntity.status(HttpStatus.OK).body(bancoService.listOfBankHalilitation());
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER') || hasRole('ROLE_GERENTE')")
@@ -54,8 +53,7 @@ public class BancoController {
 
     @PreAuthorize("hasRole('ADMIN')|| hasRole('GERENTE')")
     @PutMapping("/{id}")
-    public ResponseEntity<Response> changeOfHabilitationBank(@PathVariable Integer id){
-        Response response = bancoService.changeOfHabilitationBank(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Banco> changeOfHabilitationBank(@PathVariable Integer id){
+        return ResponseEntity.status(HttpStatus.OK).body(bancoService.changeOfHabilitationBank(id));
     }
 }

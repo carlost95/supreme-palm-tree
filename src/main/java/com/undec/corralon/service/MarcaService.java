@@ -1,14 +1,13 @@
 package com.undec.corralon.service;
 
-import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.marca.MarcaNotFoundException;
+import com.undec.corralon.excepciones.exception.BadRequestException;
+import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.modelo.Marca;
 import com.undec.corralon.repository.MarcaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MarcaService {
@@ -16,92 +15,67 @@ public class MarcaService {
     @Autowired
     MarcaRepository marcaRepository;
 
-    public Response obtenerMarcaPorId(Integer id) throws MarcaNotFoundException {
-        Response response = new Response();
-        Marca marca = this.marcaRepository.findById(id).get();
-        response.setCode(200);
-        response.setMsg("Marca");
-        response.setData(marca);
-        return response;
-    }
-
-    public Response obtenerTodasLasMarcas() throws MarcaNotFoundException {
-        Response response = new Response();
+    public List<Marca> listMark() {
         List<Marca> marcas = this.marcaRepository.findAll();
-        response.setCode(200);
-        response.setMsg("Listado de Marcas");
-        response.setData(marcas);
-        return response;
+        if (marcas == null)
+            throw new NotFoundException("\nWARNING: No existen marcas");
+        return marcas;
     }
 
-    public Response obtenerHabilitados() throws MarcaNotFoundException {
-        Response response = new Response();
+    public List<Marca> listMarkHabilitation() {
         List<Marca> marcas = this.marcaRepository.findAllByHabilitadoEquals(true);
-        response.setCode(200);
-        response.setMsg("Marcas Habilitadas");
-        response.setData(marcas);
-        return response;
+        if (marcas == null)
+            throw new NotFoundException("\nWARNING: No existen marcas habilitadas");
+        return marcas;
     }
 
-    public Response guardarMarca(Marca marca) throws MarcaNotFoundException {
-        Response response = new Response();
+    public Marca findById(Integer id) {
+        Marca marca = this.marcaRepository.findById(id).
+                orElseThrow(() -> new NotFoundException("\nWARNING: No existe la marca en la BD"));
+        return marca;
+    }
+
+    public Marca saveMark(Marca marca) {
         marca.setHabilitado(true);
+        if (marca.getNombre() == null || marca.getAbreviatura() == null)
+            throw new BadRequestException("\nWARNING: No se cargaron datos en marca o los datos son incorrectos");
         marca = this.marcaRepository.save(marca);
 
         if (marca == null)
-            throw new MarcaNotFoundException();
+            throw new NotFoundException("\nWARNING: error al guardar marca");
 
-        response.setData(marca);
-        response.setMsg("Marca guardada correctamente");
-        response.setCode(200);
-
-        return response;
+        return marca;
     }
 
-    public Response actualizarMarca(Marca marca) throws MarcaNotFoundException {
-        Response response = new Response();
-        Marca marcaToUpdate = marcaRepository.findById(marca.getIdMarca()).get();
+    public Marca updatedMark(Marca marca) {
+        Marca marcaToUpdate = marcaRepository.findById(marca.getIdMarca()).
+                orElseThrow(() -> new NotFoundException("\nWARNING: No existe la marca para actualizar"));
+
+        if (marca.getNombre() == null || marca.getAbreviatura() == null || marca.getHabilitado() == null)
+            throw new BadRequestException("\nWARNING: Los datos de la marca son null o incorrectos");
 
         marcaToUpdate.setNombre(marca.getNombre());
         marcaToUpdate.setAbreviatura(marca.getAbreviatura());
-        if (marcaToUpdate == null) {
-            throw new MarcaNotFoundException();
-        }
-        response.setCode(200);
-        response.setMsg("Marca actualizada correctamente");
-        response.setData(marcaRepository.save(marcaToUpdate));
-        return response;
+        marcaToUpdate.setHabilitado(marca.getHabilitado());
+        marcaToUpdate.setIdMarca(marca.getIdMarca());
+
+        marcaToUpdate = marcaRepository.save(marcaToUpdate);
+        if (marcaToUpdate == null)
+            throw new NotFoundException("\nWARNING: Error al actualizar marca no se cargaron los datos");
+        return marcaToUpdate;
     }
 
-    public Response eliminarMarca(Integer id) throws MarcaNotFoundException {
-        Response response = new Response();
-        Marca marcaToDelete = marcaRepository.findById(id).get();
+    public Marca changeHabilitation(Integer id) {
 
-        marcaToDelete.setHabilitado(true);
-        if (marcaToDelete == null) {
-            throw new MarcaNotFoundException();
-        }
-        response.setCode(200);
-        response.setMsg("Baja de Marca");
-        response.setData(marcaRepository.save(marcaToDelete));
-        return response;
-    }
+        Marca marcaChange = marcaRepository.findById(id).
+                orElseThrow(() -> new NotFoundException("\nWARNING: No existe la marca que se quiere cambiar es estado de habilitacion"));
 
-    public Response cambiarHabilitacion(Integer id) throws MarcaNotFoundException {
-        Response response = new Response();
+        marcaChange.setHabilitado(!marcaChange.getHabilitado());
 
-        Optional<Marca> marcaOptional = marcaRepository.findById(id);
-        if (!marcaOptional.isPresent()) {
-            throw new MarcaNotFoundException();
-        }
-        Marca marca = marcaOptional.get();
-        marca.setHabilitado(!marca.getHabilitado());
-        marca = marcaRepository.save(marca);
-
-        response.setCode(200);
-        response.setMsg("El banco cambio de estado exitosamente");
-        response.setData(marca);
-        return response;
+        marcaChange = marcaRepository.save(marcaChange);
+        if (marcaChange == null)
+            throw new NotFoundException("\nWARNING: error en el cambio de habilitacion de marca");
+        return marcaChange;
     }
 
 

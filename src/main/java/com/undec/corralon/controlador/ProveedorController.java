@@ -1,7 +1,6 @@
 package com.undec.corralon.controlador;
 
 import com.undec.corralon.DTO.ProveedorDTO;
-import com.undec.corralon.DTO.Response;
 import com.undec.corralon.modelo.Proveedor;
 import com.undec.corralon.service.ProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -19,14 +19,12 @@ public class ProveedorController {
     ProveedorService proveedorService;
 
     @GetMapping
-    public ResponseEntity<Response> listOfAllSuppliers() {
-        Response response = proveedorService.listOfAllSuppliers();
-        return  new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<Proveedor>> listOfAllSuppliers() {
+        return ResponseEntity.status(HttpStatus.OK).body(proveedorService.listOfAllSuppliers());
     }
     @GetMapping("/habilitados")
-    public ResponseEntity<Response> listOfSuppliersHabilitation(){
-        Response response = proveedorService.listOfSuppliersHabilitation();
-        return  new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<Proveedor>> listOfSuppliersHabilitation(){
+        return ResponseEntity.status(HttpStatus.OK).body(proveedorService.listOfSuppliersHabilitation());
     }
     @GetMapping("/{id}")
     public ResponseEntity<Proveedor> listSuppliersForId(@PathVariable Integer id){

@@ -1,17 +1,17 @@
 package com.undec.corralon.modelo;
 
 import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Departamento extends DateAudit {
+public class Departamento extends UserDateAudit {
     private Integer idDepartamento;
     private String nombre;
     private String abreviatura;
     private Boolean habilitado;
-//    private List<Distrito> distritosByIdDepartamento;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -70,13 +70,4 @@ public class Departamento extends DateAudit {
         return Objects.hash(idDepartamento, nombre, abreviatura, habilitado);
     }
 
-//    @OneToMany(mappedBy = "departamentoByIdDepartamento")
-//    @JoinColumn(name = "id_departamento", referencedColumnName = "id_departamento")
-//    public List<Distrito> getDistritosByIdDepartamento() {
-//        return distritosByIdDepartamento;
-//    }
-//
-//    public void setDistritosByIdDepartamento(List<Distrito> distritosByIdDepartamento) {
-//        this.distritosByIdDepartamento = distritosByIdDepartamento;
-//    }
 }

@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface DepartamentoRepository extends JpaRepository<Departamento, Integer> {
     List<Departamento> findByHabilitadoEquals(boolean habilitado);
+
+    Boolean existsByNombreAndAbreviatura(String nombre, String abreviatura);
 }
