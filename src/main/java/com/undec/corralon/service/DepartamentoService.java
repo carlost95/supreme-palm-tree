@@ -49,6 +49,7 @@ public class DepartamentoService {
 
         if (departamento.getNombre()==null||departamento.getAbreviatura()==null)
             throw new BadRequestException("\nWARNING: los datos del departamento no puede ser null");
+
         if(validationDepartment(departamento))
             throw new BadRequestException("\nWARNING: El departamento ingresao esta duplicado");
 
@@ -91,6 +92,6 @@ public class DepartamentoService {
         return depChange;
     }
     private boolean validationDepartment(Departamento departamento) {
-        return departamentoRepository.existsByNombreAndAbreviatura(departamento.getNombre(), departamento.getAbreviatura());
+        return departamentoRepository.existsByNombreOrAbreviatura(departamento.getNombre(), departamento.getAbreviatura());
     }
 }
