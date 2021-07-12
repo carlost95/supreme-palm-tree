@@ -4,6 +4,7 @@ import com.undec.corralon.DTO.Response;
 import com.undec.corralon.DTO.SubrubroDTO;
 import com.undec.corralon.excepciones.departamento.DepartamentoErrorToUpdateException;
 import com.undec.corralon.excepciones.distrito.DistritoListNotFoundException;
+import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.excepciones.rubro.RubroCambioEstadoException;
 import com.undec.corralon.excepciones.subrubro.*;
 import com.undec.corralon.modelo.SubRubro;
@@ -25,7 +26,7 @@ public class SubrubroService {
     @Autowired
     RubroRepository rubroRepository;
 
-    public Response buscarTodosLosSubrubros(){
+    public Response buscarTodosLosSubrubros() {
         Response response = new Response();
         List<SubRubro> subrubros = subRubroRepository.findAll();
 
@@ -36,7 +37,7 @@ public class SubrubroService {
         return response;
     }
 
-    public Response buscarTodosLosSubrubrosHabilitados(){
+    public Response buscarTodosLosSubrubrosHabilitados() {
         Response response = new Response();
         List<SubRubro> subrubros = subRubroRepository.findAllByHabilitadoEquals(true);
 
@@ -46,10 +47,14 @@ public class SubrubroService {
 
         return response;
     }
-    public Response obtenerSubrubroPorId(Integer id){
+
+    public Response obtenerSubrubroPorId(Integer id) {
 
         Response response = new Response();
-        SubRubro subrubro = subRubroRepository.findById(id).get();
+        SubRubro subrubro = subRubroRepository.findById(id)
+                .orElseThrow(
+                        () -> new NotFoundException("\nWARNING: error no existe el sub rubro por id")
+                );
 
         response.setCode(200);
         response.setMsg("Subrubro");
@@ -58,7 +63,7 @@ public class SubrubroService {
         return response;
     }
 
-    public Response obtenerSubrubroPorRubro(Integer rubroId){
+    public Response obtenerSubrubroPorRubro(Integer rubroId) {
 
         Response response = new Response();
         List<SubRubro> subrubro = subRubroRepository.findAllByRubroByIdRubro(rubroId);
@@ -74,7 +79,7 @@ public class SubrubroService {
         Response response = new Response();
         SubRubro subRubro = mapDtoToEntity(subrubroDTO);
 
-        if(subRubro == null)
+        if (subRubro == null)
             throw new SubRubroErrorToSaveException();
 
         subRubro.setHabilitado(true);
@@ -92,7 +97,7 @@ public class SubrubroService {
         Response response = new Response();
         SubRubro subRubroToUpdate = subRubroRepository.findById(subrubroDTO.getIdSubRubro()).get();
 
-        if(subRubroToUpdate == null)
+        if (subRubroToUpdate == null)
             throw new SubRubroErrorToUpdateException();
 
         subRubroToUpdate.setNombre(subrubroDTO.getNombre());
@@ -108,19 +113,19 @@ public class SubrubroService {
         return response;
     }
 
-    private SubRubro mapDtoToEntity(SubrubroDTO subrubroDTO){
+    private SubRubro mapDtoToEntity(SubrubroDTO subrubroDTO) {
         SubRubro subRubro = new SubRubro();
         subRubro.setIdSubRubro(subrubroDTO.getIdSubRubro());
         subRubro.setNombre(subrubroDTO.getNombre());
         subRubro.setHabilitado(subrubroDTO.getHabilitado());
         subRubro.setRubroByIdRubro(rubroRepository.findById(subrubroDTO.getRubroId()).get());
-        return  subRubro;
+        return subRubro;
     }
 
     public Response cambiarHabilitacion(Integer id) throws SubrubroException {
         Response response = new Response();
         Optional<SubRubro> subRubroOptional = subRubroRepository.findById(id);
-        if (!subRubroOptional.isPresent()){
+        if (!subRubroOptional.isPresent()) {
             throw new SubRubroCambioEstadoException();
         }
         SubRubro subRubro = subRubroOptional.get();

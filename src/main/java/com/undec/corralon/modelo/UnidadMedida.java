@@ -1,6 +1,7 @@
 package com.undec.corralon.modelo;
 
 import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,12 +9,11 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "unidad_medida")
-public class UnidadMedida extends DateAudit {
+public class UnidadMedida extends UserDateAudit {
     private Integer idUnidadMedida;
     private String nombre;
     private String abreviatura;
     private Boolean habilitado;
-    private List<Articulo> articulosByIdUnidadMedida;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,12 +72,4 @@ public class UnidadMedida extends DateAudit {
         return Objects.hash(idUnidadMedida, nombre, abreviatura, habilitado);
     }
 
-//    @OneToMany(mappedBy = "unidadMedidaByIdUnidadMedida")
-//    public List<Articulo> getArticulosByIdUnidadMedida() {
-//        return articulosByIdUnidadMedida;
-//    }
-//
-//    public void setArticulosByIdUnidadMedida(List<Articulo> articulosByIdUnidadMedida) {
-//        this.articulosByIdUnidadMedida = articulosByIdUnidadMedida;
-//    }
 }

@@ -8,4 +8,5 @@ import java.util.List;
 @Repository
 public interface ArticuloRepository extends JpaRepository<Articulo,Integer> {
     List<Articulo> findArticuloByHabilitadoEquals(boolean habilitado);
+    Boolean existsByNombreOrAbreviaturaOrCodigo(String nombre, String abreviatura, String codigo);
 }
