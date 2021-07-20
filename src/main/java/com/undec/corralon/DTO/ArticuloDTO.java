@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ArticuloDTO {
 
-    @JsonProperty(value = "id", required = false)
     private Integer id;
     private String nombre;
     private String abreviatura;

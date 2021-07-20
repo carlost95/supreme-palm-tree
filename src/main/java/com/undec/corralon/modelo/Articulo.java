@@ -150,7 +150,7 @@ public class Articulo extends UserDateAudit {
     }
 
     @ManyToOne
-    @JoinColumn(name = "id_sub_rubro", referencedColumnName = "id_sub_rubro", nullable = false)
+    @JoinColumn(name = "id_sub_rubro", referencedColumnName = "id_sub_rubro", nullable = true)
     public SubRubro getSubRubroByIdSubRubro() {
         return subRubroByIdSubRubro;
     }

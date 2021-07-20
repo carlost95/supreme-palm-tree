@@ -89,26 +89,30 @@ public class ArticuloService {
         if (articulo == null)
             throw new NotFoundException("\nWARNING: Error en la carga de articulo");
 
-        if (!saveDateArticle(articulo, articuloDTO))
-            throw new BadRequestException("\nWARNING: Error en la carga de costos y precio");
+        if (saveCostoArticle(articulo, articuloDTO) == null)
+            throw new BadRequestException("\nWARNING: Error en la carga de costos");
+
+        if (savePrecioArticle(articulo, articuloDTO) == null)
+            throw new BadRequestException("\nWARNING: Error en la carga de precio");
 
         return articulo;
     }
 
     public Articulo updatedTheArticle(ArticuloDTO articuloDTO) {
-        Articulo articulo = articuloRepository.findById(articuloDTO.getId())
-                .orElseThrow(
+        Articulo articulo = articuloRepository.findById(articuloDTO.getId()).
+                orElseThrow(
                         () -> new NotFoundException("\nWARNING: Error no existe el articulo"));
         mappedDTOToEntity(articuloDTO, articulo);
         articulo.setHabilitado(articuloDTO.getHabilitado());
         articulo = articuloRepository.save(articulo);
 
         if (articulo == null)
-            throw new NotFoundException("\nWARNING: Error en la actualizacion dl articulo");
+            throw new NotFoundException("\nWARNING: Error en la actualizacion del articulo");
 
-        if (!saveDateArticle(articulo, articuloDTO))
-            throw new BadRequestException("\nWARNING: Error en la carga de costos y precio");
-
+        if (updatedCostoArticle(articulo, articuloDTO) == null)
+            throw new BadRequestException("\nWARNING: Error en la carga de costos");
+        if (updatedPrecioArticle(articulo, articuloDTO) == null)
+            throw new BadRequestException("\nWARNING: Error en la carga de precio");
         return articulo;
     }
 
@@ -186,39 +190,97 @@ public class ArticuloService {
     private boolean validationArticle(Articulo articulo) {
         if (articulo.getNombre() == null || articulo.getAbreviatura() == null)
             return true;
-        else return false;
+        return false;
     }
 
-    private boolean saveDateArticle(Articulo articulo, ArticuloDTO articuloDTO) {
-        PrecioArticulo precio = new PrecioArticulo();
-        CostoArticulo costo = new CostoArticulo();
+    private CostoArticulo saveCostoArticle(Articulo articulo, ArticuloDTO articuloDTO) {
         String fechaActual = String.valueOf(LocalDateTime.now());
+        CostoArticulo costo = new CostoArticulo();
 
-        if (articuloDTO.getPrecio() == null)
-            throw new BadRequestException("\nWARNING: No se puede cargar un articulo sin precio");
         if (articuloDTO.getCosto() == null)
             throw new BadRequestException("\nWARNING: No se puede cargar un articulo sin costo");
-
-        precio.setPrecio(articuloDTO.getPrecio());
-        precio.setFechaDesde(fechaActual);
-        precio.setFechaHasta(null);
-        precio.setArticuloByIdArticulo(articulo);
 
         costo.setCosto(articuloDTO.getCosto());
         costo.setFechaDesde(fechaActual);
         costo.setFechaHasta(null);
         costo.setArticuloByIdArticulo(articulo);
-
-        precio = precioRepository.save(precio);
         costo = costoRepository.save(costo);
 
+        if (costo == null)
+            throw new NotFoundException("\nWARNING: Error en la carga de costo del costo al articulo");
+
+        return costo;
+    }
+
+    private PrecioArticulo savePrecioArticle(Articulo articulo, ArticuloDTO articuloDTO) {
+        String fechaActual = String.valueOf(LocalDateTime.now());
+        PrecioArticulo precio = new PrecioArticulo();
+
+        if (articuloDTO.getPrecio() == null)
+            throw new BadRequestException("\nWARNING: No se puede cargar un articulo sin precio");
+
+        precio.setPrecio(articuloDTO.getPrecio());
+        precio.setFechaDesde(fechaActual);
+        precio.setFechaHasta(null);
+        precio.setArticuloByIdArticulo(articulo);
+        precio = precioRepository.save(precio);
+
         if (precio == null)
-            throw new NotFoundException("\nWARNING: error al almacenar precio de articulo");
+            throw new NotFoundException("\nWARNING: Error en la carga de precio para el articulo");
+
+        return precio;
+    }
+
+    private CostoArticulo updatedCostoArticle(Articulo articulo, ArticuloDTO articuloDTO) {
+        String fechaActual = String.valueOf(LocalDateTime.now());
+        CostoArticulo costo = costoRepository.findCostoArticuloByIdArtculo(articulo);
 
         if (costo == null)
-            throw new NotFoundException("\nwarning: error al almacenar copsto de articulo");
-        if (costo != null && precio != null)
-            return true;
-        return false;
+            new NotFoundException("\nWARNING: No existe costo, no se puede actualizar");
+
+        if (articuloDTO.getCosto().compareTo(costo.getCosto())==0) {
+            return costo;
+        }
+        costo.setFechaHasta(fechaActual);
+        costoRepository.save(costo);
+//            new costo date in article
+        CostoArticulo costoSave = new CostoArticulo();
+        costoSave.setCosto(articuloDTO.getCosto());
+        costoSave.setFechaDesde(fechaActual);
+        costoSave.setFechaHasta(null);
+        costoSave.setArticuloByIdArticulo(articulo);
+        costoSave = costoRepository.save(costoSave);
+
+        if (costoSave == null)
+            throw new NotFoundException("\nWARNING: Error al actualizar el costo del articulo");
+
+        return costoSave;
+    }
+
+    private PrecioArticulo updatedPrecioArticle(Articulo articulo, ArticuloDTO articuloDTO) {
+        String fechaActual = String.valueOf(LocalDateTime.now());
+        PrecioArticulo precio = precioRepository.findPrecioArticuloByIdArtculo(articulo);
+
+        if (precio == null)
+            new NotFoundException("\nWARNING: No existe precio, no se puede actualizar");
+
+        if (articuloDTO.getPrecio().compareTo(precio.getPrecio())== 0) {
+            return precio;
+        }
+
+        precio.setFechaHasta(fechaActual);
+        precioRepository.save(precio);
+//            new precio date in article
+        PrecioArticulo precioSave = new PrecioArticulo();
+        precioSave.setPrecio(articuloDTO.getPrecio());
+        precioSave.setFechaDesde(fechaActual);
+        precioSave.setFechaHasta(null);
+        precioSave.setArticuloByIdArticulo(articulo);
+        precioSave = precioRepository.save(precioSave);
+
+        if (precioSave == null)
+            throw new NotFoundException("\nWARNING: Error al actualizar el precio del articulo");
+
+        return precioSave;
     }
 }
