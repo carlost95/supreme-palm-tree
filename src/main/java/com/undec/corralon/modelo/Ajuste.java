@@ -1,12 +1,13 @@
 package com.undec.corralon.modelo;
 
 import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Ajuste  extends DateAudit {
+public class Ajuste  extends UserDateAudit {
     private Integer idAjuste;
     private String nombre;
     private String descripcion;

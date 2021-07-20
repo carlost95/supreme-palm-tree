@@ -5,6 +5,7 @@ import com.undec.corralon.excepciones.Ajuste.AjusteErrorToSaveException;
 import com.undec.corralon.excepciones.Ajuste.AjusteErrorToUpdateException;
 import com.undec.corralon.excepciones.Ajuste.AjusteErrorToUpdateHabilitacion;
 import com.undec.corralon.excepciones.Ajuste.AjusteException;
+import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.modelo.Ajuste;
 import com.undec.corralon.repository.AjusteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,52 +20,40 @@ public class AjusteService {
     @Autowired
     AjusteRepository ajusteRepository;
 
-    public Response obtenerTodosLosAjustes(){
-        Response response = new Response();
+    public List<Ajuste> findAllTheSetting() {
         List<Ajuste> ajustes = this.ajusteRepository.findAll();
+        if (ajustes == null) throw new NotFoundException("\nWARNING: Error no exiten ajustes");
+        return ajustes;
+    }
 
-        response.setCode(200);
-        response.setMsg("Todos los ajustes: ");
-        response.setData(ajustes);
-        return response;
+    public List<Ajuste> findAllSettingEnabled() {
+        List<Ajuste> settingEnabled = this.ajusteRepository.findAjusteByHabilitadoEquals(true);
+        if (settingEnabled == null) throw new NotFoundException("\nWARNING: Error no existen ajustes habilitados");
+        return settingEnabled;
     }
-    public Response obtenerTodosLosAjustesHabilitados(){
-        Response response = new Response();
-        List<Ajuste> ajustesHabilitados = this.ajusteRepository.findAjusteByHabilitadoEquals(true);
-        response.setCode(200);
-        response.setMsg("Ajustes habilitados: ");
-        response.setData(ajustesHabilitados);
-        return response;
-    }
-    public Response obtenerAjustePorId(Integer id){
-        Response response = new Response();
-        Ajuste ajusteSelected = this.ajusteRepository.findById(id).get();
 
-        response.setCode(200);
-        response.setMsg(ajusteSelected.getNombre() + " seleccionado");
-        response.setData(ajusteSelected);
-        return response;
+    public Ajuste findSettingById(Integer id) {
+        Ajuste settingSelect = this.ajusteRepository.findById(id).
+                orElseThrow(
+                        () -> new NotFoundException("\nWARNIG: Error no exuste ajuste opor id"));
+        return settingSelect;
     }
-    public Response saveAjuste(Ajuste ajuste) throws AjusteException {
-        Response response = new Response();
+
+    public Ajuste saveAjuste(Ajuste ajuste) {
         Ajuste ajusteToSave = new Ajuste();
         ajuste.setHabilitado(true);
+
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String horaDeCarga = LocalDateTime.now().format(formatter).toString();
+
         horaDeCarga = horaDeCarga.substring(10, horaDeCarga.length());
-        ajuste.setFecha(ajuste.getFecha()+ horaDeCarga);
+        ajuste.setFecha(ajuste.getFecha() + horaDeCarga);
         ajusteToSave = this.ajusteRepository.save(ajuste);
 
-        if (ajusteToSave == null) {
-            throw new AjusteErrorToSaveException("error al cargar ajuste");
-        }
-
-        response.setCode(200);
-        response.setData(ajusteToSave);
-        response.setMsg("ajuste guardado");
-        return response;
+        return ajusteToSave;
     }
-    public Response modificarAjuste (Ajuste ajuste) throws AjusteException{
+
+    public Response modificarAjuste(Ajuste ajuste) throws AjusteException {
         Response response = new Response();
         Ajuste ajusteToSave = this.ajusteRepository.findById(ajuste.getIdAjuste()).get();
 
@@ -83,11 +72,12 @@ public class AjusteService {
         return response;
 
     }
-    public Response cambiarHabilitacionAjuste (Integer id) throws AjusteException{
-        Response response = new Response();
-        Ajuste ajusteOptional= ajusteRepository.findById(id).get();
 
-        if (ajusteOptional==null){
+    public Response cambiarHabilitacionAjuste(Integer id) throws AjusteException {
+        Response response = new Response();
+        Ajuste ajusteOptional = ajusteRepository.findById(id).get();
+
+        if (ajusteOptional == null) {
             throw new AjusteErrorToUpdateHabilitacion("error the update habilitacion");
         }
 
