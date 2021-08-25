@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "movimiento_articulo", schema = "corralon_dev", catalog = "")
+@Table(name = "movimiento_articulo")
 public class MovimientoArticulo extends DateAudit {
     private Integer idMovimientoArticulo;
     private Integer movimiento;
