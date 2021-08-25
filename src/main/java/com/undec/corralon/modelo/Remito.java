@@ -14,8 +14,6 @@ public class Remito extends DateAudit {
     private Integer idDetalleRemito;
     private Boolean habilitado;
     private Venta remitosByIdVenta;
-//    private List<DetalleRemito> detalleRemitosByIdRemito;
-//    private List<MovimientoArticulo> movimientoArticulosByIdRemito;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -85,24 +83,6 @@ public class Remito extends DateAudit {
         return Objects.hash(idRemito, fechaRemito, estadoRemito, idDetalleRemito, habilitado);
     }
 
-//    @OneToMany(mappedBy = "remitoByIdRemito")
-//    public List<DetalleRemito> getDetalleRemitosByIdRemito() {
-//        return detalleRemitosByIdRemito;
-//    }
-//
-//    public void setDetalleRemitosByIdRemito(List<DetalleRemito> detalleRemitosByIdRemito) {
-//        this.detalleRemitosByIdRemito = detalleRemitosByIdRemito;
-//    }
-//
-//    @OneToMany(mappedBy = "remitoByIdRemito")
-//    public List<MovimientoArticulo> getMovimientoArticulosByIdRemito() {
-//        return movimientoArticulosByIdRemito;
-//    }
-//
-//    public void setMovimientoArticulosByIdRemito(List<MovimientoArticulo> movimientoArticulosByIdRemito) {
-//        this.movimientoArticulosByIdRemito = movimientoArticulosByIdRemito;
-//    }
-//
     @ManyToOne
     @JoinColumn(name = "id_venta", referencedColumnName = "id_venta", nullable = false)
     public Venta getRemitosByIdVenta() {

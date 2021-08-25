@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "movimiento_articulo")
+@Table(name = "movimiento_articulo", schema = "corralon_dev", catalog = "")
 public class MovimientoArticulo extends DateAudit {
     private Integer idMovimientoArticulo;
     private Integer movimiento;
@@ -17,6 +17,14 @@ public class MovimientoArticulo extends DateAudit {
     private Ajuste ajusteByIdAjuste;
     private Pedido pedidoByIdPedido;
     private Remito remitoByIdRemito;
+    private Integer idDetalleAjuste;
+    private Integer idDetallePedido;
+    private DetalleAjuste detalleAjusteByIdDetalleAjuste;
+    private DetallePedido detallePedidoByIdDetallePedido;
+    private DetalleRemito detalleRemitoByIdDetalleRemito;
+    private Integer idDetalleVenta;
+    private Integer idDetalleRemito;
+    private DetalleVenta detalleVentaByIdDetalleVenta;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -86,42 +94,43 @@ public class MovimientoArticulo extends DateAudit {
     }
 
     @ManyToOne
-    @JoinColumn(name = "id_venta", referencedColumnName = "id_venta")
-    public Venta getVentaByIdVenta() {
-        return ventaByIdVenta;
+    @JoinColumn(name = "id_detalle_ajuste", referencedColumnName = "id_detalle_ajuste")
+    public DetalleAjuste getDetalleAjusteByIdDetalleAjuste() {
+        return detalleAjusteByIdDetalleAjuste;
     }
 
-    public void setVentaByIdVenta(Venta ventaByIdVenta) {
-        this.ventaByIdVenta = ventaByIdVenta;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "id_ajuste", referencedColumnName = "id_ajuste")
-    public Ajuste getAjusteByIdAjuste() {
-        return ajusteByIdAjuste;
-    }
-
-    public void setAjusteByIdAjuste(Ajuste ajusteByIdAjuste) {
-        this.ajusteByIdAjuste = ajusteByIdAjuste;
+    public void setDetalleAjusteByIdDetalleAjuste(DetalleAjuste detalleAjusteByIdDetalleAjuste) {
+        this.detalleAjusteByIdDetalleAjuste = detalleAjusteByIdDetalleAjuste;
     }
 
     @ManyToOne
-    @JoinColumn(name = "id_pedido", referencedColumnName = "id_pedido")
-    public Pedido getPedidoByIdPedido() {
-        return pedidoByIdPedido;
+    @JoinColumn(name = "id_detalle_pedido", referencedColumnName = "id_detalle_pedido")
+    public DetallePedido getDetallePedidoByIdDetallePedido() {
+        return detallePedidoByIdDetallePedido;
     }
 
-    public void setPedidoByIdPedido(Pedido pedidoByIdPedido) {
-        this.pedidoByIdPedido = pedidoByIdPedido;
+    public void setDetallePedidoByIdDetallePedido(DetallePedido detallePedidoByIdDetallePedido) {
+        this.detallePedidoByIdDetallePedido = detallePedidoByIdDetallePedido;
     }
 
     @ManyToOne
-    @JoinColumn(name = "id_remito", referencedColumnName = "id_remito")
-    public Remito getRemitoByIdRemito() {
-        return remitoByIdRemito;
+    @JoinColumn(name = "id_detalle_remito", referencedColumnName = "id_detalle_remito")
+    public DetalleRemito getDetalleRemitoByIdDetalleRemito() {
+        return detalleRemitoByIdDetalleRemito;
     }
 
-    public void setRemitoByIdRemito(Remito remitoByIdRemito) {
-        this.remitoByIdRemito = remitoByIdRemito;
+    public void setDetalleRemitoByIdDetalleRemito(DetalleRemito detalleRemitoByIdDetalleRemito) {
+        this.detalleRemitoByIdDetalleRemito = detalleRemitoByIdDetalleRemito;
+    }
+
+
+    @ManyToOne
+    @JoinColumn(name = "id_detalle_venta", referencedColumnName = "id_detalle_venta")
+    public DetalleVenta getDetalleVentaByIdDetalleVenta() {
+        return detalleVentaByIdDetalleVenta;
+    }
+
+    public void setDetalleVentaByIdDetalleVenta(DetalleVenta detalleVentaByIdDetalleVenta) {
+        this.detalleVentaByIdDetalleVenta = detalleVentaByIdDetalleVenta;
     }
 }

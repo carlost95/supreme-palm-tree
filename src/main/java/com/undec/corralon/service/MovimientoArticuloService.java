@@ -36,19 +36,19 @@ public class MovimientoArticuloService {
     public Response obtenerMovimientosPorPedido(Integer idPedido) {
 
         Response response = new Response();
-        Map<Integer, Integer> movimientosArticulos = new HashMap<Integer, Integer>();
-        List<MovimientoArticulo> articulos = this.movimientoArticuloRepository.findAllByPedidoByIdPedido(idPedido);
-        articulos.forEach(p -> {
-            Integer idArticulo = p.getArticuloByIdArticulo().getIdArticulo();
-            Integer movimiento = p.getMovimiento();
-            if (movimiento == null)
-                movimiento = 0;
-            movimientosArticulos.put(idArticulo, movimiento);
-        });
-
+//        Map<Integer, Integer> movimientosArticulos = new HashMap<Integer, Integer>();
+//        List<MovimientoArticulo> articulos = this.movimientoArticuloRepository.findAllByPedidoByIdPedido(idPedido);
+//        articulos.forEach(p -> {
+//            Integer idArticulo = p.getArticuloByIdArticulo().getIdArticulo();
+//            Integer movimiento = p.getMovimiento();
+//            if (movimiento == null)
+//                movimiento = 0;
+//            movimientosArticulos.put(idArticulo, movimiento);
+//        });
+//
         response.setCode(200);
         response.setMsg("Movimiento de articulo por pedido");
-        response.setData(movimientosArticulos);
+//        response.setData(movimientosArticulos);
 
         return response;
 
@@ -57,19 +57,19 @@ public class MovimientoArticuloService {
     public Response obtenerMovimientosPorAjuste(Integer idAjuste) {
 
         Response response = new Response();
-        Map<Integer, Integer> movimientosArticulos = new HashMap<Integer, Integer>();
-        List<MovimientoArticulo> articulos = this.movimientoArticuloRepository.findAllByAjusteByIdAjuste(idAjuste);
-        articulos.forEach(p -> {
-            Integer idArticulo = p.getArticuloByIdArticulo().getIdArticulo();
-            Integer movimiento = p.getMovimiento();
-            if (movimiento == null)
-                movimiento = 0;
-            movimientosArticulos.put(idArticulo, movimiento);
-        });
-
+//        Map<Integer, Integer> movimientosArticulos = new HashMap<Integer, Integer>();
+//        List<MovimientoArticulo> articulos = this.movimientoArticuloRepository.findAllByAjusteByIdAjuste(idAjuste);
+//        articulos.forEach(p -> {
+//            Integer idArticulo = p.getArticuloByIdArticulo().getIdArticulo();
+//            Integer movimiento = p.getMovimiento();
+//            if (movimiento == null)
+//                movimiento = 0;
+//            movimientosArticulos.put(idArticulo, movimiento);
+//        });
+//
         response.setCode(200);
         response.setMsg("Movimiento de articulo por ajuste");
-        response.setData(movimientosArticulos);
+//        response.setData(movimientosArticulos);
 
         return response;
 
@@ -87,13 +87,14 @@ public class MovimientoArticuloService {
 
         movimientos = movimientos.stream().filter(m -> m.getArticuloByIdArticulo().getIdArticulo() < idTipoMov).collect(Collectors.toList());
         movimientos.stream().forEach(System.out::println);
-        articulos.forEach(p -> {
-            Integer idArticulo = p.getIdArticulo();
-            Double stockArt = this.movimientoArticuloRepository.stockPorArticulo(idArticulo, fechaPedido);
-            if (stockArt == null)
-                stockArt = 0.0;
-            stock.put(idArticulo, stockArt);
-        });
+//        PROBLEMA CON LA NUEVA DISPOSICION CON LA BASE DE DATOS
+//        articulos.forEach(p -> {
+//            Integer idArticulo = p.getIdArticulo();
+//            Double stockArt = this.movimientoArticuloRepository.stockPorArticulo(idArticulo, fechaPedido);
+//            if (stockArt == null)
+//                stockArt = 0.0;
+//            stock.put(idArticulo, stockArt);
+//        });
 
 
         response.setCode(200);
@@ -114,14 +115,15 @@ public class MovimientoArticuloService {
         movimientos = movimientos.stream().sorted(Comparator.comparing(MovimientoArticulo::getFecha)).collect(Collectors.toList());
         movimientos.stream().forEach(System.out::println);
         movimientos = movimientos.stream().filter(m -> m.getArticuloByIdArticulo().getIdArticulo() < idTipoMov).collect(Collectors.toList());
-        articulos.forEach(p -> {
-            Integer idArticulo = p.getIdArticulo();
-            Double stockArt = this.movimientoArticuloRepository.stockPorArticulo(idArticulo, fechaAjuste );
-
-            if (stockArt == null)
-                stockArt = 0.0;
-            stock.put(idArticulo, stockArt);
-        });
+//        PROBLEMAS CON LA NUEVA DISPOSICION CON LA BASE DE DATOS
+//        articulos.forEach(p -> {
+//            Integer idArticulo = p.getIdArticulo();
+//            Double stockArt = this.movimientoArticuloRepository.stockPorArticulo(idArticulo, fechaAjuste );
+//
+//            if (stockArt == null)
+//                stockArt = 0.0;
+//            stock.put(idArticulo, stockArt);
+//        });
         response.setCode(200);
         response.setMsg("Articulos y stock");
         response.setData(stock);
@@ -140,7 +142,8 @@ public class MovimientoArticuloService {
         movimientoArticulo.setFecha(movimientoArticuloDTO.getFecha() + horaDeCarga);
         movimientoArticulo.setMovimiento(movimientoArticuloDTO.getMovimiento());
         movimientoArticulo.setArticuloByIdArticulo(this.articuloRepository.findById(movimientoArticuloDTO.getIdArticulo()).get());
-        movimientoArticulo.setPedidoByIdPedido(this.pedidoRepository.findById(movimientoArticuloDTO.getIdPedido()).get());
+//        REMUEVO POR NUEVA DISPOSISCION EN LA BASE DE DATOS
+//        movimientoArticulo.setPedidoByIdPedido(this.pedidoRepository.findById(movimientoArticuloDTO.getIdPedido()).get());
 
         movimientoArticulo = this.movimientoArticuloRepository.save(movimientoArticulo);
 
@@ -159,7 +162,8 @@ public class MovimientoArticuloService {
         movimientoArticulo.setFecha(movimientoArticuloDTO.getFecha() + horaDeCarga);
         movimientoArticulo.setMovimiento(movimientoArticuloDTO.getMovimiento());
         movimientoArticulo.setArticuloByIdArticulo(this.articuloRepository.findById(movimientoArticuloDTO.getIdArticulo()).get());
-        movimientoArticulo.setAjusteByIdAjuste(this.ajusteRepository.findById(movimientoArticuloDTO.getIdAjuste()).get());
+//        REMUEVO Y VERIFICAR  POR NUEVA DISPÓSICION EN LA BASE DE DATOS
+//        movimientoArticulo.setAjusteByIdAjuste(this.ajusteRepository.findById(movimientoArticuloDTO.getIdAjuste()).get());
 
         movimientoArticulo = this.movimientoArticuloRepository.save(movimientoArticulo);
 
@@ -179,10 +183,11 @@ public class MovimientoArticuloService {
             if (art.getHabilitado() == true) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 Timestamp fecha = Timestamp.valueOf(LocalDateTime.now().format(formatter).toString());
-                Double mov = this.movimientoArticuloRepository.stockPorArticulo(art.getIdArticulo(), fecha);
-                if (mov == null)
-                    mov = 0.0;
-                movimientoArticulo.add(mov);
+//                PROBLEMAS CON LA NUEVA DISPOSICION DE LA BASE DE DATOS
+//                Double mov = this.movimientoArticuloRepository.stockPorArticulo(art.getIdArticulo(), fecha);
+//                if (mov == null)
+//                    mov = 0.0;
+//                movimientoArticulo.add(mov);
             }
 
         });
@@ -203,11 +208,12 @@ public class MovimientoArticuloService {
             if (p.getHabilitado()) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
                 Timestamp fecha = Timestamp.valueOf(LocalDateTime.now().format(formatter).toString());
-                Double mov = this.movimientoArticuloRepository.stockPorArticulo(p.getIdArticulo(), fecha);
-                System.out.println(mov);
-                if (mov == null)
-                    mov = 0.0;
-                movimientoArticulo.add(mov);
+//                PROBLEMAS CON LA NUEVA DISPOSICION DE LA BASE DE DATOS
+//                Double mov = this.movimientoArticuloRepository.stockPorArticulo(p.getIdArticulo(), fecha);
+//                System.out.println(mov);
+//                if (mov == null)
+//                    mov = 0.0;
+//                movimientoArticulo.add(mov);
             }
         });
 

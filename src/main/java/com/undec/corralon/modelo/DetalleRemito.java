@@ -1,13 +1,15 @@
 package com.undec.corralon.modelo;
 
-import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "detalle_remito")
-public class DetalleRemito extends DateAudit {
+public class DetalleRemito extends UserDateAudit {
     private Integer idDetalleRemito;
     private Double cantidad;
     private String fecha;
@@ -45,6 +47,7 @@ public class DetalleRemito extends DateAudit {
         this.fecha = fecha;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -79,4 +82,5 @@ public class DetalleRemito extends DateAudit {
     public void setRemitoByIdRemito(Remito remitoByIdRemito) {
         this.remitoByIdRemito = remitoByIdRemito;
     }
+
 }

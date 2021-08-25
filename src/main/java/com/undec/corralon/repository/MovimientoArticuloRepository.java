@@ -11,12 +11,12 @@ import java.util.List;
 
 @Repository
 public interface MovimientoArticuloRepository extends JpaRepository<MovimientoArticulo, Integer> {
-
-    @Query("SELECT SUM(m.movimiento)  from MovimientoArticulo m WHERE m.articuloByIdArticulo = :idArticulo and m.fecha <= :fechaPedido and" +
-            "(m.ajusteByIdAjuste IS NOT NULL OR m.pedidoByIdPedido IS NOT NULL OR m.remitoByIdRemito IS NOT NULL) ")
-    Double stockPorArticulo(@Param("idArticulo") Integer idArticulo, @Param("fechaPedido") Timestamp fechaPedido);
-
-    List<MovimientoArticulo> findAllByPedidoByIdPedido( Integer pedidoId);
-
-    List<MovimientoArticulo> findAllByAjusteByIdAjuste( Integer ajusteId);
+//VERIFICAR QUERY POR NUEBA DISPOSION EN LA BASE DE DATOS
+    //    @Query("SELECT SUM(m.movimiento)  from MovimientoArticulo m WHERE m.articuloByIdArticulo = :idArticulo and m.fecha <= :fechaPedido and" +
+//            "(m.ajusteByIdAjuste IS NOT NULL OR m.pedidoByIdPedido IS NOT NULL OR m.remitoByIdRemito IS NOT NULL) ")
+//    Double stockPorArticulo(@Param("idArticulo") Integer idArticulo, @Param("fechaPedido") Timestamp fechaPedido);
+//
+//    List<MovimientoArticulo> findAllByPedidoByIdPedido( Integer pedidoId);
+//
+//    List<MovimientoArticulo> findAllByAjusteByIdAjuste( Integer ajusteId);
 }

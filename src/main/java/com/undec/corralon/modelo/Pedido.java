@@ -12,8 +12,6 @@ public class Pedido extends DateAudit {
     private String descripcion;
     private String fecha;
     private Boolean habilitado;
-//    private List<DetallePedido> detallePedidosByIdPedido;
-//    private List<MovimientoArticulo> movimientoArticulosByIdPedido;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -83,21 +81,4 @@ public class Pedido extends DateAudit {
         return Objects.hash(idPedido, nombre, descripcion, fecha, habilitado);
     }
 
-//    @OneToMany(mappedBy = "pedidoByIdPedido")
-//    public List<DetallePedido> getDetallePedidosByIdPedido() {
-//        return detallePedidosByIdPedido;
-//    }
-//
-//    public void setDetallePedidosByIdPedido(List<DetallePedido> detallePedidosByIdPedido) {
-//        this.detallePedidosByIdPedido = detallePedidosByIdPedido;
-//    }
-//
-//    @OneToMany(mappedBy = "pedidoByIdPedido")
-//    public List<MovimientoArticulo> getMovimientoArticulosByIdPedido() {
-//        return movimientoArticulosByIdPedido;
-//    }
-//
-//    public void setMovimientoArticulosByIdPedido(List<MovimientoArticulo> movimientoArticulosByIdPedido) {
-//        this.movimientoArticulosByIdPedido = movimientoArticulosByIdPedido;
-//    }
 }
