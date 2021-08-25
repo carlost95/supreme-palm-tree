@@ -13,17 +13,9 @@ public class MovimientoArticulo extends DateAudit {
     private String fecha;
     private Integer devolocion;
     private Articulo articuloByIdArticulo;
-    private Venta ventaByIdVenta;
-    private Ajuste ajusteByIdAjuste;
-    private Pedido pedidoByIdPedido;
-    private Remito remitoByIdRemito;
-    private Integer idDetalleAjuste;
-    private Integer idDetallePedido;
     private DetalleAjuste detalleAjusteByIdDetalleAjuste;
     private DetallePedido detallePedidoByIdDetallePedido;
     private DetalleRemito detalleRemitoByIdDetalleRemito;
-    private Integer idDetalleVenta;
-    private Integer idDetalleRemito;
     private DetalleVenta detalleVentaByIdDetalleVenta;
 
     @Id
