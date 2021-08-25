@@ -1,6 +1,7 @@
 package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.Response;
+import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.excepciones.rubro.*;
 import com.undec.corralon.modelo.Rubro;
 import com.undec.corralon.repository.RubroRepository;
@@ -42,7 +43,9 @@ public class RubroService {
     public Response obtenerPorId(Integer id) throws RubroException {
         Response response = new Response();
 
-        Rubro rubro = this.rubroRepository.findById(id).get();
+        Rubro rubro = this.rubroRepository.findById(id).orElseThrow(
+                ()->new NotFoundException("\nWARNING: No existe el rubro")
+        );
 
         if (rubro == null)
             throw new RubroNotFoundException();

@@ -1,13 +1,12 @@
 package com.undec.corralon.modelo;
 
+import com.undec.corralon.modelo.audit.DateAudit;
+
 import javax.persistence.*;
-import java.sql.Date;
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Cheque extends DateAudit{
+public class Cheque extends DateAudit {
     private Integer idCheque;
     private String titularEmisor;
     private String fecha;

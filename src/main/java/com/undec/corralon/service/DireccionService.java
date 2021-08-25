@@ -1,10 +1,9 @@
 package com.undec.corralon.service;
 
-import com.undec.corralon.DTO.ClienteDTO;
 import com.undec.corralon.DTO.DireccionDTO;
 import com.undec.corralon.DTO.Response;
 import com.undec.corralon.DTO.UbicacionDTO;
-import com.undec.corralon.excepciones.DireccionErrorToSaveException;
+import com.undec.corralon.excepciones.direccion.DireccionErrorToSaveException;
 import com.undec.corralon.modelo.Cliente;
 import com.undec.corralon.modelo.Direccion;
 import com.undec.corralon.modelo.Distrito;
@@ -47,7 +46,7 @@ public class DireccionService {
         Response response = new Response();
         List<Direccion> direcciones = direccionRepository.findDireccionByClienteByIdCliente(idCliente);
         if( direcciones == null)
-            throw new DireccionErrorToSaveException();
+            throw new DireccionErrorToSaveException("WARNING: Error en la carga de direccion");
         List<DireccionDTO> direccionDTOS = new ArrayList<>();
 
         for (Direccion direccion: direcciones) {
@@ -94,7 +93,7 @@ public class DireccionService {
         direccion = direccionRepository.save(direccion);
 
         if( direccion == null)
-            throw new DireccionErrorToSaveException();
+            throw new DireccionErrorToSaveException("WARNING: Error en el metodo de carga de direccion");
         response.setMsg("Creado");
         response.setCode(200);
         response.setData(direccion);
@@ -118,7 +117,7 @@ public class DireccionService {
         direccion = direccionRepository.save(direccion);
 
         if( direccion == null)
-            throw new DireccionErrorToSaveException();
+            throw new DireccionErrorToSaveException("WARNING: Error en el metodo de carga de direccion");
         response.setMsg("Modificado");
         response.setCode(200);
         response.setData(direccion);

@@ -1,7 +1,7 @@
 package com.undec.corralon.controlador;
 
 import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.Pedido.PedidoException;
+import com.undec.corralon.excepciones.pedido.PedidoException;
 import com.undec.corralon.modelo.Pedido;
 import com.undec.corralon.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;

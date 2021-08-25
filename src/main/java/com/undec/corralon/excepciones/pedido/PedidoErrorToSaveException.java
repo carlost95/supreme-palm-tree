@@ -1,4 +1,4 @@
-package com.undec.corralon.excepciones.Pedido;
+package com.undec.corralon.excepciones.pedido;
 
 public class PedidoErrorToSaveException extends PedidoException {
     public PedidoErrorToSaveException() {

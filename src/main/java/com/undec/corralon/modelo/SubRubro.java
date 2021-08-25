@@ -1,18 +1,18 @@
 package com.undec.corralon.modelo;
 
+import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
+
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "sub_rubro")
-public class SubRubro extends DateAudit{
+public class SubRubro extends UserDateAudit {
     private Integer idSubRubro;
     private String nombre;
     private String abreviatura;
     private Boolean habilitado;
-//    private List<Articulo> articulosByIdSubRubro;
     private Rubro rubroByIdRubro;
 
     @Id
@@ -72,15 +72,6 @@ public class SubRubro extends DateAudit{
         return Objects.hash(idSubRubro, nombre, abreviatura, habilitado);
     }
 
-//    @OneToMany(mappedBy = "subRubroByIdSubRubro")
-//    @JoinColumn(name = "id_sub_rubro", referencedColumnName = "id_sub_rubro")
-//    public List<Articulo> getArticulosByIdSubRubro() {
-//        return articulosByIdSubRubro;
-//    }
-//
-//    public void setArticulosByIdSubRubro(List<Articulo> articulosByIdSubRubro) {
-//        this.articulosByIdSubRubro = articulosByIdSubRubro;
-//    }
 
     @ManyToOne
     @JoinColumn(name = "id_rubro", referencedColumnName = "id_rubro")

@@ -1,103 +1,136 @@
 package com.undec.corralon.service;
 
+import com.undec.corralon.DTO.ProveedorDTO;
 import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.banco.BancoCambioEstadoException;
-import com.undec.corralon.excepciones.proveedor.*;
+import com.undec.corralon.excepciones.exception.BadRequestException;
+import com.undec.corralon.excepciones.exception.NotFoundException;
+import com.undec.corralon.modelo.Banco;
+import com.undec.corralon.modelo.BancoProveedor;
 import com.undec.corralon.modelo.Proveedor;
+import com.undec.corralon.repository.BancoProveedorRepository;
+import com.undec.corralon.repository.BancoRepository;
 import com.undec.corralon.repository.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ProveedorService {
     @Autowired
     ProveedorRepository proveedorRepository;
 
-    public Response listarTodos () throws Exception {
-        Response response = new Response();
+    @Autowired
+    BancoRepository bancoRepository;
+
+    @Autowired
+    BancoProveedorRepository bancoProveedorRepository;
+
+    public List<Proveedor> listOfAllSuppliers() {
         List<Proveedor> proveedores = proveedorRepository.findAll();
-        if (proveedores == null){
-            throw new ProveedorNotFoundException();
+        if (proveedores == null) {
+            throw new NotFoundException("WARNING: No existen proveedores");
         }
-        response.setMsg("Lista de todos los proveedores");
-        response.setCode(200);
-        response.setData(proveedores);
-
-        return response;
+        return proveedores;
     }
-    public Response listarTodosHabilitados() throws Exception {
-        Response response = new Response();
-        List <Proveedor> proveedores = proveedorRepository.findAllByHabilitadoEquals((boolean) true);
-        if (proveedores == null){
-            throw new ProveedorNotFoundException();
+
+    public List<Proveedor> listOfSuppliersHabilitation() {
+        List<Proveedor> proveedores = proveedorRepository.findAllByHabilitadoEquals(true);
+        if (proveedores == null) {
+            throw new NotFoundException("\nWARNING: No existen proveedores habilitados");
         }
-        response.setCode(200);
-        response.setMsg("Listado de proveedores habilitados");
-        response.setData(proveedores);
-        return response;
-    }
-    public Response listarPorId(Integer id) throws Exception{
-        Response response = new Response();
-        Proveedor proveedor= proveedorRepository.findById(id).get();
-
-        if(proveedor == null)
-            throw new ProveedorNotFoundException();
-
-        response.setCode(200);
-        response.setMsg("proveedor " + id);
-        response.setData(proveedor);
-
-        return response;
-    }
-    public Response guardarProveedor(Proveedor proveedor) throws Exception {
-        Response response = new Response();
-        proveedor.setHabilitado((boolean) true);
-        Proveedor proveedorSave = proveedorRepository.save(proveedor);
-
-        if(proveedorSave == null)
-            throw new ProveedorErrorToSaveException();
-
-        response.setCode(200);
-        response.setMsg("Proveedor creado correctamente");
-        response.setData(proveedorSave);
-
-        return response;
-    }
-    public Response actualizarProveedor(Proveedor proveedor) throws Exception {
-        Response response = new Response();
-        Proveedor proveedorUpdate = proveedorRepository.findById(proveedor.getIdProveedor()).get();
-
-        if(proveedorUpdate == null)
-            throw new ProveedorErrorToUpdateException();
-
-        proveedorUpdate.setRazonSocial(proveedor.getRazonSocial());
-        proveedorUpdate.setDomicilio(proveedor.getDomicilio());
-        proveedorUpdate.setEmail(proveedor.getEmail());
-        proveedorUpdate.setTelefono(proveedor.getTelefono());
-
-        response.setCode(200);
-        response.setMsg("Proveedor actualizado correctamente");
-        response.setData(proveedorRepository.save(proveedorUpdate));
-        return response;
+        return proveedores;
     }
 
-    public Response cambiarHabilitacion(Integer id) throws ProveedorCambioEstadoException {
-        Response response = new Response();
+    public Proveedor listSuppliersForId(Integer id) {
+        Proveedor proveedor = proveedorRepository.findById(id).
+                orElseThrow(() -> new NotFoundException("\nWARNING: No existe el proveedor por id"));
 
-        Optional<Proveedor> proveedorOptional = proveedorRepository.findById(id);
-        if (!proveedorOptional.isPresent()){
-            throw new ProveedorCambioEstadoException();
+        return proveedor;
+    }
+
+    public Proveedor saveSupplier(ProveedorDTO proveedorDTO) {
+        Proveedor proveedor = mappedOfSupplier(proveedorDTO);
+        Proveedor supplierSave = proveedorRepository.save(proveedor);
+
+        if (supplierSave == null) {
+            throw new NotFoundException("\nWARNING: No se puede guardar el provedor");
         }
-        Proveedor proveedor = proveedorOptional.get();
+        mappedDateOfSupplier(supplierSave, proveedorDTO);
+
+        return proveedor;
+    }
+
+    public Proveedor updatedSupplier(ProveedorDTO proveedorDTO) {
+        Proveedor proveedorUpdate = proveedorRepository.findById(proveedorDTO.getIdProveedor()).
+                orElseThrow(() -> new NotFoundException("\nWARNING: No se encuentra el proveedorDTO a actualizar"));
+
+        proveedorUpdate.setRazonSocial(proveedorDTO.getRazonSocial());
+        proveedorUpdate.setDomicilio(proveedorDTO.getDomicilio());
+        proveedorUpdate.setEmail(proveedorDTO.getEmail());
+        proveedorUpdate.setTelefono(proveedorDTO.getTelefono());
+        proveedorUpdate.setHabilitado(proveedorDTO.getHabilitado());
+
+        proveedorUpdate = proveedorRepository.save(proveedorUpdate);
+        if (proveedorUpdate == null)
+            throw new NotFoundException("\nWARNING: No se puede actualizar datos del proveedor o no existe el proveedor");
+
+        mappedDateOfSupplier(proveedorUpdate, proveedorDTO);
+
+        return proveedorUpdate;
+    }
+
+    public Proveedor habilitationChange(Integer id) {
+        Proveedor proveedorOptional = proveedorRepository.findById(id).
+                orElseThrow(() -> new NotFoundException("\nWARNING: No se encuentra el proveedor para su habilitacion o deshabilitacion"));
+        Proveedor proveedor = proveedorOptional;
+
         proveedor.setHabilitado(!proveedor.getHabilitado());
-        proveedorRepository.save(proveedor);
+        if (proveedorRepository.save(proveedor) == null)
+            throw new NotFoundException("\nWARNING: No existe el probveedor que se quiere cambiar habiulitacion o es null");
 
-        response.setCode(200);
-        response.setMsg("El proveedor cambio el estado");
-        response.setData(proveedor);
-        return response;
+        return proveedor;
+    }
+
+    private Proveedor mappedOfSupplier(ProveedorDTO proveedorDTO) {
+        Proveedor proveedor = new Proveedor();
+
+        proveedor.setRazonSocial(proveedorDTO.getRazonSocial());
+        proveedor.setEmail(proveedorDTO.getEmail());
+        proveedor.setTelefono(proveedorDTO.getTelefono());
+        proveedor.setDomicilio(proveedorDTO.getDomicilio());
+        proveedor.setHabilitado(true);
+
+        if (proveedorDuplicado(proveedor))
+            throw new BadRequestException("\nWARNING: El proveedor cargado es invalido o ya existe");
+        else
+            return proveedor;
+    }
+
+    private BancoProveedor mappedDateOfSupplier(Proveedor proveedor, ProveedorDTO proveedorDTO) {
+        BancoProveedor datosProveedor = new BancoProveedor();
+        Banco banco = proveedorDTO.getBanco();
+
+        if (banco == null || banco.getIdBanco() == null)
+            throw new BadRequestException("\nWARNING: No se cargaron los datos del banco para el proveedor");
+
+        datosProveedor.setTitularCuenta(proveedorDTO.getTitularCuenta());
+        datosProveedor.setNumeroCuenta(proveedorDTO.getNumeroCuenta());
+        datosProveedor.setCbu(proveedorDTO.getCbu());
+        datosProveedor.setProveedorByIdProveedor(proveedor);
+        datosProveedor.setBancoByIdBanco(banco);
+
+        if (bancoProveedorRepository.save(datosProveedor) == null)
+            throw new NotFoundException("\nWARNING: No se puede guardar los datos de banco del proveedor");
+        else {
+            BancoProveedor dateSupplier = bancoProveedorRepository.save(datosProveedor);
+            return dateSupplier;
+        }
+    }
+
+    private Boolean proveedorDuplicado(Proveedor prov) {
+        if (proveedorRepository.existsByRazonSocialAndEmail(prov.getRazonSocial(), prov.getEmail()))
+            return true;
+        return false;
     }
 }

@@ -2,11 +2,14 @@ package com.undec.corralon.security.controller;
 
 import com.undec.corralon.DTO.Mensaje;
 import com.undec.corralon.DTO.Response;
+import com.undec.corralon.payload.UserSummary;
+import com.undec.corralon.security.CurrentUser;
 import com.undec.corralon.security.dto.JwtDto;
 import com.undec.corralon.security.dto.LoginUsuario;
 import com.undec.corralon.security.dto.NewUsuario;
 import com.undec.corralon.security.entity.Rol;
 import com.undec.corralon.security.entity.Usuario;
+import com.undec.corralon.security.entity.UsuarioPrincipal;
 import com.undec.corralon.security.enums.RolNombre;
 import com.undec.corralon.security.jwt.JwtProvider;
 import com.undec.corralon.security.service.RolService;
@@ -14,6 +17,7 @@ import com.undec.corralon.security.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -50,6 +54,13 @@ public class AuthController {
     public ResponseEntity<Response> listAll() throws Exception {
         Response response = usuarioService.getListAll();
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/me")
+    @PreAuthorize("hasRole('ROLE_ADMIN') || hasRole('ROLE_USER') || hasRole('ROLE_GERENTE')")
+    public UserSummary getCurrentUser(@CurrentUser UsuarioPrincipal currentUser) {
+        UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getNombre());
+        return userSummary;
     }
 
     @GetMapping("/{nombreUsuario}")

@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface DistritoRepository extends JpaRepository<Distrito, Integer> {
     List<Distrito> findByHabilitadoEquals(boolean habilitado);
+
+    Boolean existsByNombreOrAbreviatura(String nombre, String abreviatura);
 }

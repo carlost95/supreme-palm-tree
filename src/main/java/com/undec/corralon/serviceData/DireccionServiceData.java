@@ -2,7 +2,7 @@ package com.undec.corralon.serviceData;
 
 import com.undec.corralon.DTO.DireccionDTO;
 import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.DireccionErrorToSaveException;
+import com.undec.corralon.excepciones.direccion.DireccionErrorToSaveException;
 import com.undec.corralon.modelo.Direccion;
 import com.undec.corralon.service.DireccionService;
 import org.springframework.beans.factory.annotation.Autowired;

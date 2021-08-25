@@ -1,13 +1,12 @@
 package com.undec.corralon.modelo;
 
+import com.undec.corralon.modelo.audit.DateAudit;
+
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Venta extends DateAudit{
+public class Venta extends DateAudit {
     private Integer idVenta;
     private String fechaVenta;
     private Double totalSinDescuento;
@@ -16,9 +15,6 @@ public class Venta extends DateAudit{
     private Double total;
     private Cliente clienteByIdCliente;
     private PagoVenta pagoVentaByIdPagoVenta;
-//    private List<DetalleVenta> detalleVentasByIdVenta;
-//    private List<MovimientoArticulo> movimientoArticulosByIdVenta;
-//    private List<Remito> remitosByIdVenta;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -100,33 +96,6 @@ public class Venta extends DateAudit{
         return Objects.hash(idVenta, fechaVenta, totalSinDescuento, descuento, recargo, total);
     }
 
-//    @OneToMany(mappedBy = "ventaByIdVenta")
-//    public List<DetalleVenta> getDetalleVentasByIdVenta() {
-//        return detalleVentasByIdVenta;
-//    }
-//
-//    public void setDetalleVentasByIdVenta(List<DetalleVenta> detalleVentasByIdVenta) {
-//        this.detalleVentasByIdVenta = detalleVentasByIdVenta;
-//    }
-//
-//    @OneToMany(mappedBy = "ventaByIdVenta")
-//    public List<MovimientoArticulo> getMovimientoArticulosByIdVenta() {
-//        return movimientoArticulosByIdVenta;
-//    }
-//
-//    public void setMovimientoArticulosByIdVenta(List<MovimientoArticulo> movimientoArticulosByIdVenta) {
-//        this.movimientoArticulosByIdVenta = movimientoArticulosByIdVenta;
-//    }
-//
-//    @OneToMany(mappedBy = "ventaByIdVenta")
-//    public List<Remito> getRemitosByIdVenta() {
-//        return remitosByIdVenta;
-//    }
-//
-//    public void setRemitosByIdVenta(List<Remito> remitosByIdVenta) {
-//        this.remitosByIdVenta = remitosByIdVenta;
-//    }
-//
     @ManyToOne
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente", nullable = false)
     public Cliente getClienteByIdCliente() {
