@@ -1,6 +1,7 @@
 package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.Response;
+import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.excepciones.unidadMedida.*;
 import com.undec.corralon.modelo.UnidadMedida;
 import com.undec.corralon.repository.UnidadMedidaRepository;
@@ -42,7 +43,9 @@ public class UnidadMedidaService {
 
     public Response obtenerUnidadMedidaPorId(Integer id) {
 
-        UnidadMedida unidadDeMedida = this.unidadMedidaRepository.findById(id).get();
+        UnidadMedida unidadDeMedida = this.unidadMedidaRepository.findById(id)
+                .orElseThrow(
+                        () -> new NotFoundException("\nWARNING: error no existe la unidad de mediad"));
         Response response = new Response();
 
         response.setCode(200);

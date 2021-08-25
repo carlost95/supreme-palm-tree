@@ -1,20 +1,19 @@
 package com.undec.corralon.modelo;
 
+import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
+
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Proveedor extends DateAudit {
+public class Proveedor extends UserDateAudit {
     private Integer idProveedor;
     private String razonSocial;
     private String domicilio;
     private String email;
     private String telefono;
     private Boolean habilitado;
-//    private List<Articulo> articulosByIdProveedor;
-//    private List<BancoProveedor> bancoProveedorsByIdProveedor;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -94,22 +93,4 @@ public class Proveedor extends DateAudit {
     public int hashCode() {
         return Objects.hash(idProveedor, razonSocial, domicilio, email, telefono, habilitado);
     }
-
-//    @OneToMany(mappedBy = "proveedorByIdProveedor")
-//    public List<Articulo> getArticulosByIdProveedor() {
-//        return articulosByIdProveedor;
-//    }
-//
-//    public void setArticulosByIdProveedor(List<Articulo> articulosByIdProveedor) {
-//        this.articulosByIdProveedor = articulosByIdProveedor;
-//    }
-//
-//    @OneToMany(mappedBy = "proveedorByIdProveedor")
-//    public List<BancoProveedor> getBancoProveedorsByIdProveedor() {
-//        return bancoProveedorsByIdProveedor;
-//    }
-//
-//    public void setBancoProveedorsByIdProveedor(List<BancoProveedor> bancoProveedorsByIdProveedor) {
-//        this.bancoProveedorsByIdProveedor = bancoProveedorsByIdProveedor;
-//    }
 }

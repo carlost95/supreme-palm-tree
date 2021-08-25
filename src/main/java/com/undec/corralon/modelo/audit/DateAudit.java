@@ -1,4 +1,4 @@
-package com.undec.corralon.modelo;
+package com.undec.corralon.modelo.audit;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;

@@ -6,6 +6,8 @@ import com.undec.corralon.excepciones.departamento.DepartamentoErrorToSaveExcept
 import com.undec.corralon.excepciones.departamento.DepartamentoErrorToUpdateException;
 import com.undec.corralon.excepciones.departamento.DepartamentoListNotFoundException;
 import com.undec.corralon.excepciones.departamento.DepartamentoNotFoundException;
+import com.undec.corralon.excepciones.exception.BadRequestException;
+import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.modelo.Departamento;
 import com.undec.corralon.repository.DepartamentoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,106 +21,77 @@ public class DepartamentoService {
     @Autowired
     DepartamentoRepository departamentoRepository;
 
-    public Response listarTodos() throws Exception{
-        Response response = new Response();
+    public List<Departamento>  listAllDepartment(){
         List<Departamento> departamentos = departamentoRepository.findAll();
-
         if(departamentos == null)
-            throw new DepartamentoListNotFoundException();
+            throw new NotFoundException("\nWARNING: No existen departamentos");
 
-        response.setCode(200);
-        response.setMsg("Listado departamentos");
-        response.setData(departamentos);
-
-        return response;
+        return departamentos;
     }
 
-    public Response listarTodosHabilitados() throws Exception{
-        Response response = new Response();
+    public List<Departamento> listAllDepartmentHabilitation(){
         List<Departamento> departamentos = departamentoRepository.findByHabilitadoEquals(true);
         if(departamentos == null)
-            throw new DepartamentoListNotFoundException();
+            throw new NotFoundException("\nWARNING: No existen departamentos habilitados");
 
-        response.setCode(200);
-        response.setMsg("Listado departamentos habilitados");
-        response.setData(departamentos);
-
-        return response;
+        return departamentos;
     }
 
-    public Response listarPorId(Integer id) throws Exception{
-        Response response = new Response();
-        Departamento departamento = departamentoRepository.findById(id).get();
+    public Departamento findByIdDepartment(Integer id){
+        Departamento departamento = departamentoRepository.findById(id).
+                orElseThrow(()-> new NotFoundException("\nWARNINGH: No existe el departamento solicitado"));
 
-        if(departamento == null)
-            throw new DepartamentoNotFoundException();
-
-        response.setCode(200);
-        response.setMsg("Departamento " + id);
-        response.setData(departamento);
-
-        return response;
-    }
-
-    public Response guardar(DepartamentoDTO departamentoDTO) throws Exception{
-        Response response = new Response();
-        Departamento toSave = this.departamentoDTOToEntity(departamentoDTO);
-        toSave.setHabilitado(true);
-        toSave = departamentoRepository.save(toSave);
-
-        if(toSave == null)
-            throw new DepartamentoErrorToSaveException();
-
-        response.setCode(200);
-        response.setMsg("Guardado exitosamente!!!");
-        response.setData(toSave);
-
-        return response;
-    }
-
-    private Departamento departamentoDTOToEntity(DepartamentoDTO departamentoDTO) {
-        Departamento departamento = new Departamento();
-        departamento.setNombre(departamentoDTO.getNombre());
-        departamento.setAbreviatura(departamentoDTO.getAbreviatura());
         return departamento;
     }
 
-    public Response actualizar(DepartamentoDTO departamentoDTO) throws Exception{
-        Response response = new Response();
-        Departamento actualizar = departamentoRepository.findById(departamentoDTO.getIdDepartamento()).get();
+    public Departamento saveDepartment(Departamento departamento){
+        departamento.setHabilitado(true);
 
-        if(actualizar == null)
-            throw new DepartamentoErrorToUpdateException();
+        if (departamento.getNombre()==null||departamento.getAbreviatura()==null)
+            throw new BadRequestException("\nWARNING: los datos del departamento no puede ser null");
 
-        actualizar.setNombre(departamentoDTO.getNombre());
-        actualizar.setAbreviatura(departamentoDTO.getAbreviatura());
-        actualizar.setNombre(departamentoDTO.getNombre());
-        actualizar.setHabilitado(departamentoDTO.getHabilitado());
+        if(validationDepartment(departamento))
+            throw new BadRequestException("\nWARNING: El departamento ingresao esta duplicado");
 
-        response.setCode(200);
-        response.setMsg("Actualizado exitosamente!!!");
-        response.setData(departamentoRepository.save(actualizar));
+        departamento = departamentoRepository.save(departamento);
 
-        return response;
+        if(departamento == null)
+            throw new NotFoundException("\nWARNING: Error en la carga de departamento");
+
+        return departamento;
     }
 
-    public Response changeStatus(Integer id) throws Exception{
+    public Departamento updatedDepartment(Departamento departamento){
+        Departamento updatedDepart = departamentoRepository.findById(departamento.getIdDepartamento()).
+                orElseThrow(()->
+                        new NotFoundException("\nWARNING: No existe el departamento que se quiere actualizar"));
 
-        Response response = new Response();
-        Departamento darBaja = departamentoRepository.findById(id).get();
+        updatedDepart.setIdDepartamento(departamento.getIdDepartamento());
+        updatedDepart.setNombre(departamento.getNombre());
+        updatedDepart.setAbreviatura(departamento.getAbreviatura());
+        updatedDepart.setHabilitado(departamento.getHabilitado());
 
-        if(darBaja == null)
-            throw new DepartamentoErrorToUpdateException();
+        updatedDepart=departamentoRepository.save(updatedDepart);
+        if (updatedDepart==null)
+            throw new NotFoundException("\nWARNING: Error al actualizar el departamento no existe");
 
-        darBaja.setHabilitado(!darBaja.getHabilitado());
-        departamentoRepository.save(darBaja);
-
-        response.setCode(200);
-        response.setMsg("Se cambio estado exitosamente");
-        response.setData(darBaja);
-
-
-        return response;
+        return updatedDepart;
     }
 
+    public Departamento changeStatus(Integer id) {
+
+        Departamento depChange = departamentoRepository.findById(id).
+                orElseThrow(()-> new NotFoundException("\nWARNING: No existe el departamento para el cambio de estado"));
+
+        depChange.setHabilitado(!depChange.getHabilitado());
+
+        depChange = departamentoRepository.save(depChange);
+        if (depChange==null)
+            throw new NotFoundException("\nWARNING: error el el metodo de guardado del cambio de estado de departamento");
+
+        return depChange;
+    }
+    private boolean validationDepartment(Departamento departamento) {
+        return departamentoRepository.existsByNombreOrAbreviatura(departamento.getNombre(), departamento.getAbreviatura());
+    }
 }

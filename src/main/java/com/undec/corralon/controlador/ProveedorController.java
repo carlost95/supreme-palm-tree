@@ -1,6 +1,6 @@
 package com.undec.corralon.controlador;
 
-import com.undec.corralon.DTO.Response;
+import com.undec.corralon.DTO.ProveedorDTO;
 import com.undec.corralon.modelo.Proveedor;
 import com.undec.corralon.service.ProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -18,36 +19,30 @@ public class ProveedorController {
     ProveedorService proveedorService;
 
     @GetMapping
-    public ResponseEntity<Response> listarTodos() throws Exception {
-        Response response = proveedorService.listarTodos();
-        return  new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<Proveedor>> listOfAllSuppliers() {
+        return ResponseEntity.status(HttpStatus.OK).body(proveedorService.listOfAllSuppliers());
     }
     @GetMapping("/habilitados")
-    public ResponseEntity<Response> listarTodosHabilitados() throws Exception {
-        Response response = proveedorService.listarTodosHabilitados();
-        return  new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<Proveedor>> listOfSuppliersHabilitation(){
+        return ResponseEntity.status(HttpStatus.OK).body(proveedorService.listOfSuppliersHabilitation());
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Response> listarPorId(@PathVariable("id") Integer id) throws Exception {
-        Response response = proveedorService.listarPorId(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Proveedor> listSuppliersForId(@PathVariable Integer id){
+           return ResponseEntity.status(HttpStatus.OK).body(proveedorService.listSuppliersForId(id));
     }
 
     @PostMapping
-    public ResponseEntity<Response> guardar(@Valid @RequestBody Proveedor proveedor) throws Exception {
-        Response response = proveedorService.guardarProveedor(proveedor);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Proveedor> saveSupplier(@Valid @RequestBody ProveedorDTO proveedorDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(proveedorService.saveSupplier(proveedorDTO));
     }
 
     @PutMapping
-    public ResponseEntity<Response> actualizar(@Valid @RequestBody Proveedor proveedor) throws Exception {
-        Response response = proveedorService.actualizarProveedor(proveedor);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Proveedor> updatedSupplier(@Valid @RequestBody ProveedorDTO proveedorDTO){
+        return ResponseEntity.status(HttpStatus.OK).body(proveedorService.updatedSupplier(proveedorDTO));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Response> cambiarHabilitacion(@PathVariable("id") Integer id) throws Exception {
-        Response response = proveedorService.cambiarHabilitacion(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Proveedor> habilitationChange(@PathVariable("id") Integer id){
+        return ResponseEntity.status(HttpStatus.OK).body(proveedorService.habilitationChange(id));
     }
 }

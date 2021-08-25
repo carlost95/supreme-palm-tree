@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -20,38 +21,32 @@ public class DepartamentoController {
     DepartamentoService departamentoService;
 
     @GetMapping
-    public ResponseEntity<Response> listarTodos() throws Exception {
-        Response response = departamentoService.listarTodos();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<Departamento>> listAllDepartment() {
+        return ResponseEntity.status(HttpStatus.OK).body(departamentoService.listAllDepartment());
     }
 
-    @GetMapping("/active")
-    public ResponseEntity<Response> listarHabilitados() throws Exception {
-        Response response = departamentoService.listarTodosHabilitados();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @GetMapping("/habilitado")
+    public ResponseEntity<List<Departamento>> listarHabilitados() {
+        return ResponseEntity.status(HttpStatus.OK).body(departamentoService.listAllDepartmentHabilitation());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> listarPorId(@PathVariable("id") Integer id) throws Exception {
-        Response response = departamentoService.listarPorId(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Departamento> listarPorId(@PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.OK).body(departamentoService.findByIdDepartment(id));
     }
 
     @PostMapping
-    public ResponseEntity<Response> guardar(@RequestBody DepartamentoDTO departamento) throws Exception {
-        Response response = departamentoService.guardar(departamento);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Departamento> saveDepartment(@RequestBody Departamento departamento) {
+        return ResponseEntity.status(HttpStatus.OK).body(departamentoService.saveDepartment(departamento));
     }
 
     @PutMapping
-    public ResponseEntity<Response> actualizar(@RequestBody DepartamentoDTO departamento) throws Exception {
-        Response response = departamentoService.actualizar(departamento);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Departamento> updatedDepartment(@RequestBody Departamento departamento){
+        return ResponseEntity.status(HttpStatus.OK).body(departamentoService.updatedDepartment(departamento));
     }
 
-    @PutMapping("/status/{id}")
-    public ResponseEntity<Response> changeStatus(@PathVariable("id") Integer id) throws Exception {
-        Response response = departamentoService.changeStatus(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<Departamento> changeStatus(@PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.OK).body(departamentoService.changeStatus(id));
     }
 }

@@ -1,5 +1,7 @@
 package com.undec.corralon.modelo;
 
+import com.undec.corralon.modelo.audit.DateAudit;
+
 import javax.persistence.*;
 import java.util.Objects;
 
@@ -12,6 +14,9 @@ public class BancoProveedor extends DateAudit {
     private String numeroCuenta;
     private Proveedor proveedorByIdProveedor;
     private Banco bancoByIdBanco;
+
+    public BancoProveedor() {
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

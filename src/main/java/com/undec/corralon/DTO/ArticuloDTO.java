@@ -4,30 +4,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ArticuloDTO {
 
-    @JsonProperty(value = "id", required = false)
     private Integer id;
     private String nombre;
     private String abreviatura;
     private String codigoArt;
     private Integer stockMin;
     private Integer stockMax;
+    private Double costo;
+    private Double precio;
+    private Boolean habilitado;
 
-    @JsonProperty(value = "proveedorId", required = false)
+
     private Integer idProveedor;
-    @JsonProperty(value = "unidadMedidaId", required = false)
     private Integer idUnidadMedida;
-    @JsonProperty(value = "marcaId", required = false)
     private Integer idMarca;
-    @JsonProperty(value = "rubroId", required = false)
+    @JsonProperty(value = "idRubro", required = false)
     private Integer idRubro;
-    @JsonProperty(value = "subRubroId", required = false)
+    @JsonProperty(value = "idSubRubro", required = false)
     private Integer idSubRubro;
-    @JsonProperty(value = "costoId", required = false)
-    private Integer idCosto;
-    @JsonProperty(value = "precioId", required = false)
-    private Integer idPrecio;
-    @JsonProperty(value = "habilitado", required = false)
-    private Integer habilitado;
 
     public ArticuloDTO() {
     }
@@ -120,27 +114,27 @@ public class ArticuloDTO {
         this.idSubRubro = idSubRubro;
     }
 
-    public Integer getIdCosto() {
-        return idCosto;
+    public Double getCosto() {
+        return costo;
     }
 
-    public void setIdCosto(Integer idCosto) {
-        this.idCosto = idCosto;
+    public void setCosto(Double costo) {
+        this.costo = costo;
     }
 
-    public Integer getIdPrecio() {
-        return idPrecio;
+    public Double getPrecio() {
+        return precio;
     }
 
-    public void setIdPrecio(Integer idPrecio) {
-        this.idPrecio = idPrecio;
+    public void setPrecio(Double precio) {
+        this.precio = precio;
     }
 
-    public Integer getHabilitado() {
+    public Boolean getHabilitado() {
         return habilitado;
     }
 
-    public void setHabilitado(Integer habilitado) {
+    public void setHabilitado(Boolean habilitado) {
         this.habilitado = habilitado;
     }
 }

@@ -1,12 +1,13 @@
 package com.undec.corralon.modelo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.undec.corralon.modelo.audit.UserDateAudit;
+
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Articulo extends DateAudit {
+public class Articulo extends UserDateAudit {
     private Integer idArticulo;
     private String codigo;
     private String nombre;
@@ -14,20 +15,20 @@ public class Articulo extends DateAudit {
     private Integer stockMinimo;
     private Integer stockMaximo;
     private Boolean habilitado;
-
+    @JsonProperty(value = "proveedorByIdProveedor", required = false)
     private Proveedor proveedorByIdProveedor;
-    private UnidadMedida unidadMedidaByIdUnidadMedida;
-    private Rubro rubroByIdRubro;
-    private Marca marcaByIdMarca;
-    private SubRubro subRubroByIdSubRubro;
 
-//    private List<CostoArticulo> costoArticulosByIdArticulo;
-//    private List<DetalleAjuste> detalleAjustesByIdArticulo;
-//    private List<DetallePedido> detallePedidosByIdArticulo;
-//    private List<DetalleRemito> detalleRemitosByIdArticulo;
-//    private List<DetalleVenta> detalleVentasByIdArticulo;
-//    private List<MovimientoArticulo> movimientoArticulosByIdArticulo;
-//    private List<PrecioArticulo> precioArticulosByIdArticulo;
+    @JsonProperty(value = "unidadMedidaByIdUnidadMedida", required = false)
+    private UnidadMedida unidadMedidaByIdUnidadMedida;
+
+    @JsonProperty(value = "rubroByIdRubro", required = false)
+    private Rubro rubroByIdRubro;
+
+    @JsonProperty(value = "marcaByIdMarca", required = false)
+    private Marca marcaByIdMarca;
+
+    @JsonProperty(value = "subRubroByIdSubRubro", required = false)
+    private SubRubro subRubroByIdSubRubro;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -149,7 +150,7 @@ public class Articulo extends DateAudit {
     }
 
     @ManyToOne
-    @JoinColumn(name = "id_sub_rubro", referencedColumnName = "id_sub_rubro", nullable = false)
+    @JoinColumn(name = "id_sub_rubro", referencedColumnName = "id_sub_rubro", nullable = true)
     public SubRubro getSubRubroByIdSubRubro() {
         return subRubroByIdSubRubro;
     }

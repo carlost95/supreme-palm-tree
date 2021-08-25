@@ -1,18 +1,17 @@
 package com.undec.corralon.modelo;
 
+import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
+
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Rubro extends DateAudit{
+public class Rubro extends UserDateAudit {
     private Integer idRubro;
     private String nombre;
     private String abreviatura;
     private Boolean habilitado;
-//    private List<Articulo> articulosByIdRubro;
-//    private List<SubRubro> subRubrosByIdRubro;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,21 +70,4 @@ public class Rubro extends DateAudit{
         return Objects.hash(idRubro, nombre, abreviatura, habilitado);
     }
 
-//    @OneToMany(mappedBy = "rubroByIdRubro")
-//    public List<Articulo> getArticulosByIdRubro() {
-//        return articulosByIdRubro;
-//    }
-//
-//    public void setArticulosByIdRubro(List<Articulo> articulosByIdRubro) {
-//        this.articulosByIdRubro = articulosByIdRubro;
-//    }
-//
-//    @OneToMany(mappedBy = "rubroByIdRubro")
-//    public List<SubRubro> getSubRubrosByIdRubro() {
-//        return subRubrosByIdRubro;
-//    }
-//
-//    public void setSubRubrosByIdRubro(List<SubRubro> subRubrosByIdRubro) {
-//        this.subRubrosByIdRubro = subRubrosByIdRubro;
-//    }
 }

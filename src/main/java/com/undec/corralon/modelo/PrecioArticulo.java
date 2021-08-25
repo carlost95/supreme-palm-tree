@@ -1,5 +1,7 @@
 package com.undec.corralon.modelo;
 
+import com.undec.corralon.modelo.audit.UserDateAudit;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -7,12 +9,12 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "precio_articulo")
-public class PrecioArticulo {
+public class PrecioArticulo extends UserDateAudit {
     private Integer idPrecio;
     private Double precio;
     private String fechaDesde;
     private String fechaHasta;
-    private Integer idArticulo;
+    private Articulo articuloByIdArticulo;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,14 +75,14 @@ public class PrecioArticulo {
     public int hashCode() {
         return Objects.hash(idPrecio, precio, fechaDesde, fechaHasta);
     }
-
-    @Basic
-    @Column(name = "id_articulo")
-    public Integer getIdArticulo() {
-        return idArticulo;
+    @ManyToOne
+    @JoinColumn(name = "id_articulo", referencedColumnName = "id_articulo", nullable = false)
+    public Articulo getArticuloByIdArticulo() {
+        return articuloByIdArticulo;
     }
 
-    public void setIdArticulo(Integer idArticulo) {
-        this.idArticulo = idArticulo;
+    public void setArticuloByIdArticulo(Articulo articuloByIdArticulo) {
+        this.articuloByIdArticulo = articuloByIdArticulo;
     }
+
 }

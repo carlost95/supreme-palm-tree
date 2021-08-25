@@ -3,11 +3,14 @@ package com.undec.corralon.controlador;
 import com.undec.corralon.DTO.ArticuloDTO;
 import com.undec.corralon.DTO.Response;
 import com.undec.corralon.excepciones.articulo.ArticuloException;
+import com.undec.corralon.modelo.Articulo;
 import com.undec.corralon.service.ArticuloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -18,38 +21,32 @@ public class ArticuloController {
     ArticuloService articuloService;
 
     @GetMapping
-    public ResponseEntity<Response> obtenerTodosLosArticulos(){
-        Response response = articuloService.obtenerTodosLosArticulos();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<Articulo>> listAllArticles() {
+        return ResponseEntity.status(HttpStatus.OK).body(articuloService.listAllArticles());
     }
 
     @GetMapping("/habilitados")
-    public ResponseEntity<Response> obtenerTodosLosArticulosHabilitados(){
-        Response response = articuloService.obtenerTodosLosArticulosHabilitados();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<Articulo>> listAllArticlesEnabled() {
+        return ResponseEntity.status(HttpStatus.OK).body(articuloService.listAllArticlesEnabled());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> obtenerArticuloPorId(@PathVariable("id") Integer id){
-        Response response = articuloService.obtenerArticuloPorId(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Articulo> findArticleById(@PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.OK).body(articuloService.findArticleById(id));
     }
 
     @PostMapping
-    public ResponseEntity<Response> crearArticulo(@RequestBody ArticuloDTO articuloDTO) throws ArticuloException {
-        Response response = articuloService.crearArticulo(articuloDTO);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Articulo> saveArticle(@RequestBody ArticuloDTO articuloDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(articuloService.saveArticle(articuloDTO));
     }
 
     @PutMapping
-    public ResponseEntity<Response> actualizarArticulo(@RequestBody ArticuloDTO articuloDTO) throws ArticuloException {
-        Response response = articuloService.actualizarArticulo(articuloDTO);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Articulo> updatedTheArcticle(@RequestBody ArticuloDTO articuloDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(articuloService.updatedTheArticle(articuloDTO));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Response> bajaArticulo(@PathVariable("id") Integer id) throws ArticuloException {
-        Response response = articuloService.darBajaArticulo(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<Articulo> changeTheHabilitation(@PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.OK).body(articuloService.changeTheHabilitation(id));
     }
 }

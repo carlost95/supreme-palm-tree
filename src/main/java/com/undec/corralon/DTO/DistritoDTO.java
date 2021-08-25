@@ -1,10 +1,8 @@
 package com.undec.corralon.DTO;
 
-import com.undec.corralon.modelo.Departamento;
-
 public class DistritoDTO {
 
-    private Integer id;
+    private Integer idDistrito;
     private String nombre;
     private String abreviatura;
     private Boolean habilitado;
@@ -13,12 +11,12 @@ public class DistritoDTO {
     public DistritoDTO() {
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getIdDistrito() {
+        return idDistrito;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIdDistrito(Integer idDistrito) {
+        this.idDistrito = idDistrito;
     }
 
     public String getNombre() {
