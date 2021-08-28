@@ -1,5 +1,6 @@
 package com.undec.corralon.controlador;
 
+import com.undec.corralon.DTO.PedidoDTO;
 import com.undec.corralon.DTO.Response;
 import com.undec.corralon.excepciones.pedido.PedidoException;
 import com.undec.corralon.modelo.Pedido;
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -18,27 +21,23 @@ public class PedidoController {
     PedidoService pedidoService;
 
     @GetMapping
-    public ResponseEntity<Response> obtenerTodosLosPedidos(){
-        Response response = pedidoService.obtenerTodosLosPedidos();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<Pedido>> findAllPedidos() {
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoService.findAllPedidos());
     }
 
     @GetMapping("/habilitados")
-    public ResponseEntity<Response> obtenerTodosLosPedidosHabilitados(){
-        Response response = pedidoService.obtenerPedidosHabilitados();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<Pedido>> listOfOrdersHabilitation() {
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoService.findOrdersHabilitation());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> obtenerPedidoId(@PathVariable("id") Integer id){
-        Response response = pedidoService.obtenerPedidoPorId(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Pedido> findOrderForId(@PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoService.findOrderForId(id));
     }
 
     @PostMapping
-    public ResponseEntity<Response> guardarPedido(@RequestBody Pedido pedido) throws PedidoException {
-        Response response = pedidoService.crearPedido(pedido);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<PedidoDTO> saveOredr(@RequestBody PedidoDTO pedidoDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoService.saveOrder(pedidoDTO));
     }
 
     @PutMapping

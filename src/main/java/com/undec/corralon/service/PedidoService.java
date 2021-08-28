@@ -1,8 +1,10 @@
 package com.undec.corralon.service;
 
+import com.undec.corralon.DTO.PedidoDTO;
 import com.undec.corralon.DTO.Response;
+import com.undec.corralon.excepciones.exception.BadRequestException;
+import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.excepciones.pedido.PedidoErrorToDeleteException;
-import com.undec.corralon.excepciones.pedido.PedidoErrorToSaveException;
 import com.undec.corralon.excepciones.pedido.PedidoErrorToUpdateException;
 import com.undec.corralon.excepciones.pedido.PedidoException;
 import com.undec.corralon.modelo.Pedido;
@@ -11,8 +13,6 @@ import com.undec.corralon.repository.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -23,54 +23,37 @@ public class PedidoService {
     @Autowired
     ProveedorRepository proveedorRepository;
 
-    public Response obtenerTodosLosPedidos() {
-        Response response = new Response();
+    public List<Pedido> findAllPedidos() {
         List<Pedido> pedidos = pedidoRepository.findAll();
-        response.setCode(200);
-        response.setData(pedidos);
-        response.setMsg("Pedidos");
-
-        return response;
+        if (pedidos == null) {
+            throw new NotFoundException("\nWARNING: No se existen pedidos en base de datos");
+        }
+        return pedidos;
     }
 
-    public Response obtenerPedidosHabilitados() {
-        Response response = new Response();
-
-        response.setCode(200);
-        response.setData(this.pedidoRepository.findByHabilitadoEquals(true));
-        response.setMsg("Todos los pedidos");
-
-        return response;
+    public List<Pedido> findOrdersHabilitation() {
+        List<Pedido> ordersHabilitation = this.pedidoRepository.findByHabilitadoEquals(true);
+        if (ordersHabilitation == null) {
+            throw new NotFoundException("\nWARNING: No existen pedidos habilitados");
+        }
+        return ordersHabilitation;
     }
 
-    public Response obtenerPedidoPorId(Integer id) {
-        Response response = new Response();
-        Pedido pedido = this.pedidoRepository.findById(id).get();
-
-        response.setCode(200);
-        response.setData(pedido);
-        response.setMsg("Pedido " + pedido.getNombre());
-
-        return response;
+    public Pedido findOrderForId(Integer id) {
+        Pedido pedido = this.pedidoRepository.findById(id).
+                orElseThrow(()
+                        -> new NotFoundException("\nWARNING: No existe el pedido " + id + " en base de datos"));
+        return pedido;
     }
 
-    public Response crearPedido(Pedido pedido) throws PedidoException {
-        Response response = new Response();
-        pedido.setHabilitado(true);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String horaDeCarga = LocalDateTime.now().format(formatter).toString();
-        horaDeCarga = horaDeCarga.substring(10, horaDeCarga.length());
-        pedido.setFecha(pedido.getFecha() + horaDeCarga);
-        pedido = this.pedidoRepository.save(pedido);
+    public PedidoDTO saveOrder(PedidoDTO pedidoDTO) {
+        Pedido pedidoTosave = new Pedido();
+        pedidoTosave = mappedOrder(pedidoTosave, pedidoDTO);
 
-        if (pedido == null)
-            throw new PedidoErrorToSaveException();
-
-        response.setCode(200);
-        response.setData(pedido);
-        response.setMsg("Pedido guardado");
-        return response;
+        return pedidoDTO;
     }
+
+
 
     public Response modificarPedido(Pedido pedido) throws PedidoException {
         Response response = new Response();
@@ -106,6 +89,21 @@ public class PedidoService {
         response.setMsg("Pedido dado de baja");
 
         return response;
+    }
+    private Pedido mappedOrder(Pedido pedidoTosave, PedidoDTO pedidoDTO) {
+        if (validationNullOrder(pedidoDTO)) {
+            throw new BadRequestException("\nError: No se pueden cargar pedidos con nombres o fechas null");
+        }
+        pedidoTosave.setNombre(pedidoDTO.getNombre());
+        pedidoTosave.setDescripcion(pedidoDTO.getDescripcion());
+
+        return pedidoTosave;
+    }
+
+    private boolean validationNullOrder(PedidoDTO pedidoDTO) {
+        if (pedidoDTO.getNombre() == null || pedidoDTO.getFecha() == null)
+            return true;
+        return false;
     }
 
 }
