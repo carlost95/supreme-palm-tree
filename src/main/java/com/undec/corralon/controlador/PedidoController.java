@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -36,19 +37,19 @@ public class PedidoController {
     }
 
     @PostMapping
-    public ResponseEntity<PedidoDTO> saveOredr(@RequestBody PedidoDTO pedidoDTO) {
+    public ResponseEntity<PedidoDTO> saveOrder(@RequestBody PedidoDTO pedidoDTO) throws ParseException {
         return ResponseEntity.status(HttpStatus.OK).body(pedidoService.saveOrder(pedidoDTO));
     }
 
-    @PutMapping
-    public ResponseEntity<Response> modificarPedido(@RequestBody Pedido pedido) throws PedidoException {
-        Response response = pedidoService.modificarPedido(pedido);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @DeleteMapping("{id}")
-    public ResponseEntity<Response> eliminarPedido(@PathVariable("id") Integer id) throws PedidoException {
-        Response response = pedidoService.darBajaPedido(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+//    @PutMapping
+//    public ResponseEntity<Response> modificarPedido(@RequestBody Pedido pedido) throws PedidoException {
+//        Response response = pedidoService.modificarPedido(pedido);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
+//
+//    @DeleteMapping("{id}")
+//    public ResponseEntity<Response> eliminarPedido(@PathVariable("id") Integer id) throws PedidoException {
+//        Response response = pedidoService.darBajaPedido(id);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
 }

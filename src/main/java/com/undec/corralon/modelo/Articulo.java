@@ -105,6 +105,19 @@ public class Articulo extends UserDateAudit {
     }
 
     @Override
+    public String toString() {
+        return "Articulo{" +
+                "idArticulo=" + idArticulo +
+                ", codigo='" + codigo + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", abreviatura='" + abreviatura + '\'' +
+                ", stockMinimo=" + stockMinimo +
+                ", stockMaximo=" + stockMaximo +
+                ", habilitado=" + habilitado +
+                '}';
+    }
+
+    @Override
     public int hashCode() {
         return Objects.hash(idArticulo, nombre, stockMinimo, stockMaximo, codigo, abreviatura);
     }

@@ -1,10 +1,10 @@
 package com.undec.corralon.DTO;
 
-public class detallePedidoDTO {
+public class DetallePedidoDTO {
     private String codigoArticulo;
     private String nombreArticulo;
     private Double stockArticulo;
-    private Double valorIngresado;
+    private Integer valorIngresado;
 
     public String getCodigoArticulo() {
         return codigoArticulo;
@@ -30,11 +30,11 @@ public class detallePedidoDTO {
         this.stockArticulo = stockArticulo;
     }
 
-    public Double getValorIngresado() {
+    public Integer getValorIngresado() {
         return valorIngresado;
     }
 
-    public void setValorIngresado(Double valorIngresado) {
+    public void setValorIngresado(Integer valorIngresado) {
         this.valorIngresado = valorIngresado;
     }
 }

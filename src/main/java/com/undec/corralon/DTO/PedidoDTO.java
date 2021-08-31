@@ -1,5 +1,9 @@
 package com.undec.corralon.DTO;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 public class PedidoDTO {
@@ -7,7 +11,7 @@ public class PedidoDTO {
     private String nombre;
     private String fecha;
     private String descripcion;
-    List<detallePedidoDTO> detallesPedido;
+    List<DetallePedidoDTO> detallesPedido;
 
     public int getIdPedidoDto() {
         return idPedidoDto;
@@ -41,11 +45,11 @@ public class PedidoDTO {
         this.descripcion = descripcion;
     }
 
-    public List<detallePedidoDTO> getDetallesPedido() {
+    public List<DetallePedidoDTO> getDetallesPedido() {
         return detallesPedido;
     }
 
-    public void setDetallesPedido(List<detallePedidoDTO> detallesPedido) {
+    public void setDetallesPedido(List<DetallePedidoDTO> detallesPedido) {
         this.detallesPedido = detallesPedido;
     }
 }

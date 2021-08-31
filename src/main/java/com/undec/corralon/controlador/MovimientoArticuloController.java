@@ -18,7 +18,7 @@ public class MovimientoArticuloController {
     @Autowired
     MovimientoArticuloService movimientoArticuloService;
 //    PROBLEMAS CON LA NUEVA DISPOSICION DE LA BASE DE DATOS
-
+//
 //    @GetMapping("/pedido/{id}")
 //    public ResponseEntity<Response> obtenerMovimientosPreviosPedido(@PathVariable("id") Integer idTipoMov) {
 //        Response response = movimientoArticuloService.obtenerStockArticulosActualPedido(idTipoMov);
