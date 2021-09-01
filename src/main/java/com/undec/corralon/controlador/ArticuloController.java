@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -40,10 +41,10 @@ public class ArticuloController {
         return ResponseEntity.status(HttpStatus.OK).body(articuloService.findArticleById(id));
     }
 
-//    @GetMapping("/stock/{id}")
-//    public ResponseEntity<Double> findStockArticleById(@PathVariable("id") Integer id) {
-//        return ResponseEntity.status(HttpStatus.OK).body(movimientoArticuloService.findStockArticle(id));
-//    }
+    @GetMapping("/stock/{id}")
+    public ResponseEntity<Double> findStockArticleById(@PathVariable("id") Integer id) throws ParseException {
+        return ResponseEntity.status(HttpStatus.OK).body(movimientoArticuloService.findStockArticle(id));
+    }
 
     @PostMapping
     public ResponseEntity<Articulo> saveArticle(@RequestBody ArticuloDTO articuloDTO) {

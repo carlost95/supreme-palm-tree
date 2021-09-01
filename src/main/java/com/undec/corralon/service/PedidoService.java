@@ -123,14 +123,8 @@ public class PedidoService {
 //    }
 
     private Pedido mappedOrder(Pedido pedidoTosave, PedidoDTO pedidoDTO) throws ParseException {
-//        String[] inputDate = pedidoDTO.getFecha().split(" ");
-//        LocalDate date = LocalDate.of(inputDate[0]);
-//        LocalTime time = LocalTime.of(inputDate[1]);
-//        LocalDateTime fecha = LocalDateTime.of(date, time);
-//        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-//        LocalDateTime fecha = LocalDateTime.parse(dateFormat.format(pedidoDTO.getFecha()));
-//        Date date = dateFormat.format(pedidoDTO.getFecha());
         Date fecha = Util.stringToDate(pedidoDTO.getFecha());
+        System.out.println("Desde el mapeo:----------" + fecha + "\n");
         if (validationNullOrder(pedidoDTO)) {
             throw new BadRequestException("\nError: No se pueden cargar pedidos con nombres o fechas null");
         }
@@ -149,8 +143,6 @@ public class PedidoService {
 
     private void mappedDetailOrder(Pedido pedido, PedidoDTO pedidoDTO) throws ParseException {
         Articulo article;
-//        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
-//        LocalDateTime fecha = LocalDateTime.parse(dateFormat.format(pedidoDTO.getFecha()));
         Date fecha = Util.stringToDate(pedidoDTO.getFecha());
 
         for (DetallePedidoDTO detalle : pedidoDTO.getDetallesPedido()) {

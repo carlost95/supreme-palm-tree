@@ -1,17 +1,24 @@
 package com.undec.corralon.service;
 
+import com.undec.corralon.Util;
 import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.modelo.Articulo;
 import com.undec.corralon.modelo.DetallePedido;
 import com.undec.corralon.modelo.MovimientoArticulo;
 import com.undec.corralon.repository.ArticuloRepository;
 import com.undec.corralon.repository.MovimientoArticuloRepository;
+import org.exolab.castor.types.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 @Service
 public class MovimientoArticuloService {
@@ -50,13 +57,26 @@ public class MovimientoArticuloService {
 //
 //    }
 
-//    public Double findStockArticle(Integer idArticle) {
-////        Articulo articulo = articuloRepository.findById(idArticle).
-////                orElseThrow(
-////                        () -> new NotFoundException("No existe articulo"));
-////        System.out.println("\n------------------------------------FECHA: " + fechaActual + "-------------------------------------");
-////        return movimientoArticuloRepository.stockPorArticulo(idArticle, fechaActual + horaDeCarga);
-////    }
+    public Double findStockArticle(Integer idArticle) throws ParseException {
+//        LocalTime time = LocalTime.now();
+//        String fechaActual = LocalDate.now() + " " + time.getHour() + ":" + time.getMinute() + ":" + time.getSecond();
+//        String fechaActual = LocalDate.now() + " " + LocalTime.now();
+        String fechaActual = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+
+        System.out.println("\n----------fecha string ACTUAL-----------\n" + fechaActual);
+
+//        Date fecha = Util.stringToDate(fechaActual);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date fecha = simpleDateFormat.parse(fechaActual);
+
+        System.out.println("\n***************FECHA DATE************\n" + fecha + "\n");
+
+        Articulo articulo = articuloRepository.findById(idArticle).
+                orElseThrow(
+                        () -> new NotFoundException("No existe articulo"));
+
+        return movimientoArticuloRepository.stockPorArticulo(articulo, fecha);
+    }
 
     public MovimientoArticulo saveMovimientoOrder(DetallePedido detallePedido) {
         MovimientoArticulo movimientoArticulo = new MovimientoArticulo();

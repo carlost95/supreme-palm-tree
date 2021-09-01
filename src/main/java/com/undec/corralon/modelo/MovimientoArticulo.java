@@ -3,8 +3,6 @@ package com.undec.corralon.modelo;
 import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -118,7 +116,6 @@ public class MovimientoArticulo extends UserDateAudit {
     public void setDetalleRemitoByIdDetalleRemito(DetalleRemito detalleRemitoByIdDetalleRemito) {
         this.detalleRemitoByIdDetalleRemito = detalleRemitoByIdDetalleRemito;
     }
-
 
     @ManyToOne
     @JoinColumn(name = "id_detalle_venta", referencedColumnName = "id_detalle_venta")
