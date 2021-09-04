@@ -2,13 +2,9 @@ package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.DetallePedidoDTO;
 import com.undec.corralon.DTO.PedidoDTO;
-import com.undec.corralon.DTO.Response;
 import com.undec.corralon.Util;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
-import com.undec.corralon.excepciones.pedido.PedidoErrorToDeleteException;
-import com.undec.corralon.excepciones.pedido.PedidoErrorToUpdateException;
-import com.undec.corralon.excepciones.pedido.PedidoException;
 import com.undec.corralon.modelo.Articulo;
 import com.undec.corralon.modelo.DetallePedido;
 import com.undec.corralon.modelo.MovimientoArticulo;
@@ -17,22 +13,12 @@ import com.undec.corralon.repository.ArticuloRepository;
 import com.undec.corralon.repository.DetallePedidoRepository;
 import com.undec.corralon.repository.PedidoRepository;
 import com.undec.corralon.repository.ProveedorRepository;
-import org.aspectj.weaver.ast.Not;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PedidoService {
@@ -86,45 +72,39 @@ public class PedidoService {
     }
 
 
-//    public Response modificarPedido(Pedido pedido) throws PedidoException {
-//        Response response = new Response();
-//        Pedido pedidoToSave = this.pedidoRepository.findById(pedido.getIdPedido()).get();
-//
-//        pedidoToSave.setNombre(pedido.getNombre());
-//        pedidoToSave.setDescripcion(pedido.getDescripcion());
-//        pedidoToSave.setFecha(pedido.getFecha());
-//
-//        if (pedidoToSave == null)
-//            throw new PedidoErrorToUpdateException();
-//
-//        this.pedidoRepository.save(pedidoToSave);
-//        response.setCode(200);
-//        response.setData(pedidoToSave);
-//        response.setMsg("Pedido actualizado");
-//
-//        return response;
-//    }
-//
-//    public Response darBajaPedido(Integer id) throws PedidoException {
-//        Response response = new Response();
-//        Pedido pedido = this.pedidoRepository.findById(id).get();
-//
-//        pedido.setHabilitado(false);
-//
-//        if (pedido == null)
-//            throw new PedidoErrorToDeleteException();
-//
-//        this.pedidoRepository.save(pedido);
-//        response.setCode(200);
-//        response.setData(pedido);
-//        response.setMsg("Pedido dado de baja");
-//
-//        return response;
-//    }
+    public Pedido modifyOrder(Pedido pedido) {
+        Pedido pedidoModify = this.pedidoRepository.findById(pedido.getIdPedido())
+                .orElseThrow(() ->
+                        new NotFoundException("\nWARING: no existe un pedido por modificar"));
+
+        pedidoModify.setNombre(pedido.getNombre());
+        pedidoModify.setDescripcion(pedido.getDescripcion());
+        pedidoModify.setFecha(pedidoModify.getFecha());
+
+        pedidoModify = this.pedidoRepository.save(pedidoModify);
+        if (pedidoModify == null)
+            throw new NotFoundException("\nError al almacenar pedido no se puede modificar");
+
+        return pedidoModify;
+    }
+
+    public Pedido changueHabilityOrder(Integer id) {
+        Pedido pedido = this.pedidoRepository.findById(id).
+                orElseThrow(
+                        () -> new NotFoundException("\nWARNING: No existe el pedido para reagilzar el cambio de habilitacion"));
+
+        pedido.setHabilitado(!pedido.getHabilitado());
+        pedido = pedidoRepository.save(pedido);
+        if (pedido == null) {
+            throw new NotFoundException("\nError al malmacenar los cambios del pedido");
+        }
+
+        return pedido;
+    }
 
     private Pedido mappedOrder(Pedido pedidoTosave, PedidoDTO pedidoDTO) throws ParseException {
         Date fecha = Util.stringToDate(pedidoDTO.getFecha());
-        System.out.println("Desde el mapeo:----------" + fecha + "\n");
+
         if (validationNullOrder(pedidoDTO)) {
             throw new BadRequestException("\nError: No se pueden cargar pedidos con nombres o fechas null");
         }

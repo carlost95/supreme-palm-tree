@@ -3,9 +3,6 @@ package com.undec.corralon.modelo;
 import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 
@@ -14,9 +11,9 @@ public class Pedido extends UserDateAudit {
     private Integer idPedido;
     private String nombre;
     private String descripcion;
+    private Boolean habilitado;
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
-    private Boolean habilitado;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

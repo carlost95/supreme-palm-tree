@@ -1,8 +1,6 @@
 package com.undec.corralon.controlador;
 
 import com.undec.corralon.DTO.PedidoDTO;
-import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.pedido.PedidoException;
 import com.undec.corralon.modelo.Pedido;
 import com.undec.corralon.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,15 +39,13 @@ public class PedidoController {
         return ResponseEntity.status(HttpStatus.OK).body(pedidoService.saveOrder(pedidoDTO));
     }
 
-//    @PutMapping
-//    public ResponseEntity<Response> modificarPedido(@RequestBody Pedido pedido) throws PedidoException {
-//        Response response = pedidoService.modificarPedido(pedido);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
-//
-//    @DeleteMapping("{id}")
-//    public ResponseEntity<Response> eliminarPedido(@PathVariable("id") Integer id) throws PedidoException {
-//        Response response = pedidoService.darBajaPedido(id);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
+    @PutMapping
+    public ResponseEntity<Pedido> modificateOrder(@RequestBody Pedido pedido) {
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoService.modifyOrder(pedido));
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity<Pedido> changeHabilitationInTheOrder(@PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoService.changueHabilityOrder(id));
+    }
 }
