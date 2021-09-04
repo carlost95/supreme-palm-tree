@@ -5,14 +5,18 @@ import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "detalle_pedido")
 public class DetallePedido extends UserDateAudit {
     private Integer idDetallePedido;
-    private Double cantidad;
-    private String fecha;
+    private Integer cantidad;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
     private Pedido pedidoByIdPedido;
     private Articulo articuloByIdArticulo;
 
@@ -28,23 +32,24 @@ public class DetallePedido extends UserDateAudit {
         this.idDetallePedido = idDetallePedido;
     }
 
+
     @Basic
     @Column(name = "cantidad")
-    public Double getCantidad() {
+    public Integer getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Double cantidad) {
+    public void setCantidad(Integer cantidad) {
         this.cantidad = cantidad;
     }
 
     @Basic
     @Column(name = "fecha")
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 

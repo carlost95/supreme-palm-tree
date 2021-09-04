@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class RestExceptionHandler {
     @ExceptionHandler(NotFoundException.class)
     @ResponseBody
-    public ResponseEntity<?>handleException(NotFoundException exc){
+    public ResponseEntity<?> handleException(NotFoundException exc) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exc.getMessage());
     }
 
     @ExceptionHandler(BadRequestException.class)
     @ResponseBody
-    public ResponseEntity<?>handleException(BadRequestException exc){
+    public ResponseEntity<?> handleException(BadRequestException exc) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exc.getMessage());
     }
+
 }

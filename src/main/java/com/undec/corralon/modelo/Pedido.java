@@ -1,17 +1,19 @@
 package com.undec.corralon.modelo;
 
-import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
-public class Pedido extends DateAudit {
+public class Pedido extends UserDateAudit {
     private Integer idPedido;
     private String nombre;
     private String descripcion;
-    private String fecha;
     private Boolean habilitado;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -46,11 +48,11 @@ public class Pedido extends DateAudit {
 
     @Basic
     @Column(name = "fecha")
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
@@ -81,4 +83,14 @@ public class Pedido extends DateAudit {
         return Objects.hash(idPedido, nombre, descripcion, fecha, habilitado);
     }
 
+    @Override
+    public String toString() {
+        return "Pedido{" +
+                "idPedido=" + idPedido +
+                ", nombre='" + nombre + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", fecha='" + fecha + '\'' +
+                ", habilitado=" + habilitado +
+                '}';
+    }
 }

@@ -1,18 +1,23 @@
 package com.undec.corralon.service;
 
-import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.pedido.PedidoErrorToDeleteException;
-import com.undec.corralon.excepciones.pedido.PedidoErrorToSaveException;
-import com.undec.corralon.excepciones.pedido.PedidoErrorToUpdateException;
-import com.undec.corralon.excepciones.pedido.PedidoException;
+import com.undec.corralon.DTO.DetallePedidoDTO;
+import com.undec.corralon.DTO.PedidoDTO;
+import com.undec.corralon.Util;
+import com.undec.corralon.excepciones.exception.BadRequestException;
+import com.undec.corralon.excepciones.exception.NotFoundException;
+import com.undec.corralon.modelo.Articulo;
+import com.undec.corralon.modelo.DetallePedido;
+import com.undec.corralon.modelo.MovimientoArticulo;
 import com.undec.corralon.modelo.Pedido;
+import com.undec.corralon.repository.ArticuloRepository;
+import com.undec.corralon.repository.DetallePedidoRepository;
 import com.undec.corralon.repository.PedidoRepository;
 import com.undec.corralon.repository.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -22,90 +27,123 @@ public class PedidoService {
     PedidoRepository pedidoRepository;
     @Autowired
     ProveedorRepository proveedorRepository;
+    @Autowired
+    ArticuloRepository articuloRepository;
+    @Autowired
+    DetallePedidoRepository detallePedidoRepository;
 
-    public Response obtenerTodosLosPedidos() {
-        Response response = new Response();
+    @Autowired
+    MovimientoArticuloService movimientoArticuloService;
+
+    public List<Pedido> findAllPedidos() {
         List<Pedido> pedidos = pedidoRepository.findAll();
-        response.setCode(200);
-        response.setData(pedidos);
-        response.setMsg("Pedidos");
-
-        return response;
+        if (pedidos == null) {
+            throw new NotFoundException("\nWARNING: No se existen pedidos en base de datos");
+        }
+        return pedidos;
     }
 
-    public Response obtenerPedidosHabilitados() {
-        Response response = new Response();
-
-        response.setCode(200);
-        response.setData(this.pedidoRepository.findByHabilitadoEquals(true));
-        response.setMsg("Todos los pedidos");
-
-        return response;
+    public List<Pedido> findOrdersHabilitation() {
+        List<Pedido> ordersHabilitation = this.pedidoRepository.findByHabilitadoEquals(true);
+        if (ordersHabilitation == null) {
+            throw new NotFoundException("\nWARNING: No existen pedidos habilitados");
+        }
+        return ordersHabilitation;
     }
 
-    public Response obtenerPedidoPorId(Integer id) {
-        Response response = new Response();
-        Pedido pedido = this.pedidoRepository.findById(id).get();
-
-        response.setCode(200);
-        response.setData(pedido);
-        response.setMsg("Pedido " + pedido.getNombre());
-
-        return response;
+    public Pedido findOrderForId(Integer id) {
+        Pedido pedido = this.pedidoRepository.findById(id).
+                orElseThrow(()
+                        -> new NotFoundException("\nWARNING: No existe el pedido " + id + " en base de datos"));
+        return pedido;
     }
 
-    public Response crearPedido(Pedido pedido) throws PedidoException {
-        Response response = new Response();
-        pedido.setHabilitado(true);
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        String horaDeCarga = LocalDateTime.now().format(formatter).toString();
-        horaDeCarga = horaDeCarga.substring(10, horaDeCarga.length());
-        pedido.setFecha(pedido.getFecha() + horaDeCarga);
-        pedido = this.pedidoRepository.save(pedido);
+    public PedidoDTO saveOrder(PedidoDTO pedidoDTO) throws ParseException {
+        Pedido pedidoTosave = new Pedido();
 
-        if (pedido == null)
-            throw new PedidoErrorToSaveException();
+        pedidoTosave.setHabilitado(true);
+        pedidoTosave = mappedOrder(pedidoTosave, pedidoDTO);
+        pedidoTosave = pedidoRepository.save(pedidoTosave);
+        if (pedidoTosave == null)
+            throw new NotFoundException("\nWARNING: No se guardo el pedido");
+        mappedDetailOrder(pedidoTosave, pedidoDTO);
 
-        response.setCode(200);
-        response.setData(pedido);
-        response.setMsg("Pedido guardado");
-        return response;
+        return pedidoDTO;
     }
 
-    public Response modificarPedido(Pedido pedido) throws PedidoException {
-        Response response = new Response();
-        Pedido pedidoToSave = this.pedidoRepository.findById(pedido.getIdPedido()).get();
 
-        pedidoToSave.setNombre(pedido.getNombre());
-        pedidoToSave.setDescripcion(pedido.getDescripcion());
-        pedidoToSave.setFecha(pedido.getFecha());
+    public Pedido modifyOrder(Pedido pedido) {
+        Pedido pedidoModify = this.pedidoRepository.findById(pedido.getIdPedido())
+                .orElseThrow(() ->
+                        new NotFoundException("\nWARING: no existe un pedido por modificar"));
 
-        if (pedidoToSave == null)
-            throw new PedidoErrorToUpdateException();
+        pedidoModify.setNombre(pedido.getNombre());
+        pedidoModify.setDescripcion(pedido.getDescripcion());
+        pedidoModify.setFecha(pedidoModify.getFecha());
 
-        this.pedidoRepository.save(pedidoToSave);
-        response.setCode(200);
-        response.setData(pedidoToSave);
-        response.setMsg("Pedido actualizado");
+        pedidoModify = this.pedidoRepository.save(pedidoModify);
+        if (pedidoModify == null)
+            throw new NotFoundException("\nError al almacenar pedido no se puede modificar");
 
-        return response;
+        return pedidoModify;
     }
 
-    public Response darBajaPedido(Integer id) throws PedidoException {
-        Response response = new Response();
-        Pedido pedido = this.pedidoRepository.findById(id).get();
+    public Pedido changueHabilityOrder(Integer id) {
+        Pedido pedido = this.pedidoRepository.findById(id).
+                orElseThrow(
+                        () -> new NotFoundException("\nWARNING: No existe el pedido para reagilzar el cambio de habilitacion"));
 
-        pedido.setHabilitado(false);
+        pedido.setHabilitado(!pedido.getHabilitado());
+        pedido = pedidoRepository.save(pedido);
+        if (pedido == null) {
+            throw new NotFoundException("\nError al malmacenar los cambios del pedido");
+        }
 
-        if (pedido == null)
-            throw new PedidoErrorToDeleteException();
-
-        this.pedidoRepository.save(pedido);
-        response.setCode(200);
-        response.setData(pedido);
-        response.setMsg("Pedido dado de baja");
-
-        return response;
+        return pedido;
     }
 
+    private Pedido mappedOrder(Pedido pedidoTosave, PedidoDTO pedidoDTO) throws ParseException {
+        Date fecha = Util.stringToDate(pedidoDTO.getFecha());
+
+        if (validationNullOrder(pedidoDTO)) {
+            throw new BadRequestException("\nError: No se pueden cargar pedidos con nombres o fechas null");
+        }
+        pedidoTosave.setNombre(pedidoDTO.getNombre());
+        pedidoTosave.setDescripcion(pedidoDTO.getDescripcion());
+        pedidoTosave.setFecha(fecha);
+
+        return pedidoTosave;
+    }
+
+    private boolean validationNullOrder(PedidoDTO pedidoDTO) {
+        if (pedidoDTO.getNombre() == null || pedidoDTO.getFecha() == null)
+            return true;
+        return false;
+    }
+
+    private void mappedDetailOrder(Pedido pedido, PedidoDTO pedidoDTO) throws ParseException {
+        Articulo article;
+        Date fecha = Util.stringToDate(pedidoDTO.getFecha());
+
+        for (DetallePedidoDTO detalle : pedidoDTO.getDetallesPedido()) {
+
+            MovimientoArticulo movimientoArticulo;
+            DetallePedido detallePedido = new DetallePedido();
+            article = articuloRepository.findArticuloForCodigo(detalle.getNombreArticulo(), detalle.getCodigoArticulo());
+            if (article == null) {
+                throw new NotFoundException("\nWARINNG: No existe articulo en base de datos");
+            }
+            detallePedido.setArticuloByIdArticulo(article);
+            detallePedido.setPedidoByIdPedido(pedido);
+            detallePedido.setFecha(fecha);
+            detallePedido.setCantidad(detalle.getValorIngresado());
+            detallePedido = detallePedidoRepository.save(detallePedido);
+            if (detallePedido == null) {
+                throw new NotFoundException("\nWARNING: Error al almacenar el detalle del pedido");
+            }
+            movimientoArticulo = this.movimientoArticuloService.saveMovimientoOrder(detallePedido);
+            if (movimientoArticulo == null)
+                throw new NotFoundException("\nWARNING: Error en la carga de movimientos");
+        }
+    }
 }

@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface PedidoRepository extends JpaRepository<Pedido, Integer > {
     List<Pedido> findByHabilitadoEquals(boolean habilitado);
+    Boolean existsByNombre(String nombre);
+
 }

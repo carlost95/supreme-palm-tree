@@ -1,29 +1,23 @@
 package com.undec.corralon.modelo;
 
-import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "movimiento_articulo")
-public class MovimientoArticulo extends DateAudit {
+public class MovimientoArticulo extends UserDateAudit {
     private Integer idMovimientoArticulo;
     private Integer movimiento;
-    private String fecha;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
     private Integer devolocion;
     private Articulo articuloByIdArticulo;
-    private Venta ventaByIdVenta;
-    private Ajuste ajusteByIdAjuste;
-    private Pedido pedidoByIdPedido;
-    private Remito remitoByIdRemito;
-    private Integer idDetalleAjuste;
-    private Integer idDetallePedido;
     private DetalleAjuste detalleAjusteByIdDetalleAjuste;
     private DetallePedido detallePedidoByIdDetallePedido;
     private DetalleRemito detalleRemitoByIdDetalleRemito;
-    private Integer idDetalleVenta;
-    private Integer idDetalleRemito;
     private DetalleVenta detalleVentaByIdDetalleVenta;
 
     @Id
@@ -49,11 +43,11 @@ public class MovimientoArticulo extends DateAudit {
 
     @Basic
     @Column(name = "fecha")
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
@@ -122,7 +116,6 @@ public class MovimientoArticulo extends DateAudit {
     public void setDetalleRemitoByIdDetalleRemito(DetalleRemito detalleRemitoByIdDetalleRemito) {
         this.detalleRemitoByIdDetalleRemito = detalleRemitoByIdDetalleRemito;
     }
-
 
     @ManyToOne
     @JoinColumn(name = "id_detalle_venta", referencedColumnName = "id_detalle_venta")

@@ -1,9 +1,6 @@
 package com.undec.corralon.DTO;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.Date;
 
 public class MovimientoArticuloDTO {
 
@@ -13,10 +10,10 @@ public class MovimientoArticuloDTO {
     private Integer movimiento;
     private Integer devolucion;
     private Integer idArticulo;
-    private Integer idAjuste;
-    private Integer idPedido;
-    private Integer idRemito;
-    private Integer idVenta;
+    private Integer idDetalleAjuste;
+    private Integer idDetallePedido;
+    private Integer idDetalleRemito;
+    private Integer idDetalleVenta;
 
     public MovimientoArticuloDTO() {
     }
@@ -61,35 +58,35 @@ public class MovimientoArticuloDTO {
         this.idArticulo = idArticulo;
     }
 
-    public Integer getIdAjuste() {
-        return idAjuste;
+    public Integer getIdDetalleAjuste() {
+        return idDetalleAjuste;
     }
 
-    public void setIdAjuste(Integer idAjuste) {
-        this.idAjuste = idAjuste;
+    public void setIdDetalleAjuste(Integer idDetalleAjuste) {
+        this.idDetalleAjuste = idDetalleAjuste;
     }
 
-    public Integer getIdPedido() {
-        return idPedido;
+    public Integer getIdDetallePedido() {
+        return idDetallePedido;
     }
 
-    public void setIdPedido(Integer idPedido) {
-        this.idPedido = idPedido;
+    public void setIdDetallePedido(Integer idDetallePedido) {
+        this.idDetallePedido = idDetallePedido;
     }
 
-    public Integer getIdRemito() {
-        return idRemito;
+    public Integer getIdDetalleRemito() {
+        return idDetalleRemito;
     }
 
-    public void setIdRemito(Integer idRemito) {
-        this.idRemito = idRemito;
+    public void setIdDetalleRemito(Integer idDetalleRemito) {
+        this.idDetalleRemito = idDetalleRemito;
     }
 
-    public Integer getIdVenta() {
-        return idVenta;
+    public Integer getIdDetalleVenta() {
+        return idDetalleVenta;
     }
 
-    public void setIdVenta(Integer idVenta) {
-        this.idVenta = idVenta;
+    public void setIdDetalleVenta(Integer idDetalleVenta) {
+        this.idDetalleVenta = idDetalleVenta;
     }
 }
