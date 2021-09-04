@@ -21,7 +21,7 @@ public class PedidoController {
 
     @GetMapping
     public ResponseEntity<List<Pedido>> findAllPedidos() {
-        return ResponseEntity.status(HttpStatus.OK).body(pedidoService.findAllPedidos());
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoService.findAllOrders());
     }
 
     @GetMapping("/habilitados")

@@ -35,7 +35,7 @@ public class PedidoService {
     @Autowired
     MovimientoArticuloService movimientoArticuloService;
 
-    public List<Pedido> findAllPedidos() {
+    public List<Pedido> findAllOrders() {
         List<Pedido> pedidos = pedidoRepository.findAll();
         if (pedidos == null) {
             throw new NotFoundException("\nWARNING: No se existen pedidos en base de datos");

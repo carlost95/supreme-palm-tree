@@ -38,15 +38,15 @@ public class AjusteController {
         return ResponseEntity.status(HttpStatus.OK).body(ajusteService.saveAjuste(ajuste));
     }
 
-    @PutMapping
-    public ResponseEntity<Response> modificarAjuste(@RequestBody Ajuste ajuste) throws AjusteException {
-        Response response = ajusteService.modificarAjuste(ajuste);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Response> cambiarHabilitacionAjuste(@PathVariable("id") Integer id) throws AjusteException {
-        Response response = ajusteService.cambiarHabilitacionAjuste(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
+//    @PutMapping
+//    public ResponseEntity<Response> modificarAjuste(@RequestBody Ajuste ajuste) throws AjusteException {
+//        Response response = ajusteService.modificarAjuste(ajuste);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
+//
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Response> cambiarHabilitacionAjuste(@PathVariable("id") Integer id) throws AjusteException {
+//        Response response = ajusteService.cambiarHabilitacionAjuste(id);
+//        return new ResponseEntity<>(response, HttpStatus.OK);
+//    }
 }
