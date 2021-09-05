@@ -59,7 +59,7 @@ public class AjusteService {
         return settingSelect;
     }
 
-    public AjusteDTO saveSetting(AjusteDTO ajusteDTO) throws ParseException {
+    public AjusteDTO saveSetting(AjusteDTO ajusteDTO) {
         Ajuste ajusteToSave = new Ajuste();
 
         ajusteToSave.setHabilitado(true);
@@ -73,15 +73,13 @@ public class AjusteService {
         return ajusteDTO;
     }
 
-    private Ajuste mappedSetting(Ajuste ajusteTosave, AjusteDTO ajusteDTO) throws ParseException {
-        Date fecha = Util.stringToDate(ajusteDTO.getFecha());
-
+    private Ajuste mappedSetting(Ajuste ajusteTosave, AjusteDTO ajusteDTO) {
         if (validationNullSetting(ajusteDTO)) {
             throw new BadRequestException("\nError: No se pueden cargar pedidos con nombres o fechas null");
         }
         ajusteTosave.setNombre(ajusteDTO.getNombre());
         ajusteTosave.setDescripcion(ajusteDTO.getDescripcion());
-        ajusteTosave.setFecha(fecha);
+        ajusteTosave.setFecha(ajusteDTO.getFecha());
 
         return ajusteTosave;
     }
@@ -92,9 +90,8 @@ public class AjusteService {
         return false;
     }
 
-    private void mappedDetailSetting(Ajuste ajuste, AjusteDTO ajusteDTO) throws ParseException {
+    private void mappedDetailSetting(Ajuste ajuste, AjusteDTO ajusteDTO) {
         Articulo article;
-        Date fecha = Util.stringToDate(ajusteDTO.getFecha());
 
         for (DetalleTipoMovimientoDTO detalle : ajusteDTO.getDetallesAjuste()) {
             MovimientoArticulo movimientoArticulo;
@@ -105,7 +102,7 @@ public class AjusteService {
             }
             detalleAjuste.setArticuloByIdArticulo(article);
             detalleAjuste.setAjusteByIdAjuste(ajuste);
-            detalleAjuste.setFecha(fecha);
+            detalleAjuste.setFecha(ajusteDTO.getFecha());
             detalleAjuste.setCantidad(detalle.getValorIngresado());
             detalleAjuste = detalleAjusteRepository.save(detalleAjuste);
 

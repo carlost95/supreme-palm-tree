@@ -1,11 +1,12 @@
 package com.undec.corralon.DTO;
 
+import java.util.Date;
 import java.util.List;
 
 public class PedidoDTO {
     private int idPedidoDto;
     private String nombre;
-    private String fecha;
+    private Date fecha;
     private String descripcion;
     List<DetalleTipoMovimientoDTO> detallesPedido;
 
@@ -25,11 +26,11 @@ public class PedidoDTO {
         this.nombre = nombre;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 

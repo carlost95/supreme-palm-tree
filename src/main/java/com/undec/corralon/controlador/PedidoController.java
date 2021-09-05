@@ -35,7 +35,7 @@ public class PedidoController {
     }
 
     @PostMapping
-    public ResponseEntity<PedidoDTO> saveOrder(@RequestBody PedidoDTO pedidoDTO) throws ParseException {
+    public ResponseEntity<PedidoDTO> saveOrder(@RequestBody PedidoDTO pedidoDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(pedidoService.saveOrder(pedidoDTO));
     }
 

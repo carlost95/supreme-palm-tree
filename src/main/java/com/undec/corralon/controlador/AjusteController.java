@@ -36,7 +36,7 @@ public class AjusteController {
     }
 
     @PostMapping
-    public ResponseEntity<AjusteDTO> saveSetting(@RequestBody AjusteDTO ajusteDTO) throws ParseException {
+    public ResponseEntity<AjusteDTO> saveSetting(@RequestBody AjusteDTO ajusteDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(ajusteService.saveSetting(ajusteDTO));
     }
 
