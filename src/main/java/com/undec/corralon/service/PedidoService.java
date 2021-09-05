@@ -2,7 +2,6 @@ package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.DetalleTipoMovimientoDTO;
 import com.undec.corralon.DTO.PedidoDTO;
-import com.undec.corralon.Util;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.modelo.Articulo;
@@ -16,8 +15,6 @@ import com.undec.corralon.repository.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -73,6 +70,9 @@ public class PedidoService {
 
 
     public Pedido modifyOrder(Pedido pedido) {
+        if (validationOrderNull(pedido))
+            throw new BadRequestException("\nError: no se admiten valores nullos en los pedidos a modificar");
+
         Pedido pedidoModify = this.pedidoRepository.findById(pedido.getIdPedido())
                 .orElseThrow(() ->
                         new NotFoundException("\nWARING: no existe un pedido por modificar"));
@@ -88,7 +88,19 @@ public class PedidoService {
         return pedidoModify;
     }
 
+    private boolean validationOrderNull(Pedido pedido) {
+        if (pedido.getIdPedido() == null
+                || pedido.getNombre() == null
+                || pedido.getFecha() == null) {
+            return true;
+        }
+        return false;
+    }
+
     public Pedido changueHabilityOrder(Integer id) {
+        if (id == null) {
+            throw new BadRequestException("\nWARNIBNG: error el identificador de ajuste no puede null");
+        }
         Pedido pedido = this.pedidoRepository.findById(id).
                 orElseThrow(
                         () -> new NotFoundException("\nWARNING: No existe el pedido para reagilzar el cambio de habilitacion"));

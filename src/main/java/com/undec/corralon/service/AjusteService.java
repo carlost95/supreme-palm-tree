@@ -74,7 +74,7 @@ public class AjusteService {
     }
 
     public Ajuste modifySettingh(Ajuste ajuste) {
-        if (validationSttingNull(ajuste))
+        if (validationSettingNull(ajuste))
             throw new BadRequestException("\nError: no se admiten valores nullos en los ajustes a modificar");
 
         Ajuste ajusteModify = this.ajusteRepository.findById(ajuste.getIdAjuste())
@@ -92,7 +92,7 @@ public class AjusteService {
         return ajusteModify;
     }
 
-    private boolean validationSttingNull(Ajuste ajuste) {
+    private boolean validationSettingNull(Ajuste ajuste) {
         if (ajuste.getIdAjuste() == null
                 || ajuste.getNombre() == null
                 || ajuste.getFecha() == null) {
