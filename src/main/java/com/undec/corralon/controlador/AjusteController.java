@@ -5,6 +5,7 @@ import com.undec.corralon.DTO.Response;
 import com.undec.corralon.excepciones.Ajuste.AjusteException;
 import com.undec.corralon.modelo.Ajuste;
 import com.undec.corralon.service.AjusteService;
+import org.jfree.chart.title.ShortTextTitle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,11 +41,10 @@ public class AjusteController {
         return ResponseEntity.status(HttpStatus.OK).body(ajusteService.saveSetting(ajusteDTO));
     }
 
-//    @PutMapping
-//    public ResponseEntity<Response> modificarAjuste(@RequestBody Ajuste ajuste) throws AjusteException {
-//        Response response = ajusteService.modificarAjuste(ajuste);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
+    @PutMapping
+    public ResponseEntity<Ajuste> modificateSettig(@RequestBody Ajuste ajuste) {
+        return ResponseEntity.status(HttpStatus.OK).body(ajusteService.modifySettingh(ajuste));
+    }
 //
 //    @PutMapping("/{id}")
 //    public ResponseEntity<Response> cambiarHabilitacionAjuste(@PathVariable("id") Integer id) throws AjusteException {

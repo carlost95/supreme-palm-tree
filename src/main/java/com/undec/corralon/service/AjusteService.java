@@ -73,6 +73,34 @@ public class AjusteService {
         return ajusteDTO;
     }
 
+    public Ajuste modifySettingh(Ajuste ajuste) {
+        if (validationSttingNull(ajuste))
+            throw new BadRequestException("\nError: no se admiten valores nullos en los ajustes a modificar");
+
+        Ajuste ajusteModify = this.ajusteRepository.findById(ajuste.getIdAjuste())
+                .orElseThrow(() ->
+                        new NotFoundException("\nWARING: no existe un ajuste por modificar"));
+
+        ajusteModify.setNombre(ajuste.getNombre());
+        ajusteModify.setDescripcion(ajuste.getDescripcion());
+        ajusteModify.setFecha(ajuste.getFecha());
+
+        ajusteModify = this.ajusteRepository.save(ajusteModify);
+        if (ajusteModify == null)
+            throw new NotFoundException("\nError al almacenar ajuste no se puede modificar");
+
+        return ajusteModify;
+    }
+
+    private boolean validationSttingNull(Ajuste ajuste) {
+        if (ajuste.getIdAjuste() == null
+                || ajuste.getNombre() == null
+                || ajuste.getFecha() == null) {
+            return true;
+        }
+        return false;
+    }
+
     private Ajuste mappedSetting(Ajuste ajusteTosave, AjusteDTO ajusteDTO) {
         if (validationNullSetting(ajusteDTO)) {
             throw new BadRequestException("\nError: No se pueden cargar pedidos con nombres o fechas null");
@@ -115,25 +143,7 @@ public class AjusteService {
         }
     }
 
-//    public Response modificarAjuste(Ajuste ajuste) throws AjusteException {
-//        Response response = new Response();
-//        Ajuste ajusteToSave = this.ajusteRepository.findById(ajuste.getIdAjuste()).get();
-//
-//        ajusteToSave.setNombre(ajuste.getNombre());
-//        ajusteToSave.setDescripcion(ajuste.getDescripcion());
-//        ajusteToSave.setFecha(ajuste.getFecha());
-//
-//        if (ajusteToSave == null)
-//            throw new AjusteErrorToUpdateException("error al actualizar el ajuste ");
-//
-//        this.ajusteRepository.save(ajusteToSave);
-//        response.setCode(200);
-//        response.setData(ajusteToSave);
-//        response.setMsg("Pedido actualizado");
-//
-//        return response;
-//
-//    }
+
 //
 //    public Response cambiarHabilitacionAjuste(Integer id) throws AjusteException {
 //        Response response = new Response();
