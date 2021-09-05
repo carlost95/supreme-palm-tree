@@ -144,22 +144,19 @@ public class AjusteService {
     }
 
 
-//
-//    public Response cambiarHabilitacionAjuste(Integer id) throws AjusteException {
-//        Response response = new Response();
-//        Ajuste ajusteOptional = ajusteRepository.findById(id).get();
-//
-//        if (ajusteOptional == null) {
-//            throw new AjusteErrorToUpdateHabilitacion("error the update habilitacion");
-//        }
-//
-//        ajusteOptional.setHabilitado(!ajusteOptional.getHabilitado());
-//        ajusteOptional = ajusteRepository.save(ajusteOptional);
-//        response.setCode(200);
-//        response.setMsg("se cambio habilitacion de ajuste");
-//        response.setData(ajusteOptional);
-//
-//        return response;
-//    }
+    public Ajuste changeHabilitationSetting(Integer id) {
+        if (id == null) {
+            throw new BadRequestException("\nWARNING: El identificador de ajuste es null");
+        }
+        Ajuste ajusteOptional = ajusteRepository.findById(id).
+                orElseThrow(
+                        () -> new NotFoundException("WARNIGN: no existe el ajuste"));
 
+        ajusteOptional.setHabilitado(!ajusteOptional.getHabilitado());
+        ajusteOptional = ajusteRepository.save(ajusteOptional);
+        if (ajusteOptional == null) {
+            throw new NotFoundException("\nWARNING: error al realizar el cambio de habilitacion del ajuste");
+        }
+        return ajusteOptional;
+    }
 }

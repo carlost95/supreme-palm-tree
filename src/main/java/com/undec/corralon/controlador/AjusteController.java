@@ -45,10 +45,9 @@ public class AjusteController {
     public ResponseEntity<Ajuste> modificateSettig(@RequestBody Ajuste ajuste) {
         return ResponseEntity.status(HttpStatus.OK).body(ajusteService.modifySettingh(ajuste));
     }
-//
-//    @PutMapping("/{id}")
-//    public ResponseEntity<Response> cambiarHabilitacionAjuste(@PathVariable("id") Integer id) throws AjusteException {
-//        Response response = ajusteService.cambiarHabilitacionAjuste(id);
-//        return new ResponseEntity<>(response, HttpStatus.OK);
-//    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Ajuste> changeHabilitationSetting(@PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.OK).body(ajusteService.changeHabilitationSetting(id));
+    }
 }
