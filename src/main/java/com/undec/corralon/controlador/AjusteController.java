@@ -1,5 +1,6 @@
 package com.undec.corralon.controlador;
 
+import com.undec.corralon.DTO.AjusteDTO;
 import com.undec.corralon.DTO.Response;
 import com.undec.corralon.excepciones.Ajuste.AjusteException;
 import com.undec.corralon.modelo.Ajuste;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -34,8 +36,8 @@ public class AjusteController {
     }
 
     @PostMapping
-    public ResponseEntity<Ajuste> saveAjuste(@RequestBody Ajuste ajuste) {
-        return ResponseEntity.status(HttpStatus.OK).body(ajusteService.saveAjuste(ajuste));
+    public ResponseEntity<AjusteDTO> saveSetting(@RequestBody AjusteDTO ajusteDTO) throws ParseException {
+        return ResponseEntity.status(HttpStatus.OK).body(ajusteService.saveSetting(ajusteDTO));
     }
 
 //    @PutMapping

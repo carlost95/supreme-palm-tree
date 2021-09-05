@@ -7,7 +7,7 @@ public class PedidoDTO {
     private String nombre;
     private String fecha;
     private String descripcion;
-    List<DetallePedidoDTO> detallesPedido;
+    List<DetalleTipoMovimientoDTO> detallesPedido;
 
     public int getIdPedidoDto() {
         return idPedidoDto;
@@ -41,11 +41,11 @@ public class PedidoDTO {
         this.descripcion = descripcion;
     }
 
-    public List<DetallePedidoDTO> getDetallesPedido() {
+    public List<DetalleTipoMovimientoDTO> getDetallesPedido() {
         return detallesPedido;
     }
 
-    public void setDetallesPedido(List<DetallePedidoDTO> detallesPedido) {
+    public void setDetallesPedido(List<DetalleTipoMovimientoDTO> detallesPedido) {
         this.detallesPedido = detallesPedido;
     }
 }

@@ -1,6 +1,6 @@
 package com.undec.corralon.service;
 
-import com.undec.corralon.DTO.DetallePedidoDTO;
+import com.undec.corralon.DTO.DetalleTipoMovimientoDTO;
 import com.undec.corralon.DTO.PedidoDTO;
 import com.undec.corralon.Util;
 import com.undec.corralon.excepciones.exception.BadRequestException;
@@ -125,7 +125,7 @@ public class PedidoService {
         Articulo article;
         Date fecha = Util.stringToDate(pedidoDTO.getFecha());
 
-        for (DetallePedidoDTO detalle : pedidoDTO.getDetallesPedido()) {
+        for (DetalleTipoMovimientoDTO detalle : pedidoDTO.getDetallesPedido()) {
 
             MovimientoArticulo movimientoArticulo;
             DetallePedido detallePedido = new DetallePedido();

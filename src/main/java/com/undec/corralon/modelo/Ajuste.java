@@ -3,6 +3,7 @@ package com.undec.corralon.modelo;
 import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -11,9 +12,12 @@ public class Ajuste  extends UserDateAudit {
     private String nombre;
     private String descripcion;
     private Boolean habilitado;
-    private String fecha;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
+
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ajuste")
     public Integer getIdAjuste() {
         return idAjuste;
@@ -56,11 +60,11 @@ public class Ajuste  extends UserDateAudit {
 
     @Basic
     @Column(name = "fecha")
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
