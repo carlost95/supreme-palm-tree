@@ -1,8 +1,7 @@
 package com.undec.corralon.service;
 
-import com.undec.corralon.DTO.DetallePedidoDTO;
+import com.undec.corralon.DTO.DetalleTipoMovimientoDTO;
 import com.undec.corralon.DTO.PedidoDTO;
-import com.undec.corralon.Util;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.modelo.Articulo;
@@ -16,8 +15,6 @@ import com.undec.corralon.repository.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -35,7 +32,7 @@ public class PedidoService {
     @Autowired
     MovimientoArticuloService movimientoArticuloService;
 
-    public List<Pedido> findAllPedidos() {
+    public List<Pedido> findAllOrders() {
         List<Pedido> pedidos = pedidoRepository.findAll();
         if (pedidos == null) {
             throw new NotFoundException("\nWARNING: No se existen pedidos en base de datos");
@@ -58,7 +55,7 @@ public class PedidoService {
         return pedido;
     }
 
-    public PedidoDTO saveOrder(PedidoDTO pedidoDTO) throws ParseException {
+    public PedidoDTO saveOrder(PedidoDTO pedidoDTO) {
         Pedido pedidoTosave = new Pedido();
 
         pedidoTosave.setHabilitado(true);
@@ -73,13 +70,16 @@ public class PedidoService {
 
 
     public Pedido modifyOrder(Pedido pedido) {
+        if (validationOrderNull(pedido))
+            throw new BadRequestException("\nError: no se admiten valores nullos en los pedidos a modificar");
+
         Pedido pedidoModify = this.pedidoRepository.findById(pedido.getIdPedido())
                 .orElseThrow(() ->
                         new NotFoundException("\nWARING: no existe un pedido por modificar"));
 
         pedidoModify.setNombre(pedido.getNombre());
         pedidoModify.setDescripcion(pedido.getDescripcion());
-        pedidoModify.setFecha(pedidoModify.getFecha());
+        pedidoModify.setFecha(pedido.getFecha());
 
         pedidoModify = this.pedidoRepository.save(pedidoModify);
         if (pedidoModify == null)
@@ -88,7 +88,19 @@ public class PedidoService {
         return pedidoModify;
     }
 
+    private boolean validationOrderNull(Pedido pedido) {
+        if (pedido.getIdPedido() == null
+                || pedido.getNombre() == null
+                || pedido.getFecha() == null) {
+            return true;
+        }
+        return false;
+    }
+
     public Pedido changueHabilityOrder(Integer id) {
+        if (id == null) {
+            throw new BadRequestException("\nWARNIBNG: error el identificador de ajuste no puede null");
+        }
         Pedido pedido = this.pedidoRepository.findById(id).
                 orElseThrow(
                         () -> new NotFoundException("\nWARNING: No existe el pedido para reagilzar el cambio de habilitacion"));
@@ -102,15 +114,13 @@ public class PedidoService {
         return pedido;
     }
 
-    private Pedido mappedOrder(Pedido pedidoTosave, PedidoDTO pedidoDTO) throws ParseException {
-        Date fecha = Util.stringToDate(pedidoDTO.getFecha());
-
+    private Pedido mappedOrder(Pedido pedidoTosave, PedidoDTO pedidoDTO) {
         if (validationNullOrder(pedidoDTO)) {
             throw new BadRequestException("\nError: No se pueden cargar pedidos con nombres o fechas null");
         }
         pedidoTosave.setNombre(pedidoDTO.getNombre());
         pedidoTosave.setDescripcion(pedidoDTO.getDescripcion());
-        pedidoTosave.setFecha(fecha);
+        pedidoTosave.setFecha(pedidoDTO.getFecha());
 
         return pedidoTosave;
     }
@@ -121,11 +131,9 @@ public class PedidoService {
         return false;
     }
 
-    private void mappedDetailOrder(Pedido pedido, PedidoDTO pedidoDTO) throws ParseException {
+    private void mappedDetailOrder(Pedido pedido, PedidoDTO pedidoDTO) {
         Articulo article;
-        Date fecha = Util.stringToDate(pedidoDTO.getFecha());
-
-        for (DetallePedidoDTO detalle : pedidoDTO.getDetallesPedido()) {
+        for (DetalleTipoMovimientoDTO detalle : pedidoDTO.getDetallesPedido()) {
 
             MovimientoArticulo movimientoArticulo;
             DetallePedido detallePedido = new DetallePedido();
@@ -135,7 +143,7 @@ public class PedidoService {
             }
             detallePedido.setArticuloByIdArticulo(article);
             detallePedido.setPedidoByIdPedido(pedido);
-            detallePedido.setFecha(fecha);
+            detallePedido.setFecha(pedidoDTO.getFecha());
             detallePedido.setCantidad(detalle.getValorIngresado());
             detallePedido = detallePedidoRepository.save(detallePedido);
             if (detallePedido == null) {

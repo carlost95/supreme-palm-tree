@@ -3,6 +3,7 @@ package com.undec.corralon.service;
 import com.undec.corralon.Util;
 import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.modelo.Articulo;
+import com.undec.corralon.modelo.DetalleAjuste;
 import com.undec.corralon.modelo.DetallePedido;
 import com.undec.corralon.modelo.MovimientoArticulo;
 import com.undec.corralon.repository.ArticuloRepository;
@@ -58,6 +59,21 @@ public class MovimientoArticuloService {
         movimientoArticulo.setDetallePedidoByIdDetallePedido(detallePedido);
         movimientoArticulo.setFecha(detallePedido.getFecha());
         movimientoArticulo.setMovimiento(detallePedido.getCantidad());
+
+        movimientoArticulo = movimientoArticuloRepository.save(movimientoArticulo);
+
+        return movimientoArticulo;
+    }
+
+    public MovimientoArticulo saveMovimientoSetting(DetalleAjuste detalleAjuste) {
+        MovimientoArticulo movimientoArticulo = new MovimientoArticulo();
+        if (detalleAjuste == null) {
+            throw new NotFoundException("\nWARNING: no existen detalles por registrar en movimientos");
+        }
+        movimientoArticulo.setArticuloByIdArticulo(detalleAjuste.getArticuloByIdArticulo());
+        movimientoArticulo.setDetalleAjusteByIdDetalleAjuste(detalleAjuste);
+        movimientoArticulo.setFecha(detalleAjuste.getFecha());
+        movimientoArticulo.setMovimiento(detalleAjuste.getCantidad());
 
         movimientoArticulo = movimientoArticuloRepository.save(movimientoArticulo);
 

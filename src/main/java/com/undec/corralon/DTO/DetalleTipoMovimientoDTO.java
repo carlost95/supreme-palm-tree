@@ -1,6 +1,6 @@
 package com.undec.corralon.DTO;
 
-public class DetallePedidoDTO {
+public class DetalleTipoMovimientoDTO {
     private String codigoArticulo;
     private String nombreArticulo;
     private Double stockArticulo;

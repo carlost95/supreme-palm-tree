@@ -1,20 +1,23 @@
 package com.undec.corralon.DTO;
 
+import java.util.Date;
+import java.util.List;
+
 public class AjusteDTO {
-    private Integer idAjuste;
+    private int idAjusteDTO;
     private String nombre;
-    private String fecha;
-    private Integer idProveedor;
+    private Date fecha;
     private String descripcion;
-    private Integer habilitado;
+    List<DetalleTipoMovimientoDTO> detallesAjuste;
 
-    public int getIdAjuste() {
-        return idAjuste;
+    public int getIdAjusteDTO() {
+        return idAjusteDTO;
     }
 
-    public void setIdAjuste(int idAjuste) {
-        this.idAjuste = idAjuste;
+    public void setIdAjusteDTO(int idAjusteDTO) {
+        this.idAjusteDTO = idAjusteDTO;
     }
+
     public String getNombre() {
         return nombre;
     }
@@ -23,20 +26,12 @@ public class AjusteDTO {
         this.nombre = nombre;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
-    }
-
-    public Integer getIdProveedor() {
-        return idProveedor;
-    }
-
-    public void setIdProveedor(Integer idProveedor) {
-        this.idProveedor = idProveedor;
     }
 
     public String getDescripcion() {
@@ -47,11 +42,11 @@ public class AjusteDTO {
         this.descripcion = descripcion;
     }
 
-    public Integer getHabilitado() {
-        return habilitado;
+    public List<DetalleTipoMovimientoDTO> getDetallesAjuste() {
+        return detallesAjuste;
     }
 
-    public void setHabilitado(Integer habilitado) {
-        this.habilitado = habilitado;
+    public void setDetallesAjuste(List<DetalleTipoMovimientoDTO> detallesAjuste) {
+        this.detallesAjuste = detallesAjuste;
     }
 }

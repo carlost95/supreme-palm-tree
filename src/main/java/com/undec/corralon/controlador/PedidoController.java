@@ -21,7 +21,7 @@ public class PedidoController {
 
     @GetMapping
     public ResponseEntity<List<Pedido>> findAllPedidos() {
-        return ResponseEntity.status(HttpStatus.OK).body(pedidoService.findAllPedidos());
+        return ResponseEntity.status(HttpStatus.OK).body(pedidoService.findAllOrders());
     }
 
     @GetMapping("/habilitados")
@@ -35,7 +35,7 @@ public class PedidoController {
     }
 
     @PostMapping
-    public ResponseEntity<PedidoDTO> saveOrder(@RequestBody PedidoDTO pedidoDTO) throws ParseException {
+    public ResponseEntity<PedidoDTO> saveOrder(@RequestBody PedidoDTO pedidoDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(pedidoService.saveOrder(pedidoDTO));
     }
 
