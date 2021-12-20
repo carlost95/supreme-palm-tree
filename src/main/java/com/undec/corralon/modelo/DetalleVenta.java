@@ -1,17 +1,20 @@
 package com.undec.corralon.modelo;
 
 import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "detalle_venta")
-public class DetalleVenta extends DateAudit {
+public class DetalleVenta extends UserDateAudit {
     private Integer idDetalleVenta;
     private Integer cantidad;
-    private String fecha;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
     private Venta ventaByIdVenta;
     private Articulo articuloByIdArticulo;
 
@@ -38,12 +41,12 @@ public class DetalleVenta extends DateAudit {
     }
 
     @Basic
-    @Column(name= "fecha")
-    public String getFecha() {
+    @Column(name = "fecha")
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 

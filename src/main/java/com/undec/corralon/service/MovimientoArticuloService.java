@@ -2,10 +2,7 @@ package com.undec.corralon.service;
 
 import com.undec.corralon.Util;
 import com.undec.corralon.excepciones.exception.NotFoundException;
-import com.undec.corralon.modelo.Articulo;
-import com.undec.corralon.modelo.DetalleAjuste;
-import com.undec.corralon.modelo.DetallePedido;
-import com.undec.corralon.modelo.MovimientoArticulo;
+import com.undec.corralon.modelo.*;
 import com.undec.corralon.repository.ArticuloRepository;
 import com.undec.corralon.repository.MovimientoArticuloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +71,20 @@ public class MovimientoArticuloService {
         movimientoArticulo.setDetalleAjusteByIdDetalleAjuste(detalleAjuste);
         movimientoArticulo.setFecha(detalleAjuste.getFecha());
         movimientoArticulo.setMovimiento(detalleAjuste.getCantidad());
+        movimientoArticulo = movimientoArticuloRepository.save(movimientoArticulo);
+
+        return movimientoArticulo;
+    }
+
+    public MovimientoArticulo saveMovimientoSales(DetalleVenta detalleVenta) {
+        MovimientoArticulo movimientoArticulo = new MovimientoArticulo();
+        if (detalleVenta == null) {
+            throw new NotFoundException("\nWARNING: no existen detalles por registrar en movimientos");
+        }
+        movimientoArticulo.setArticuloByIdArticulo(detalleVenta.getArticuloByIdArticulo());
+        movimientoArticulo.setDetalleVentaByIdDetalleVenta(detalleVenta);
+        movimientoArticulo.setFecha(detalleVenta.getFecha());
+        movimientoArticulo.setMovimiento(detalleVenta.getCantidad());
 
         movimientoArticulo = movimientoArticuloRepository.save(movimientoArticulo);
 

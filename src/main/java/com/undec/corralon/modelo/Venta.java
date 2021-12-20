@@ -1,20 +1,20 @@
 package com.undec.corralon.modelo;
 
-import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
-public class Venta extends DateAudit {
+public class Venta extends UserDateAudit {
     private Integer idVenta;
-    private String fechaVenta;
-    private Double totalSinDescuento;
     private Double descuento;
     private Double recargo;
     private Double total;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaVenta;
     private Cliente clienteByIdCliente;
-    private PagoVenta pagoVentaByIdPagoVenta;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,22 +29,12 @@ public class Venta extends DateAudit {
 
     @Basic
     @Column(name = "fechaVenta")
-    public String getFechaVenta() {
+    public Date getFechaVenta() {
         return fechaVenta;
     }
 
-    public void setFechaVenta(String fechaVenta) {
+    public void setFechaVenta(Date fechaVenta) {
         this.fechaVenta = fechaVenta;
-    }
-
-    @Basic
-    @Column(name = "total_sin_descuento")
-    public Double getTotalSinDescuento() {
-        return totalSinDescuento;
-    }
-
-    public void setTotalSinDescuento(Double totalSinDescuento) {
-        this.totalSinDescuento = totalSinDescuento;
     }
 
     @Basic
@@ -77,7 +67,6 @@ public class Venta extends DateAudit {
         this.total = total;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -85,15 +74,14 @@ public class Venta extends DateAudit {
         Venta venta = (Venta) o;
         return Objects.equals(idVenta, venta.idVenta) &&
                 Objects.equals(fechaVenta, venta.fechaVenta) &&
-                Objects.equals(totalSinDescuento, venta.totalSinDescuento) &&
                 Objects.equals(descuento, venta.descuento) &&
                 Objects.equals(recargo, venta.recargo) &&
-                Objects.equals(total, venta.total) ;
+                Objects.equals(total, venta.total);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idVenta, fechaVenta, totalSinDescuento, descuento, recargo, total);
+        return Objects.hash(idVenta, fechaVenta, descuento, recargo, total);
     }
 
     @ManyToOne
@@ -106,13 +94,5 @@ public class Venta extends DateAudit {
         this.clienteByIdCliente = clienteByIdCliente;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "id_pago_venta", referencedColumnName = "id_pago_venta", nullable = false)
-    public PagoVenta getPagoVentaByIdPagoVenta() {
-        return pagoVentaByIdPagoVenta;
-    }
 
-    public void setPagoVentaByIdPagoVenta(PagoVenta pagoVentaByIdPagoVenta) {
-        this.pagoVentaByIdPagoVenta = pagoVentaByIdPagoVenta;
-    }
 }
