@@ -1,17 +1,17 @@
 package com.undec.corralon.modelo;
 
 import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Tarjeta extends DateAudit {
+public class Tarjeta extends UserDateAudit {
     private Integer idTarjeta;
     private String nombre;
     private String abreviatura;
     private Boolean habilitado;
-//    private List<PagoVenta> pagoVentasByIdTarjeta;
     private Tipotarjeta tipotarjetaByIdTipoTarjeta;
 
     @Id
@@ -71,15 +71,6 @@ public class Tarjeta extends DateAudit {
         return Objects.hash(idTarjeta, nombre, abreviatura, habilitado);
     }
 
-//    @OneToMany(mappedBy = "tarjetaByIdTarjeta")
-//    public List<PagoVenta> getPagoVentasByIdTarjeta() {
-//        return pagoVentasByIdTarjeta;
-//    }
-//
-//    public void setPagoVentasByIdTarjeta(List<PagoVenta> pagoVentasByIdTarjeta) {
-//        this.pagoVentasByIdTarjeta = pagoVentasByIdTarjeta;
-//    }
-//
     @ManyToOne
     @JoinColumn(name = "id_tipo_tarjeta", referencedColumnName = "id_tipo_tarjeta", nullable = false)
     public Tipotarjeta getTipotarjetaByIdTipoTarjeta() {
