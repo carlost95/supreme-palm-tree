@@ -1,6 +1,5 @@
 package com.undec.corralon.controlador;
 
-import com.undec.corralon.DTO.Response;
 import com.undec.corralon.modelo.TipoCheque;
 import com.undec.corralon.service.TipoChequeService;
 import org.springframework.beans.factory.annotation.Autowired;
