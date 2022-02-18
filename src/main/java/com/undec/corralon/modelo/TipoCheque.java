@@ -1,19 +1,17 @@
 package com.undec.corralon.modelo;
 
-import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Table(name = "tipo_cheque")
-public class TipoCheque extends DateAudit {
+public class TipoCheque extends UserDateAudit {
     private Integer idTipoCheque;
     private String nombre;
     private String descripcion;
     private Boolean habilitado;
-    private List<Cheque> chequesByIdTipoCheque;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -72,12 +70,4 @@ public class TipoCheque extends DateAudit {
         return Objects.hash(idTipoCheque, nombre, descripcion, habilitado);
     }
 
-//    @OneToMany(mappedBy = "tipoChequeByIdTipoCheque")
-//    public List<Cheque> getChequesByIdTipoCheque() {
-//        return chequesByIdTipoCheque;
-//    }
-//
-//    public void setChequesByIdTipoCheque(List<Cheque> chequesByIdTipoCheque) {
-//        this.chequesByIdTipoCheque = chequesByIdTipoCheque;
-//    }
 }
