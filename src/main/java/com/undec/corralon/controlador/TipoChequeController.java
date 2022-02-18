@@ -37,13 +37,13 @@ public class TipoChequeController {
         return ResponseEntity.status(HttpStatus.OK).body(tipoChequeService.saveTypeCheck(typeCheck));
     }
 
-    @PutMapping("/id")
-    public  ResponseEntity<TipoCheque> changeEnablementToTypeCheck(Integer id){
+    @PutMapping("/{id}")
+    public  ResponseEntity<TipoCheque> changeEnablementToTypeCheck(@PathVariable Integer id){
         return  ResponseEntity.status(HttpStatus.OK).body(tipoChequeService.changeEnablementToTypeCheck(id));
     }
 
     @PutMapping
-    public ResponseEntity <TipoCheque> modifyTypeCheck(TipoCheque typeCheck){
+    public ResponseEntity <TipoCheque> modifyTypeCheck(@RequestBody TipoCheque typeCheck){
         return ResponseEntity.status(HttpStatus.OK).body(tipoChequeService.modifyTypeCheck(typeCheck));
     }
 

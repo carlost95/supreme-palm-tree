@@ -49,8 +49,8 @@ public class TipoChequeService {
     }
 
     public TipoCheque modifyTypeCheck(TipoCheque typeCheck) {
-        if (typeCheck.getNombre() == null || typeCheck.getIdTipoCheque() == null) {
-            throw new BadRequestException("\nError no se puede enviar un tipo de cheque con nombre vacio");
+        if (typeCheck.getIdTipoCheque() == null || typeCheck.getNombre() == null) {
+            throw new BadRequestException("\nError no se puede enviar un tipo de cheque con nombre o id vacio");
         }
         TipoCheque typeCheckModify = tipoChequeRepository.findById(typeCheck.getIdTipoCheque()).
                 orElseThrow(() -> new NotFoundException("\nWARNING: no existe el tipo de cheque, o el id es incorrecto"));
@@ -58,13 +58,13 @@ public class TipoChequeService {
         typeCheckModify.setDescripcion(typeCheck.getDescripcion());
         typeCheckModify = tipoChequeRepository.save(typeCheckModify);
 
-        if (typeCheckModify == null){
+        if (typeCheckModify == null) {
             throw new NotFoundException("\nError al guardar los cambios de tipo cheque");
         }
         return typeCheckModify;
     }
 
-    public  TipoCheque changeEnablementToTypeCheck(Integer idTypeCheck){
+    public TipoCheque changeEnablementToTypeCheck(Integer idTypeCheck) {
         if (idTypeCheck == null) {
             throw new BadRequestException("\nWARNING: El identificador de tipo de cheque es null");
         }
