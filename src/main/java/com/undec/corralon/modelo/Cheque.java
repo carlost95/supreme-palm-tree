@@ -1,12 +1,12 @@
 package com.undec.corralon.modelo;
 
-import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Cheque extends DateAudit {
+public class Cheque extends UserDateAudit {
     private Integer idCheque;
     private String titularEmisor;
     private String fecha;
@@ -16,7 +16,6 @@ public class Cheque extends DateAudit {
     private Boolean habilitado;
     private Banco bancoByIdBanco;
     private TipoCheque tipoChequeByIdTipoCheque;
-//    private List<PagoVenta> pagoVentasByIdCheque;
 
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
