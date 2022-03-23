@@ -1,12 +1,14 @@
 package com.undec.corralon.DTO;
 
+import java.util.Date;
+
 public class ChequeDTO {
     private Integer idCheque;
     private String titularEmisor;
-    private String fecha;
-    private String fechaEmision;
-    private String fechaVenciomiento;
-    private String fechaCobro;
+    private Date fecha;
+    private Date fechaEmision;
+    private Date fechaVenciomiento;
+    private Date fechaCobro;
     private Integer idBanco;
     private Integer idTipoCheque;
 
@@ -26,35 +28,35 @@ public class ChequeDTO {
         this.titularEmisor = titularEmisor;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
-    public String getFechaEmision() {
+    public Date getFechaEmision() {
         return fechaEmision;
     }
 
-    public void setFechaEmision(String fechaEmision) {
+    public void setFechaEmision(Date fechaEmision) {
         this.fechaEmision = fechaEmision;
     }
 
-    public String getFechaVenciomiento() {
+    public Date getFechaVenciomiento() {
         return fechaVenciomiento;
     }
 
-    public void setFechaVenciomiento(String fechaVenciomiento) {
+    public void setFechaVenciomiento(Date fechaVenciomiento) {
         this.fechaVenciomiento = fechaVenciomiento;
     }
 
-    public String getFechaCobro() {
+    public Date getFechaCobro() {
         return fechaCobro;
     }
 
-    public void setFechaCobro(String fechaCobro) {
+    public void setFechaCobro(Date fechaCobro) {
         this.fechaCobro = fechaCobro;
     }
 

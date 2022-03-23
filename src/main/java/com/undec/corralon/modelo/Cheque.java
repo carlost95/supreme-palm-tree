@@ -3,22 +3,27 @@ package com.undec.corralon.modelo;
 import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 public class Cheque extends UserDateAudit {
     private Integer idCheque;
     private String titularEmisor;
-    private String fecha;
-    private String fechaEmision;
-    private String fechaVenciomiento;
-    private String fechaCobro;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaEmision;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaVenciomiento;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaCobro;
     private Boolean habilitado;
     private Banco bancoByIdBanco;
     private TipoCheque tipoChequeByIdTipoCheque;
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cheque")
     public Integer getIdCheque() {
         return idCheque;
@@ -40,41 +45,41 @@ public class Cheque extends UserDateAudit {
 
     @Basic
     @Column(name = "fecha")
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
     @Basic
     @Column(name = "fecha_emision")
-    public String getFechaEmision() {
+    public Date getFechaEmision() {
         return fechaEmision;
     }
 
-    public void setFechaEmision(String fechaEmision) {
+    public void setFechaEmision(Date fechaEmision) {
         this.fechaEmision = fechaEmision;
     }
 
     @Basic
     @Column(name = "fecha_venciomiento")
-    public String getFechaVenciomiento() {
+    public Date getFechaVenciomiento() {
         return fechaVenciomiento;
     }
 
-    public void setFechaVenciomiento(String fechaVenciomiento) {
+    public void setFechaVenciomiento(Date fechaVenciomiento) {
         this.fechaVenciomiento = fechaVenciomiento;
     }
 
     @Basic
     @Column(name = "fecha_cobro")
-    public String getFechaCobro() {
+    public Date getFechaCobro() {
         return fechaCobro;
     }
 
-    public void setFechaCobro(String fechaCobro) {
+    public void setFechaCobro(Date fechaCobro) {
         this.fechaCobro = fechaCobro;
     }
 
@@ -126,13 +131,4 @@ public class Cheque extends UserDateAudit {
     public void setTipoChequeByIdTipoCheque(TipoCheque tipoChequeByIdTipoCheque) {
         this.tipoChequeByIdTipoCheque = tipoChequeByIdTipoCheque;
     }
-
-//    @OneToMany(mappedBy = "chequeByIdCheque")
-//    public List<PagoVenta> getPagoVentasByIdCheque() {
-//        return pagoVentasByIdCheque;
-//    }
-//
-//    public void setPagoVentasByIdCheque(List<PagoVenta> pagoVentasByIdCheque) {
-//        this.pagoVentasByIdCheque = pagoVentasByIdCheque;
-//    }
 }

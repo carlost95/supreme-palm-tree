@@ -1,6 +1,7 @@
 package com.undec.corralon.controlador;
 
 
+import com.undec.corralon.DTO.ChequeDTO;
 import com.undec.corralon.modelo.Cheque;
 import com.undec.corralon.service.ChequeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,7 @@ public class ChequeController {
         return ResponseEntity.status(HttpStatus.OK).body(chequeService.listAllCheck());
     }
 
-    @GetMapping("/habilitado")
+    @GetMapping("/habilitados")
     public ResponseEntity<List<Cheque>> listAllCheckEnabled() {
         return ResponseEntity.status(HttpStatus.OK).body(chequeService.listAllCheckEnabled());
     }
@@ -30,5 +31,20 @@ public class ChequeController {
     @GetMapping("/{id}")
     public ResponseEntity<Cheque> findCheckById(@PathVariable("id") Integer id) {
         return ResponseEntity.status(HttpStatus.OK).body(chequeService.findCheckById(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<Cheque> saveCheck(@RequestBody ChequeDTO checkDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(chequeService.saveCheck(checkDto));
+    }
+
+    @PutMapping
+    public ResponseEntity<Cheque> modifyDataCheck(@RequestBody ChequeDTO chequeDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(chequeService.modifyCheck(chequeDTO));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Cheque> changeHabilityCheck(@PathVariable("id") Integer idCheck) {
+        return ResponseEntity.status(HttpStatus.OK).body(chequeService.changeHabilityToCheck(idCheck));
     }
 }

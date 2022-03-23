@@ -53,6 +53,32 @@ public class ChequeService {
         return mappedCheckToSave(checkDto, checkToSave);
     }
 
+    public Cheque changeHabilityToCheck(Integer idCheck) {
+        Cheque checkChangeHability = chequeRepository.findById(idCheck).
+                orElseThrow(() -> new NotFoundException("Error: No exite cheque en la base de datos"));
+        checkChangeHability.setHabilitado(!checkChangeHability.getHabilitado());
+        checkChangeHability = chequeRepository.save(checkChangeHability);
+        if (checkChangeHability == null) {
+            throw new NotFoundException("Error al cambiar el estado de activo del cheque");
+        }
+        return checkChangeHability;
+    }
+
+    public Cheque modifyCheck(ChequeDTO chequeDTO) {
+        Cheque checkModify = new Cheque();
+        if (validaDateCheck(chequeDTO)) {
+            mappedCheckToSave(chequeDTO, checkModify);
+        }
+        return checkModify;
+    }
+
+    private boolean validaDateCheck(ChequeDTO chequeDTO) {
+        if (chequeDTO.getFecha() != null || chequeDTO.getFechaEmision() != null || chequeDTO.getFechaVenciomiento() != null) {
+            return true;
+        } else
+            return false;
+    }
+
     private Cheque mappedCheckToSave(ChequeDTO checkDto, Cheque chequeToSave) {
         Banco bank = validarBank(checkDto.getIdBanco());
         TipoCheque typeCheck = validarTypeCheck(checkDto.getIdTipoCheque());
@@ -67,6 +93,9 @@ public class ChequeService {
         chequeToSave.setFechaVenciomiento(checkDto.getFechaVenciomiento());
         chequeToSave.setTitularEmisor(checkDto.getTitularEmisor());
         chequeToSave = chequeRepository.save(chequeToSave);
+        if (checkDto == null) {
+            throw new NotFoundException("\nError guardar datos de  cheque");
+        }
         return chequeToSave;
     }
 
@@ -75,7 +104,7 @@ public class ChequeService {
         if (typeCheck != null) {
             typeCheck = tipoChequeRepository.findById(idTipoCheque).
                     orElseThrow(
-                            () -> new NotFoundException("\nError: No existe un typo cheque con ese id para cargar al cheque"));
+                            () -> new NotFoundException("\nError: No existe un tipo cheque con ese id para cargar al cheque"));
         } else {
             throw new BadRequestException("\nError: el id del tipo cheque es null");
         }
