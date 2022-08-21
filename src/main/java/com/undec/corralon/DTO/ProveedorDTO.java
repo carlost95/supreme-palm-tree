@@ -1,7 +1,5 @@
 package com.undec.corralon.DTO;
 
-import com.undec.corralon.modelo.Banco;
-
 public class ProveedorDTO {
     private Integer idProveedor;
     private String razonSocial;
@@ -12,7 +10,7 @@ public class ProveedorDTO {
     private String titularCuenta;
     private String numeroCuenta;
     private String cbu;
-    private Banco banco;
+    private Integer idBanco;
 
     public Integer getIdProveedor() {
         return idProveedor;
@@ -54,11 +52,11 @@ public class ProveedorDTO {
         return habilitado;
     }
 
-    public Banco getBanco() {
-        return banco;
+    public Integer getIdBanco() {
+        return idBanco;
     }
 
-    public void setBanco(Banco banco) {
-        this.banco = banco;
+    public void setIdBanco(Integer idBanco) {
+        this.idBanco = idBanco;
     }
 }

@@ -50,7 +50,6 @@ public class ArticuloService {
     @Autowired
     CostoRepository costoRepository;
 
-    @Autowired
 
     public List<Articulo> listAllArticles() {
         List<Articulo> articulos = articuloRepository.findAll();

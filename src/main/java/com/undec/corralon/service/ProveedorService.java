@@ -1,7 +1,6 @@
 package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.ProveedorDTO;
-import com.undec.corralon.DTO.Response;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.modelo.Banco;
@@ -109,7 +108,7 @@ public class ProveedorService {
 
     private BancoProveedor mappedDateOfSupplier(Proveedor proveedor, ProveedorDTO proveedorDTO) {
         BancoProveedor datosProveedor = new BancoProveedor();
-        Banco banco = proveedorDTO.getBanco();
+        Banco banco = this.bancoRepository.findById(proveedorDTO.getIdBanco()).get();
 
         if (banco == null || banco.getIdBanco() == null)
             throw new BadRequestException("\nWARNING: No se cargaron los datos del banco para el proveedor");
