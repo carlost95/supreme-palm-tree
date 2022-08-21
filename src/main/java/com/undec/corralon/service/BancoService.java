@@ -43,6 +43,10 @@ public class BancoService {
     public Banco saveOfBank(Banco banco) {
         Banco bank = new Banco();
 
+        if(this.bancoRepository.findFirstByNombreEquals(banco.getNombre()) != null ){
+            throw new BadRequestException("Ya existe un banco con el mismo nombre");
+        }
+
         bank.setNombre(banco.getNombre());
         bank.setAbreviatura(banco.getAbreviatura());
         bank.setHabilitado(true);

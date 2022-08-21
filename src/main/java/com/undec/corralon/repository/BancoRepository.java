@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface BancoRepository extends JpaRepository <Banco, Integer> {
     List<Banco>findAllByHabilitadoEquals(boolean habilitado);
+    Banco findFirstByNombreEquals(String nombre);
 }
