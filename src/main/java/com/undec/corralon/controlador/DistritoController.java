@@ -45,7 +45,7 @@ public class  DistritoController {
         return ResponseEntity.status(HttpStatus.OK).body(distritoService.updateDistrict(distritoDTO));
     }
 
-    @PutMapping("/status/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<DistritoDTO> changeStatus(@PathVariable Integer id) {
         return ResponseEntity.status(HttpStatus.OK).body(distritoService.changeStatus(id));
     }
