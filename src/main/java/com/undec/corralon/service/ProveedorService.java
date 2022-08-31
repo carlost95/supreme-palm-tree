@@ -1,13 +1,10 @@
 package com.undec.corralon.service;
 
-import com.undec.corralon.DTO.ProveedorDTO;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
-import com.undec.corralon.modelo.Banco;
-import com.undec.corralon.modelo.BancoProveedor;
 import com.undec.corralon.modelo.Proveedor;
-import com.undec.corralon.repository.BancoProveedorRepository;
 import com.undec.corralon.repository.BancoRepository;
+import com.undec.corralon.repository.CuentaBancariaRepository;
 import com.undec.corralon.repository.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +20,7 @@ public class ProveedorService {
     BancoRepository bancoRepository;
 
     @Autowired
-    BancoProveedorRepository bancoProveedorRepository;
+    CuentaBancariaRepository cuentaBancariaRepository;
 
     public List<Proveedor> listOfAllSuppliers() {
         List<Proveedor> proveedores = proveedorRepository.findAll();
@@ -48,83 +45,51 @@ public class ProveedorService {
         return proveedor;
     }
 
-    public Proveedor saveSupplier(ProveedorDTO proveedorDTO) {
-        Proveedor proveedor = mappedOfSupplier(proveedorDTO);
-        Proveedor supplierSave = proveedorRepository.save(proveedor);
+    public Proveedor saveSupplier(Proveedor proveedor) {
+        Proveedor proveedorToSave = new Proveedor();
+        proveedorToSave.setRazonSocial(proveedor.getRazonSocial());
+        proveedorToSave.setDomicilio(proveedor.getDomicilio());
+        proveedorToSave.setEmail(proveedor.getEmail());
+        proveedorToSave.setTelefono(proveedor.getTelefono());
+        proveedorToSave.setHabilitado(true);
 
-        if (supplierSave == null) {
+        if (proveedorDuplicado(proveedorToSave)) {
+            throw new BadRequestException("\nWARNING: El proveedor cargado es invalido o ya existe");
+        }
+        proveedorToSave = proveedorRepository.save(proveedorToSave);
+
+        if (proveedorToSave == null) {
             throw new NotFoundException("\nWARNING: No se puede guardar el provedor");
         }
-        mappedDateOfSupplier(supplierSave, proveedorDTO);
-
-        return proveedor;
+        return proveedorToSave;
     }
 
-    public Proveedor updatedSupplier(ProveedorDTO proveedorDTO) {
-        Proveedor proveedorUpdate = proveedorRepository.findById(proveedorDTO.getIdProveedor()).
+    public Proveedor updatedSupplier(Proveedor proveedor) {
+        Proveedor proveedorUpdate = proveedorRepository.findById(proveedor.getIdProveedor()).
                 orElseThrow(() -> new NotFoundException("\nWARNING: No se encuentra el proveedorDTO a actualizar"));
 
-        proveedorUpdate.setRazonSocial(proveedorDTO.getRazonSocial());
-        proveedorUpdate.setDomicilio(proveedorDTO.getDomicilio());
-        proveedorUpdate.setEmail(proveedorDTO.getEmail());
-        proveedorUpdate.setTelefono(proveedorDTO.getTelefono());
-        proveedorUpdate.setHabilitado(proveedorDTO.getHabilitado());
+        proveedorUpdate.setRazonSocial(proveedor.getRazonSocial());
+        proveedorUpdate.setDomicilio(proveedor.getDomicilio());
+        proveedorUpdate.setEmail(proveedor.getEmail());
+        proveedorUpdate.setTelefono(proveedor.getTelefono());
+        proveedorUpdate.setHabilitado(proveedor.getHabilitado());
 
         proveedorUpdate = proveedorRepository.save(proveedorUpdate);
         if (proveedorUpdate == null)
             throw new NotFoundException("\nWARNING: No se puede actualizar datos del proveedor o no existe el proveedor");
 
-        mappedDateOfSupplier(proveedorUpdate, proveedorDTO);
-
         return proveedorUpdate;
     }
 
     public Proveedor habilitationChange(Integer id) {
-        Proveedor proveedorOptional = proveedorRepository.findById(id).
+        Proveedor proveedor = proveedorRepository.findById(id).
                 orElseThrow(() -> new NotFoundException("\nWARNING: No se encuentra el proveedor para su habilitacion o deshabilitacion"));
-        Proveedor proveedor = proveedorOptional;
 
         proveedor.setHabilitado(!proveedor.getHabilitado());
-        if (proveedorRepository.save(proveedor) == null)
+        proveedor = proveedorRepository.save(proveedor);
+        if (proveedor == null)
             throw new NotFoundException("\nWARNING: No existe el probveedor que se quiere cambiar habiulitacion o es null");
-
         return proveedor;
-    }
-
-    private Proveedor mappedOfSupplier(ProveedorDTO proveedorDTO) {
-        Proveedor proveedor = new Proveedor();
-
-        proveedor.setRazonSocial(proveedorDTO.getRazonSocial());
-        proveedor.setEmail(proveedorDTO.getEmail());
-        proveedor.setTelefono(proveedorDTO.getTelefono());
-        proveedor.setDomicilio(proveedorDTO.getDomicilio());
-        proveedor.setHabilitado(true);
-
-        if (proveedorDuplicado(proveedor))
-            throw new BadRequestException("\nWARNING: El proveedor cargado es invalido o ya existe");
-        else
-            return proveedor;
-    }
-
-    private BancoProveedor mappedDateOfSupplier(Proveedor proveedor, ProveedorDTO proveedorDTO) {
-        BancoProveedor datosProveedor = new BancoProveedor();
-        Banco banco = this.bancoRepository.findById(proveedorDTO.getIdBanco()).get();
-
-        if (banco == null || banco.getIdBanco() == null)
-            throw new BadRequestException("\nWARNING: No se cargaron los datos del banco para el proveedor");
-
-        datosProveedor.setTitularCuenta(proveedorDTO.getTitularCuenta());
-        datosProveedor.setNumeroCuenta(proveedorDTO.getNumeroCuenta());
-        datosProveedor.setCbu(proveedorDTO.getCbu());
-        datosProveedor.setProveedorByIdProveedor(proveedor);
-        datosProveedor.setBancoByIdBanco(banco);
-
-        if (bancoProveedorRepository.save(datosProveedor) == null)
-            throw new NotFoundException("\nWARNING: No se puede guardar los datos de banco del proveedor");
-        else {
-            BancoProveedor dateSupplier = bancoProveedorRepository.save(datosProveedor);
-            return dateSupplier;
-        }
     }
 
     private Boolean proveedorDuplicado(Proveedor prov) {

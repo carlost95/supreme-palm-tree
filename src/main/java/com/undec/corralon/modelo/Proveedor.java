@@ -7,16 +7,27 @@ import java.util.Objects;
 
 @Entity
 public class Proveedor extends UserDateAudit {
-    private Integer idProveedor;
-    private String razonSocial;
-    private String domicilio;
-    private String email;
-    private String telefono;
-    private Boolean habilitado;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_proveedor")
+    private Integer idProveedor;
+    @Basic
+    @Column(name = "razon_social")
+    private String razonSocial;
+    @Basic
+    @Column(name = "domicilio")
+    private String domicilio;
+    @Basic
+    @Column(name = "email")
+    private String email;
+    @Basic
+    @Column(name = "telefono")
+    private String telefono;
+    @Basic
+    @Column(name = "habilitado")
+    private Boolean habilitado;
+
+
     public Integer getIdProveedor() {
         return idProveedor;
     }
@@ -25,8 +36,6 @@ public class Proveedor extends UserDateAudit {
         this.idProveedor = idProveedor;
     }
 
-    @Basic
-    @Column(name = "razon_social")
     public String getRazonSocial() {
         return razonSocial;
     }
@@ -35,8 +44,6 @@ public class Proveedor extends UserDateAudit {
         this.razonSocial = razonSocial;
     }
 
-    @Basic
-    @Column(name = "domicilio")
     public String getDomicilio() {
         return domicilio;
     }
@@ -45,8 +52,6 @@ public class Proveedor extends UserDateAudit {
         this.domicilio = domicilio;
     }
 
-    @Basic
-    @Column(name = "email")
     public String getEmail() {
         return email;
     }
@@ -55,8 +60,6 @@ public class Proveedor extends UserDateAudit {
         this.email = email;
     }
 
-    @Basic
-    @Column(name = "telefono")
     public String getTelefono() {
         return telefono;
     }
@@ -65,8 +68,6 @@ public class Proveedor extends UserDateAudit {
         this.telefono = telefono;
     }
 
-    @Basic
-    @Column(name = "habilitado")
     public Boolean getHabilitado() {
         return habilitado;
     }
@@ -90,6 +91,7 @@ public class Proveedor extends UserDateAudit {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idProveedor, razonSocial, domicilio, email, telefono, habilitado);
+        return Objects.hash(
+                idProveedor, razonSocial, domicilio, email, telefono, habilitado);
     }
 }

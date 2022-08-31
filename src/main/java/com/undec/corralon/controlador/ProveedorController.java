@@ -1,6 +1,5 @@
 package com.undec.corralon.controlador;
 
-import com.undec.corralon.DTO.ProveedorDTO;
 import com.undec.corralon.modelo.Proveedor;
 import com.undec.corralon.service.ProveedorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +31,13 @@ public class ProveedorController {
     }
 
     @PostMapping
-    public ResponseEntity<Proveedor> saveSupplier(@Valid @RequestBody ProveedorDTO proveedorDTO) {
-        return ResponseEntity.status(HttpStatus.OK).body(proveedorService.saveSupplier(proveedorDTO));
+    public ResponseEntity<Proveedor> saveSupplier(@Valid @RequestBody Proveedor proveedor) {
+        return ResponseEntity.status(HttpStatus.OK).body(proveedorService.saveSupplier(proveedor));
     }
 
     @PutMapping
-    public ResponseEntity<Proveedor> updatedSupplier(@Valid @RequestBody ProveedorDTO proveedorDTO){
-        return ResponseEntity.status(HttpStatus.OK).body(proveedorService.updatedSupplier(proveedorDTO));
+    public ResponseEntity<Proveedor> updatedSupplier(@Valid @RequestBody Proveedor proveedor){
+        return ResponseEntity.status(HttpStatus.OK).body(proveedorService.updatedSupplier(proveedor));
     }
 
     @PutMapping("/{id}")
