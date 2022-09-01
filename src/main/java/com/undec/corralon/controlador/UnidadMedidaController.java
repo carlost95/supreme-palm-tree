@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -20,39 +21,33 @@ public class UnidadMedidaController {
     UnidadMedidaService unidadMedidaService;
 
     @GetMapping
-    public ResponseEntity<Response> obtenerTodasLasUnidadesDeMedida(){
-        Response response = unidadMedidaService.obtenerTodasLasUnidadesDeMedida();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<UnidadMedida>> obtenerTodasLasUnidadesDeMedida(){
+        return new ResponseEntity<>(unidadMedidaService.obtenerTodasLasUnidadesDeMedida(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> obtenerUnidadMedidaPorId(@PathVariable("id") Integer id){
-        Response response = unidadMedidaService.obtenerUnidadMedidaPorId(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<UnidadMedida> obtenerUnidadMedidaPorId(@PathVariable("id") Integer id){
+        return new ResponseEntity<>(unidadMedidaService.obtenerUnidadMedidaPorId(id), HttpStatus.OK);
     }
 
     @GetMapping("/habilitados")
-    public ResponseEntity<Response> obtenerUnidadesDeMedidaHabilitadas(){
-        Response response = unidadMedidaService.obtenerUnidadMedidaHabilitados();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<UnidadMedida>> obtenerUnidadesDeMedidaHabilitadas(){
+        return new ResponseEntity<>(unidadMedidaService.obtenerUnidadMedidaHabilitados(), HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<Response> crearUnidadMedida(@RequestBody UnidadMedida unidadMedida) throws UnidadMedidaException {
-        Response response = unidadMedidaService.crearUnidadMedida(unidadMedida);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<UnidadMedida> crearUnidadMedida(@RequestBody UnidadMedida unidadMedida) throws UnidadMedidaException {
+        return new ResponseEntity<>(unidadMedidaService.crearUnidadMedida(unidadMedida), HttpStatus.OK);
     }
 
 
     @PutMapping
-    public ResponseEntity<Response> modificarUnidadMedida(@RequestBody UnidadMedida unidadMedida) throws UnidadMedidaException {
-        Response response = unidadMedidaService.actualizarUnidadMedida(unidadMedida);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<UnidadMedida> modificarUnidadMedida(@RequestBody UnidadMedida unidadMedida) throws UnidadMedidaException {
+        return new ResponseEntity<>(unidadMedidaService.actualizarUnidadMedida(unidadMedida), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Response> cambiarHabilitacion(@PathVariable("id") Integer id) throws UnidadMedidaException {
-        Response response = unidadMedidaService.cambiarHabilitacion(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<UnidadMedida> cambiarHabilitacion(@PathVariable("id") Integer id) throws UnidadMedidaException {
+        return new ResponseEntity<>(unidadMedidaService.cambiarHabilitacion(id), HttpStatus.OK);
     }
 
 }
