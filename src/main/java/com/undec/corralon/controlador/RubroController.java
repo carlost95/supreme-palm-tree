@@ -1,6 +1,5 @@
 package com.undec.corralon.controlador;
 
-import com.undec.corralon.DTO.Response;
 import com.undec.corralon.excepciones.rubro.RubroException;
 import com.undec.corralon.modelo.Rubro;
 import com.undec.corralon.service.RubroService;
@@ -8,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin("*")
 @RestController
@@ -18,39 +19,33 @@ public class RubroController {
     RubroService rubroService;
 
     @GetMapping
-    public ResponseEntity<Response> obtenerTodosLosRubros(){
-        Response response = rubroService.obtenerTodosLosRubros();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<Rubro>> obtenerTodosLosRubros(){
+        return new ResponseEntity<>(rubroService.obtenerTodosLosRubros(), HttpStatus.OK);
     }
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> obtenerRubroPorId(@PathVariable("id") Integer id) throws RubroException {
-        Response response = rubroService.obtenerPorId(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Rubro> obtenerRubroPorId(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(rubroService.obtenerPorId(id), HttpStatus.OK);
     }
 
     @GetMapping("/habilitados")
-    public ResponseEntity<Response> obtenerRubrosHabilitados() throws RubroException {
-        Response response = rubroService.obtenerTodosLosRubrosHabilitados();
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<List<Rubro>> obtenerRubrosHabilitados() {
+        return new ResponseEntity<>(rubroService.obtenerTodosLosRubrosHabilitados(), HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<Response> crearRubro(@RequestBody Rubro rubro) throws RubroException {
-        Response response = rubroService.crearRubro(rubro);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Rubro> crearRubro(@RequestBody Rubro rubro) throws RubroException {
+        return new ResponseEntity<>(rubroService.crearRubro(rubro), HttpStatus.OK);
     }
 
     @PutMapping()
-    public ResponseEntity<Response> actualizarRubro(@RequestBody Rubro rubro) throws RubroException {
-        Response response = rubroService.actualizarRubro(rubro);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Rubro> actualizarRubro(@RequestBody Rubro rubro) throws RubroException {
+        return new ResponseEntity<>(rubroService.actualizarRubro(rubro), HttpStatus.OK);
     }
 
    @PutMapping("/{id}")
-    public ResponseEntity<Response> cambiarHabilitacion(@PathVariable("id") Integer id) throws Exception {
-        Response response = rubroService.cambiarHabilitacion(id);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<Rubro> cambiarHabilitacion(@PathVariable("id") Integer id) throws Exception {
+        return new ResponseEntity<>(rubroService.cambiarHabilitacion(id), HttpStatus.OK);
     }
 }

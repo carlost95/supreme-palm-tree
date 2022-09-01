@@ -18,90 +18,50 @@ public class RubroService {
     @Autowired
     RubroRepository rubroRepository;
 
-    public Response obtenerTodosLosRubros() {
-        Response response = new Response();
-        List<Rubro> rubros = this.rubroRepository.findAll();
-
-        response.setData(rubros);
-        response.setCode(200);
-        response.setMsg("Rubros");
-
-        return response;
+    public List<Rubro> obtenerTodosLosRubros() {
+        return this.rubroRepository.findAll();
     }
 
-    public Response obtenerTodosLosRubrosHabilitados() {
-        Response response = new Response();
-        List<Rubro> rubros = this.rubroRepository.findByHabilitadoEquals(true);
-
-        response.setData(rubros);
-        response.setCode(200);
-        response.setMsg("Rubros Habilitados");
-
-        return response;
+    public List<Rubro> obtenerTodosLosRubrosHabilitados() {
+        return this.rubroRepository.findByHabilitadoEquals(true);
     }
 
-    public Response obtenerPorId(Integer id) throws RubroException {
-        Response response = new Response();
+    public Rubro obtenerPorId(Integer id) throws NotFoundException {
 
-        Rubro rubro = this.rubroRepository.findById(id).orElseThrow(
+        return this.rubroRepository.findById(id).orElseThrow(
                 ()->new NotFoundException("\nWARNING: No existe el rubro")
         );
-
-        if (rubro == null)
-            throw new RubroNotFoundException();
-        response.setData(rubro);
-        response.setCode(200);
-        response.setMsg("Rubro " + id);
-
-        return response;
     }
 
-    public Response crearRubro(Rubro rubro) throws RubroException {
-        Response response = new Response();
+    public Rubro crearRubro(Rubro rubro) throws RubroException {
         rubro.setHabilitado(true);
         rubro = this.rubroRepository.save(rubro);
 
         if (rubro == null)
             throw new RubroErrorToSaveException();
-        response.setData(rubro);
-        response.setCode(200);
-        response.setMsg("Rubro creado corectamente");
 
-        return response;
+        return rubro;
     }
 
-    public Response actualizarRubro(Rubro rubro) throws RubroException {
-        Response response = new Response();
-
+    public Rubro actualizarRubro(Rubro rubro) throws RubroException {
         Rubro rubroToUpdate = this.rubroRepository.findById(rubro.getIdRubro()).get();
 
         if (rubroToUpdate == null)
             throw new RubroErrorToUpdateException();
         rubroToUpdate.setNombre(rubro.getNombre());
+        rubroToUpdate.setAbreviatura(rubro.getAbreviatura());
 
-        rubroToUpdate = rubroRepository.save(rubroToUpdate);
-
-        response.setData(rubroToUpdate);
-        response.setCode(200);
-        response.setMsg("Rubro actualizado");
-
-        return response;
+        return rubroRepository.save(rubroToUpdate);
     }
 
 
-    public Response cambiarHabilitacion(Integer id) throws RubroException {
-        Response response = new Response();
+    public Rubro cambiarHabilitacion(Integer id) throws RubroException {
         Optional<Rubro> rubroOptional = rubroRepository.findById(id);
         if (!rubroOptional.isPresent()) {
             throw new RubroCambioEstadoException();
         }
         Rubro rubro = rubroOptional.get();
         rubro.setHabilitado(!rubro.getHabilitado());
-        rubroRepository.save(rubro);
-
-        response.setCode(200);
-        response.setMsg("El rubro cambio el estado");
-        response.setData(rubro);
-        return response;
+        return rubroRepository.save(rubro);
     }
 }
