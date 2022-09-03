@@ -6,9 +6,9 @@ public class SubrubroDTO {
 
     private Integer idSubRubro;
     private String nombre;
-    private String descripcion;
     private Boolean habilitado;
     private Integer rubroId;
+    private String abreviatura;
 
     public SubrubroDTO() {
     }
@@ -29,14 +29,6 @@ public class SubrubroDTO {
         this.nombre = nombre;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
     public Boolean getHabilitado() {
         return habilitado;
     }
@@ -51,5 +43,13 @@ public class SubrubroDTO {
 
     public void setRubroId(Integer rubroId) {
         this.rubroId = rubroId;
+    }
+
+    public String getAbreviatura() {
+        return abreviatura;
+    }
+
+    public void setAbreviatura(String abreviatura) {
+        this.abreviatura = abreviatura;
     }
 }

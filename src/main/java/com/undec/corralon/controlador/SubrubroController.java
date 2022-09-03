@@ -20,37 +20,37 @@ public class SubrubroController {
     SubrubroService subrubroService;
 
     @GetMapping
-    public ResponseEntity<List<SubRubro>> obtenerTodosLosSubrubros(){
+    public ResponseEntity<List<SubrubroDTO>> obtenerTodosLosSubrubros(){
         return new ResponseEntity<>(subrubroService.buscarTodosLosSubrubros(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SubRubro> obtenerSubrubroPorId(@PathVariable("id") Integer id){
+    public ResponseEntity<SubrubroDTO> obtenerSubrubroPorId(@PathVariable("id") Integer id){
         return new ResponseEntity<>(subrubroService.obtenerSubrubroPorId(id), HttpStatus.OK);
     }
 
     @GetMapping("/habilitados")
-    public ResponseEntity<List<SubRubro>> obtenerTodosLosSubrubrosHabilitados(){
+    public ResponseEntity<List<SubrubroDTO>> obtenerTodosLosSubrubrosHabilitados(){
         return new ResponseEntity<>(subrubroService.buscarTodosLosSubrubrosHabilitados(), HttpStatus.OK);
     }
 
     @GetMapping("/rubro/{id}")
-    public ResponseEntity<List<SubRubro>> obtenerTodosPorRubro(@PathVariable("id") Integer id){
+    public ResponseEntity<List<SubrubroDTO>> obtenerTodosPorRubro(@PathVariable("id") Integer id){
         return new ResponseEntity<>(subrubroService.obtenerSubrubroPorRubro(id), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<SubRubro> guardarSubrubro(@RequestBody SubrubroDTO subrubroDTO) throws SubrubroException {
+    public ResponseEntity<SubrubroDTO> guardarSubrubro(@RequestBody SubrubroDTO subrubroDTO) throws SubrubroException {
         return new ResponseEntity<>(subrubroService.guardarSubrubro(subrubroDTO), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<SubRubro> actualizarSubrubro(@RequestBody SubrubroDTO subrubroDTO) throws SubrubroException {
+    public ResponseEntity<SubrubroDTO> actualizarSubrubro(@RequestBody SubrubroDTO subrubroDTO) throws SubrubroException {
         return new ResponseEntity<>(subrubroService.actualizarSubrubro(subrubroDTO), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SubRubro> cambiarHabilitacion(@PathVariable("id") Integer id) throws SubrubroException {
+    public ResponseEntity<SubrubroDTO> cambiarHabilitacion(@PathVariable("id") Integer id) throws SubrubroException {
         return new ResponseEntity<>(subrubroService.cambiarHabilitacion(id), HttpStatus.OK);
     }
 }
