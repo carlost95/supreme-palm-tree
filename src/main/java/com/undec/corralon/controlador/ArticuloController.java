@@ -26,7 +26,7 @@ public class ArticuloController {
     MovimientoArticuloService movimientoArticuloService;
 
     @GetMapping
-    public ResponseEntity<List<Articulo>> listAllArticles() {
+    public ResponseEntity<List<ArticuloDTO>> listAllArticles() {
         return ResponseEntity.status(HttpStatus.OK).body(articuloService.listAllArticles());
     }
 

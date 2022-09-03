@@ -13,8 +13,6 @@ public class ArticuloDTO {
     private Double costo;
     private Double precio;
     private Boolean habilitado;
-
-
     private Integer idProveedor;
     private Integer idUnidadMedida;
     private Integer idMarca;
