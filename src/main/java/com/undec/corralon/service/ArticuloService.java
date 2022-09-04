@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticuloService {
@@ -51,11 +52,33 @@ public class ArticuloService {
     CostoRepository costoRepository;
 
 
-    public List<Articulo> listAllArticles() {
-        List<Articulo> articulos = articuloRepository.findAll();
-        if (articulos == null)
-            throw new NotFoundException("\nWARNING: No existen articulos en la DB");
-        return articulos;
+    public List<ArticuloDTO> listAllArticles() {
+        return articuloRepository.findAll().stream().map(this::mapEntityDTO).collect(Collectors.toList());
+    }
+
+    private ArticuloDTO mapEntityDTO(Articulo articulo) {
+        ArticuloDTO articuloDTO = new ArticuloDTO();
+        articuloDTO.setId(articulo.getIdArticulo());
+        articuloDTO.setNombre(articulo.getNombre());
+        articuloDTO.setAbreviatura(articulo.getAbreviatura());
+        articuloDTO.setCodigoArt(articulo.getCodigo());
+        articuloDTO.setStockMin(articulo.getStockMinimo());
+        articuloDTO.setStockMax(articulo.getStockMaximo());
+        articuloDTO.setCosto(articulo.getCosto());
+        articuloDTO.setPrecio(articulo.getPrecio());
+        articuloDTO.setHabilitado(articulo.getHabilitado());
+        articuloDTO.setIdProveedor(articulo.getProveedorByIdProveedor().getIdProveedor());
+        articuloDTO.setIdUnidadMedida(articulo.getUnidadMedidaByIdUnidadMedida().getIdUnidadMedida());
+        articuloDTO.setIdMarca(articulo.getMarcaByIdMarca().getIdMarca());
+        if(articulo.getRubroByIdRubro() != null){
+            articuloDTO.setIdRubro(articulo.getRubroByIdRubro().getIdRubro());
+        }
+        if(articulo.getSubRubroByIdSubRubro() != null){
+            articuloDTO.setIdRubro(articulo.getSubRubroByIdSubRubro().getIdSubRubro());
+        }
+
+        return articuloDTO;
+
     }
 
     public List<Articulo> listAllArticlesEnabled() {

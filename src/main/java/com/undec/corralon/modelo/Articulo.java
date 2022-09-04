@@ -15,6 +15,9 @@ public class Articulo extends UserDateAudit {
     private Integer stockMinimo;
     private Integer stockMaximo;
     private Boolean habilitado;
+    private Double precio;
+    private Double costo;
+
     @JsonProperty(value = "proveedorByIdProveedor", required = false)
     private Proveedor proveedorByIdProveedor;
 
@@ -89,6 +92,26 @@ public class Articulo extends UserDateAudit {
 
     public void setAbreviatura(String abreviatura) {
         this.abreviatura = abreviatura;
+    }
+
+    @Basic
+    @Column(name = "precio")
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
+
+    @Basic
+    @Column(name = "costo")
+    public Double getCosto() {
+        return costo;
+    }
+
+    public void setCosto(Double costo) {
+        this.costo = costo;
     }
 
     @Override
