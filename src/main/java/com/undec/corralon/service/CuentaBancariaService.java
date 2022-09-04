@@ -1,6 +1,7 @@
 package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.CuentaBancariaDTO;
+import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.modelo.Banco;
 import com.undec.corralon.modelo.CuentaBancaria;
@@ -24,8 +25,7 @@ public class CuentaBancariaService {
     ProveedorRepository proveedorRepository;
 
     public CuentaBancariaDTO findAccountById(Integer id) {
-        CuentaBancaria cuentaBancaria = cuentaBancariaRepository.findById(id).
-                orElseThrow(() -> new NotFoundException("WARNING: No existe la cuenta bancaria por este id"));
+        CuentaBancaria cuentaBancaria = cuentaBancariaRepository.findById(id).orElseThrow(() -> new NotFoundException("WARNING: No existe la cuenta bancaria por este id"));
         CuentaBancariaDTO cuentaBancariaDTO = mappedAccountBanckToDTO(cuentaBancaria);
         return cuentaBancariaDTO;
     }
@@ -36,45 +36,59 @@ public class CuentaBancariaService {
         if (cuentasBancarias.isEmpty()) {
             throw new NotFoundException("\nWARNING: No existen cuentas bancarias registradas para este proveedor");
         }
-        for ( CuentaBancaria cuentaBancaria : cuentasBancarias) {
+        for (CuentaBancaria cuentaBancaria : cuentasBancarias) {
             cuentasBancariasDTO.add(mappedAccountBanckToDTO(cuentaBancaria));
         }
         return cuentasBancariasDTO;
     }
 
     public CuentaBancariaDTO createAccountBank(CuentaBancariaDTO cuentaBancariaDTO) {
-        CuentaBancaria cuentaBancaria = mappedCuentaBancariaDTO(cuentaBancariaDTO);
-        cuentaBancaria.setHabilitado(true);
-        System.out.println("Muestra de campo habilitado de cuenta bancaria  ");
-        System.out.println(cuentaBancaria.getHabilitado());
-        CuentaBancaria cuentaBancariaToSave = cuentaBancariaRepository.save(cuentaBancaria);
-
-        if (cuentaBancariaToSave == null) {
-            throw new NotFoundException("\nWARNING: No se puede guardar la cuenta bancaria");
-        }
-        cuentaBancariaDTO = mappedAccountBanckToDTO(cuentaBancariaToSave);
-        return cuentaBancariaDTO;
-
-    }
-    public CuentaBancariaDTO updateAccountBank(CuentaBancariaDTO cuentaBancariaDTO) {
-        CuentaBancaria cuentaBancaria = cuentaBancariaRepository.findById(cuentaBancariaDTO.getId())
-                .orElseThrow(() -> new NotFoundException("WARNING: No existe la cuenta bancaria por este id"));
+        CuentaBancaria cuentaBancaria = new CuentaBancaria();
+        Banco banco = bancoRepository.findById(cuentaBancariaDTO.getIdBanco()).get();
+        Proveedor proveedor = proveedorRepository.findById(cuentaBancariaDTO.getIdProveedor()).get();
 
         cuentaBancaria.setNumero(cuentaBancariaDTO.getNumero());
         cuentaBancaria.setTitular(cuentaBancariaDTO.getTitular());
         cuentaBancaria.setCbu(cuentaBancariaDTO.getCbu());
         cuentaBancaria.setAlias(cuentaBancariaDTO.getAlias());
         cuentaBancaria.setHabilitado(cuentaBancariaDTO.getHabilitado());
+        cuentaBancaria.setBanco(banco);
+        cuentaBancaria.setProveedor(proveedor);
+//        CuentaBancaria cuentaBancaria = mappedCuentaBancariaDTO(cuentaBancariaDTO);
+        cuentaBancaria.setHabilitado(true);
         cuentaBancaria = cuentaBancariaRepository.save(cuentaBancaria);
+
         if (cuentaBancaria == null) {
-            throw new NotFoundException("\nWARNING: No se puede actualizar la cuenta bancaria");
+            throw new NotFoundException("\nWARNING: No se puede guardar la cuenta bancaria");
         }
         cuentaBancariaDTO = mappedAccountBanckToDTO(cuentaBancaria);
         return cuentaBancariaDTO;
+
     }
+
+    public CuentaBancariaDTO updateAccountBank(CuentaBancariaDTO cuentaBancariaDTO) {
+        Banco banco = bancoRepository.findById(cuentaBancariaDTO.getIdBanco()).get();
+        Proveedor proveedor = proveedorRepository.findById(cuentaBancariaDTO.getIdProveedor()).get();
+        CuentaBancaria cuentaBancariaUpdated = cuentaBancariaRepository.findById(cuentaBancariaDTO.getId()).orElseThrow(() -> new NotFoundException("WARNING: No existe la cuenta bancaria por este id"));
+
+        cuentaBancariaUpdated.setNumero(cuentaBancariaDTO.getNumero());
+        cuentaBancariaUpdated.setTitular(cuentaBancariaDTO.getTitular());
+        cuentaBancariaUpdated.setCbu(cuentaBancariaDTO.getCbu());
+        cuentaBancariaUpdated.setAlias(cuentaBancariaDTO.getAlias());
+        cuentaBancariaUpdated.setHabilitado(cuentaBancariaDTO.getHabilitado());
+        cuentaBancariaUpdated.setBanco(banco);
+        cuentaBancariaUpdated.setProveedor(proveedor);
+
+        cuentaBancariaUpdated = cuentaBancariaRepository.save(cuentaBancariaUpdated);
+        if (cuentaBancariaUpdated == null) {
+            throw new NotFoundException("\nWARNING: No se puede actualizar la cuenta bancaria");
+        }
+        cuentaBancariaDTO = mappedAccountBanckToDTO(cuentaBancariaUpdated);
+        return cuentaBancariaDTO;
+    }
+
     public CuentaBancariaDTO changeStatusAccountBank(Integer id) {
-        CuentaBancaria cuentaBancaria = cuentaBancariaRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("WARNING: No existe la cuenta bancaria por este id"));
+        CuentaBancaria cuentaBancaria = cuentaBancariaRepository.findById(id).orElseThrow(() -> new NotFoundException("WARNING: No existe la cuenta bancaria por este id"));
 
         cuentaBancaria.setHabilitado(!cuentaBancaria.getHabilitado());
         cuentaBancaria = cuentaBancariaRepository.save(cuentaBancaria);
@@ -84,6 +98,7 @@ public class CuentaBancariaService {
         CuentaBancariaDTO cuentaBancariaDTO = mappedAccountBanckToDTO(cuentaBancaria);
         return cuentaBancariaDTO;
     }
+
     private CuentaBancariaDTO mappedAccountBanckToDTO(CuentaBancaria cuentaBancaria) {
         CuentaBancariaDTO cuentaBancariaDTO = new CuentaBancariaDTO();
         cuentaBancariaDTO.setId(cuentaBancaria.getId());
@@ -92,7 +107,6 @@ public class CuentaBancariaService {
         cuentaBancariaDTO.setCbu(cuentaBancaria.getCbu());
         cuentaBancariaDTO.setAlias(cuentaBancaria.getAlias());
         cuentaBancariaDTO.setHabilitado(cuentaBancaria.getHabilitado());
-
         cuentaBancariaDTO.setIdBanco(cuentaBancaria.getBanco().getIdBanco());
         cuentaBancariaDTO.setIdProveedor(cuentaBancaria.getProveedor().getIdProveedor());
         return cuentaBancariaDTO;
@@ -112,6 +126,5 @@ public class CuentaBancariaService {
         cuentaBancaria.setProveedor(proveedor);
         return cuentaBancaria;
     }
-
 
 }

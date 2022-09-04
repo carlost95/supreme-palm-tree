@@ -25,7 +25,7 @@ public class CuentaBancariaController {
     }
 
     @PostMapping
-    public ResponseEntity<CuentaBancariaDTO> createAccountBank(@RequestBody CuentaBancariaDTO cuentaBancariaDTO) {
+    public ResponseEntity<CuentaBancariaDTO> createAccountBank(@Valid @RequestBody CuentaBancariaDTO cuentaBancariaDTO) {
         return ResponseEntity.status(HttpStatus.OK).body(cuentaBancariaService.createAccountBank(cuentaBancariaDTO));
     }
 

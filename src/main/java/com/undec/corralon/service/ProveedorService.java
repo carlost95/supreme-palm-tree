@@ -66,7 +66,7 @@ public class ProveedorService {
 
     public Proveedor updatedSupplier(Proveedor proveedor) {
         Proveedor proveedorUpdate = proveedorRepository.findById(proveedor.getIdProveedor()).
-                orElseThrow(() -> new NotFoundException("\nWARNING: No se encuentra el proveedorDTO a actualizar"));
+                orElseThrow(() -> new NotFoundException("\nWARNING: No se encuentra el PROVEEDOR a actualizar"));
 
         proveedorUpdate.setRazonSocial(proveedor.getRazonSocial());
         proveedorUpdate.setDomicilio(proveedor.getDomicilio());
