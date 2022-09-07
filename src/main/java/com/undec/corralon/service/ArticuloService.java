@@ -176,6 +176,8 @@ public class ArticuloService {
         articulo.setCodigo(articuloDTO.getCodigoArt());
         articulo.setStockMinimo(articuloDTO.getStockMin());
         articulo.setStockMaximo(articuloDTO.getStockMax());
+        articulo.setPrecio(articuloDTO.getPrecio());
+        articulo.setCosto(articuloDTO.getCosto());
 
         if (articuloDTO.getIdProveedor() != null) {
             articulo.setProveedorByIdProveedor(proveedorRepository.findById(articuloDTO.getIdProveedor())
