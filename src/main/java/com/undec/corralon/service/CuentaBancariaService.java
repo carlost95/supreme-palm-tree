@@ -43,18 +43,7 @@ public class CuentaBancariaService {
     }
 
     public CuentaBancariaDTO createAccountBank(CuentaBancariaDTO cuentaBancariaDTO) {
-        CuentaBancaria cuentaBancaria = new CuentaBancaria();
-        Banco banco = bancoRepository.findById(cuentaBancariaDTO.getIdBanco()).get();
-        Proveedor proveedor = proveedorRepository.findById(cuentaBancariaDTO.getIdProveedor()).get();
-
-        cuentaBancaria.setNumero(cuentaBancariaDTO.getNumero());
-        cuentaBancaria.setTitular(cuentaBancariaDTO.getTitular());
-        cuentaBancaria.setCbu(cuentaBancariaDTO.getCbu());
-        cuentaBancaria.setAlias(cuentaBancariaDTO.getAlias());
-        cuentaBancaria.setHabilitado(cuentaBancariaDTO.getHabilitado());
-        cuentaBancaria.setBanco(banco);
-        cuentaBancaria.setProveedor(proveedor);
-//        CuentaBancaria cuentaBancaria = mappedCuentaBancariaDTO(cuentaBancariaDTO);
+        CuentaBancaria cuentaBancaria = mappingCuentaBancariaDTO(cuentaBancariaDTO);
         cuentaBancaria.setHabilitado(true);
         cuentaBancaria = cuentaBancariaRepository.save(cuentaBancaria);
 
@@ -112,7 +101,7 @@ public class CuentaBancariaService {
         return cuentaBancariaDTO;
     }
 
-    private CuentaBancaria mappedCuentaBancariaDTO(CuentaBancariaDTO cuentaBancariaDTO) {
+    private CuentaBancaria mappingCuentaBancariaDTO(CuentaBancariaDTO cuentaBancariaDTO) {
         CuentaBancaria cuentaBancaria = new CuentaBancaria();
         Banco banco = bancoRepository.findById(cuentaBancariaDTO.getIdBanco()).get();
         Proveedor proveedor = proveedorRepository.findById(cuentaBancariaDTO.getIdProveedor()).get();

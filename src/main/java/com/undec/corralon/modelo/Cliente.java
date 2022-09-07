@@ -1,24 +1,33 @@
 package com.undec.corralon.modelo;
 
-import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Cliente extends DateAudit {
-    private Integer idCliente;
-    private String nombre;
-    private String apellido;
-    private String dni;
-    private Boolean habilitado;
-    private String mail;
-//    private List<Direccion> direccionsByIdCliente;
-//    private List<Venta> ventasByIdCliente;
-
+public class Cliente extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cliente")
+    private Integer idCliente;
+    @Basic
+    @Column(name = "nombre")
+    private String nombre;
+    @Basic
+    @Column(name = "apellido")
+    private String apellido;
+    @Basic
+    @Column(name = "dni")
+    private String dni;
+    @Basic
+    @Column(name = "email")
+    private String email;
+    @Basic
+    @Column(name = "status")
+    private Boolean status;
+
+
     public Integer getIdCliente() {
         return idCliente;
     }
@@ -27,8 +36,6 @@ public class Cliente extends DateAudit {
         this.idCliente = idCliente;
     }
 
-    @Basic
-    @Column(name = "nombre")
     public String getNombre() {
         return nombre;
     }
@@ -37,8 +44,6 @@ public class Cliente extends DateAudit {
         this.nombre = nombre;
     }
 
-    @Basic
-    @Column(name = "apellido")
     public String getApellido() {
         return apellido;
     }
@@ -47,8 +52,6 @@ public class Cliente extends DateAudit {
         this.apellido = apellido;
     }
 
-    @Basic
-    @Column(name = "dni")
     public String getDni() {
         return dni;
     }
@@ -57,24 +60,20 @@ public class Cliente extends DateAudit {
         this.dni = dni;
     }
 
-    @Basic
-    @Column(name = "habilitado")
-    public Boolean getHabilitado() {
-        return habilitado;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setHabilitado(Boolean habilitado) {
-        this.habilitado = habilitado;
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
-    @Basic
-    @Column(name = "mail")
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override
@@ -86,30 +85,11 @@ public class Cliente extends DateAudit {
                 Objects.equals(nombre, cliente.nombre) &&
                 Objects.equals(apellido, cliente.apellido) &&
                 Objects.equals(dni, cliente.dni) &&
-                Objects.equals(habilitado, cliente.habilitado) &&
-                Objects.equals(mail, cliente.mail);
+                Objects.equals(status, cliente.status) && Objects.equals(email, cliente.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCliente, nombre, apellido, dni, habilitado, mail);
+        return Objects.hash(idCliente, nombre, apellido, dni, status, email);
     }
-
-//    @OneToMany(mappedBy = "clienteByIdCliente")
-//    public List<Direccion> getDireccionsByIdCliente() {
-//        return direccionsByIdCliente;
-//    }
-//
-//    public void setDireccionsByIdCliente(List<Direccion> direccionsByIdCliente) {
-//        this.direccionsByIdCliente = direccionsByIdCliente;
-//    }
-
-//    @OneToMany(mappedBy = "clienteByIdCliente")
-//    public List<Venta> getVentasByIdCliente() {
-//        return ventasByIdCliente;
-//    }
-//
-//    public void setVentasByIdCliente(List<Venta> ventasByIdCliente) {
-//        this.ventasByIdCliente = ventasByIdCliente;
-//    }
 }

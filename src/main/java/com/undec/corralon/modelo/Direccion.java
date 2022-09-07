@@ -1,27 +1,44 @@
 package com.undec.corralon.modelo;
 
-import com.undec.corralon.modelo.audit.DateAudit;
-import net.minidev.json.annotate.JsonIgnore;
+import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
 import java.util.Objects;
 
 @Entity
-public class Direccion extends DateAudit {
-    private Integer idDireccion;
-    private String calle;
-    private String numeroCalle;
-    private String entreCalle;
-    private String barrio;
-    private String descripcion;
-    private Boolean habilitado;
-    private Ubicacion ubicacionByIdUbicacion;
-    private Cliente clienteByIdCliente;
-    private Distrito distritoByIdDistrito;
-
+public class Direccion extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_direccion")
+    private Integer idDireccion;
+    @Basic
+    @Column(name = "calle")
+    private String calle;
+    @Basic
+    @Column(name = "numero_calle")
+    private String numeroCalle;
+    @Basic
+    @Column(name = "entre_calle")
+    private String entreCalle;
+    @Basic
+    @Column(name = "barrio")
+    private String barrio;
+    @Basic
+    @Column(name = "descripcion")
+    private String descripcion;
+    @Basic
+    @Column(name = "status")
+    private Boolean status;
+    @ManyToOne
+    @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente", nullable = false)
+    private Cliente cliente;
+    @ManyToOne
+    @JoinColumn(name = "id_distrito", referencedColumnName = "id_distrito", nullable = false)
+    private Distrito distrito;
+    @ManyToOne
+    @JoinColumn(name = "id_ubicacion", referencedColumnName = "id_ubicacion", nullable = false)
+    private Ubicacion ubicacion;
+
     public Integer getIdDireccion() {
         return idDireccion;
     }
@@ -30,8 +47,6 @@ public class Direccion extends DateAudit {
         this.idDireccion = idDireccion;
     }
 
-    @Basic
-    @Column(name = "calle")
     public String getCalle() {
         return calle;
     }
@@ -40,8 +55,6 @@ public class Direccion extends DateAudit {
         this.calle = calle;
     }
 
-    @Basic
-    @Column(name = "numero_calle")
     public String getNumeroCalle() {
         return numeroCalle;
     }
@@ -50,8 +63,6 @@ public class Direccion extends DateAudit {
         this.numeroCalle = numeroCalle;
     }
 
-    @Basic
-    @Column(name = "entre_calle")
     public String getEntreCalle() {
         return entreCalle;
     }
@@ -60,8 +71,6 @@ public class Direccion extends DateAudit {
         this.entreCalle = entreCalle;
     }
 
-    @Basic
-    @Column(name = "barrio")
     public String getBarrio() {
         return barrio;
     }
@@ -70,8 +79,6 @@ public class Direccion extends DateAudit {
         this.barrio = barrio;
     }
 
-    @Basic
-    @Column(name = "descripcion")
     public String getDescripcion() {
         return descripcion;
     }
@@ -80,63 +87,48 @@ public class Direccion extends DateAudit {
         this.descripcion = descripcion;
     }
 
-    @Basic
-    @Column(name = "habilitado")
-    public Boolean getHabilitado() {
-        return habilitado;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setHabilitado(Boolean habilitado) {
-        this.habilitado = habilitado;
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
-      @Override
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Distrito getDistrito() {
+        return distrito;
+    }
+
+    public void setDistrito(Distrito distrito) {
+        this.distrito = distrito;
+    }
+
+    public Ubicacion getUbicacion() {
+        return ubicacion;
+    }
+
+    public void setUbicacion(Ubicacion ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Direccion direccion = (Direccion) o;
-        return Objects.equals(idDireccion, direccion.idDireccion) &&
-                Objects.equals(calle, direccion.calle) &&
-                Objects.equals(numeroCalle, direccion.numeroCalle) &&
-                Objects.equals(entreCalle, direccion.entreCalle) &&
-                Objects.equals(barrio, direccion.barrio) &&
-                Objects.equals(descripcion, direccion.descripcion) &&
-                Objects.equals(habilitado, direccion.habilitado);
+        return idDireccion.equals(direccion.idDireccion) && calle.equals(direccion.calle) && Objects.equals(numeroCalle, direccion.numeroCalle) && Objects.equals(entreCalle, direccion.entreCalle) && Objects.equals(barrio, direccion.barrio) && Objects.equals(descripcion, direccion.descripcion) && status.equals(direccion.status) && cliente.equals(direccion.cliente) && Objects.equals(distrito, direccion.distrito) && ubicacion.equals(direccion.ubicacion);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idDireccion, calle, numeroCalle, entreCalle, barrio, descripcion, habilitado);
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "id_ubicacion", referencedColumnName = "id_ubicacion")
-    public Ubicacion getUbicacionByIdUbicacion() {
-        return ubicacionByIdUbicacion;
-    }
-
-    public void setUbicacionByIdUbicacion(Ubicacion ubicacionByIdUbicacion) {
-        this.ubicacionByIdUbicacion = ubicacionByIdUbicacion;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente", nullable = false)
-    @JsonIgnore
-    public Cliente getClienteByIdCliente() {
-        return clienteByIdCliente;
-    }
-
-    public void setClienteByIdCliente(Cliente clienteByIdCliente) {
-        this.clienteByIdCliente = clienteByIdCliente;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "id_distrito", referencedColumnName = "id_distrito", nullable = false)
-    public Distrito getDistritoByIdDistrito() {
-        return distritoByIdDistrito;
-    }
-
-    public void setDistritoByIdDistrito(Distrito distritoByIdDistrito) {
-        this.distritoByIdDistrito = distritoByIdDistrito;
+        return Objects.hash(idDireccion, calle, numeroCalle, entreCalle, barrio, descripcion, status, cliente, distrito, ubicacion);
     }
 }

@@ -1,21 +1,28 @@
 package com.undec.corralon.modelo;
 
 import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-public class Ubicacion extends DateAudit {
-    private Integer idUbicacion;
-    private String latitud;
-    private String longitud;
-    private Boolean habilitado;
-    private List<Direccion> direccionsByIdUbicacion;
-
+public class Ubicacion extends UserDateAudit {
     @Id
     @Column(name = "id_ubicacion")
+    private Integer idUbicacion;
+
+    @Basic
+    @Column(name = "latitud")
+    private String latitud;
+    @Basic
+    @Column(name = "longitud")
+    private String longitud;
+    @Basic
+    @Column(name = "status")
+    private Boolean status;
+
     public Integer getIdUbicacion() {
         return idUbicacion;
     }
@@ -24,8 +31,6 @@ public class Ubicacion extends DateAudit {
         this.idUbicacion = idUbicacion;
     }
 
-    @Basic
-    @Column(name = "latitud")
     public String getLatitud() {
         return latitud;
     }
@@ -34,8 +39,6 @@ public class Ubicacion extends DateAudit {
         this.latitud = latitud;
     }
 
-    @Basic
-    @Column(name = "longitud")
     public String getLongitud() {
         return longitud;
     }
@@ -44,14 +47,12 @@ public class Ubicacion extends DateAudit {
         this.longitud = longitud;
     }
 
-    @Basic
-    @Column(name = "habilitado")
-    public Boolean getHabilitado() {
-        return habilitado;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setHabilitado(Boolean habilitado) {
-        this.habilitado = habilitado;
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     @Override
@@ -59,23 +60,11 @@ public class Ubicacion extends DateAudit {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ubicacion ubicacion = (Ubicacion) o;
-        return Objects.equals(idUbicacion, ubicacion.idUbicacion) &&
-                Objects.equals(latitud, ubicacion.latitud) &&
-                Objects.equals(longitud, ubicacion.longitud) &&
-                Objects.equals(habilitado, ubicacion.habilitado);
+        return Objects.equals(idUbicacion, ubicacion.idUbicacion) && Objects.equals(latitud, ubicacion.latitud) && Objects.equals(longitud, ubicacion.longitud) && Objects.equals(status, ubicacion.status);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idUbicacion, latitud, longitud, habilitado);
+        return Objects.hash(idUbicacion, latitud, longitud, status);
     }
-
-//    @OneToMany(mappedBy = "ubicacionByIdUbicacion")
-//    public List<Direccion> getDireccionsByIdUbicacion() {
-//        return direccionsByIdUbicacion;
-//    }
-//
-//    public void setDireccionsByIdUbicacion(List<Direccion> direccionsByIdUbicacion) {
-//        this.direccionsByIdUbicacion = direccionsByIdUbicacion;
-//    }
 }

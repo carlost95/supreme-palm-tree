@@ -63,7 +63,7 @@ public class Distrito extends UserDateAudit {
         return Objects.equals(idDistrito, distrito.idDistrito) &&
                 Objects.equals(nombre, distrito.nombre) &&
                 Objects.equals(abreviatura, distrito.abreviatura) &&
-                Objects.equals(habilitado, distrito.habilitado) ;
+                Objects.equals(habilitado, distrito.habilitado);
     }
 
     @Override

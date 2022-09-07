@@ -8,7 +8,7 @@ public class DireccionDTO {
     private String entreCalle;
     private String barrio;
     private String descripcion;
-    private Boolean habilitado;
+    private Boolean status;
     private Integer idCliente;
     private Integer idDistrito;
     private Integer idUbicacion;
@@ -21,7 +21,7 @@ public class DireccionDTO {
         this.idDireccion = idDireccion;
     }
 
-     public String getCalle() {
+    public String getCalle() {
         return calle;
     }
 
@@ -61,12 +61,12 @@ public class DireccionDTO {
         this.entreCalle = entreCalle;
     }
 
-    public Boolean getHabilitado() {
-        return habilitado;
+    public Boolean getStatus() {
+        return status;
     }
 
-    public void setHabilitado(Boolean habilitado) {
-        this.habilitado = habilitado;
+    public void setStatus(Boolean status) {
+        this.status = status;
     }
 
     public Integer getIdCliente() {

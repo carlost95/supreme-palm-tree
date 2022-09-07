@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @CrossOrigin("*")
 @RestController
 @RequestMapping("/direcciones")
@@ -19,26 +21,27 @@ public class DireccionController {
     DireccionService direccionService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<Response> buscarPorCliente(@PathVariable("id") Integer idCliente) throws DireccionErrorToSaveException {
-        Response response = direccionService.buscarDireccionPorCliente(idCliente);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<DireccionDTO> findDirectionById(@PathVariable("id") Integer idDireccion) {
+        return ResponseEntity.status(HttpStatus.OK).body(direccionService.getDirectionById(idDireccion));
     }
 
-    @PostMapping
-    public ResponseEntity<Response> guardar(@RequestBody DireccionDTO direccionDTO) throws Exception {
-        Response response = direccionService.guardarDireccion(direccionDTO);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    @GetMapping("/cliente/{id}")
+    public ResponseEntity<List<DireccionDTO>> findAllDirectionsByIdCliente(@PathVariable("id") Integer idCliente) {
+        return ResponseEntity.status(HttpStatus.OK).body(direccionService.getAllDirectionsByIdCliente(idCliente));
+    }
+
+    @PostMapping()
+    public ResponseEntity<DireccionDTO> saveDirection(@RequestBody DireccionDTO direccionDTO) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(direccionService.saveDirecction(direccionDTO));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<DireccionDTO> changeStatusDirection(@PathVariable("id") Integer idDireccion) {
+        return ResponseEntity.status(HttpStatus.OK).body(direccionService.changeStatusDirection(idDireccion));
     }
 
     @PutMapping
-    public ResponseEntity<Response> actualizar(@RequestBody DireccionDTO direccionDTO) throws Exception {
-        Response response = direccionService.modificarDireccion(direccionDTO);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @PutMapping("/status")
-    public ResponseEntity<Response> changeStatus(@RequestBody DireccionDTO direccionDTO) throws Exception {
-        Response response = direccionService.changeStatus(direccionDTO);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+    public ResponseEntity<DireccionDTO> updateDirection(@RequestBody DireccionDTO direccionDTO) {
+        return ResponseEntity.status(HttpStatus.OK).body(direccionService.updateDirecction(direccionDTO));
     }
 }

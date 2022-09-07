@@ -27,12 +27,9 @@ public class CuentaBancaria extends DateAudit {
     @Basic
     @Column(name = "habilitado")
     private Boolean habilitado;
-    @Basic
     @ManyToOne
     @JoinColumn(name = "id_proveedor", referencedColumnName = "id_proveedor", nullable = false)
     private Proveedor proveedor;
-
-    @Basic
     @ManyToOne
     @JoinColumn(name = "id_banco", referencedColumnName = "id_banco", nullable = false)
     private Banco banco;
