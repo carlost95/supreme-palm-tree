@@ -1,27 +1,18 @@
 package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.ArticuloDTO;
-import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.articulo.ArticuloErrorToDeleteException;
-import com.undec.corralon.excepciones.articulo.ArticuloErrorToSaveException;
-import com.undec.corralon.excepciones.articulo.ArticuloErrorToUpdateException;
-import com.undec.corralon.excepciones.articulo.ArticuloException;
+import com.undec.corralon.DTO.ArticuloStockDTO;
+import com.undec.corralon.Util;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
-import com.undec.corralon.excepciones.tipoDireccion.TipoDireccionListNotFoundException;
-import com.undec.corralon.modelo.Articulo;
-import com.undec.corralon.modelo.CostoArticulo;
-import com.undec.corralon.modelo.PrecioArticulo;
-import com.undec.corralon.modelo.SubRubro;
+import com.undec.corralon.modelo.*;
 import com.undec.corralon.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -51,9 +42,42 @@ public class ArticuloService {
     @Autowired
     CostoRepository costoRepository;
 
+    @Autowired
+    MovimientoArticuloRepository movimientoArticuloRepository;
+
 
     public List<ArticuloDTO> listAllArticles() {
-        return articuloRepository.findAll().stream().map(this::mapEntityDTO).collect(Collectors.toList());
+        return articuloRepository
+                .findAll().stream()
+                .map(this::mapEntityDTO)
+                .collect(Collectors.toList());
+    }
+
+    public List <ArticuloStockDTO> findByProviderWithStock(Integer idProveedor){
+        Proveedor proveedor = this.proveedorRepository.findById(idProveedor)
+                .orElseThrow( () -> new NotFoundException("Warning: No se encontro al proveedor con id" + idProveedor));
+
+        return this.articuloRepository.findArticulosByProveedorByIdProveedorAndHabilitadoTrue(proveedor)
+                .stream()
+                .map(this::mapToArticuloStockDTO)
+                .collect(Collectors.toList());
+    }
+
+    private ArticuloStockDTO mapToArticuloStockDTO( Articulo articulo) {
+        ArticuloStockDTO articuloStockDTO = new ArticuloStockDTO();
+        try{
+            String fechaActual = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            Date fecha = Util.stringToDate(fechaActual);
+            Double stock = this.movimientoArticuloRepository.stockPorArticulo(articulo, fecha);
+            articuloStockDTO.setId(articulo.getIdArticulo());
+            articuloStockDTO.setStockActual(stock == null ? 0 : stock);
+            articuloStockDTO.setCodigoArt(articulo.getCodigo());
+            articuloStockDTO.setNombre(articulo.getNombre());
+            articuloStockDTO.setIdProveedor(articulo.getProveedorByIdProveedor().getIdProveedor());
+        } catch (Exception e) {
+            System.out.println("Error al mapear articulo a dto");
+        }
+        return articuloStockDTO;
     }
 
     private ArticuloDTO mapEntityDTO(Articulo articulo) {

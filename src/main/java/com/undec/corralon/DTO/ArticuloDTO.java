@@ -3,7 +3,6 @@ package com.undec.corralon.DTO;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class ArticuloDTO {
-
     private Integer id;
     private String nombre;
     private String abreviatura;
