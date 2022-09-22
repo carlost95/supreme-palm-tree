@@ -8,6 +8,9 @@ public class PedidoDTO {
     private String nombre;
     private Date fecha;
     private String descripcion;
+    private List<ArticuloStockDTO> articulos;
+
+    @Deprecated
     List<DetalleTipoMovimientoDTO> detallesPedido;
 
     public int getIdPedidoDto() {
@@ -42,11 +45,20 @@ public class PedidoDTO {
         this.descripcion = descripcion;
     }
 
+    @Deprecated
     public List<DetalleTipoMovimientoDTO> getDetallesPedido() {
         return detallesPedido;
     }
 
     public void setDetallesPedido(List<DetalleTipoMovimientoDTO> detallesPedido) {
         this.detallesPedido = detallesPedido;
+    }
+
+    public List<ArticuloStockDTO> getArticulos() {
+        return articulos;
+    }
+
+    public void setArticulos(List<ArticuloStockDTO> articulos) {
+        this.articulos = articulos;
     }
 }

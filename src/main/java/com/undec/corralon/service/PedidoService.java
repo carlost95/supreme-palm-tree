@@ -1,5 +1,6 @@
 package com.undec.corralon.service;
 
+import com.undec.corralon.DTO.ArticuloStockDTO;
 import com.undec.corralon.DTO.DetalleTipoMovimientoDTO;
 import com.undec.corralon.DTO.PedidoDTO;
 import com.undec.corralon.excepciones.exception.BadRequestException;
@@ -133,25 +134,26 @@ public class PedidoService {
 
     private void mappedDetailOrder(Pedido pedido, PedidoDTO pedidoDTO) {
         Articulo article;
-        for (DetalleTipoMovimientoDTO detalle : pedidoDTO.getDetallesPedido()) {
+        for (ArticuloStockDTO articulo : pedidoDTO.getArticulos()) {
 
             MovimientoArticulo movimientoArticulo;
             DetallePedido detallePedido = new DetallePedido();
-            article = articuloRepository.findArticuloForCodigo(detalle.getNombreArticulo(), detalle.getCodigoArticulo());
+            article = articuloRepository.findArticuloByCodigo(articulo.getCodigoArt());
             if (article == null) {
                 throw new NotFoundException("\nWARINNG: No existe articulo en base de datos");
             }
             detallePedido.setArticuloByIdArticulo(article);
             detallePedido.setPedidoByIdPedido(pedido);
             detallePedido.setFecha(pedidoDTO.getFecha());
-            detallePedido.setCantidad(detalle.getValorIngresado());
+            detallePedido.setCantidad(articulo.getCantidad());
             detallePedido = detallePedidoRepository.save(detallePedido);
             if (detallePedido == null) {
                 throw new NotFoundException("\nWARNING: Error al almacenar el detalle del pedido");
             }
             movimientoArticulo = this.movimientoArticuloService.saveMovimientoOrder(detallePedido);
-            if (movimientoArticulo == null)
+            if (movimientoArticulo == null) {
                 throw new NotFoundException("\nWARNING: Error en la carga de movimientos");
+            }
         }
     }
 }
