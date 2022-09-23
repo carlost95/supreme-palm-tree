@@ -16,6 +16,7 @@ import com.undec.corralon.repository.ProveedorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -56,6 +57,7 @@ public class PedidoService {
         return pedido;
     }
 
+    @Transactional
     public PedidoDTO saveOrder(PedidoDTO pedidoDTO) {
         Pedido pedidoTosave = new Pedido();
 
@@ -100,7 +102,7 @@ public class PedidoService {
 
     public Pedido changueHabilityOrder(Integer id) {
         if (id == null) {
-            throw new BadRequestException("\nWARNIBNG: error el identificador de ajuste no puede null");
+            throw new BadRequestException("\nWARNING: error el identificador de ajuste no puede null");
         }
         Pedido pedido = this.pedidoRepository.findById(id).
                 orElseThrow(

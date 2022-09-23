@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 public class PedidoDTO {
-    private int idPedidoDto;
+    private int idPedido;
     private String nombre;
     private Date fecha;
     private String descripcion;
@@ -13,12 +13,12 @@ public class PedidoDTO {
     @Deprecated
     List<DetalleTipoMovimientoDTO> detallesPedido;
 
-    public int getIdPedidoDto() {
-        return idPedidoDto;
+    public int getIdPedido() {
+        return idPedido;
     }
 
-    public void setIdPedidoDto(int idPedidoDto) {
-        this.idPedidoDto = idPedidoDto;
+    public void setIdPedido(int idPedido) {
+        this.idPedido = idPedido;
     }
 
     public String getNombre() {
