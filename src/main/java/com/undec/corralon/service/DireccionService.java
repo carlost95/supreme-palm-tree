@@ -37,14 +37,14 @@ public class DireccionService {
         direccionDTO.setIdDireccion(direccion.getIdDireccion());
         direccionDTO.setIdDistrito(direccion.getDistrito().getIdDistrito());
         direccionDTO.setCalle(direccion.getCalle());
-        direccionDTO.setNumerocalle(direccion.getNumeroCalle());
-        direccionDTO.setNumerocalle(direccion.getNumeroCalle());
+        direccionDTO.setNumeroCalle(direccion.getNumeroCalle());
         direccionDTO.setEntreCalle(direccion.getEntreCalle());
         direccionDTO.setBarrio(direccion.getBarrio());
         direccionDTO.setStatus(direccion.getStatus());
+        direccionDTO.setLatitud(direccion.getLatitud());
+        direccionDTO.setLongitud(direccion.getLongitud());
         direccionDTO.setDescripcion(direccion.getDescripcion());
         direccionDTO.setIdCliente(direccion.getCliente().getIdCliente());
-        direccionDTO.setIdUbicacion(direccion.getUbicacion().getIdUbicacion());
         return direccionDTO;
     }
 
@@ -62,9 +62,29 @@ public class DireccionService {
         }
         return direccionDTOList;
     }
+    public List<DireccionDTO>getAllEnabledDirectionsByIdCliente(Integer idCliente) {
+        List<DireccionDTO> direccionDTOList = new ArrayList<>();
+        List<Direccion> direccionList = direccionRepository.findAllEnabledDireccionesByIdCliente(idCliente);
+        if (direccionList.isEmpty()) {
+            throw new NotFoundException("\nWARNING: No existen direcciones habilitadas registradas para este cliente");
+        }
+        for (Direccion direccion : direccionList) {
+            direccionDTOList.add(mappingEntityToDireccionDTO(direccion));
+        }
+        if (direccionDTOList.isEmpty()) {
+            throw new NotFoundException("\nWARNING: No se puede mapear los datos de la direccion");
+        }
+        return direccionDTOList;
+    }
 
     public DireccionDTO saveDirecction(DireccionDTO direccionDTO) {
-        return mappingEntityToDireccionDTO(direccionRepository.save(mappingDireccionDTOToEntity(direccionDTO)));
+        Direccion direccion = mappingDireccionDTOToEntity(direccionDTO);
+        direccion.setStatus(true);
+        direccion = direccionRepository.save(direccion);
+        if (direccion == null) {
+            throw new NotFoundException("\nWARNING: No se pudo guardar la direccion");
+        }
+        return mappingEntityToDireccionDTO(direccion);
     }
 
     public DireccionDTO updateDirecction(DireccionDTO direccionDTO) {
@@ -77,18 +97,16 @@ public class DireccionService {
         Distrito distrito = distritoRepository.findById(direccionDTO.getIdDistrito()).
                 orElseThrow(
                         () -> new NotFoundException("WARNING: No se encontro el distrito con id enviado"));
-        Ubicacion ubicacion = ubicacionRepository.findById(direccionDTO.getIdUbicacion()).
-                orElseThrow(
-                        () -> new NotFoundException("WARNING: No se encontro la ubicacion con id enviado"));
         direccionUpdated.setIdDireccion(direccionDTO.getIdDireccion());
         direccionUpdated.setCliente(cliente);
         direccionUpdated.setDistrito(distrito);
-        direccionUpdated.setUbicacion(ubicacion);
         direccionUpdated.setCalle(direccionDTO.getCalle());
-        direccionUpdated.setNumeroCalle(direccionDTO.getNumerocalle());
+        direccionUpdated.setNumeroCalle(direccionDTO.getNumeroCalle());
         direccionUpdated.setEntreCalle(direccionDTO.getEntreCalle());
         direccionUpdated.setBarrio(direccionDTO.getBarrio());
         direccionUpdated.setStatus(direccionDTO.getStatus());
+        direccionUpdated.setLatitud(direccionDTO.getLatitud());
+        direccionUpdated.setLongitud(direccionDTO.getLongitud());
         direccionUpdated.setDescripcion(direccionDTO.getDescripcion());
         return mappingEntityToDireccionDTO(direccionRepository.save(direccionUpdated));
     }
@@ -100,36 +118,37 @@ public class DireccionService {
         direccion.setStatus(!direccion.getStatus());
         return mappingEntityToDireccionDTO(direccionRepository.save(direccion));
     }
+
     private DireccionDTO mappingEntityToDireccionDTO(Direccion direccion) {
         DireccionDTO direccionDTO = new DireccionDTO();
         direccionDTO.setIdDireccion(direccion.getIdDireccion());
         direccionDTO.setCalle(direccion.getCalle());
-        direccionDTO.setNumerocalle(direccion.getNumeroCalle());
-        direccionDTO.setNumerocalle(direccion.getNumeroCalle());
+        direccionDTO.setNumeroCalle(direccion.getNumeroCalle());
         direccionDTO.setEntreCalle(direccion.getEntreCalle());
         direccionDTO.setBarrio(direccion.getBarrio());
         direccionDTO.setStatus(direccion.getStatus());
+        direccionDTO.setLatitud(direccion.getLatitud());
+        direccionDTO.setLongitud(direccion.getLongitud());
         direccionDTO.setDescripcion(direccion.getDescripcion());
         direccionDTO.setIdCliente(direccion.getCliente().getIdCliente());
         direccionDTO.setIdDistrito(direccion.getDistrito().getIdDistrito());
-        direccionDTO.setIdUbicacion(direccion.getUbicacion().getIdUbicacion());
         return direccionDTO;
     }
 
     private Direccion mappingDireccionDTOToEntity(DireccionDTO direccionDTO) {
         Direccion direccion = new Direccion();
         direccion.setCalle(direccionDTO.getCalle());
-        direccion.setNumeroCalle(direccionDTO.getNumerocalle());
+        direccion.setNumeroCalle(direccionDTO.getNumeroCalle());
         direccion.setEntreCalle(direccionDTO.getEntreCalle());
         direccion.setBarrio(direccionDTO.getBarrio());
         direccion.setStatus(direccionDTO.getStatus());
+        direccion.setLatitud(direccionDTO.getLatitud());
+        direccion.setLongitud(direccionDTO.getLongitud());
         direccion.setDescripcion(direccionDTO.getDescripcion());
         direccion.setCliente(clienteRepository.findById(direccionDTO.getIdCliente()).orElseThrow(
                 () -> new NotFoundException("WARNING: No se encontro el cliente con id enviado")));
         direccion.setDistrito(distritoRepository.findById(direccionDTO.getIdDistrito()).orElseThrow(
                 () -> new NotFoundException("WARNING: No se encontro el distrito con id enviado")));
-        direccion.setUbicacion(ubicacionRepository.findById(direccionDTO.getIdUbicacion()).orElseThrow(
-                () -> new NotFoundException("WARNING: No se encontro la ubicacion con id enviado")));
         return direccion;
     }
 

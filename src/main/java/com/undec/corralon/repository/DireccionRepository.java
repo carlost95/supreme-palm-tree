@@ -13,4 +13,7 @@ import java.util.List;
 public interface DireccionRepository extends JpaRepository<Direccion, Integer> {
     @Query("select c from Direccion c where c.cliente.idCliente = :id")
     List<Direccion> findAllDireccionesByIdCliente(@Param("id") Integer id);
+
+    @Query("select c from Direccion c where c.cliente.idCliente = :id and c.status = true ")
+    List<Direccion> findAllEnabledDireccionesByIdCliente(@Param("id") Integer id);
 }

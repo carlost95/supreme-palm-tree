@@ -29,15 +29,18 @@ public class Direccion extends UserDateAudit {
     @Basic
     @Column(name = "status")
     private Boolean status;
+    @Basic
+    @Column(name = "latitud")
+    private String latitud;
+    @Basic
+    @Column(name = "longitud")
+    private String longitud;
     @ManyToOne
     @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente", nullable = false)
     private Cliente cliente;
     @ManyToOne
     @JoinColumn(name = "id_distrito", referencedColumnName = "id_distrito", nullable = false)
     private Distrito distrito;
-    @ManyToOne
-    @JoinColumn(name = "id_ubicacion", referencedColumnName = "id_ubicacion", nullable = false)
-    private Ubicacion ubicacion;
 
     public Integer getIdDireccion() {
         return idDireccion;
@@ -95,6 +98,22 @@ public class Direccion extends UserDateAudit {
         this.status = status;
     }
 
+    public String getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+
+    public String getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
+    }
+
     public Cliente getCliente() {
         return cliente;
     }
@@ -111,24 +130,16 @@ public class Direccion extends UserDateAudit {
         this.distrito = distrito;
     }
 
-    public Ubicacion getUbicacion() {
-        return ubicacion;
-    }
-
-    public void setUbicacion(Ubicacion ubicacion) {
-        this.ubicacion = ubicacion;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Direccion direccion = (Direccion) o;
-        return idDireccion.equals(direccion.idDireccion) && calle.equals(direccion.calle) && Objects.equals(numeroCalle, direccion.numeroCalle) && Objects.equals(entreCalle, direccion.entreCalle) && Objects.equals(barrio, direccion.barrio) && Objects.equals(descripcion, direccion.descripcion) && status.equals(direccion.status) && cliente.equals(direccion.cliente) && Objects.equals(distrito, direccion.distrito) && ubicacion.equals(direccion.ubicacion);
+        return Objects.equals(idDireccion, direccion.idDireccion) && Objects.equals(calle, direccion.calle) && Objects.equals(numeroCalle, direccion.numeroCalle) && Objects.equals(entreCalle, direccion.entreCalle) && Objects.equals(barrio, direccion.barrio) && Objects.equals(descripcion, direccion.descripcion) && Objects.equals(status, direccion.status) && Objects.equals(latitud, direccion.latitud) && Objects.equals(longitud, direccion.longitud) && Objects.equals(cliente, direccion.cliente) && Objects.equals(distrito, direccion.distrito);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idDireccion, calle, numeroCalle, entreCalle, barrio, descripcion, status, cliente, distrito, ubicacion);
+        return Objects.hash(idDireccion, calle, numeroCalle, entreCalle, barrio, descripcion, status, latitud, longitud, cliente, distrito);
     }
 }

@@ -4,14 +4,15 @@ public class DireccionDTO {
 
     private Integer idDireccion;
     private String calle;
-    private String numerocalle;
+    private String numeroCalle;
     private String entreCalle;
     private String barrio;
     private String descripcion;
     private Boolean status;
+    private String latitud;
+    private String longitud;
     private Integer idCliente;
     private Integer idDistrito;
-    private Integer idUbicacion;
 
     public Integer getIdDireccion() {
         return idDireccion;
@@ -37,12 +38,12 @@ public class DireccionDTO {
         this.descripcion = descripcion;
     }
 
-    public String getNumerocalle() {
-        return numerocalle;
+    public String getNumeroCalle() {
+        return numeroCalle;
     }
 
-    public void setNumerocalle(String numerocalle) {
-        this.numerocalle = numerocalle;
+    public void setNumeroCalle(String numeroCalle) {
+        this.numeroCalle = numeroCalle;
     }
 
     public String getBarrio() {
@@ -69,6 +70,22 @@ public class DireccionDTO {
         this.status = status;
     }
 
+    public String getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+
+    public String getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
+    }
+
     public Integer getIdCliente() {
         return idCliente;
     }
@@ -85,11 +102,4 @@ public class DireccionDTO {
         this.idDistrito = idDistrito;
     }
 
-    public Integer getIdUbicacion() {
-        return idUbicacion;
-    }
-
-    public void setIdUbicacion(Integer idUbicacion) {
-        this.idUbicacion = idUbicacion;
-    }
 }
