@@ -8,6 +8,7 @@ public class PedidoDTO {
     private String nombre;
     private Date fecha;
     private String descripcion;
+    private Integer idProveedor;
     private List<ArticuloStockDTO> articulos;
 
     @Deprecated
@@ -60,5 +61,13 @@ public class PedidoDTO {
 
     public void setArticulos(List<ArticuloStockDTO> articulos) {
         this.articulos = articulos;
+    }
+
+    public Integer getIdProveedor() {
+        return idProveedor;
+    }
+
+    public void setIdProveedor(Integer idProveedor) {
+        this.idProveedor = idProveedor;
     }
 }

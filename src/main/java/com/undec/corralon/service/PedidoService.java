@@ -3,21 +3,24 @@ package com.undec.corralon.service;
 import com.undec.corralon.DTO.ArticuloStockDTO;
 import com.undec.corralon.DTO.DetalleTipoMovimientoDTO;
 import com.undec.corralon.DTO.PedidoDTO;
+import com.undec.corralon.Util;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.modelo.Articulo;
 import com.undec.corralon.modelo.DetallePedido;
 import com.undec.corralon.modelo.MovimientoArticulo;
 import com.undec.corralon.modelo.Pedido;
-import com.undec.corralon.repository.ArticuloRepository;
-import com.undec.corralon.repository.DetallePedidoRepository;
-import com.undec.corralon.repository.PedidoRepository;
-import com.undec.corralon.repository.ProveedorRepository;
+import com.undec.corralon.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PedidoService {
@@ -33,6 +36,9 @@ public class PedidoService {
 
     @Autowired
     MovimientoArticuloService movimientoArticuloService;
+
+    @Autowired
+    MovimientoArticuloRepository movimientoArticuloRepository;
 
     public List<Pedido> findAllOrders() {
         List<Pedido> pedidos = pedidoRepository.findAll();
@@ -50,11 +56,14 @@ public class PedidoService {
         return ordersHabilitation;
     }
 
-    public Pedido findOrderForId(Integer id) {
-        Pedido pedido = this.pedidoRepository.findById(id).
-                orElseThrow(()
+    public PedidoDTO findOrderForId(Integer id) {
+
+        PedidoDTO pedidoDTO = this.pedidoRepository
+                .findById(id)
+                .map(order -> this.pedidoAPedidoDTO(order))
+                .orElseThrow(()
                         -> new NotFoundException("\nWARNING: No existe el pedido " + id + " en base de datos"));
-        return pedido;
+        return pedidoDTO;
     }
 
     @Transactional
@@ -115,6 +124,51 @@ public class PedidoService {
         }
 
         return pedido;
+    }
+
+    private PedidoDTO pedidoAPedidoDTO(Pedido pedido){
+        PedidoDTO pedidoDTO = new PedidoDTO();
+        pedidoDTO.setIdPedido(pedido.getIdPedido());
+        pedidoDTO.setNombre(pedido.getNombre());
+        pedidoDTO.setDescripcion(pedido.getDescripcion());
+        pedidoDTO.setFecha(pedido.getFecha());
+
+        List<ArticuloStockDTO> articulos = this.detallePedidoRepository
+                .findByPedidoByIdPedido(pedido)
+                .stream()
+                .map(detalle -> {
+                    ArticuloStockDTO articuloStockDTO = this.mapToArticuloStockDTO(detalle.getArticuloByIdArticulo(), pedido.getFecha());
+                    articuloStockDTO.setCantidad(detalle.getCantidad());
+                    return articuloStockDTO;
+                })
+                .collect(Collectors.toList());
+
+
+        Integer idProveedor = articulos
+                .stream()
+                .findFirst()
+                .map(articulo -> articulo.getIdProveedor())
+                .get();
+
+        pedidoDTO.setArticulos(articulos);
+        pedidoDTO.setIdProveedor(idProveedor);
+        return pedidoDTO;
+    }
+
+
+    private ArticuloStockDTO mapToArticuloStockDTO(Articulo articulo, Date fecha) {
+        ArticuloStockDTO articuloStockDTO = new ArticuloStockDTO();
+        try{
+            Double stock = this.movimientoArticuloRepository.stockPorArticuloPrevio(articulo, fecha);
+            articuloStockDTO.setId(articulo.getIdArticulo());
+            articuloStockDTO.setStockActual(stock == null ? 0 : stock);
+            articuloStockDTO.setCodigoArt(articulo.getCodigo());
+            articuloStockDTO.setNombre(articulo.getNombre());
+            articuloStockDTO.setIdProveedor(articulo.getProveedorByIdProveedor().getIdProveedor());
+        } catch (Exception e) {
+            System.out.println("Error al mapear articulo a dto");
+        }
+        return articuloStockDTO;
     }
 
     private Pedido mappedOrder(Pedido pedidoTosave, PedidoDTO pedidoDTO) {

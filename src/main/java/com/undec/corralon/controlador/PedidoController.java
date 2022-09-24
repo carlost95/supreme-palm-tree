@@ -29,7 +29,7 @@ public class PedidoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pedido> findOrderForId(@PathVariable Integer id) {
+    public ResponseEntity<PedidoDTO> findOrderForId(@PathVariable Integer id) {
         return ResponseEntity.status(HttpStatus.OK).body(pedidoService.findOrderForId(id));
     }
 
