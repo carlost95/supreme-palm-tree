@@ -14,4 +14,8 @@ public interface MovimientoArticuloRepository extends JpaRepository<MovimientoAr
     @Query("SELECT SUM(m.movimiento)  from MovimientoArticulo m WHERE m.articuloByIdArticulo = :articulo and m.fecha <= :fecha and" +
             "(m.detalleAjusteByIdDetalleAjuste IS NOT NULL OR m.detallePedidoByIdDetallePedido IS NOT NULL OR m.detalleRemitoByIdDetalleRemito IS NOT NULL) ")
     Double stockPorArticulo(@Param("articulo") Articulo articulo, @Param("fecha") Date fechaPedido);
-        }
+
+    @Query("SELECT SUM(m.movimiento)  from MovimientoArticulo m WHERE m.articuloByIdArticulo = :articulo and m.fecha < :fecha and" +
+            "(m.detalleAjusteByIdDetalleAjuste IS NOT NULL OR m.detallePedidoByIdDetallePedido IS NOT NULL OR m.detalleRemitoByIdDetalleRemito IS NOT NULL) ")
+    Double stockPorArticuloPrevio(@Param("articulo") Articulo articulo, @Param("fecha") Date fechaPedido);
+}

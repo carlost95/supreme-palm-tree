@@ -22,6 +22,7 @@ public class MovimientoArticuloService {
     @Autowired
     ArticuloRepository articuloRepository;
 
+
     public Double findStockArticle(Integer idArticle) throws ParseException {
         String fechaActual = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         Date fecha = Util.stringToDate(fechaActual);
