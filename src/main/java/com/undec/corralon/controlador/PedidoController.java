@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -30,7 +29,7 @@ public class PedidoController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pedido> findOrderForId(@PathVariable Integer id) {
+    public ResponseEntity<PedidoDTO> findOrderForId(@PathVariable Integer id) {
         return ResponseEntity.status(HttpStatus.OK).body(pedidoService.findOrderForId(id));
     }
 

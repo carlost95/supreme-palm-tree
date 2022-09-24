@@ -1,6 +1,7 @@
 package com.undec.corralon.controlador;
 
 import com.undec.corralon.DTO.ArticuloDTO;
+import com.undec.corralon.DTO.ArticuloStockDTO;
 import com.undec.corralon.modelo.Articulo;
 import com.undec.corralon.service.ArticuloService;
 import com.undec.corralon.service.MovimientoArticuloService;
@@ -49,6 +50,11 @@ public class ArticuloController {
     public ResponseEntity<Double> findStockArticleByMovimientoById(@PathVariable Integer id,
                                                                    @QueryParam("fechaTipoMovimiento") String fechaTipoMovimiento) throws ParseException {
         return ResponseEntity.status(HttpStatus.OK).body(movimientoArticuloService.findStockByMovimientoArticle(id, fechaTipoMovimiento));
+    }
+
+    @GetMapping("/proveedor/{id}")
+    public ResponseEntity<List<ArticuloStockDTO>> findByProviderWithStock(@PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.OK).body(articuloService.findByProviderWithStock(id));
     }
 
     @PostMapping
