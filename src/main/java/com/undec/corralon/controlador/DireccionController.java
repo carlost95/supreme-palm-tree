@@ -30,6 +30,11 @@ public class DireccionController {
         return ResponseEntity.status(HttpStatus.OK).body(direccionService.getAllDirectionsByIdCliente(idCliente));
     }
 
+    @GetMapping ("/enabled/cliente/{id}")
+    public ResponseEntity<List<DireccionDTO>> findAllDirectionsEnabledByIdCliente(@PathVariable("id") Integer idCliente) {
+        return ResponseEntity.status(HttpStatus.OK).body(direccionService.getAllEnabledDirectionsByIdCliente(idCliente));
+    }
+
     @PostMapping()
     public ResponseEntity<DireccionDTO> saveDirection(@RequestBody DireccionDTO direccionDTO) {
         return ResponseEntity.status(HttpStatus.CREATED).body(direccionService.saveDirecction(direccionDTO));
