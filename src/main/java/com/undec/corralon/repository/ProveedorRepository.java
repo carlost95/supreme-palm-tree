@@ -10,5 +10,5 @@ import java.util.List;
 public interface ProveedorRepository extends JpaRepository<Proveedor, Integer> {
     List<Proveedor> findAllByHabilitadoEquals(Boolean habilitado);
 
-    Boolean existsByRazonSocialAndEmail(String RZ, String Em);
+    Boolean existsByCuit(String cuit);
 }

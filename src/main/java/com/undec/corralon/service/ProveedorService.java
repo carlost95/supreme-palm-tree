@@ -50,10 +50,11 @@ public class ProveedorService {
         proveedorToSave.setRazonSocial(proveedor.getRazonSocial());
         proveedorToSave.setDomicilio(proveedor.getDomicilio());
         proveedorToSave.setEmail(proveedor.getEmail());
+        proveedorToSave.setCuit(proveedor.getCuit());
         proveedorToSave.setTelefono(proveedor.getTelefono());
         proveedorToSave.setHabilitado(true);
 
-        if (proveedorDuplicado(proveedorToSave)) {
+        if (proveedorDuplicado(proveedorToSave.getCuit())) {
             throw new BadRequestException("\nWARNING: El proveedor cargado es invalido o ya existe");
         }
         proveedorToSave = proveedorRepository.save(proveedorToSave);
@@ -71,6 +72,7 @@ public class ProveedorService {
         proveedorUpdate.setRazonSocial(proveedor.getRazonSocial());
         proveedorUpdate.setDomicilio(proveedor.getDomicilio());
         proveedorUpdate.setEmail(proveedor.getEmail());
+        proveedorUpdate.setCuit(proveedor.getCuit());
         proveedorUpdate.setTelefono(proveedor.getTelefono());
         proveedorUpdate.setHabilitado(proveedor.getHabilitado());
 
@@ -92,9 +94,7 @@ public class ProveedorService {
         return proveedor;
     }
 
-    private Boolean proveedorDuplicado(Proveedor prov) {
-        if (proveedorRepository.existsByRazonSocialAndEmail(prov.getRazonSocial(), prov.getEmail()))
-            return true;
-        return false;
+    private Boolean proveedorDuplicado(String cuit) {
+        return proveedorRepository.existsByCuit(cuit) ? true : false;
     }
 }
