@@ -1,7 +1,6 @@
 package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.CuentaBancariaDTO;
-import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.modelo.Banco;
 import com.undec.corralon.modelo.CuentaBancaria;
@@ -56,9 +55,18 @@ public class CuentaBancariaService {
     }
 
     public CuentaBancariaDTO updateAccountBank(CuentaBancariaDTO cuentaBancariaDTO) {
-        Banco banco = bancoRepository.findById(cuentaBancariaDTO.getIdBanco()).get();
-        Proveedor proveedor = proveedorRepository.findById(cuentaBancariaDTO.getIdProveedor()).get();
-        CuentaBancaria cuentaBancariaUpdated = cuentaBancariaRepository.findById(cuentaBancariaDTO.getId()).orElseThrow(() -> new NotFoundException("WARNING: No existe la cuenta bancaria por este id"));
+        Banco banco = bancoRepository.findById(
+                cuentaBancariaDTO.getIdBanco())
+                .orElseThrow(
+                        () -> new NotFoundException("WARNING: No existe el banco por este id para la cuenta bancaria"));
+        Proveedor proveedor = proveedorRepository.findById(
+                cuentaBancariaDTO.getIdProveedor())
+                .orElseThrow(
+                () -> new NotFoundException("WARNING: No existe el proveedor por este id para la cuenta bancaria"));
+        CuentaBancaria cuentaBancariaUpdated = cuentaBancariaRepository.findById(
+                cuentaBancariaDTO.getId())
+                .orElseThrow(
+                        () -> new NotFoundException("WARNING: No existe la cuenta bancaria con este id"));
 
         cuentaBancariaUpdated.setNumero(cuentaBancariaDTO.getNumero());
         cuentaBancariaUpdated.setTitular(cuentaBancariaDTO.getTitular());
