@@ -107,7 +107,7 @@ public class ArticuloService {
 
     public List<Articulo> listAllArticlesEnabled() {
         List<Articulo> articulos = articuloRepository.findArticuloByHabilitadoEquals(true);
-        if (articulos == null)
+        if (articulos.isEmpty())
             throw new NotFoundException("\nWARNING: No existen articulos habilitados");
 
         return articulos;
@@ -123,9 +123,9 @@ public class ArticuloService {
         Articulo articulo = articuloDTOToEntity(articuloDTO);
 
         if (validationArticle(articulo))
-            throw new BadRequestException("\nWARNING: Los datos requeridos del articulo son null");
+            throw new BadRequestException("\nWARNING: Los datos requeridos del articulo no pueden estar vacios");
         if (duplicationArticle(articulo))
-            throw new BadRequestException("\nWARNING: No se puede cargar articulos duplicados");
+            throw new BadRequestException("\nWARNING: El articulo que intenta cargar ya exite");
 
         if (articulo == null)
             throw new NotFoundException("\nWARNING: Error al guardar el articulo");
@@ -177,16 +177,16 @@ public class ArticuloService {
     }
 
     private Articulo articuloDTOToEntity(ArticuloDTO articuloDTO) {
-        if (articuloDTO.getIdUnidadMedida() == null)
+        if (articuloDTO.getIdUnidadMedida().toString().isEmpty())
             throw new BadRequestException("\nWARNING: Error en los datos de articulo, la unidad de medida no puede ser null");
 
-        if (articuloDTO.getIdProveedor() == null)
+        if (articuloDTO.getIdProveedor().toString().isEmpty())
             throw new BadRequestException("\nWARNING: Error en los datos de articulo, el proveedor no puede ser null");
 
-        if (articuloDTO.getIdMarca() == null)
+        if (articuloDTO.getIdMarca().toString().isEmpty())
             throw new BadRequestException("\nWARNING: Error en los datos de articulo, la marca no puede ser null");
 
-        if (articuloDTO.getIdRubro() == null)
+        if (articuloDTO.getIdRubro().toString().isEmpty())
             throw new BadRequestException("\nWARNING: Error en los datos de articulo, el rubro no puede ser null");
 
         Articulo articulo = new Articulo();
@@ -230,15 +230,14 @@ public class ArticuloService {
     }
 
     private boolean duplicationArticle(Articulo articulo) {
-        return articuloRepository.existsByNombreOrAbreviaturaOrCodigo(
-                articulo.getNombre(), articulo.getAbreviatura(), articulo.getCodigo());
+        return articuloRepository.existsByCodigo( articulo.getCodigo());
 
     }
 
     private boolean validationArticle(Articulo articulo) {
-        if (articulo.getNombre() == null || articulo.getAbreviatura() == null)
-            return true;
-        return false;
+        return (articulo.getNombre().isEmpty() ||
+                articulo.getAbreviatura().isEmpty()||
+                articulo.getCodigo().isEmpty())? true : false;
     }
 
     private CostoArticulo saveCostoArticle(Articulo articulo, ArticuloDTO articuloDTO) {
@@ -281,7 +280,7 @@ public class ArticuloService {
 
     private CostoArticulo updatedCostoArticle(Articulo articulo, ArticuloDTO articuloDTO) {
         String fechaActual = String.valueOf(LocalDateTime.now());
-        CostoArticulo costo = costoRepository.findCostoArticuloByIdArtculo(articulo);
+        CostoArticulo costo = costoRepository.findCostoArticuloByIdArticulo(articulo);
 
         if (costo == null)
             new NotFoundException("\nWARNING: No existe costo, no se puede actualizar");
@@ -291,7 +290,6 @@ public class ArticuloService {
         }
         costo.setFechaHasta(fechaActual);
         costoRepository.save(costo);
-//            new costo date in article
         CostoArticulo costoSave = new CostoArticulo();
         costoSave.setCosto(articuloDTO.getCosto());
         costoSave.setFechaDesde(fechaActual);
@@ -318,7 +316,6 @@ public class ArticuloService {
 
         precio.setFechaHasta(fechaActual);
         precioRepository.save(precio);
-//            new precio date in article
         PrecioArticulo precioSave = new PrecioArticulo();
         precioSave.setPrecio(articuloDTO.getPrecio());
         precioSave.setFechaDesde(fechaActual);

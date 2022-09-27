@@ -13,8 +13,8 @@ import java.util.List;
 public interface CostoRepository extends JpaRepository<CostoArticulo,Integer> {
     @Query("SELECT ca  from CostoArticulo ca WHERE ca.articuloByIdArticulo = :articulo "+
     "and ca.fechaHasta is null")
-    CostoArticulo findCostoArticuloByIdArtculo(@Param("articulo") Articulo articulo);
+    CostoArticulo findCostoArticuloByIdArticulo(@Param("articulo") Articulo articulo);
 
     @Query("SELECT ca  from CostoArticulo ca WHERE ca.articuloByIdArticulo = :articulo ")
-    List<CostoArticulo> findAllCostoArticuloByIdArtculo(@Param(value = "articulo") Articulo articulo);
+    List<CostoArticulo> findAllCostoArticuloByIdArticulo(@Param(value = "articulo") Articulo articulo);
 }

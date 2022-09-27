@@ -12,16 +12,11 @@ import java.util.List;
 @Repository
 public interface ArticuloRepository extends JpaRepository<Articulo, Integer> {
     List<Articulo> findArticuloByHabilitadoEquals(boolean habilitado);
-
-    Boolean existsByNombreOrAbreviaturaOrCodigo(String nombre, String abreviatura, String codigo);
-
+    Boolean existsByCodigo(String codigo);
     Articulo findArticuloByCodigo(String codigo);
-
-
     // TODO: Reemplazar por findArticuloByCodigo
     @Deprecated
     @Query("select a from Articulo a where a.nombre = :nombre and a.codigo = :codigo")
     Articulo findArticuloForCodigo(@Param("nombre") String nombre,@Param("codigo") String codigo);
-
     List<Articulo> findArticulosByProveedorByIdProveedorAndHabilitadoTrue(Proveedor proveedor);
 }

@@ -30,7 +30,7 @@ public class CostoService {
                 orElseThrow(
                         () -> new NotFoundException("\nWarning: No se encontro articulo"));
 
-        CostoArticulo costo = costoRepository.findCostoArticuloByIdArtculo(articulo);
+        CostoArticulo costo = costoRepository.findCostoArticuloByIdArticulo(articulo);
         if (costo == null) {
             throw new NotFoundException("\nWARNING: No existe el coto para el articulo");
         }
@@ -41,7 +41,7 @@ public class CostoService {
                 orElseThrow(
                         () -> new NotFoundException("\nWarning: No se encontro articulo"));
 
-        List <CostoArticulo> costosForIdArtculo = costoRepository.findAllCostoArticuloByIdArtculo(articulo);
+        List <CostoArticulo> costosForIdArtculo = costoRepository.findAllCostoArticuloByIdArticulo(articulo);
         if (costosForIdArtculo == null) {
             throw new NotFoundException("\nWARNING: No existe el coto para el articulo");
         }
