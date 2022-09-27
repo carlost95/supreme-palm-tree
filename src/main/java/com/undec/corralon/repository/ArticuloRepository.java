@@ -14,6 +14,8 @@ public interface ArticuloRepository extends JpaRepository<Articulo, Integer> {
     List<Articulo> findArticuloByHabilitadoEquals(boolean habilitado);
     Boolean existsByCodigo(String codigo);
     Articulo findArticuloByCodigo(String codigo);
+
+    Boolean existsArticuloByCodigoAndIdArticuloNot(String codigo, Integer idArticulo);
     // TODO: Reemplazar por findArticuloByCodigo
     @Deprecated
     @Query("select a from Articulo a where a.nombre = :nombre and a.codigo = :codigo")

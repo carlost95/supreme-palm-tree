@@ -68,7 +68,9 @@ public class ProveedorService {
     public Proveedor updatedSupplier(Proveedor proveedor) {
         Proveedor proveedorUpdate = proveedorRepository.findById(proveedor.getIdProveedor()).
                 orElseThrow(() -> new NotFoundException("\nWARNING: No se encuentra el PROVEEDOR a actualizar"));
-
+        if (validationCuitSupplierExist(proveedor.getCuit(), proveedor.getIdProveedor())) {
+            throw new BadRequestException("\nWARNING: El CUIT cargado ya existe en otro proveedor");
+        }
         proveedorUpdate.setRazonSocial(proveedor.getRazonSocial());
         proveedorUpdate.setDomicilio(proveedor.getDomicilio());
         proveedorUpdate.setEmail(proveedor.getEmail());
@@ -96,5 +98,8 @@ public class ProveedorService {
 
     private Boolean proveedorDuplicado(String cuit) {
         return proveedorRepository.existsByCuit(cuit) ? true : false;
+    }
+    private Boolean validationCuitSupplierExist(String cuit, Integer id) {
+        return proveedorRepository.existsByCuitAndIdProveedorNot(cuit, id) ? true : false;
     }
 }

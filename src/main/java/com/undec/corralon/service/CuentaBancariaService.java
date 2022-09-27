@@ -8,6 +8,7 @@ import com.undec.corralon.modelo.Proveedor;
 import com.undec.corralon.repository.BancoRepository;
 import com.undec.corralon.repository.CuentaBancariaRepository;
 import com.undec.corralon.repository.ProveedorRepository;
+import org.hibernate.tuple.IdentifierAttribute;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,10 +44,11 @@ public class CuentaBancariaService {
 
     public CuentaBancariaDTO createAccountBank(CuentaBancariaDTO cuentaBancariaDTO) {
         CuentaBancaria cuentaBancaria = mappingCuentaBancariaDTO(cuentaBancariaDTO);
+        validatedDataAccountBank(cuentaBancaria);
         cuentaBancaria.setHabilitado(true);
         cuentaBancaria = cuentaBancariaRepository.save(cuentaBancaria);
 
-        if (cuentaBancaria == null) {
+        if (cuentaBancaria.toString().isEmpty()) {
             throw new NotFoundException("\nWARNING: No se puede guardar la cuenta bancaria");
         }
         cuentaBancariaDTO = mappedAccountBanckToDTO(cuentaBancaria);
@@ -56,17 +58,21 @@ public class CuentaBancariaService {
 
     public CuentaBancariaDTO updateAccountBank(CuentaBancariaDTO cuentaBancariaDTO) {
         Banco banco = bancoRepository.findById(
-                cuentaBancariaDTO.getIdBanco())
+                        cuentaBancariaDTO.getIdBanco())
                 .orElseThrow(
                         () -> new NotFoundException("WARNING: No existe el banco por este id para la cuenta bancaria"));
         Proveedor proveedor = proveedorRepository.findById(
-                cuentaBancariaDTO.getIdProveedor())
+                        cuentaBancariaDTO.getIdProveedor())
                 .orElseThrow(
-                () -> new NotFoundException("WARNING: No existe el proveedor por este id para la cuenta bancaria"));
+                        () -> new NotFoundException("WARNING: No existe el proveedor por este id para la cuenta bancaria"));
         CuentaBancaria cuentaBancariaUpdated = cuentaBancariaRepository.findById(
-                cuentaBancariaDTO.getId())
+                        cuentaBancariaDTO.getId())
                 .orElseThrow(
                         () -> new NotFoundException("WARNING: No existe la cuenta bancaria con este id"));
+
+        validateExistenceOfAlias(cuentaBancariaDTO.getAlias(), cuentaBancariaDTO.getId());
+        validateExistenceOfNumber(cuentaBancariaDTO.getNumero(), cuentaBancariaDTO.getId());
+        validateExistenceOfCbu(cuentaBancariaDTO.getCbu(), cuentaBancariaDTO.getId());
 
         cuentaBancariaUpdated.setNumero(cuentaBancariaDTO.getNumero());
         cuentaBancariaUpdated.setTitular(cuentaBancariaDTO.getTitular());
@@ -122,6 +128,65 @@ public class CuentaBancariaService {
         cuentaBancaria.setBanco(banco);
         cuentaBancaria.setProveedor(proveedor);
         return cuentaBancaria;
+    }
+
+    private void validatedDataAccountBank(CuentaBancaria cuentaBancaria) {
+        validateEmptyDataAccountBank(cuentaBancaria.getAlias());
+        validateEmptyDataAccountBank(cuentaBancaria.getNumero());
+        validateEmptyDataAccountBank(cuentaBancaria.getTitular());
+        validateEmptyDataAccountBank(cuentaBancaria.getCbu());
+        validateEmptyDataAccountBank(cuentaBancaria.getBanco().getIdBanco().toString());
+        validateEmptyDataAccountBank(cuentaBancaria.getProveedor().getIdProveedor().toString());
+
+        validarAlias(cuentaBancaria.getAlias());
+        validarNumeroCuenta(cuentaBancaria.getNumero());
+        validarCbu(cuentaBancaria.getCbu());
+
+    }
+
+    private void validateEmptyDataAccountBank(String data) {
+        if (data.isEmpty()) {
+            throw new NotFoundException("WARNING: " + data + " no puede estar vacio");
+        }
+    }
+
+    private void validarAlias(String alias) {
+        if (cuentaBancariaRepository.existsCuentaBancariaByAlias(alias)) {
+            throw new NotFoundException("WARNING: El alias "
+                    + alias + " se encuentra registrado en otra cuanta bancaria");
+        }
+    }
+
+    private void validarNumeroCuenta(String numero) {
+        if (cuentaBancariaRepository.existsCuentaBancariaByNumero(numero)) {
+            throw new NotFoundException("WARNING: El numero de cuenta "
+                    + numero + " se encuentra registrado en otra cuanta bancaria");
+        }
+    }
+
+    private void validarCbu(String cbu) {
+        if (cuentaBancariaRepository.existsCuentaBancariaByCbu(cbu)) {
+            throw new NotFoundException("WARNING: El cbu "
+                    + cbu + " se encuentra registrado en otra cuanta bancaria");
+        }
+    }
+    private void validateExistenceOfAlias(String alias, Integer id) {
+        if (cuentaBancariaRepository.existsCuentaBancariasByAliasAndIdIsNot(alias, id)) {
+            throw new NotFoundException("WARNING: El alias "
+                    + alias + " se encuentra registrado en otra cuanta bancaria");
+        }
+    }
+    private void validateExistenceOfNumber(String number, Integer id) {
+        if (cuentaBancariaRepository.existsCuentaBancariaByNumeroAndIdNot(number, id)) {
+            throw new NotFoundException("WARNING: El numero de cuenta "
+                    + number + " se encuentra registrado en otra cuanta bancaria");
+        }
+    }
+    private void validateExistenceOfCbu(String cbu, Integer id) {
+        if (cuentaBancariaRepository.existsCuentaBancariaByCbuAndIdNot(cbu, id)) {
+            throw new NotFoundException("WARNING: El cbu "
+                    + cbu + " se encuentra registrado en otra cuanta bancaria");
+        }
     }
 
 }

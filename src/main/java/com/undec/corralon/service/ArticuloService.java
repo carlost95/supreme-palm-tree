@@ -9,6 +9,7 @@ import com.undec.corralon.modelo.*;
 import com.undec.corralon.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -53,9 +54,9 @@ public class ArticuloService {
                 .collect(Collectors.toList());
     }
 
-    public List <ArticuloStockDTO> findByProviderWithStock(Integer idProveedor){
+    public List<ArticuloStockDTO> findByProviderWithStock(Integer idProveedor) {
         Proveedor proveedor = this.proveedorRepository.findById(idProveedor)
-                .orElseThrow( () -> new NotFoundException("Warning: No se encontro al proveedor con id" + idProveedor));
+                .orElseThrow(() -> new NotFoundException("Warning: No se encontro al proveedor con id" + idProveedor));
 
         return this.articuloRepository.findArticulosByProveedorByIdProveedorAndHabilitadoTrue(proveedor)
                 .stream()
@@ -63,9 +64,9 @@ public class ArticuloService {
                 .collect(Collectors.toList());
     }
 
-    private ArticuloStockDTO mapToArticuloStockDTO( Articulo articulo) {
+    private ArticuloStockDTO mapToArticuloStockDTO(Articulo articulo) {
         ArticuloStockDTO articuloStockDTO = new ArticuloStockDTO();
-        try{
+        try {
             String fechaActual = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
             Date fecha = Util.stringToDate(fechaActual);
             Double stock = this.movimientoArticuloRepository.stockPorArticulo(articulo, fecha);
@@ -94,10 +95,10 @@ public class ArticuloService {
         articuloDTO.setIdProveedor(articulo.getProveedorByIdProveedor().getIdProveedor());
         articuloDTO.setIdUnidadMedida(articulo.getUnidadMedidaByIdUnidadMedida().getIdUnidadMedida());
         articuloDTO.setIdMarca(articulo.getMarcaByIdMarca().getIdMarca());
-        if(articulo.getRubroByIdRubro() != null){
+        if (articulo.getRubroByIdRubro() != null) {
             articuloDTO.setIdRubro(articulo.getRubroByIdRubro().getIdRubro());
         }
-        if(articulo.getSubRubroByIdSubRubro() != null){
+        if (articulo.getSubRubroByIdSubRubro() != null) {
             articuloDTO.setIdRubro(articulo.getSubRubroByIdSubRubro().getIdSubRubro());
         }
 
@@ -148,7 +149,8 @@ public class ArticuloService {
         Articulo articulo = articuloRepository.findById(articuloDTO.getId()).
                 orElseThrow(
                         () -> new NotFoundException("\nWARNING: Error no existe el articulo"));
-        mappedDTOToEntity(articuloDTO, articulo);
+        validateArticleByCodigoAndId(articuloDTO);
+        articulo = mappedDTOToEntity(articuloDTO, articulo);
         articulo.setHabilitado(articuloDTO.getHabilitado());
         articulo = articuloRepository.save(articulo);
 
@@ -160,6 +162,13 @@ public class ArticuloService {
         if (updatedPrecioArticle(articulo, articuloDTO) == null)
             throw new BadRequestException("\nWARNING: Error en la carga de precio");
         return articulo;
+    }
+
+    private void validateArticleByCodigoAndId(ArticuloDTO articuloDTO) {
+        if (articuloRepository.existsArticuloByCodigoAndIdArticuloNot(articuloDTO.getCodigoArt(), articuloDTO.getId()))
+            throw new BadRequestException("\nWARNING: El codigo "
+                    + articuloDTO.getCodigoArt()
+                    + " ya se encuentra registrado en otro articulo");
     }
 
     public Articulo changeTheHabilitation(Integer id) {
@@ -194,7 +203,7 @@ public class ArticuloService {
         return articulo;
     }
 
-    private void mappedDTOToEntity(ArticuloDTO articuloDTO, Articulo articulo) {
+    private Articulo mappedDTOToEntity(ArticuloDTO articuloDTO, Articulo articulo) {
         articulo.setNombre(articuloDTO.getNombre());
         articulo.setAbreviatura(articuloDTO.getAbreviatura());
         articulo.setCodigo(articuloDTO.getCodigoArt());
@@ -226,18 +235,18 @@ public class ArticuloService {
 
         if (articuloDTO.getIdSubRubro() != null)
             articulo.setSubRubroByIdSubRubro(subRubroRepository.findById(articuloDTO.getIdSubRubro()).get());
-
+        return articulo;
     }
 
     private boolean duplicationArticle(Articulo articulo) {
-        return articuloRepository.existsByCodigo( articulo.getCodigo());
+        return articuloRepository.existsByCodigo(articulo.getCodigo());
 
     }
 
     private boolean validationArticle(Articulo articulo) {
         return (articulo.getNombre().isEmpty() ||
-                articulo.getAbreviatura().isEmpty()||
-                articulo.getCodigo().isEmpty())? true : false;
+                articulo.getAbreviatura().isEmpty() ||
+                articulo.getCodigo().isEmpty()) ? true : false;
     }
 
     private CostoArticulo saveCostoArticle(Articulo articulo, ArticuloDTO articuloDTO) {
@@ -285,7 +294,7 @@ public class ArticuloService {
         if (costo == null)
             new NotFoundException("\nWARNING: No existe costo, no se puede actualizar");
 
-        if (articuloDTO.getCosto().compareTo(costo.getCosto())==0) {
+        if (articuloDTO.getCosto().compareTo(costo.getCosto()) == 0) {
             return costo;
         }
         costo.setFechaHasta(fechaActual);
@@ -310,7 +319,7 @@ public class ArticuloService {
         if (precio == null)
             new NotFoundException("\nWARNING: No existe precio, no se puede actualizar");
 
-        if (articuloDTO.getPrecio().compareTo(precio.getPrecio())== 0) {
+        if (articuloDTO.getPrecio().compareTo(precio.getPrecio()) == 0) {
             return precio;
         }
 

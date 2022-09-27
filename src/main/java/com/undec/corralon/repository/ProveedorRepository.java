@@ -11,4 +11,5 @@ public interface ProveedorRepository extends JpaRepository<Proveedor, Integer> {
     List<Proveedor> findAllByHabilitadoEquals(Boolean habilitado);
 
     Boolean existsByCuit(String cuit);
+    Boolean existsByCuitAndIdProveedorNot(String cuit, Integer idProveedor);
 }
