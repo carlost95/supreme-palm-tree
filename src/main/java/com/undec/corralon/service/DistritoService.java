@@ -26,7 +26,7 @@ public class DistritoService {
         List<DistritoDTO> districtStorage = new ArrayList<>();
         List<Distrito> distritos = distritoRepository.findAll();
 
-        if (distritos == null) throw new NotFoundException("\nWARNING: No existen distritos");
+        if (distritos.isEmpty()) throw new NotFoundException("\nWARNING: No existen distritos");
         for (Distrito dist : distritos) districtStorage.add(mappedDistrictToDistrictDTO(dist));
         return districtStorage;
     }
@@ -35,13 +35,13 @@ public class DistritoService {
         List<DistritoDTO> districtStorage = new ArrayList<>();
         List<Distrito> distritos = distritoRepository.findByHabilitadoEquals(true);
 
-        if (distritos == null) throw new NotFoundException("\nWARNING: No existen datos de distritos habilitados");
+        if (distritos.isEmpty()) throw new NotFoundException("\nWARNING: No existen datos de distritos habilitados");
         for (Distrito dist : distritos) districtStorage.add(mappedDistrictToDistrictDTO(dist));
         return districtStorage;
     }
 
     public DistritoDTO findDistrictById(Integer id) {
-        if (id == null) {
+        if (id.toString().isEmpty()) {
             throw new BadRequestException("\nWARNING: No se enviaron datos o el id del distrito es null");
         }
         Distrito distrito = distritoRepository.findById(id).orElseThrow(() -> new NotFoundException("\nWARNING: No existe el distrito solicitado"));
@@ -62,7 +62,7 @@ public class DistritoService {
 
         Distrito guardado = distritoRepository.save(distrito);
 
-        if (guardado == null)
+        if (guardado.toString().isEmpty())
             throw new NotFoundException("\nWARNING: Error al guardar el distrito, no existe no se puede guardar");
 
         distritoDTO = mappedDistrictToDistrictDTO(guardado);
@@ -85,7 +85,7 @@ public class DistritoService {
 
         Distrito saveDistrict = distritoRepository.save(distrito);
 
-        if (saveDistrict == null)
+        if (saveDistrict.toString().isEmpty())
             throw new NotFoundException("\nWARNING: Error al actualizar el distrito, no existe el dato solicitado");
 
         distritoDTO = mappedDistrictToDistrictDTO(saveDistrict);
@@ -106,7 +106,7 @@ public class DistritoService {
 
     private Distrito mappedDTOToDistrict(DistritoDTO distritoDTO) {
         Distrito distrito = new Distrito();
-        if (distritoDTO.getNombre() == null || distritoDTO.getAbreviatura() == null)
+        if (distritoDTO.getNombre().isEmpty() || distritoDTO.getAbreviatura().isEmpty())
             throw new BadRequestException("\nWARNING: Error en los datos del distrito, no pueden ser null");
         distrito.setNombre(distritoDTO.getNombre());
         distrito.setAbreviatura(distritoDTO.getAbreviatura());

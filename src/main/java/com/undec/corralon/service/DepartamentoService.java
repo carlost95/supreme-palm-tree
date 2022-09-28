@@ -23,7 +23,7 @@ public class DepartamentoService {
 
     public List<Departamento>  listAllDepartment(){
         List<Departamento> departamentos = departamentoRepository.findAll();
-        if(departamentos == null)
+        if(departamentos.isEmpty())
             throw new NotFoundException("\nWARNING: No existen departamentos");
 
         return departamentos;
@@ -31,31 +31,26 @@ public class DepartamentoService {
 
     public List<Departamento> listAllDepartmentHabilitation(){
         List<Departamento> departamentos = departamentoRepository.findByHabilitadoEquals(true);
-        if(departamentos == null)
+        if(departamentos.isEmpty())
             throw new NotFoundException("\nWARNING: No existen departamentos habilitados");
-
         return departamentos;
     }
-
     public Departamento findByIdDepartment(Integer id){
         Departamento departamento = departamentoRepository.findById(id).
                 orElseThrow(()-> new NotFoundException("\nWARNINGH: No existe el departamento solicitado"));
-
         return departamento;
     }
-
     public Departamento saveDepartment(Departamento departamento){
-        departamento.setHabilitado(true);
-
-        if (departamento.getNombre()==null||departamento.getAbreviatura()==null)
+        if (departamento.getNombre().isEmpty()||departamento.getAbreviatura().isEmpty()) {
             throw new BadRequestException("\nWARNING: los datos del departamento no puede ser null");
-
-        if(validationDepartment(departamento))
+        }
+        if(validationDepartment(departamento)) {
             throw new BadRequestException("\nWARNING: El departamento ingresao esta duplicado");
-
+        }
+        departamento.setHabilitado(true);
         departamento = departamentoRepository.save(departamento);
 
-        if(departamento == null)
+        if(departamento.toString().isEmpty())
             throw new NotFoundException("\nWARNING: Error en la carga de departamento");
 
         return departamento;
@@ -70,7 +65,7 @@ public class DepartamentoService {
         updatedDepart.setNombre(departamento.getNombre());
         updatedDepart.setAbreviatura(departamento.getAbreviatura());
         updatedDepart.setHabilitado(departamento.getHabilitado());
-
+        validateUdatedDepartment(updatedDepart);
         updatedDepart=departamentoRepository.save(updatedDepart);
         if (updatedDepart==null)
             throw new NotFoundException("\nWARNING: Error al actualizar el departamento no existe");
@@ -79,19 +74,23 @@ public class DepartamentoService {
     }
 
     public Departamento changeStatus(Integer id) {
-
         Departamento depChange = departamentoRepository.findById(id).
                 orElseThrow(()-> new NotFoundException("\nWARNING: No existe el departamento para el cambio de estado"));
 
         depChange.setHabilitado(!depChange.getHabilitado());
-
         depChange = departamentoRepository.save(depChange);
-        if (depChange==null)
+        if (depChange.toString().isEmpty())
             throw new NotFoundException("\nWARNING: error el el metodo de guardado del cambio de estado de departamento");
 
         return depChange;
     }
     private boolean validationDepartment(Departamento departamento) {
         return departamentoRepository.existsByNombreOrAbreviatura(departamento.getNombre(), departamento.getAbreviatura());
+    }
+    private void validateUdatedDepartment(Departamento departamento) {
+        if (departamentoRepository.existsByNombreAndIdDepartamentoNot(departamento.getNombre(), departamento.getIdDepartamento()))
+            throw new BadRequestException("\nWARNING: El nombre del departamento ya existe");
+        if (departamentoRepository.existsByAbreviaturaAndIdDepartamentoNot(departamento.getAbreviatura(), departamento.getIdDepartamento()))
+            throw new BadRequestException("\nWARNING: La abreviatura del departamento ya existe");
     }
 }
