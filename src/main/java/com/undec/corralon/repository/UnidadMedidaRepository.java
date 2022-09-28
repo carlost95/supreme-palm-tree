@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface UnidadMedidaRepository extends JpaRepository<UnidadMedida, Integer> {
     List<UnidadMedida> findAllByHabilitadoEquals(boolean habilitacion);
+    Boolean existsUnidadMedidaByNombreOrAbreviatura(String nombre, String abreviatura);
+    Boolean existsUnidadMedidaByNombreAndIdUnidadMedidaNot(String nombre, Integer idUnidadMedida);
+    Boolean existsUnidadMedidaByAbreviaturaAndIdUnidadMedidaNot(String abreviatura, Integer idUnidadMedida);
 }
