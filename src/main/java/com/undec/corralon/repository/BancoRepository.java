@@ -9,5 +9,7 @@ import java.util.List;
 @Repository
 public interface BancoRepository extends JpaRepository <Banco, Integer> {
     List<Banco>findAllByHabilitadoEquals(boolean habilitado);
-    Banco findFirstByNombreEquals(String nombre);
+    Boolean existsBancoByNombreOrAbreviatura(String nombre, String abreviatura);
+    Boolean existsBancoByNombreAndIdBancoNot(String nombre, Integer idBanco);
+    Boolean existsBancoByAbreviaturaAndIdBancoNot(String abreviatura, Integer idBanco);
 }

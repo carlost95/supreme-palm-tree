@@ -42,26 +42,23 @@ public class BancoService {
 
     public Banco saveOfBank(Banco banco) {
         Banco bank = new Banco();
-
-        if(this.bancoRepository.findFirstByNombreEquals(banco.getNombre()) != null ){
-            throw new BadRequestException("Ya existe un banco con el mismo nombre");
+        if (this.bancoRepository.existsBancoByNombreOrAbreviatura(banco.getNombre(), banco.getAbreviatura())) {
+            throw new BadRequestException("Ya existe registrado un banco con el mismo nombre o abreviatura");
         }
 
         bank.setNombre(banco.getNombre());
         bank.setAbreviatura(banco.getAbreviatura());
         bank.setHabilitado(true);
 
-        Banco bancoToSave = bancoRepository.save(bank);
+        bank = bancoRepository.save(bank);
 
-        if (bancoToSave == null)
+        if (bank.toString().isEmpty())
             throw new NotFoundException("\nWARNING: No se puede guardar banco");
 
-        return bancoToSave;
+        return bank;
     }
 
     public Banco updatedBank(Banco banco) {
-        if (banco.getIdBanco() == null) throw new BadRequestException("\nWARNING: No se cargaron los datos del banco");
-
         Banco bancoToUpdate = bancoRepository.findById(banco.getIdBanco()).
                 orElseThrow(() -> new NotFoundException("\nWARNING: No existe el banco que se quiere actualizar"));
 
@@ -69,7 +66,7 @@ public class BancoService {
         bancoToUpdate.setNombre(banco.getNombre());
         bancoToUpdate.setAbreviatura(banco.getAbreviatura());
         bancoToUpdate.setHabilitado(banco.getHabilitado());
-
+        validateUpdataBank(bancoToUpdate);
         bancoToUpdate = bancoRepository.save(bancoToUpdate);
         if (bancoToUpdate == null) throw new NotFoundException("\nWARNING: No se guardo el banco a actualizar");
 
@@ -85,9 +82,20 @@ public class BancoService {
         Banco banco = bancoOptional;
         banco.setHabilitado(!bancoOptional.getHabilitado());
         banco = bancoRepository.save(banco);
-        if (banco == null)
+        if (banco.toString().isEmpty())
             throw new NotFoundException("\nWARNING: Error al almacenar los cambios");
         return banco;
+    }
+
+    private void validateUpdataBank(Banco banco) {
+        if (banco.getNombre().isEmpty())
+            throw new BadRequestException("El nombre del banco no puede estar vacio o tener mas de 50 caracteres");
+        if (banco.getAbreviatura().isEmpty())
+            throw new BadRequestException("La abreviatura del banco no puede estar vacio o tener mas de 10 caracteres");
+        if (bancoRepository.existsBancoByNombreAndIdBancoNot(banco.getNombre(), banco.getIdBanco()))
+            throw new BadRequestException("Ya existe un banco con el mismo nombre");
+        if (bancoRepository.existsBancoByAbreviaturaAndIdBancoNot(banco.getAbreviatura(), banco.getIdBanco()))
+            throw new BadRequestException("Ya existe un banco con la misma abreviatura");
     }
 
 }
