@@ -1,12 +1,6 @@
 package com.undec.corralon.service;
 
-import com.undec.corralon.DTO.DepartamentoDTO;
 import com.undec.corralon.DTO.DistritoDTO;
-import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.distrito.DistritoErrorToSaveException;
-import com.undec.corralon.excepciones.distrito.DistritoErrorToUpdateException;
-import com.undec.corralon.excepciones.distrito.DistritoListNotFoundException;
-import com.undec.corralon.excepciones.distrito.DistritoNotFoundException;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.modelo.Departamento;
@@ -32,8 +26,7 @@ public class DistritoService {
         List<DistritoDTO> districtStorage = new ArrayList<>();
         List<Distrito> distritos = distritoRepository.findAll();
 
-        if (distritos == null)
-            throw new NotFoundException("\nWARNING: No existen distritos");
+        if (distritos == null) throw new NotFoundException("\nWARNING: No existen distritos");
         for (Distrito dist : distritos) districtStorage.add(mappedDistrictToDistrictDTO(dist));
         return districtStorage;
     }
@@ -42,8 +35,7 @@ public class DistritoService {
         List<DistritoDTO> districtStorage = new ArrayList<>();
         List<Distrito> distritos = distritoRepository.findByHabilitadoEquals(true);
 
-        if (distritos == null)
-            throw new NotFoundException("\nWARNING: No existen datos de distritos habilitados");
+        if (distritos == null) throw new NotFoundException("\nWARNING: No existen datos de distritos habilitados");
         for (Distrito dist : distritos) districtStorage.add(mappedDistrictToDistrictDTO(dist));
         return districtStorage;
     }
@@ -52,8 +44,7 @@ public class DistritoService {
         if (id == null) {
             throw new BadRequestException("\nWARNING: No se enviaron datos o el id del distrito es null");
         }
-        Distrito distrito = distritoRepository.findById(id).
-                orElseThrow(() -> new NotFoundException("\nWARNING: No existe el distrito solicitado"));
+        Distrito distrito = distritoRepository.findById(id).orElseThrow(() -> new NotFoundException("\nWARNING: No existe el distrito solicitado"));
         DistritoDTO distritoDTO = mappedDistrictToDistrictDTO(distrito);
 
         return distritoDTO;
@@ -62,15 +53,12 @@ public class DistritoService {
     public DistritoDTO saveDistrict(DistritoDTO distritoDTO) {
         Distrito distrito = mappedDTOToDistrict(distritoDTO);
         Integer idDepartament = distritoDTO.getIdDepartamento();
-        Departamento departamento = this.departamentoRepository.
-                findById(idDepartament).
-                orElseThrow(
-                        () -> new NotFoundException("\nWARNING: El departamento al que se quiere agregar el distrito no existe"));
-        distrito.setDepartamentoByIdDepartamento(departamento);
+        Departamento departamento = this.departamentoRepository.findById(idDepartament).orElseThrow(() -> new NotFoundException("\nWARNING: El departamento al que se quiere agregar el distrito no existe"));
+        distrito.setIdDepartamento(departamento);
         distrito.setHabilitado(true);
 
         if (validationDistrict(distrito))
-            throw new BadRequestException("\nWARNING: El distrito que se carga esta duplicado");
+            throw new NotFoundException("\nWARNING: El nombre o abreviatura del distrito cargado ya existe");
 
         Distrito guardado = distritoRepository.save(distrito);
 
@@ -85,13 +73,15 @@ public class DistritoService {
     public DistritoDTO updateDistrict(DistritoDTO distritoDTO) {
         Distrito distrito = mappedDTOToDistrict(distritoDTO);
         Integer idDepartamento = distritoDTO.getIdDepartamento();
-        Departamento departamento = this.departamentoRepository.findById(idDepartamento)
-                .orElseThrow(
+        Departamento departamento = this.departamentoRepository.findById(
+                        idDepartamento).
+                orElseThrow(
                         () -> new NotFoundException("\nWARNING: No existe el departamento al que se le quiere asiganr el distrito"));
 
-        distrito.setDepartamentoByIdDepartamento(departamento);
+        distrito.setIdDepartamento(departamento);
         distrito.setIdDistrito(distritoDTO.getIdDistrito());
         distrito.setHabilitado(distritoDTO.getHabilitado());
+        validatioUpdateDistrict(distrito);
 
         Distrito saveDistrict = distritoRepository.save(distrito);
 
@@ -103,16 +93,13 @@ public class DistritoService {
     }
 
     public DistritoDTO changeStatus(Integer id) {
-        Distrito changeStatus = distritoRepository.findById(id).
-                orElseThrow(
-                        () -> new NotFoundException("\nWARNING: No exite el distrito que se quiere cambiar el estado de habilitacion"));
+        Distrito changeStatus = distritoRepository.findById(id).orElseThrow(() -> new NotFoundException("\nWARNING: No exite el distrito que se quiere cambiar el estado de habilitacion"));
 
         changeStatus.setHabilitado(!changeStatus.getHabilitado());
         changeStatus = this.distritoRepository.save(changeStatus);
 
         DistritoDTO distritoDTO = mappedDistrictToDistrictDTO(changeStatus);
-        if (distritoDTO == null)
-            throw new NotFoundException("\nWARNING: Error al cambiar el estado del distrito");
+        if (distritoDTO == null) throw new NotFoundException("\nWARNING: Error al cambiar el estado del distrito");
 
         return distritoDTO;
     }
@@ -134,13 +121,21 @@ public class DistritoService {
         distritoDTO.setNombre(distrito.getNombre());
         distritoDTO.setAbreviatura(distrito.getAbreviatura());
         distritoDTO.setHabilitado(distrito.getHabilitado());
-        distritoDTO.setIdDepartamento(distrito.getDepartamentoByIdDepartamento().getIdDepartamento());
+        distritoDTO.setIdDepartamento(distrito.getIdDepartamento().getIdDepartamento());
 
         return distritoDTO;
     }
 
     private boolean validationDistrict(Distrito distrito) {
-        return distritoRepository.existsByNombreOrAbreviatura(distrito.getNombre(), distrito.getAbreviatura());
+        return (distritoRepository.existsDistinctByNombreOrAbreviatura(distrito.getNombre(), distrito.getAbreviatura())) ? true : false;
     }
 
+    private void validatioUpdateDistrict(Distrito distrito) {
+        if (distritoRepository.existsDistinctByNombreAndIdDistritoNot(distrito.getNombre(), distrito.getIdDistrito())) {
+            throw new NotFoundException("\nWARNING: El nombre del distrito por actualizar se encuentra registrado en otro distrito");
+        }
+        if (distritoRepository.existsDistinctByAbreviaturaAndIdDistritoNot(distrito.getAbreviatura(), distrito.getIdDistrito())) {
+            throw new NotFoundException("\nWARNING: La abreviatura del distrito por actualizar se encuentra registrado en otro distrito");
+        }
+    }
 }

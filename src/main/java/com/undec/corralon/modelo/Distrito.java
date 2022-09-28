@@ -1,6 +1,5 @@
 package com.undec.corralon.modelo;
 
-import com.undec.corralon.modelo.audit.DateAudit;
 import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
@@ -12,7 +11,7 @@ public class Distrito extends UserDateAudit {
     private String nombre;
     private String abreviatura;
     private Boolean habilitado;
-    private Departamento departamentoByIdDepartamento;
+    private Departamento idDepartamento;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,11 +72,11 @@ public class Distrito extends UserDateAudit {
 
     @ManyToOne
     @JoinColumn(name = "id_departamento", referencedColumnName = "id_departamento", nullable = false)
-    public Departamento getDepartamentoByIdDepartamento() {
-        return departamentoByIdDepartamento;
+    public Departamento getIdDepartamento() {
+        return idDepartamento;
     }
 
-    public void setDepartamentoByIdDepartamento(Departamento departamentoByIdDepartamento) {
-        this.departamentoByIdDepartamento = departamentoByIdDepartamento;
+    public void setIdDepartamento(Departamento departamentoByIdDepartamento) {
+        this.idDepartamento = departamentoByIdDepartamento;
     }
 }
