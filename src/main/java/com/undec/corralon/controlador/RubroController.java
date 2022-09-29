@@ -35,17 +35,17 @@ public class RubroController {
     }
 
     @PostMapping()
-    public ResponseEntity<Rubro> crearRubro(@RequestBody Rubro rubro) throws RubroException {
+    public ResponseEntity<Rubro> crearRubro(@RequestBody Rubro rubro) {
         return new ResponseEntity<>(rubroService.crearRubro(rubro), HttpStatus.OK);
     }
 
     @PutMapping()
-    public ResponseEntity<Rubro> actualizarRubro(@RequestBody Rubro rubro) throws RubroException {
+    public ResponseEntity<Rubro> actualizarRubro(@RequestBody Rubro rubro) {
         return new ResponseEntity<>(rubroService.actualizarRubro(rubro), HttpStatus.OK);
     }
 
    @PutMapping("/{id}")
-    public ResponseEntity<Rubro> cambiarHabilitacion(@PathVariable("id") Integer id) throws Exception {
+    public ResponseEntity<Rubro> cambiarHabilitacion(@PathVariable("id") Integer id) {
         return new ResponseEntity<>(rubroService.cambiarHabilitacion(id), HttpStatus.OK);
     }
 }

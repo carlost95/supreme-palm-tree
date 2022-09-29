@@ -63,28 +63,30 @@ public class RubroService {
     }
 
 
-    public Rubro cambiarHabilitacion(Integer id) throws RubroException {
-        Optional<Rubro> rubroOptional = rubroRepository.findById(id);
-        if (!rubroOptional.isPresent()) {
-            throw new RubroCambioEstadoException();
-        }
-        Rubro rubro = rubroOptional.get();
+    public Rubro cambiarHabilitacion(Integer id) {
+        Rubro rubro = this.rubroRepository.findById(id).orElseThrow(
+                () -> new NotFoundException("\nWARNING: No existe el rubro")
+        );
         rubro.setHabilitado(!rubro.getHabilitado());
-        return rubroRepository.save(rubro);
+        rubro = this.rubroRepository.save(rubro);
+        if (rubro.toString().isEmpty())
+            throw new NotFoundException("Error al actualizar el rubro");
+        return rubro;
     }
 
     private void validarRubro(Rubro rubro) {
         validateDataBlank(rubro.getNombre());
         validateDataBlank(rubro.getAbreviatura());
-        if (rubroRepository.existsRubroByNombreOrAbreviatura(rubro.getNombre(),rubro.getAbreviatura()))
+        if (rubroRepository.existsRubroByNombreOrAbreviatura(rubro.getNombre(), rubro.getAbreviatura()))
             throw new NotFoundException("Warning: Ya existe un rubro con ese nombre o abreviatura");
     }
-    private void validateUpdateRubro(Rubro rubro){
+
+    private void validateUpdateRubro(Rubro rubro) {
         validateDataBlank(rubro.getNombre());
         validateDataBlank(rubro.getAbreviatura());
-        if (rubroRepository.existsRubroByNombreAndIdRubroNot(rubro.getNombre(),rubro.getIdRubro()))
+        if (rubroRepository.existsRubroByNombreAndIdRubroNot(rubro.getNombre(), rubro.getIdRubro()))
             throw new NotFoundException("Warning: Ya existe un rubro con ese nombre");
-        if (rubroRepository.existsRubroByAbreviaturaAndIdRubroNot(rubro.getAbreviatura(),rubro.getIdRubro()))
+        if (rubroRepository.existsRubroByAbreviaturaAndIdRubroNot(rubro.getAbreviatura(), rubro.getIdRubro()))
             throw new NotFoundException("Warning: Ya existe un rubro con esa abreviatura");
     }
 
