@@ -9,4 +9,7 @@ import java.util.List;
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
     List<Cliente> findByStatusEquals(boolean status);
+
+    Boolean existsClienteByDni(String dni);
+    Boolean existsClienteByDniAndIdClienteNot(String dni, Integer idCliente);
 }

@@ -33,21 +33,21 @@ public class ClienteService {
         List<Cliente> clientes = clienteRepository.findByStatusEquals(true);
 
         if (clientes.isEmpty()) throw new NotFoundException("Warning: No se encontraron clientes habilitados");
-        if (clientes == null) throw new NotFoundException("Warning: No se encontraron clientes habilitados");
         return clientes;
     }
 
     public Cliente getClientById(Integer id) {
         Cliente cliente = clienteRepository.findById(id).
                 orElseThrow(
-                () -> new NotFoundException("Warning: No se encontro el cliente con id: " + id));
+                        () -> new NotFoundException("Warning: No se encontro el cliente con id: " + id));
         return cliente;
     }
 
     public Cliente saveClient(Cliente cliente) {
+        validateClient(cliente);
         cliente.setStatus(true);
         cliente = this.clienteRepository.save(cliente);
-        if (cliente == null) {
+        if (cliente.toString().isEmpty()) {
             throw new NotFoundException("Warning: No se pudo guardar el cliente");
         }
         return cliente;
@@ -56,19 +56,21 @@ public class ClienteService {
     public Cliente updatedClient(Cliente cliente) {
         Cliente clienteResponse = this.clienteRepository.findById(cliente.getIdCliente())
                 .orElseThrow(
-                () -> new NotFoundException("Warning: No se encontro el cliente con id: " + cliente.getIdCliente()));
+                        () -> new NotFoundException("Warning: No se encontro el cliente con id: " + cliente.getIdCliente()));
         clienteResponse.setIdCliente(cliente.getIdCliente());
         clienteResponse.setNombre(cliente.getNombre());
         clienteResponse.setApellido(cliente.getApellido());
         clienteResponse.setDni(cliente.getDni());
         clienteResponse.setEmail(cliente.getEmail());
         clienteResponse.setStatus(cliente.getStatus());
+        validateClientUpdated(clienteResponse);
         clienteResponse = this.clienteRepository.save(clienteResponse);
-        if (clienteResponse == null) {
+        if (clienteResponse.toString().isEmpty()) {
             throw new NotFoundException("Warning: No se puede actualizar el cliente");
         }
         return clienteResponse;
     }
+
 
     public Cliente changeStatus(Integer idCliente) {
         Cliente clienteResponse = this.clienteRepository.findById(idCliente).orElseThrow(() -> new NotFoundException("Warning: No se encontro el cliente con id: " + idCliente));
@@ -79,5 +81,27 @@ public class ClienteService {
         }
         return clienteResponse;
     }
+    private void validateClient(Cliente cliente) {
+        validateIsBlank(cliente.getNombre(), "nombre");
+        validateIsBlank(cliente.getApellido(), "apellido");
+        validateIsBlank(cliente.getDni(), "dni");
+        if (clienteRepository.existsClienteByDni(cliente.getDni())){
+            throw new NotFoundException("Warning: Ya existe un cliente con el dni: " + cliente.getDni());
+        }
+    }
 
+    private void validateClientUpdated(Cliente clienteResponse) {
+        validateIsBlank(clienteResponse.getNombre(),"nombre");
+        validateIsBlank(clienteResponse.getApellido(),"apellido");
+        validateIsBlank(clienteResponse.getDni(),"dni");
+       if (clienteRepository.existsClienteByDniAndIdClienteNot(clienteResponse.getDni(), clienteResponse.getIdCliente())) {
+            throw new NotFoundException("Warning: Ya existe un cliente con el dni: " + clienteResponse.getDni());
+        }
+    }
+
+    private void validateIsBlank(String value, String name) {
+        if (value == null || value.isEmpty()) {
+            throw new NotFoundException("Warning: El campo " + name + " no puede estar vacio");
+        }
+    }
 }
