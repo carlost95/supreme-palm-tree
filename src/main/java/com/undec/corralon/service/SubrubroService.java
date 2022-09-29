@@ -57,9 +57,6 @@ public class SubrubroService {
     public SubrubroDTO guardarSubrubro(SubrubroDTO subrubroDTO) {
         SubRubro subRubro = mapDtoToEntity(subrubroDTO);
         validarSubRubro(subRubro);
-//        if (subRubro == null)
-//            throw new SubRubroErrorToSaveException();
-
         subRubro.setHabilitado(true);
         return this.mapEntityToDTO(subRubroRepository.save(subRubro));
     }
