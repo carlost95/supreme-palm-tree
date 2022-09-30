@@ -9,17 +9,20 @@ import java.util.Objects;
 public class Cliente extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_cliente")
+    @Column(name = "id_cliente",nullable = false)
     private Integer idCliente;
     @Basic
-    @Column(name = "nombre")
+    @Column(name = "nombre",nullable = false)
     private String nombre;
     @Basic
-    @Column(name = "apellido")
+    @Column(name = "apellido", nullable = false)
     private String apellido;
     @Basic
-    @Column(name = "dni")
+    @Column(name = "dni",nullable = false)
     private String dni;
+    @Basic
+    @Column(name = "contacto")
+    private String contacto;
     @Basic
     @Column(name = "email")
     private String email;
@@ -76,6 +79,14 @@ public class Cliente extends UserDateAudit {
         this.email = email;
     }
 
+    public String getContacto() {
+        return contacto;
+    }
+
+    public void setContacto(String contacto) {
+        this.contacto = contacto;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -85,11 +96,13 @@ public class Cliente extends UserDateAudit {
                 Objects.equals(nombre, cliente.nombre) &&
                 Objects.equals(apellido, cliente.apellido) &&
                 Objects.equals(dni, cliente.dni) &&
-                Objects.equals(status, cliente.status) && Objects.equals(email, cliente.email);
+                Objects.equals(status, cliente.status) &&
+                Objects.equals(contacto, cliente.contacto) &&
+                Objects.equals(email, cliente.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idCliente, nombre, apellido, dni, status, email);
+        return Objects.hash(idCliente, nombre, apellido, dni, status, email, contacto);
     }
 }

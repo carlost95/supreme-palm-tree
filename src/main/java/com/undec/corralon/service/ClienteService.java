@@ -14,8 +14,6 @@ import java.util.List;
 @Service
 public class ClienteService {
 
-    protected final Log logger = LogFactory.getLog(this.getClass());
-
     @Autowired
     private ClienteRepository clienteRepository;
 
@@ -62,6 +60,7 @@ public class ClienteService {
         clienteResponse.setApellido(cliente.getApellido());
         clienteResponse.setDni(cliente.getDni());
         clienteResponse.setEmail(cliente.getEmail());
+        clienteResponse.setContacto(cliente.getContacto());
         clienteResponse.setStatus(cliente.getStatus());
         validateClientUpdated(clienteResponse);
         clienteResponse = this.clienteRepository.save(clienteResponse);
