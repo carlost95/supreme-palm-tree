@@ -1,6 +1,5 @@
 package com.undec.corralon.controlador;
 
-import com.undec.corralon.excepciones.rubro.RubroException;
 import com.undec.corralon.modelo.Rubro;
 import com.undec.corralon.service.RubroService;
 import org.springframework.beans.factory.annotation.Autowired;

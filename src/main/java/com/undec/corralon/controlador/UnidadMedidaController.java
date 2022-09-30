@@ -1,7 +1,5 @@
 package com.undec.corralon.controlador;
 
-import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.unidadMedida.UnidadMedidaException;
 import com.undec.corralon.modelo.UnidadMedida;
 import com.undec.corralon.service.UnidadMedidaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.util.List;
 
 @CrossOrigin("*")
@@ -35,18 +32,18 @@ public class UnidadMedidaController {
         return new ResponseEntity<>(unidadMedidaService.obtenerUnidadMedidaHabilitados(), HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<UnidadMedida> crearUnidadMedida(@RequestBody UnidadMedida unidadMedida) throws UnidadMedidaException {
+    public ResponseEntity<UnidadMedida> crearUnidadMedida(@RequestBody UnidadMedida unidadMedida) {
         return new ResponseEntity<>(unidadMedidaService.crearUnidadMedida(unidadMedida), HttpStatus.OK);
     }
 
 
     @PutMapping
-    public ResponseEntity<UnidadMedida> modificarUnidadMedida(@RequestBody UnidadMedida unidadMedida) throws UnidadMedidaException {
+    public ResponseEntity<UnidadMedida> modificarUnidadMedida(@RequestBody UnidadMedida unidadMedida) {
         return new ResponseEntity<>(unidadMedidaService.actualizarUnidadMedida(unidadMedida), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UnidadMedida> cambiarHabilitacion(@PathVariable("id") Integer id) throws UnidadMedidaException {
+    public ResponseEntity<UnidadMedida> cambiarHabilitacion(@PathVariable("id") Integer id)  {
         return new ResponseEntity<>(unidadMedidaService.cambiarHabilitacion(id), HttpStatus.OK);
     }
 

@@ -1,11 +1,5 @@
 package com.undec.corralon.service;
 
-import com.undec.corralon.DTO.DepartamentoDTO;
-import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.departamento.DepartamentoErrorToSaveException;
-import com.undec.corralon.excepciones.departamento.DepartamentoErrorToUpdateException;
-import com.undec.corralon.excepciones.departamento.DepartamentoListNotFoundException;
-import com.undec.corralon.excepciones.departamento.DepartamentoNotFoundException;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.modelo.Departamento;

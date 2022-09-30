@@ -3,7 +3,6 @@ package com.undec.corralon.service;
 import com.undec.corralon.DTO.SubrubroDTO;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
-import com.undec.corralon.excepciones.subrubro.*;
 import com.undec.corralon.modelo.SubRubro;
 import com.undec.corralon.repository.RubroRepository;
 import com.undec.corralon.repository.SubRubroRepository;
@@ -101,12 +100,11 @@ public class SubrubroService {
         return subrubroDTO;
     }
 
-    public SubrubroDTO cambiarHabilitacion(Integer id) throws SubrubroException {
-        Optional<SubRubro> subRubroOptional = subRubroRepository.findById(id);
-        if (!subRubroOptional.isPresent()) {
-            throw new SubRubroCambioEstadoException();
-        }
-        SubRubro subRubro = subRubroOptional.get();
+    public SubrubroDTO cambiarHabilitacion(Integer id) {
+        SubRubro subRubro = subRubroRepository.findById(id).
+                orElseThrow(
+                        () -> new NotFoundException("\nWARNING: error no existe el sub rubro por id"));
+
         subRubro.setHabilitado(!subRubro.getHabilitado());
         return this.mapEntityToDTO(subRubroRepository.save(subRubro));
     }
