@@ -59,7 +59,7 @@ public class ProveedorService {
         }
         proveedorToSave = proveedorRepository.save(proveedorToSave);
 
-        if (proveedorToSave == null) {
+        if (proveedorToSave == null||proveedorToSave.toString().isEmpty()) {
             throw new NotFoundException("\nWARNING: No se puede guardar el provedor");
         }
         return proveedorToSave;
