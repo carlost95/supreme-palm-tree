@@ -2,6 +2,7 @@ package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.ArticuloDTO;
 import com.undec.corralon.DTO.ArticuloStockDTO;
+import com.undec.corralon.DTO.ArticuloVenta;
 import com.undec.corralon.Util;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
@@ -336,5 +337,21 @@ public class ArticuloService {
             throw new NotFoundException("\nWARNING: Error al actualizar el precio del articulo");
 
         return precioSave;
+    }
+
+    public List<ArticuloVenta> obtenerArticulosVenta() {
+        return this.articuloRepository
+                .findArticulosByHabilitadoIsTrue()
+                .stream()
+                .map( this::obtenerArticuloVenta )
+                .collect(Collectors.toList());
+    }
+
+    private ArticuloVenta obtenerArticuloVenta(Articulo articulo) {
+        ArticuloVenta articuloVenta = new ArticuloVenta();
+        articuloVenta.setIdArticulo(articulo.getIdArticulo());
+        articuloVenta.setNombre(articulo.getNombre());
+        articuloVenta.setPrecio(articulo.getPrecio());
+        return articuloVenta;
     }
 }
