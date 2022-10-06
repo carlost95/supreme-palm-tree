@@ -1,14 +1,12 @@
 package com.undec.corralon.service;
 
 import com.undec.corralon.excepciones.exception.NotFoundException;
-import com.undec.corralon.excepciones.unidadMedida.*;
 import com.undec.corralon.modelo.UnidadMedida;
 import com.undec.corralon.repository.UnidadMedidaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UnidadMedidaService {
