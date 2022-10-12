@@ -2,7 +2,7 @@ package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.ArticuloDTO;
 import com.undec.corralon.DTO.ArticuloStockDTO;
-import com.undec.corralon.DTO.ArticuloVenta;
+import com.undec.corralon.DTO.ArticuloVentaDTO;
 import com.undec.corralon.Util;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
@@ -339,7 +339,7 @@ public class ArticuloService {
         return precioSave;
     }
 
-    public List<ArticuloVenta> obtenerArticulosVenta() {
+    public List<ArticuloVentaDTO> obtenerArticulosVenta() {
         return this.articuloRepository
                 .findArticulosByHabilitadoIsTrue()
                 .stream()
@@ -347,10 +347,11 @@ public class ArticuloService {
                 .collect(Collectors.toList());
     }
 
-    private ArticuloVenta obtenerArticuloVenta(Articulo articulo) {
-        ArticuloVenta articuloVenta = new ArticuloVenta();
+    private ArticuloVentaDTO obtenerArticuloVenta(Articulo articulo) {
+        ArticuloVentaDTO articuloVenta = new ArticuloVentaDTO();
         articuloVenta.setIdArticulo(articulo.getIdArticulo());
         articuloVenta.setNombre(articulo.getNombre());
+        articuloVenta.setCodigoArticulo(articulo.getCodigo());
         articuloVenta.setPrecio(articulo.getPrecio());
         return articuloVenta;
     }

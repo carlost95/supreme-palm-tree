@@ -1,27 +1,32 @@
 package com.undec.corralon.modelo;
 
-import com.undec.corralon.modelo.audit.DateAudit;
 import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "detalle_venta")
 public class DetalleVenta extends UserDateAudit {
-    private Integer idDetalleVenta;
-    private Integer cantidad;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fecha;
-    private Venta ventaByIdVenta;
-    private Articulo articuloByIdArticulo;
-
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_detalle_venta")
+    @Column(name = "id_detalle_venta", nullable = false)
+    private Integer idDetalleVenta;
+    @Basic
+    @Column(name = "cantidad", nullable = false)
+    private Integer cantidad;
+    @Basic
+    @Column(name = "fecha", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fecha;
+    @ManyToOne
+    @JoinColumn(name = "id_venta", referencedColumnName = "id_venta", nullable = false)
+    private Venta idVenta;
+    @ManyToOne
+    @JoinColumn(name = "id_articulo", referencedColumnName = "id_articulo", nullable = false)
+    private Articulo idArticulo;
+
     public Integer getIdDetalleVenta() {
         return idDetalleVenta;
     }
@@ -30,8 +35,6 @@ public class DetalleVenta extends UserDateAudit {
         this.idDetalleVenta = idDetalleVenta;
     }
 
-    @Basic
-    @Column(name = "cantidad")
     public Integer getCantidad() {
         return cantidad;
     }
@@ -40,8 +43,6 @@ public class DetalleVenta extends UserDateAudit {
         this.cantidad = cantidad;
     }
 
-    @Basic
-    @Column(name = "fecha")
     public Date getFecha() {
         return fecha;
     }
@@ -50,38 +51,32 @@ public class DetalleVenta extends UserDateAudit {
         this.fecha = fecha;
     }
 
+    public Venta getIdVenta() {
+        return idVenta;
+    }
+
+    public void setIdVenta(Venta idVenta) {
+        this.idVenta = idVenta;
+    }
+
+    public Articulo getIdArticulo() {
+        return idArticulo;
+    }
+
+    public void setIdArticulo(Articulo idArticulo) {
+        this.idArticulo = idArticulo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DetalleVenta that = (DetalleVenta) o;
-        return Objects.equals(idDetalleVenta, that.idDetalleVenta) &&
-                Objects.equals(cantidad, that.cantidad);
+        return Objects.equals(idDetalleVenta, that.idDetalleVenta) && Objects.equals(cantidad, that.cantidad) && Objects.equals(fecha, that.fecha) && Objects.equals(idVenta, that.idVenta) && Objects.equals(idArticulo, that.idArticulo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idDetalleVenta, cantidad);
+        return Objects.hash(idDetalleVenta, cantidad, fecha, idVenta, idArticulo);
     }
-
-    @ManyToOne
-    @JoinColumn(name = "id_venta", referencedColumnName = "id_venta", nullable = false)
-    public Venta getVentaByIdVenta() {
-        return ventaByIdVenta;
-    }
-
-    public void setVentaByIdVenta(Venta ventaByIdVenta) {
-        this.ventaByIdVenta = ventaByIdVenta;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "id_articulo", referencedColumnName = "id_articulo", nullable = false)
-    public Articulo getArticuloByIdArticulo() {
-        return articuloByIdArticulo;
-    }
-
-    public void setArticuloByIdArticulo(Articulo articuloByIdArticulo) {
-        this.articuloByIdArticulo = articuloByIdArticulo;
-    }
-
 }

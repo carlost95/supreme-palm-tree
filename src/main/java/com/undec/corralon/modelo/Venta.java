@@ -8,17 +8,31 @@ import java.util.Objects;
 
 @Entity
 public class Venta extends UserDateAudit {
-    private Integer idVenta;
-    private Double descuento;
-    private Double recargo;
-    private Double total;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date fechaVenta;
-    private Cliente clienteByIdCliente;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_venta")
+    private Integer idVenta;
+    @ManyToOne
+    @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente", nullable = false)
+    private Cliente idCliente;
+    @ManyToOne
+    @JoinColumn(name = "id_empresa", referencedColumnName = "id_empresa", nullable = false)
+    private Empresa idEmpresa;
+    @Basic
+    @Column(name = "nro_venta", nullable = false)
+    private Long nroVenta;
+    @Basic
+    @Column(name = "descuento")
+    private Double descuento;
+    @Basic
+    @Column(name = "total")
+    private Double total;
+    @Basic
+    @Column(name = "fecha_venta")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaVenta;
+
+
     public Integer getIdVenta() {
         return idVenta;
     }
@@ -27,18 +41,6 @@ public class Venta extends UserDateAudit {
         this.idVenta = idVenta;
     }
 
-    @Basic
-    @Column(name = "fechaVenta")
-    public Date getFechaVenta() {
-        return fechaVenta;
-    }
-
-    public void setFechaVenta(Date fechaVenta) {
-        this.fechaVenta = fechaVenta;
-    }
-
-    @Basic
-    @Column(name = "descuento")
     public Double getDescuento() {
         return descuento;
     }
@@ -47,18 +49,6 @@ public class Venta extends UserDateAudit {
         this.descuento = descuento;
     }
 
-    @Basic
-    @Column(name = "recargo")
-    public Double getRecargo() {
-        return recargo;
-    }
-
-    public void setRecargo(Double recargo) {
-        this.recargo = recargo;
-    }
-
-    @Basic
-    @Column(name = "total")
     public Double getTotal() {
         return total;
     }
@@ -67,32 +57,48 @@ public class Venta extends UserDateAudit {
         this.total = total;
     }
 
+    public Date getFechaVenta() {
+        return fechaVenta;
+    }
+
+    public void setFechaVenta(Date fechaVenta) {
+        this.fechaVenta = fechaVenta;
+    }
+
+    public Cliente getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(Cliente idCliente) {
+        this.idCliente = idCliente;
+    }
+
+    public Empresa getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    public void setIdEmpresa(Empresa idEmpresa) {
+        this.idEmpresa = idEmpresa;
+    }
+
+    public Long getNroVenta() {
+        return nroVenta;
+    }
+
+    public void setNroVenta(Long nroVenta) {
+        this.nroVenta = nroVenta;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Venta venta = (Venta) o;
-        return Objects.equals(idVenta, venta.idVenta) &&
-                Objects.equals(fechaVenta, venta.fechaVenta) &&
-                Objects.equals(descuento, venta.descuento) &&
-                Objects.equals(recargo, venta.recargo) &&
-                Objects.equals(total, venta.total);
+        return Objects.equals(idVenta, venta.idVenta) && Objects.equals(idCliente, venta.idCliente) && Objects.equals(idEmpresa, venta.idEmpresa) && Objects.equals(nroVenta, venta.nroVenta) && Objects.equals(descuento, venta.descuento) && Objects.equals(total, venta.total) && Objects.equals(fechaVenta, venta.fechaVenta);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idVenta, fechaVenta, descuento, recargo, total);
+        return Objects.hash(idVenta, idCliente, idEmpresa, nroVenta, descuento, total, fechaVenta);
     }
-
-    @ManyToOne
-    @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente", nullable = false)
-    public Cliente getClienteByIdCliente() {
-        return clienteByIdCliente;
-    }
-
-    public void setClienteByIdCliente(Cliente clienteByIdCliente) {
-        this.clienteByIdCliente = clienteByIdCliente;
-    }
-
-
 }

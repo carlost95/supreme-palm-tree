@@ -1,12 +1,8 @@
 package com.undec.corralon.modelo;
 
-import com.undec.corralon.modelo.audit.DateAudit;
 import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Objects;
 

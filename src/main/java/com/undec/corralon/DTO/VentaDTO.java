@@ -4,28 +4,23 @@ import java.util.Date;
 import java.util.List;
 
 public class VentaDTO {
-    private int idVentaDTO;
-    private Date fecha;
+    private Integer idVenta;
     private Integer idCliente;
+    private String nombreCliente;
+    private Integer idEmpresa;
+    private Integer idDireccion;
+    private Date fecha;
     private Double descuento;
-    private Double recargo;
-    private Double totalPagar;
-    List<DetalleTipoMovimientoDTO> detalleVenta;
+    private Double total;
+    private Long nroVenta;
+    List<ArticuloVentaDTO> articulos;
 
-    public int getIdVentaDTO() {
-        return idVentaDTO;
+    public Integer getIdVenta() {
+        return idVenta;
     }
 
-    public void setIdVentaDTO(int idVentaDTO) {
-        this.idVentaDTO = idVentaDTO;
-    }
-
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setIdVenta(Integer idVenta) {
+        this.idVenta = idVenta;
     }
 
     public Integer getIdCliente() {
@@ -36,6 +31,30 @@ public class VentaDTO {
         this.idCliente = idCliente;
     }
 
+    public Integer getIdEmpresa() {
+        return idEmpresa;
+    }
+
+    public void setIdEmpresa(Integer idEmpresa) {
+        this.idEmpresa = idEmpresa;
+    }
+
+    public Integer getIdDireccion() {
+        return idDireccion;
+    }
+
+    public void setIdDireccion(Integer idDireccion) {
+        this.idDireccion = idDireccion;
+    }
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
+
     public Double getDescuento() {
         return descuento;
     }
@@ -44,27 +63,35 @@ public class VentaDTO {
         this.descuento = descuento;
     }
 
-    public Double getRecargo() {
-        return recargo;
+    public Double getTotal() {
+        return total;
     }
 
-    public void setRecargo(Double recargo) {
-        this.recargo = recargo;
+    public void setTotal(Double total) {
+        this.total = total;
     }
 
-    public Double getTotalPagar() {
-        return totalPagar;
+    public Long getNroVenta() {
+        return nroVenta;
     }
 
-    public void setTotalPagar(Double totalPagar) {
-        this.totalPagar = totalPagar;
+    public void setNroVenta(Long nroVenta) {
+        this.nroVenta = nroVenta;
     }
 
-    public List<DetalleTipoMovimientoDTO> getDetalleVenta() {
-        return detalleVenta;
+    public String getNombreCliente() {
+        return nombreCliente;
     }
 
-    public void setDetalleVenta(List<DetalleTipoMovimientoDTO> detalleVenta) {
-        this.detalleVenta = detalleVenta;
+    public void setNombreCliente(String nombreCliente) {
+        this.nombreCliente = nombreCliente;
+    }
+
+    public List<ArticuloVentaDTO> getArticulos() {
+        return articulos;
+    }
+
+    public void setArticulos(List<ArticuloVentaDTO> articulos) {
+        this.articulos = articulos;
     }
 }

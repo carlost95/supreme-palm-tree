@@ -62,6 +62,20 @@ public class MovimientoArticuloService {
 
         return movimientoArticulo;
     }
+    public MovimientoArticulo saveMovimientoSales(DetalleVenta detalleVenta) {
+        MovimientoArticulo movimientoArticulo = new MovimientoArticulo();
+        if (detalleVenta == null) {
+            throw new NotFoundException("\nWARNING: no existen detalles por registrar en movimientos");
+        }
+        movimientoArticulo.setArticuloByIdArticulo(detalleVenta.getIdArticulo());
+        movimientoArticulo.setDetalleVentaByIdDetalleVenta(detalleVenta);
+        movimientoArticulo.setFecha(detalleVenta.getFecha());
+        movimientoArticulo.setMovimiento(detalleVenta.getCantidad());
+
+        movimientoArticulo = movimientoArticuloRepository.save(movimientoArticulo);
+
+        return movimientoArticulo;
+    }
 
     public MovimientoArticulo saveMovimientoSetting(DetalleAjuste detalleAjuste) {
         MovimientoArticulo movimientoArticulo = new MovimientoArticulo();
@@ -77,18 +91,5 @@ public class MovimientoArticuloService {
         return movimientoArticulo;
     }
 
-    public MovimientoArticulo saveMovimientoSales(DetalleVenta detalleVenta) {
-        MovimientoArticulo movimientoArticulo = new MovimientoArticulo();
-        if (detalleVenta == null) {
-            throw new NotFoundException("\nWARNING: no existen detalles por registrar en movimientos");
-        }
-        movimientoArticulo.setArticuloByIdArticulo(detalleVenta.getArticuloByIdArticulo());
-        movimientoArticulo.setDetalleVentaByIdDetalleVenta(detalleVenta);
-        movimientoArticulo.setFecha(detalleVenta.getFecha());
-        movimientoArticulo.setMovimiento(detalleVenta.getCantidad());
 
-        movimientoArticulo = movimientoArticuloRepository.save(movimientoArticulo);
-
-        return movimientoArticulo;
-    }
 }
