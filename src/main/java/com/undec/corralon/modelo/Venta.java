@@ -18,6 +18,9 @@ public class Venta extends UserDateAudit {
     @ManyToOne
     @JoinColumn(name = "id_empresa", referencedColumnName = "id_empresa", nullable = false)
     private Empresa idEmpresa;
+    @ManyToOne
+    @JoinColumn(name = "id_direccion", referencedColumnName = "id_direccion", nullable = false)
+    private Direccion idDireccion;
     @Basic
     @Column(name = "nro_venta", nullable = false)
     private Long nroVenta;
@@ -89,16 +92,24 @@ public class Venta extends UserDateAudit {
         this.nroVenta = nroVenta;
     }
 
+    public Direccion getIdDireccion() {
+        return idDireccion;
+    }
+
+    public void setIdDireccion(Direccion idDireccion) {
+        this.idDireccion = idDireccion;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Venta venta = (Venta) o;
-        return Objects.equals(idVenta, venta.idVenta) && Objects.equals(idCliente, venta.idCliente) && Objects.equals(idEmpresa, venta.idEmpresa) && Objects.equals(nroVenta, venta.nroVenta) && Objects.equals(descuento, venta.descuento) && Objects.equals(total, venta.total) && Objects.equals(fechaVenta, venta.fechaVenta);
+        return Objects.equals(idVenta, venta.idVenta) && Objects.equals(idCliente, venta.idCliente) && Objects.equals(idEmpresa, venta.idEmpresa) && Objects.equals(idDireccion, venta.idDireccion) && Objects.equals(nroVenta, venta.nroVenta) && Objects.equals(descuento, venta.descuento) && Objects.equals(total, venta.total) && Objects.equals(fechaVenta, venta.fechaVenta);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idVenta, idCliente, idEmpresa, nroVenta, descuento, total, fechaVenta);
+        return Objects.hash(idVenta, idCliente, idEmpresa, idDireccion, nroVenta, descuento, total, fechaVenta);
     }
 }
