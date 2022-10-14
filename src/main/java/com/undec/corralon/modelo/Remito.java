@@ -1,23 +1,36 @@
 package com.undec.corralon.modelo;
 
-import com.undec.corralon.modelo.audit.DateAudit;
+import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
-public class Remito extends DateAudit {
-    private Integer idRemito;
-    private Timestamp fechaRemito;
-    private String estadoRemito;
-    private Integer idDetalleRemito;
-    private Boolean habilitado;
-    private Venta remitosByIdVenta;
-
+public class Remito extends UserDateAudit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_remito")
+    private Integer idRemito;
+    @Basic
+    @Column(name = "nro_remito", nullable = false)
+    private Integer nroRemito;
+    @Basic
+    @Column(name = "fecha_remito", nullable = false)
+    private Timestamp fechaRemito;
+    @Basic
+    @Column(name = "entregado", nullable = false)
+    private Boolean entregado;
+    @ManyToOne
+    @JoinColumn(name = "id_venta", referencedColumnName = "id_venta", nullable = false)
+    private Venta venta;
+    @ManyToOne
+    @JoinColumn(name = "id_direccion", referencedColumnName = "id_direccion", nullable = false)
+    private Direccion direccion;
+    @ManyToOne
+    @JoinColumn(name = "id_cliente", referencedColumnName = "id_cliente", nullable = false)
+    private Cliente cliente;
+
     public Integer getIdRemito() {
         return idRemito;
     }
@@ -26,8 +39,14 @@ public class Remito extends DateAudit {
         this.idRemito = idRemito;
     }
 
-    @Basic
-    @Column(name = "fechaRemito")
+    public Integer getNroRemito() {
+        return nroRemito;
+    }
+
+    public void setNroRemito(Integer nroRemito) {
+        this.nroRemito = nroRemito;
+    }
+
     public Timestamp getFechaRemito() {
         return fechaRemito;
     }
@@ -36,60 +55,36 @@ public class Remito extends DateAudit {
         this.fechaRemito = fechaRemito;
     }
 
-    @Basic
-    @Column(name = "estadoRemito")
-    public String getEstadoRemito() {
-        return estadoRemito;
+    public Boolean getEntregado() {
+        return entregado;
     }
 
-    public void setEstadoRemito(String estadoRemito) {
-        this.estadoRemito = estadoRemito;
+    public void setEntregado(Boolean entregado) {
+        this.entregado = entregado;
     }
 
-    @Basic
-    @Column(name = "idDetalleRemito")
-    public Integer getIdDetalleRemito() {
-        return idDetalleRemito;
+    public Venta getVenta() {
+        return venta;
     }
 
-    public void setIdDetalleRemito(Integer idDetalleRemito) {
-        this.idDetalleRemito = idDetalleRemito;
+    public void setVenta(Venta venta) {
+        this.venta = venta;
     }
 
-    @Basic
-    @Column(name = "habilitado")
-    public Boolean getHabilitado() {
-        return habilitado;
+    public Direccion getDireccion() {
+        return direccion;
     }
 
-    public void setHabilitado(Boolean habilitado) {
-        this.habilitado = habilitado;
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Remito remito = (Remito) o;
-        return Objects.equals(idRemito, remito.idRemito) &&
-                Objects.equals(fechaRemito, remito.fechaRemito) &&
-                Objects.equals(estadoRemito, remito.estadoRemito) &&
-                Objects.equals(idDetalleRemito, remito.idDetalleRemito) &&
-                Objects.equals(habilitado, remito.habilitado);
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(idRemito, fechaRemito, estadoRemito, idDetalleRemito, habilitado);
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "id_venta", referencedColumnName = "id_venta", nullable = false)
-    public Venta getRemitosByIdVenta() {
-        return remitosByIdVenta;
-    }
-
-    public void setRemitosByIdVenta(Venta remitosByIdVenta) {
-        this.remitosByIdVenta = remitosByIdVenta;
-    }
 }

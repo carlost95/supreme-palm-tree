@@ -86,6 +86,7 @@ public class VentaService {
         if (saleToSave == null || saleToSave.getIdVenta() == null) {
             throw new NotFoundException("\nWARNING: Error al guardar venta");
         }
+        Remito remito = new Remito();
 //        TODO: generar remito
 
         mappedDetailSale(saleToSave, ventaDTO);
