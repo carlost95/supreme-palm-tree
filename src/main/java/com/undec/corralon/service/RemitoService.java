@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RemitoService {
@@ -26,6 +28,23 @@ public class RemitoService {
     DetalleRemitoRepository detalleRemitoRepository;
     @Autowired
     MovimientoArticuloService movimientoArticuloService;
+
+    public List <Remito> findAllRemitos() {
+        return Optional.ofNullable(this.remitoRepository.findAll())
+                .orElseThrow(() -> new NotFoundException("\nWARNING: Error no exiten remitos"));
+    }
+    public Remito findRemitoById(Integer id) {
+        return this.remitoRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("\nWARNING: No existe el remito " + id + " en base de datos"));
+    }
+    public List<Remito> getRemitoByStatusEntregado() {
+        return Optional.ofNullable(this.remitoRepository.findAllByEntregadoEquals(true))
+                .orElseThrow(() -> new NotFoundException("\nWARNING: No existe el remito " + "ENTREGADO" + " en base de datos"));
+    }
+    public List<Remito> getRemitoByStatusEntregadoNot() {
+        return Optional.ofNullable(this.remitoRepository.findAllByEntregadoEquals(false))
+                .orElseThrow(() -> new NotFoundException("\nWARNING: No existe el remito " + "NO ENTREGADO" + " en base de datos"));
+    }
 
     public Remito saveRemito(VentaDTO ventaDTO, Venta venta) {
         Remito remitoSaved = validatorRemito(ventaDTO, venta);

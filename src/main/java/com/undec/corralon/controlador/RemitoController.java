@@ -20,20 +20,24 @@ public class RemitoController {
     @Autowired
     RemitoService remitoService;
 
-//    @GetMapping
-//    public ResponseEntity<List<Remito>> findAllRemitos() {
-//        return ResponseEntity.status(HttpStatus.OK).body(remitoService.findAllOrders());
-//    }
-//
-//    @GetMapping("/entregados")
-//    public ResponseEntity<List<Remito>> listOfOrdersHabilitation() {
-//        return ResponseEntity.status(HttpStatus.OK).body(remitoService.findOrdersHabilitation());
-//    }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<RemitoDTO> findOrderForId(@PathVariable Integer id) {
-//        return ResponseEntity.status(HttpStatus.OK).body(remitoService.findOrderForId(id));
-//    }
+    @GetMapping
+    public ResponseEntity<List<Remito>> findAllRemitos() {
+        return ResponseEntity.status(HttpStatus.OK).body(remitoService.findAllRemitos());
+    }
+    @GetMapping("/{id}")
+    public ResponseEntity<Remito> findRemitoById(@PathVariable Integer id) {
+        return ResponseEntity.status(HttpStatus.OK).body(remitoService.findRemitoById(id));
+    }
+
+    @GetMapping("/entregados")
+    public ResponseEntity<List<Remito>> findAllRenitosByStatusEntregado() {
+        return ResponseEntity.status(HttpStatus.OK).body(remitoService.getRemitoByStatusEntregado());
+
+    }
+    @GetMapping("/no/entregados")
+    public ResponseEntity<List<Remito>> findRemitoByStatusEntregadoNot() {
+        return ResponseEntity.status(HttpStatus.OK).body(remitoService.getRemitoByStatusEntregadoNot());
+    }
 //
 //    @PutMapping("{id}")
 //    public ResponseEntity<Remito> changeStatusRemito (@PathVariable Integer id) {
