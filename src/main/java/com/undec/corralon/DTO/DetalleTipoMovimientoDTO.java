@@ -4,7 +4,7 @@ public class DetalleTipoMovimientoDTO {
     private String codigoArticulo;
     private String nombreArticulo;
     private Double stockArticulo;
-    private Integer valorIngresado;
+    private Double valorIngresado;
 
     public String getCodigoArticulo() {
         return codigoArticulo;
@@ -30,11 +30,11 @@ public class DetalleTipoMovimientoDTO {
         this.stockArticulo = stockArticulo;
     }
 
-    public Integer getValorIngresado() {
+    public Double getValorIngresado() {
         return valorIngresado;
     }
 
-    public void setValorIngresado(Integer valorIngresado) {
+    public void setValorIngresado(Double valorIngresado) {
         this.valorIngresado = valorIngresado;
     }
 }

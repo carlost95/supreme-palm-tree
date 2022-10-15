@@ -10,7 +10,7 @@ import java.util.Objects;
 @Table(name = "detalle_ajuste")
 public class DetalleAjuste extends UserDateAudit {
     private Integer idDetalleAjuste;
-    private Integer cantidad;
+    private Double cantidad;
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     private Ajuste ajusteByIdAjuste;
@@ -30,11 +30,11 @@ public class DetalleAjuste extends UserDateAudit {
 
     @Basic
     @Column(name = "cantidad")
-    public Integer getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Integer cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
 

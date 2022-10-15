@@ -2,6 +2,7 @@ package com.undec.corralon.controlador;
 
 import com.undec.corralon.DTO.ArticuloDTO;
 import com.undec.corralon.DTO.ArticuloStockDTO;
+import com.undec.corralon.DTO.ArticuloVentaDTO;
 import com.undec.corralon.modelo.Articulo;
 import com.undec.corralon.service.ArticuloService;
 import com.undec.corralon.service.MovimientoArticuloService;
@@ -70,5 +71,10 @@ public class ArticuloController {
     @PutMapping("/{id}")
     public ResponseEntity<Articulo> changeTheHabilitation(@PathVariable Integer id) {
         return ResponseEntity.status(HttpStatus.OK).body(articuloService.changeTheHabilitation(id));
+    }
+
+    @GetMapping("/venta")
+    public ResponseEntity<List<ArticuloVentaDTO>> obtenerArticulosVentaHabilitados(){
+        return ResponseEntity.status(HttpStatus.OK).body(articuloService.obtenerArticulosVenta());
     }
 }

@@ -1,5 +1,6 @@
 package com.undec.corralon.controlador;
 
+import com.undec.corralon.DTO.VentaConsultDTO;
 import com.undec.corralon.DTO.VentaDTO;
 import com.undec.corralon.modelo.Venta;
 import com.undec.corralon.service.VentaService;
@@ -22,7 +23,7 @@ public class VentaController {
         return ResponseEntity.status(HttpStatus.OK).body(ventaService.findAllSales());
     }
     @GetMapping("/{id}")
-    public ResponseEntity<Venta> findSaleById(@PathVariable("id") Integer id) {
+    public ResponseEntity<VentaConsultDTO> findSaleById(@PathVariable Integer id) {
         return ResponseEntity.status(HttpStatus.OK).body(ventaService.findSaleById(id));
     }
     @PostMapping

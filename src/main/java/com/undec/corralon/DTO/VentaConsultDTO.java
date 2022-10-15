@@ -1,15 +1,18 @@
 package com.undec.corralon.DTO;
 
+import com.undec.corralon.modelo.Cliente;
+import com.undec.corralon.modelo.Direccion;
+import com.undec.corralon.modelo.Empresa;
+
 import java.util.Date;
 import java.util.List;
 
-public class VentaDTO {
+public class VentaConsultDTO {
     private Integer idVenta;
-    private Integer idCliente;
-    private String nombreCliente;
-    private Integer idEmpresa;
-    private Integer idDireccion;
-    private Date fecha;
+    private Cliente cliente;
+    private Empresa empresa;
+    private Direccion direccion;
+    private Date fechaVenta;
     private Double descuento;
     private Double total;
     private Long nroVenta;
@@ -23,36 +26,36 @@ public class VentaDTO {
         this.idVenta = idVenta;
     }
 
-    public Integer getIdCliente() {
-        return idCliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setIdCliente(Integer idCliente) {
-        this.idCliente = idCliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
-    public Integer getIdEmpresa() {
-        return idEmpresa;
+    public Empresa getEmpresa() {
+        return empresa;
     }
 
-    public void setIdEmpresa(Integer idEmpresa) {
-        this.idEmpresa = idEmpresa;
+    public void setEmpresa(Empresa empresa) {
+        this.empresa = empresa;
     }
 
-    public Integer getIdDireccion() {
-        return idDireccion;
+    public Direccion getDireccion() {
+        return direccion;
     }
 
-    public void setIdDireccion(Integer idDireccion) {
-        this.idDireccion = idDireccion;
+    public void setDireccion(Direccion direccion) {
+        this.direccion = direccion;
     }
 
-    public Date getFecha() {
-        return fecha;
+    public Date getFechaVenta() {
+        return fechaVenta;
     }
 
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
+    public void setFechaVenta(Date fechaVenta) {
+        this.fechaVenta = fechaVenta;
     }
 
     public Double getDescuento() {
@@ -77,14 +80,6 @@ public class VentaDTO {
 
     public void setNroVenta(Long nroVenta) {
         this.nroVenta = nroVenta;
-    }
-
-    public String getNombreCliente() {
-        return nombreCliente;
-    }
-
-    public void setNombreCliente(String nombreCliente) {
-        this.nombreCliente = nombreCliente;
     }
 
     public List<ArticuloVentaDTO> getArticulos() {
