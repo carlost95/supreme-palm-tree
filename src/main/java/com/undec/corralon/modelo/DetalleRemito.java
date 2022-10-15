@@ -3,8 +3,7 @@ package com.undec.corralon.modelo;
 import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
@@ -18,8 +17,8 @@ public class DetalleRemito extends UserDateAudit {
     @Column(name = "cantidad", nullable = false)
     private Double cantidad;
     @Basic
-    @Column(name = "fecha_remito", nullable = false)
-    private Timestamp fechaRemito;
+    @Column(name = "fecha", nullable = false)
+    private Date fecha;
     @ManyToOne
     @JoinColumn(name = "id_remito", referencedColumnName = "id_remito", nullable = false)
     private Remito remito;
@@ -43,12 +42,12 @@ public class DetalleRemito extends UserDateAudit {
         this.cantidad = cantidad;
     }
 
-    public Timestamp getFechaRemito() {
-        return fechaRemito;
+    public Date getFecha() {
+        return fecha;
     }
 
-    public void setFechaRemito(Timestamp fechaRemito) {
-        this.fechaRemito = fechaRemito;
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
     }
 
     public Remito getRemito() {
@@ -72,11 +71,11 @@ public class DetalleRemito extends UserDateAudit {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DetalleRemito that = (DetalleRemito) o;
-        return Objects.equals(idDetalleRemito, that.idDetalleRemito) && Objects.equals(cantidad, that.cantidad) && Objects.equals(fechaRemito, that.fechaRemito) && Objects.equals(remito, that.remito) && Objects.equals(articulo, that.articulo);
+        return Objects.equals(idDetalleRemito, that.idDetalleRemito) && Objects.equals(cantidad, that.cantidad) && Objects.equals(fecha, that.fecha) && Objects.equals(remito, that.remito) && Objects.equals(articulo, that.articulo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idDetalleRemito, cantidad, fechaRemito, remito, articulo);
+        return Objects.hash(idDetalleRemito, cantidad, fecha, remito, articulo);
     }
 }

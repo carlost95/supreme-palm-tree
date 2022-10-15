@@ -15,7 +15,7 @@ public class DetalleVenta extends UserDateAudit {
     private Integer idDetalleVenta;
     @Basic
     @Column(name = "cantidad", nullable = false)
-    private Integer cantidad;
+    private Double cantidad;
     @Basic
     @Column(name = "fecha", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -35,11 +35,11 @@ public class DetalleVenta extends UserDateAudit {
         this.idDetalleVenta = idDetalleVenta;
     }
 
-    public Integer getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Integer cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
 

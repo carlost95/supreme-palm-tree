@@ -7,7 +7,7 @@ public class ArticuloStockDTO {
     private String codigoArt;
     private Integer idProveedor;
     private Double stockActual;
-    private Integer cantidad;
+    private Double cantidad;
 
     public ArticuloStockDTO() {}
 
@@ -51,11 +51,11 @@ public class ArticuloStockDTO {
         this.stockActual = stockActual;
     }
 
-    public Integer getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Integer cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
 }

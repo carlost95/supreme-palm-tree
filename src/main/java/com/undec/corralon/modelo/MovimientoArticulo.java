@@ -10,7 +10,7 @@ import java.util.Objects;
 @Table(name = "movimiento_articulo")
 public class MovimientoArticulo extends UserDateAudit {
     private Integer idMovimientoArticulo;
-    private Integer movimiento;
+    private Double movimiento;
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
     private Integer devolocion;
@@ -33,11 +33,11 @@ public class MovimientoArticulo extends UserDateAudit {
 
     @Basic
     @Column(name = "movimiento")
-    public Integer getMovimiento() {
+    public Double getMovimiento() {
         return movimiento;
     }
 
-    public void setMovimiento(Integer movimiento) {
+    public void setMovimiento(Double movimiento) {
         this.movimiento = movimiento;
     }
 

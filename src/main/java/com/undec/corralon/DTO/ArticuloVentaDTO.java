@@ -4,7 +4,7 @@ public class ArticuloVentaDTO {
 
     private Integer idArticulo;
     private String nombre;
-    private Integer cantidad;
+    private Double cantidad;
     private String codigoArticulo;
     private Double precio;
     private Double subTotal;
@@ -25,11 +25,11 @@ public class ArticuloVentaDTO {
         this.nombre = nombre;
     }
 
-    public Integer getCantidad() {
+    public Double getCantidad() {
         return cantidad;
     }
 
-    public void setCantidad(Integer cantidad) {
+    public void setCantidad(Double cantidad) {
         this.cantidad = cantidad;
     }
 

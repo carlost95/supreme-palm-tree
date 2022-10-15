@@ -32,6 +32,9 @@ public class VentaService {
     @Autowired
     DireccionRepository direccionRepository;
 
+    @Autowired
+    RemitoService remitoService;
+
     public List<Venta> findAllSales() {
         return Optional.ofNullable(this.ventaRepository.findAll())
                 .orElseThrow(() -> new NotFoundException("\nWARNING: Error no exiten ventas"));
@@ -86,11 +89,13 @@ public class VentaService {
         if (saleToSave == null || saleToSave.getIdVenta() == null) {
             throw new NotFoundException("\nWARNING: Error al guardar venta");
         }
-        Remito remito = new Remito();
-//        TODO: generar remito
+//        TODO: Guuardar remito
+        Remito remito = remitoService.saveRemito(ventaDTO, saleToSave);
+
 
         mappedDetailSale(saleToSave, ventaDTO);
 //        TODO: mapear los detalles del remito
+        this.remitoService.saveDetalleRemito(remito, ventaDTO);
 
         return ventaDTO;
     }
