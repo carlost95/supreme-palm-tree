@@ -3,22 +3,29 @@ package com.undec.corralon.modelo;
 import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 @Entity
 @Table(name = "detalle_remito")
 public class DetalleRemito extends UserDateAudit {
-    private Integer idDetalleRemito;
-    private Double cantidad;
-    private String fecha;
-    private Articulo articuloByIdArticulo;
-    private Remito remitoByIdRemito;
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_detalle_remito")
+    @Column(name = "id_detalle_remito", nullable = false)
+    private Integer idDetalleRemito;
+    @Basic
+    @Column(name = "cantidad", nullable = false)
+    private Double cantidad;
+    @Basic
+    @Column(name = "fecha", nullable = false)
+    private Date fecha;
+    @ManyToOne
+    @JoinColumn(name = "id_remito", referencedColumnName = "id_remito", nullable = false)
+    private Remito remito;
+    @ManyToOne
+    @JoinColumn(name = "id_articulo", referencedColumnName = "id_articulo", nullable = false)
+    private Articulo articulo;
+
     public Integer getIdDetalleRemito() {
         return idDetalleRemito;
     }
@@ -27,8 +34,6 @@ public class DetalleRemito extends UserDateAudit {
         this.idDetalleRemito = idDetalleRemito;
     }
 
-    @Basic
-    @Column(name = "cantidad")
     public Double getCantidad() {
         return cantidad;
     }
@@ -37,50 +42,40 @@ public class DetalleRemito extends UserDateAudit {
         this.cantidad = cantidad;
     }
 
-    @Basic
-    @Column(name = "fecha")
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 
+    public Remito getRemito() {
+        return remito;
+    }
+
+    public void setRemito(Remito remito) {
+        this.remito = remito;
+    }
+
+    public Articulo getArticulo() {
+        return articulo;
+    }
+
+    public void setArticulo(Articulo articulo) {
+        this.articulo = articulo;
+    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DetalleRemito that = (DetalleRemito) o;
-        return Objects.equals(idDetalleRemito, that.idDetalleRemito) &&
-                Objects.equals(cantidad, that.cantidad) &&
-                Objects.equals(fecha, that.fecha);
+        return Objects.equals(idDetalleRemito, that.idDetalleRemito) && Objects.equals(cantidad, that.cantidad) && Objects.equals(fecha, that.fecha) && Objects.equals(remito, that.remito) && Objects.equals(articulo, that.articulo);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idDetalleRemito, cantidad, fecha);
+        return Objects.hash(idDetalleRemito, cantidad, fecha, remito, articulo);
     }
-
-    @ManyToOne
-    @JoinColumn(name = "id_articulo", referencedColumnName = "id_articulo", nullable = false)
-    public Articulo getArticuloByIdArticulo() {
-        return articuloByIdArticulo;
-    }
-
-    public void setArticuloByIdArticulo(Articulo articuloByIdArticulo) {
-        this.articuloByIdArticulo = articuloByIdArticulo;
-    }
-
-    @ManyToOne
-    @JoinColumn(name = "id_remito", referencedColumnName = "id_remito", nullable = false)
-    public Remito getRemitoByIdRemito() {
-        return remitoByIdRemito;
-    }
-
-    public void setRemitoByIdRemito(Remito remitoByIdRemito) {
-        this.remitoByIdRemito = remitoByIdRemito;
-    }
-
 }

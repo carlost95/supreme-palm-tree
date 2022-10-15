@@ -1,17 +1,13 @@
 package com.undec.corralon.service;
 
-import com.undec.corralon.DTO.Response;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
-import com.undec.corralon.excepciones.rubro.*;
 import com.undec.corralon.modelo.Rubro;
 import com.undec.corralon.repository.RubroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RubroService {
