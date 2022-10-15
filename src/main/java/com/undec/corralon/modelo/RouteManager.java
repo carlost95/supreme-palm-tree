@@ -1,56 +1,55 @@
 package com.undec.corralon.modelo;
-import com.google.ortools.Loader;
 import com.google.ortools.constraintsolver.Assignment;
 import com.google.ortools.constraintsolver.FirstSolutionStrategy;
 import com.google.ortools.constraintsolver.RoutingIndexManager;
 import com.google.ortools.constraintsolver.RoutingModel;
 import com.google.ortools.constraintsolver.RoutingSearchParameters;
 import com.google.ortools.constraintsolver.main;
+
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 
-public class GoogleTSP {
-    private static final Logger logger = Logger.getLogger(GoogleTSP.class.getName());
-    private final int vehicleNumber = 1;
-    private final int depot = 0;
-    private final long[][] distanceMatrix;
+public class RouteManager {
 
-    public GoogleTSP (long[][] distanceMatrix) {
-        this.distanceMatrix = distanceMatrix;
+    private static final Logger logger = Logger.getLogger(RouteManager.class.getName());
+    private final int cantidadVehiculos = 1;
+    private final int deposito = 0;
+    private final double[][] distancias;
+
+    public RouteManager(double[][] distancias) {
+        this.distancias = distancias;
     }
 
 
-
-    /// @brief Print the solution.
-    public String printSolution(
+    public Ruta printSolution(
             RoutingModel routing, RoutingIndexManager manager, Assignment solution) {
-        // Solution cost.
-        logger.info("Objective: " + solution.objectiveValue() + "miles");
-        // Inspect solution.
-        logger.info("Route:");
+
+        Ruta ruta = new Ruta();
+        List<Integer> paradas = new ArrayList<>();
         long routeDistance = 0;
         String route = "";
         long index = routing.start(0);
         while (!routing.isEnd(index)) {
+            paradas.add(manager.indexToNode(index));
             route += manager.indexToNode(index) + " -> ";
             long previousIndex = index;
             index = solution.value(routing.nextVar(index));
             routeDistance += routing.getArcCostForVehicle(previousIndex, index, 0);
         }
         route += manager.indexToNode(routing.end(0));
-        logger.info(route);
-        logger.info("Route distance: " + routeDistance + "miles");
-        return route;
+        paradas.add(manager.indexToNode(routing.end(0)));
+        ruta.setParada(paradas);
+        ruta.setDistancia(routeDistance);
+        return ruta;
     }
 
-    public String getRoute() throws Exception {
-        Loader.loadNativeLibraries();
-        // Instantiate the data problem.
-//        final DataModel data = new DataModel();
+    public Ruta getRoute() throws Exception {
 
         // Create Routing Index Manager
         RoutingIndexManager manager =
-                new RoutingIndexManager(this.distanceMatrix.length, this.vehicleNumber, this.depot);
+                new RoutingIndexManager(this.distancias.length, this.cantidadVehiculos, this.deposito);
 
         // Create Routing Model.
         RoutingModel routing = new RoutingModel(manager);
@@ -61,11 +60,12 @@ public class GoogleTSP {
                     // Convert from routing variable Index to user NodeIndex.
                     int fromNode = manager.indexToNode(fromIndex);
                     int toNode = manager.indexToNode(toIndex);
-                    return this.distanceMatrix[fromNode][toNode];
+                    return (long) this.distancias[fromNode][toNode];
                 });
 
         // Define cost of each arc.
         routing.setArcCostEvaluatorOfAllVehicles(transitCallbackIndex);
+
 
         // Setting first solution heuristic.
         RoutingSearchParameters searchParameters =
