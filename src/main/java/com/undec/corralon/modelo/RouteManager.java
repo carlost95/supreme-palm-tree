@@ -1,4 +1,5 @@
 package com.undec.corralon.modelo;
+import com.google.ortools.Loader;
 import com.google.ortools.constraintsolver.Assignment;
 import com.google.ortools.constraintsolver.FirstSolutionStrategy;
 import com.google.ortools.constraintsolver.RoutingIndexManager;
@@ -46,7 +47,7 @@ public class RouteManager {
     }
 
     public Ruta getRoute() throws Exception {
-
+        Loader.loadNativeLibraries();
         // Create Routing Index Manager
         RoutingIndexManager manager =
                 new RoutingIndexManager(this.distancias.length, this.cantidadVehiculos, this.deposito);
