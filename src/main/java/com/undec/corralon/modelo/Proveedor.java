@@ -24,6 +24,9 @@ public class Proveedor extends UserDateAudit {
     @Column(name = "telefono")
     private String telefono;
     @Basic
+    @Column(name = "cuit")
+    private String cuit;
+    @Basic
     @Column(name = "habilitado")
     private Boolean habilitado;
 
@@ -68,6 +71,14 @@ public class Proveedor extends UserDateAudit {
         this.telefono = telefono;
     }
 
+    public String getCuit() {
+        return cuit;
+    }
+
+    public void setCuit(String cuit) {
+        this.cuit = cuit;
+    }
+
     public Boolean getHabilitado() {
         return habilitado;
     }
@@ -86,12 +97,13 @@ public class Proveedor extends UserDateAudit {
                 Objects.equals(domicilio, proveedor.domicilio) &&
                 Objects.equals(email, proveedor.email) &&
                 Objects.equals(telefono, proveedor.telefono) &&
+                Objects.equals(cuit, proveedor.cuit) &&
                 Objects.equals(habilitado, proveedor.habilitado);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
-                idProveedor, razonSocial, domicilio, email, telefono, habilitado);
+                idProveedor, razonSocial, domicilio, email, telefono, cuit, habilitado);
     }
 }

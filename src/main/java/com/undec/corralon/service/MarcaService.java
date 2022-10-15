@@ -17,14 +17,14 @@ public class MarcaService {
 
     public List<Marca> listMark() {
         List<Marca> marcas = this.marcaRepository.findAll();
-        if (marcas == null)
+        if (marcas.isEmpty())
             throw new NotFoundException("\nWARNING: No existen marcas");
         return marcas;
     }
 
     public List<Marca> listMarkHabilitation() {
         List<Marca> marcas = this.marcaRepository.findAllByHabilitadoEquals(true);
-        if (marcas == null)
+        if (marcas.isEmpty())
             throw new NotFoundException("\nWARNING: No existen marcas habilitadas");
         return marcas;
     }
@@ -37,11 +37,10 @@ public class MarcaService {
 
     public Marca saveMark(Marca marca) {
         marca.setHabilitado(true);
-        if (marca.getNombre() == null || marca.getAbreviatura() == null)
-            throw new BadRequestException("\nWARNING: No se cargaron datos en marca o los datos son incorrectos");
+        validateMark(marca);
         marca = this.marcaRepository.save(marca);
 
-        if (marca == null)
+        if (marca.toString().isEmpty())
             throw new NotFoundException("\nWARNING: error al guardar marca");
 
         return marca;
@@ -51,16 +50,14 @@ public class MarcaService {
         Marca marcaToUpdate = marcaRepository.findById(marca.getIdMarca()).
                 orElseThrow(() -> new NotFoundException("\nWARNING: No existe la marca para actualizar"));
 
-        if (marca.getNombre() == null || marca.getAbreviatura() == null || marca.getHabilitado() == null)
-            throw new BadRequestException("\nWARNING: Los datos de la marca son null o incorrectos");
-
         marcaToUpdate.setNombre(marca.getNombre());
         marcaToUpdate.setAbreviatura(marca.getAbreviatura());
         marcaToUpdate.setHabilitado(marca.getHabilitado());
         marcaToUpdate.setIdMarca(marca.getIdMarca());
+        validateUpdateMark(marcaToUpdate);
 
         marcaToUpdate = marcaRepository.save(marcaToUpdate);
-        if (marcaToUpdate == null)
+        if (marcaToUpdate.toString().isEmpty())
             throw new NotFoundException("\nWARNING: Error al actualizar marca no se cargaron los datos");
         return marcaToUpdate;
     }
@@ -73,10 +70,34 @@ public class MarcaService {
         marcaChange.setHabilitado(!marcaChange.getHabilitado());
 
         marcaChange = marcaRepository.save(marcaChange);
-        if (marcaChange == null)
+        if (marcaChange.toString().isEmpty())
             throw new NotFoundException("\nWARNING: error en el cambio de habilitacion de marca");
         return marcaChange;
     }
 
+    private void validateMark(Marca mark) {
+        validateField(mark.getNombre());
+        validateField(mark.getAbreviatura());
+        if (marcaRepository.existsMarcaByNombreOrAbreviatura(mark.getNombre(), mark.getAbreviatura()))
+            throw new NotFoundException("\nWARNING: Nombre " +
+                    mark.getNombre() + " o abreviatura " +
+                    mark.getAbreviatura() + " ya existe en otra marca");
+    }
 
+    private void validateUpdateMark(Marca mark) {
+        validateField(mark.getNombre());
+        validateField(mark.getAbreviatura());
+        if (marcaRepository.existsMarcaByNombreAndIdMarcaNot(mark.getNombre(), mark.getIdMarca()))
+            throw new NotFoundException("\nWARNING: Nombre " +
+                    mark.getNombre() + " ya existe en otra marca");
+        if (marcaRepository.existsMarcaByAbreviaturaAndIdMarcaNot(mark.getAbreviatura(), mark.getIdMarca()))
+            throw new NotFoundException("\nWARNING: Abreviatura " +
+                    mark.getAbreviatura() + " ya existe en otra marca");
+    }
+
+    private void validateField(String data) {
+        if (data.isEmpty()) {
+            throw new BadRequestException("El campo no puede estar vacio");
+        }
+    }
 }

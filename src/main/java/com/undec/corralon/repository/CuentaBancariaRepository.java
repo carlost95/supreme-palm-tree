@@ -12,6 +12,14 @@ import java.util.List;
 public interface CuentaBancariaRepository extends JpaRepository<CuentaBancaria, Integer> {
     @Query("select c from CuentaBancaria c where c.proveedor.idProveedor = :id")
     List<CuentaBancaria> findAllCuentaBancariaByIdProveedor(@Param("id") Integer id);
+
+
+    Boolean existsCuentaBancariaByAlias(String alias);
+    Boolean existsCuentaBancariaByNumero(String numeroCuenta);
+    Boolean existsCuentaBancariaByCbu(String cbu);
+    Boolean existsCuentaBancariasByAliasAndIdIsNot(String alias, Integer id);
+    Boolean existsCuentaBancariaByNumeroAndIdNot(String numeroCuenta, Integer id);
+    Boolean existsCuentaBancariaByCbuAndIdNot(String cbu, Integer id);
 }
 
 

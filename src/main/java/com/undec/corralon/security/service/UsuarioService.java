@@ -1,8 +1,6 @@
 package com.undec.corralon.security.service;
 
 import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.usuario.UserErrorToUpdateException;
-import com.undec.corralon.excepciones.usuario.UsuarioException;
 import com.undec.corralon.security.dto.NewUsuario;
 import com.undec.corralon.security.entity.Rol;
 import com.undec.corralon.security.entity.Usuario;

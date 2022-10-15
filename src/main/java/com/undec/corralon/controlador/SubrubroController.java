@@ -1,8 +1,6 @@
 package com.undec.corralon.controlador;
 
 import com.undec.corralon.DTO.SubrubroDTO;
-import com.undec.corralon.excepciones.subrubro.SubrubroException;
-import com.undec.corralon.modelo.SubRubro;
 import com.undec.corralon.service.SubrubroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -40,17 +38,17 @@ public class SubrubroController {
     }
 
     @PostMapping
-    public ResponseEntity<SubrubroDTO> guardarSubrubro(@RequestBody SubrubroDTO subrubroDTO) throws SubrubroException {
+    public ResponseEntity<SubrubroDTO> guardarSubrubro(@RequestBody SubrubroDTO subrubroDTO) {
         return new ResponseEntity<>(subrubroService.guardarSubrubro(subrubroDTO), HttpStatus.OK);
     }
 
     @PutMapping
-    public ResponseEntity<SubrubroDTO> actualizarSubrubro(@RequestBody SubrubroDTO subrubroDTO) throws SubrubroException {
+    public ResponseEntity<SubrubroDTO> actualizarSubrubro(@RequestBody SubrubroDTO subrubroDTO) {
         return new ResponseEntity<>(subrubroService.actualizarSubrubro(subrubroDTO), HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SubrubroDTO> cambiarHabilitacion(@PathVariable("id") Integer id) throws SubrubroException {
+    public ResponseEntity<SubrubroDTO> cambiarHabilitacion(@PathVariable("id") Integer id){
         return new ResponseEntity<>(subrubroService.cambiarHabilitacion(id), HttpStatus.OK);
     }
 }

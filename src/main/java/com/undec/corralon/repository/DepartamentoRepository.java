@@ -11,4 +11,7 @@ public interface DepartamentoRepository extends JpaRepository<Departamento, Inte
     List<Departamento> findByHabilitadoEquals(boolean habilitado);
 
     Boolean existsByNombreOrAbreviatura(String nombre, String abreviatura);
+
+    Boolean existsByNombreAndIdDepartamentoNot(String nombre, Integer idDepartamento);
+    Boolean existsByAbreviaturaAndIdDepartamentoNot(String abreviatura, Integer idDepartamento);
 }

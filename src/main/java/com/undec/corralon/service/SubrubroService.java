@@ -1,8 +1,8 @@
 package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.SubrubroDTO;
+import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
-import com.undec.corralon.excepciones.subrubro.*;
 import com.undec.corralon.modelo.SubRubro;
 import com.undec.corralon.repository.RubroRepository;
 import com.undec.corralon.repository.SubRubroRepository;
@@ -53,28 +53,27 @@ public class SubrubroService {
                 .collect(Collectors.toList());
     }
 
-    public SubrubroDTO guardarSubrubro(SubrubroDTO subrubroDTO) throws SubrubroException {
+    public SubrubroDTO guardarSubrubro(SubrubroDTO subrubroDTO) {
         SubRubro subRubro = mapDtoToEntity(subrubroDTO);
-        if (subRubro == null)
-            throw new SubRubroErrorToSaveException();
-
+        validarSubRubro(subRubro);
         subRubro.setHabilitado(true);
         return this.mapEntityToDTO(subRubroRepository.save(subRubro));
     }
 
 
-    public SubrubroDTO actualizarSubrubro(SubrubroDTO subrubroDTO) throws SubrubroException {
-
-        SubRubro subRubroToUpdate = subRubroRepository.findById(subrubroDTO.getIdSubRubro()).get();
-
-        if (subRubroToUpdate == null)
-            throw new SubRubroErrorToUpdateException();
+    public SubrubroDTO actualizarSubrubro(SubrubroDTO subrubroDTO) {
+        SubRubro subRubroToUpdate = subRubroRepository.findById(subrubroDTO.getIdSubRubro()).
+                orElseThrow(
+                        () -> new NotFoundException("\nWARNING: error no existe el sub rubro por id"));
 
         subRubroToUpdate.setNombre(subrubroDTO.getNombre());
         subRubroToUpdate.setAbreviatura(subrubroDTO.getAbreviatura());
         subRubroToUpdate.setHabilitado(subrubroDTO.getHabilitado());
-        subRubroToUpdate.setRubroByIdRubro(rubroRepository.findById(subrubroDTO.getRubroId()).get());
-
+        subRubroToUpdate.setRubroByIdRubro(
+                rubroRepository.findById(subrubroDTO.getRubroId()).
+                        orElseThrow(
+                                () -> new NotFoundException("\nWARNING: error no existe el rubro por id")));
+        validateSubRubroUpdate(subRubroToUpdate);
         return this.mapEntityToDTO(subRubroRepository.save(subRubroToUpdate));
     }
 
@@ -84,7 +83,10 @@ public class SubrubroService {
         subRubro.setNombre(subrubroDTO.getNombre());
         subRubro.setHabilitado(subrubroDTO.getHabilitado());
         subRubro.setAbreviatura(subrubroDTO.getAbreviatura());
-        subRubro.setRubroByIdRubro(rubroRepository.findById(subrubroDTO.getRubroId()).get());
+        subRubro.setRubroByIdRubro(
+                rubroRepository.findById(subrubroDTO.getRubroId()).
+                        orElseThrow(
+                                () -> new NotFoundException("\nWARNING: error no existe el rubro seleccionado")));
         return subRubro;
     }
 
@@ -98,13 +100,36 @@ public class SubrubroService {
         return subrubroDTO;
     }
 
-    public SubrubroDTO cambiarHabilitacion(Integer id) throws SubrubroException {
-        Optional<SubRubro> subRubroOptional = subRubroRepository.findById(id);
-        if (!subRubroOptional.isPresent()) {
-            throw new SubRubroCambioEstadoException();
-        }
-        SubRubro subRubro = subRubroOptional.get();
+    public SubrubroDTO cambiarHabilitacion(Integer id) {
+        SubRubro subRubro = subRubroRepository.findById(id).
+                orElseThrow(
+                        () -> new NotFoundException("\nWARNING: error no existe el sub rubro por id"));
+
         subRubro.setHabilitado(!subRubro.getHabilitado());
         return this.mapEntityToDTO(subRubroRepository.save(subRubro));
     }
+
+    private void validateSubRubroUpdate(SubRubro subRubroToUpdate) {
+        validateData(subRubroToUpdate.getNombre());
+        validateData(subRubroToUpdate.getAbreviatura());
+        if (subRubroRepository.existsDistinctByNombreAndIdSubRubroNot(subRubroToUpdate.getNombre(), subRubroToUpdate.getIdSubRubro()))
+            throw new NotFoundException("\nWARNING: error el nombre del sub rubro ya existe");
+        if (subRubroRepository.existsDistinctByAbreviaturaAndIdSubRubroNot(subRubroToUpdate.getAbreviatura(), subRubroToUpdate.getIdSubRubro()))
+            throw new NotFoundException("\nWARNING: error la abreviatura del sub rubro ya existe");
+
+    }
+
+    private void validarSubRubro(SubRubro subrubro) {
+        validateData(subrubro.getNombre());
+        validateData(subrubro.getAbreviatura());
+        if (subRubroRepository.existsDistinctByNombreOrAbreviatura(subrubro.getNombre(), subrubro.getAbreviatura())) {
+            throw new NotFoundException("\nWARNING: el nombre o abreviatura ya existe en un sub rubro registrado");
+        }
+    }
+
+    private void validateData(String data) {
+        if (data == null || data.isEmpty())
+            throw new BadRequestException("\nWARNING: error no se puede guardar un sub rubro con datos vacios");
+    }
+
 }

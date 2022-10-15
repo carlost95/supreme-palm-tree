@@ -50,15 +50,16 @@ public class ProveedorService {
         proveedorToSave.setRazonSocial(proveedor.getRazonSocial());
         proveedorToSave.setDomicilio(proveedor.getDomicilio());
         proveedorToSave.setEmail(proveedor.getEmail());
+        proveedorToSave.setCuit(proveedor.getCuit());
         proveedorToSave.setTelefono(proveedor.getTelefono());
         proveedorToSave.setHabilitado(true);
 
-        if (proveedorDuplicado(proveedorToSave)) {
+        if (proveedorDuplicado(proveedorToSave.getCuit())) {
             throw new BadRequestException("\nWARNING: El proveedor cargado es invalido o ya existe");
         }
         proveedorToSave = proveedorRepository.save(proveedorToSave);
 
-        if (proveedorToSave == null) {
+        if (proveedorToSave == null||proveedorToSave.toString().isEmpty()) {
             throw new NotFoundException("\nWARNING: No se puede guardar el provedor");
         }
         return proveedorToSave;
@@ -67,10 +68,13 @@ public class ProveedorService {
     public Proveedor updatedSupplier(Proveedor proveedor) {
         Proveedor proveedorUpdate = proveedorRepository.findById(proveedor.getIdProveedor()).
                 orElseThrow(() -> new NotFoundException("\nWARNING: No se encuentra el PROVEEDOR a actualizar"));
-
+        if (validationCuitSupplierExist(proveedor.getCuit(), proveedor.getIdProveedor())) {
+            throw new BadRequestException("\nWARNING: El CUIT cargado ya existe en otro proveedor");
+        }
         proveedorUpdate.setRazonSocial(proveedor.getRazonSocial());
         proveedorUpdate.setDomicilio(proveedor.getDomicilio());
         proveedorUpdate.setEmail(proveedor.getEmail());
+        proveedorUpdate.setCuit(proveedor.getCuit());
         proveedorUpdate.setTelefono(proveedor.getTelefono());
         proveedorUpdate.setHabilitado(proveedor.getHabilitado());
 
@@ -92,9 +96,10 @@ public class ProveedorService {
         return proveedor;
     }
 
-    private Boolean proveedorDuplicado(Proveedor prov) {
-        if (proveedorRepository.existsByRazonSocialAndEmail(prov.getRazonSocial(), prov.getEmail()))
-            return true;
-        return false;
+    private Boolean proveedorDuplicado(String cuit) {
+        return proveedorRepository.existsByCuit(cuit) ? true : false;
+    }
+    private Boolean validationCuitSupplierExist(String cuit, Integer id) {
+        return proveedorRepository.existsByCuitAndIdProveedorNot(cuit, id) ? true : false;
     }
 }

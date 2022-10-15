@@ -9,4 +9,8 @@ import java.util.List;
 @Repository
 public interface MarcaRepository extends JpaRepository<Marca, Integer> {
     List<Marca> findAllByHabilitadoEquals(Boolean habilitado);
+
+    Boolean existsMarcaByNombreOrAbreviatura(String nombre, String abreviatura);
+    Boolean existsMarcaByNombreAndIdMarcaNot(String nombre, Integer idMarca);
+    Boolean existsMarcaByAbreviaturaAndIdMarcaNot(String abreviatura, Integer idMarca);
 }

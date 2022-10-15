@@ -1,17 +1,13 @@
 package com.undec.corralon.controlador;
 
 import com.undec.corralon.DTO.AjusteDTO;
-import com.undec.corralon.DTO.Response;
-import com.undec.corralon.excepciones.Ajuste.AjusteException;
 import com.undec.corralon.modelo.Ajuste;
 import com.undec.corralon.service.AjusteService;
-import org.jfree.chart.title.ShortTextTitle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.text.ParseException;
 import java.util.List;
 
 @CrossOrigin("*")
