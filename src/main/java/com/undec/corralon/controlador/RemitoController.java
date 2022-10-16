@@ -34,7 +34,7 @@ public class RemitoController {
         return ResponseEntity.status(HttpStatus.OK).body(remitoService.getRemitoByStatusEntregado());
 
     }
-    @GetMapping("/no/entregados")
+    @GetMapping("/no-entregados")
     public ResponseEntity<List<Remito>> findRemitoByStatusEntregadoNot() {
         return ResponseEntity.status(HttpStatus.OK).body(remitoService.getRemitoByStatusEntregadoNot());
     }
