@@ -1,6 +1,5 @@
 package com.undec.corralon.repository;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import com.undec.corralon.modelo.Rubro;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
