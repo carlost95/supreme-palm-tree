@@ -149,7 +149,7 @@ public class VentaService {
             if (article == null || article.toString().isEmpty()) {
                 throw new NotFoundException("\nWARNING: No existe articulo con codigo: " + detalle.getCodigoArticulo());
             }
-            MovimientoArticulo movimientoArticulo;
+//            MovimientoArticulo movimientoArticulo;
             DetalleVenta detalleVenta = new DetalleVenta();
 
             detalleVenta.setIdArticulo(article);
@@ -160,10 +160,10 @@ public class VentaService {
             if (detalleVenta == null || detalleVenta.toString().isEmpty()) {
                 throw new NotFoundException("\nWARNING: No se guardo el detalle de venta");
             }
-            movimientoArticulo = this.movimientoArticuloService.saveMovimientoSales(detalleVenta);
-            if (movimientoArticulo == null || movimientoArticulo.toString().isEmpty()) {
-                throw new NotFoundException("\nWARNING: No se guardo el movimiento de articulo");
-            }
+//            movimientoArticulo = this.movimientoArticuloService.saveMovimientoSales(detalleVenta);
+//            if (movimientoArticulo == null || movimientoArticulo.toString().isEmpty()) {
+//                throw new NotFoundException("\nWARNING: No se guardo el movimiento de articulo");
+//            }
         }
     }
 

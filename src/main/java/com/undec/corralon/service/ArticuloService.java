@@ -1,6 +1,7 @@
 package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.ArticuloDTO;
+import com.undec.corralon.DTO.ArticuloRemitoDTO;
 import com.undec.corralon.DTO.ArticuloStockDTO;
 import com.undec.corralon.DTO.ArticuloVentaDTO;
 import com.undec.corralon.Util;
@@ -346,6 +347,13 @@ public class ArticuloService {
                 .map( this::obtenerArticuloVenta )
                 .collect(Collectors.toList());
     }
+    public List<ArticuloRemitoDTO>obtenerArticulosRemito(){
+        return this.articuloRepository
+                .findArticulosByHabilitadoIsTrue()
+                .stream()
+                .map( this::obtenerArticuloRemito )
+                .collect(Collectors.toList());
+    }
 
     private ArticuloVentaDTO obtenerArticuloVenta(Articulo articulo) {
         ArticuloVentaDTO articuloVenta = new ArticuloVentaDTO();
@@ -354,5 +362,12 @@ public class ArticuloService {
         articuloVenta.setCodigoArticulo(articulo.getCodigo());
         articuloVenta.setPrecio(articulo.getPrecio());
         return articuloVenta;
+    }
+    private ArticuloRemitoDTO obtenerArticuloRemito(Articulo articulo) {
+        ArticuloRemitoDTO articuloRemitoDTO = new ArticuloRemitoDTO();
+        articuloRemitoDTO.setIdArticulo(articulo.getIdArticulo());
+        articuloRemitoDTO.setNombre(articulo.getNombre());
+        articuloRemitoDTO.setCodigoArticulo(articulo.getCodigo());
+        return articuloRemitoDTO;
     }
 }

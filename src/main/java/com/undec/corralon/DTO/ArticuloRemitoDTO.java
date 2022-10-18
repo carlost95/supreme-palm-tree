@@ -1,14 +1,11 @@
 package com.undec.corralon.DTO;
 
-public class ArticuloVentaDTO {
+public class ArticuloRemitoDTO {
 
     private Integer idArticulo;
     private String nombre;
     private Double cantidad;
     private String codigoArticulo;
-    private Double precio;
-    private Double stock;
-    private Double subTotal;
 
     public Integer getIdArticulo() {
         return idArticulo;
@@ -34,22 +31,6 @@ public class ArticuloVentaDTO {
         this.cantidad = cantidad;
     }
 
-    public Double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
-
-    public Double getSubTotal() {
-        return subTotal;
-    }
-
-    public void setSubTotal(Double subTotal) {
-        this.subTotal = subTotal;
-    }
-
     public String getCodigoArticulo() {
         return codigoArticulo;
     }
@@ -58,11 +39,4 @@ public class ArticuloVentaDTO {
         this.codigoArticulo = codigoArticulo;
     }
 
-    public Double getStock() {
-        return stock;
-    }
-
-    public void setStock(Double stock) {
-        this.stock = stock;
-    }
 }
