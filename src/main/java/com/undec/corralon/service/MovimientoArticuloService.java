@@ -62,15 +62,31 @@ public class MovimientoArticuloService {
 
         return movimientoArticulo;
     }
-    public MovimientoArticulo saveMovimientoSales(DetalleVenta detalleVenta) {
+
+//    public MovimientoArticulo saveMovimientoSales(DetalleVenta detalleVenta) {
+//        MovimientoArticulo movimientoArticulo = new MovimientoArticulo();
+//        if (detalleVenta == null) {
+//            throw new NotFoundException("\nWARNING: no existen detalles por registrar en movimientos");
+//        }
+//        movimientoArticulo.setArticuloByIdArticulo(detalleVenta.getIdArticulo());
+//        movimientoArticulo.setDetalleVentaByIdDetalleVenta(detalleVenta);
+//        movimientoArticulo.setFecha(detalleVenta.getFecha());
+//        movimientoArticulo.setMovimiento(detalleVenta.getCantidad());
+//
+//        movimientoArticulo = movimientoArticuloRepository.save(movimientoArticulo);
+//
+//        return movimientoArticulo;
+//    }
+
+    public MovimientoArticulo saveMovimientoRemito(DetalleRemito detalleRemito) {
         MovimientoArticulo movimientoArticulo = new MovimientoArticulo();
-        if (detalleVenta == null) {
+        if (detalleRemito == null) {
             throw new NotFoundException("\nWARNING: no existen detalles por registrar en movimientos");
         }
-        movimientoArticulo.setArticuloByIdArticulo(detalleVenta.getIdArticulo());
-        movimientoArticulo.setDetalleVentaByIdDetalleVenta(detalleVenta);
-        movimientoArticulo.setFecha(detalleVenta.getFecha());
-        movimientoArticulo.setMovimiento(detalleVenta.getCantidad());
+        movimientoArticulo.setArticuloByIdArticulo(detalleRemito.getArticulo());
+        movimientoArticulo.setDetalleRemitoByIdDetalleRemito(detalleRemito);
+        movimientoArticulo.setFecha(detalleRemito.getFecha());
+        movimientoArticulo.setMovimiento(detalleRemito.getCantidad());
 
         movimientoArticulo = movimientoArticuloRepository.save(movimientoArticulo);
 

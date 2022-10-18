@@ -1,6 +1,7 @@
 package com.undec.corralon.controlador;
 
 import com.undec.corralon.DTO.ArticuloDTO;
+import com.undec.corralon.DTO.ArticuloRemitoDTO;
 import com.undec.corralon.DTO.ArticuloStockDTO;
 import com.undec.corralon.DTO.ArticuloVentaDTO;
 import com.undec.corralon.modelo.Articulo;
@@ -76,5 +77,9 @@ public class ArticuloController {
     @GetMapping("/venta")
     public ResponseEntity<List<ArticuloVentaDTO>> obtenerArticulosVentaHabilitados(){
         return ResponseEntity.status(HttpStatus.OK).body(articuloService.obtenerArticulosVenta());
+    }
+    @GetMapping("/remito")
+    public ResponseEntity<List<ArticuloRemitoDTO>> obtenerArticulosRemitoHabilitados(){
+        return ResponseEntity.status(HttpStatus.OK).body(articuloService.obtenerArticulosRemito());
     }
 }
