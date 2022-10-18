@@ -1,7 +1,6 @@
 package com.undec.corralon.service;
 
-import com.undec.corralon.DTO.ArticuloVentaDTO;
-import com.undec.corralon.DTO.VentaDTO;
+import com.undec.corralon.DTO.*;
 import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.modelo.*;
 import com.undec.corralon.repository.*;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,18 +29,31 @@ public class RemitoService {
     @Autowired
     MovimientoArticuloService movimientoArticuloService;
 
-    public List <Remito> findAllRemitos() {
-        return Optional.ofNullable(this.remitoRepository.findAll())
+    public List<RemitoListDTO> findAllRemitos() {
+        List<Remito> remitos;
+        List<RemitoListDTO> remitosList;
+        remitos = Optional.ofNullable(this.remitoRepository.findAll())
                 .orElseThrow(() -> new NotFoundException("\nWARNING: Error no exiten remitos"));
+        remitosList = Optional.ofNullable(mapperRemitoListDTO(remitos))
+                .orElseThrow(() -> new NotFoundException("\nWARNING: Error al mapear remitos"));
+        return remitosList;
     }
-    public Remito findRemitoById(Integer id) {
-        return this.remitoRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("\nWARNING: No existe el remito " + id + " en base de datos"));
+
+
+    public RemitoConsultDTO findRemitoById(Integer id) {
+        RemitoConsultDTO remitoConsultDTO;
+        Remito remito = this.remitoRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("\nWARNING: Error no existe remito con id: " + id));
+        remitoConsultDTO = mapperRemitoConsultDTO(remito);
+        return remitoConsultDTO;
     }
+
     public List<Remito> getRemitoByStatusEntregado() {
+
         return Optional.ofNullable(this.remitoRepository.findAllByEntregadoEquals(true))
                 .orElseThrow(() -> new NotFoundException("\nWARNING: No existe el remito " + "ENTREGADO" + " en base de datos"));
     }
+
     public List<Remito> getRemitoByStatusEntregadoNot() {
         return Optional.ofNullable(this.remitoRepository.findAllByEntregadoEquals(false))
                 .orElseThrow(() -> new NotFoundException("\nWARNING: No existe el remito " + "NO ENTREGADO" + " en base de datos"));
@@ -50,8 +63,43 @@ public class RemitoService {
         Remito remitoSaved = validatorRemito(ventaDTO, venta);
         return remitoSaved;
     }
-    public void saveDetalleRemito( Remito remito, VentaDTO ventaDTO) {
-       mappedDetailRemito( remito , ventaDTO);
+
+    public void saveDetalleRemito(Remito remito, VentaDTO ventaDTO) {
+        mappedDetailRemito(remito, ventaDTO);
+    }
+
+    public Remito changeStatusRemito(RemitoConsultDTO remitoConsultDTO) {
+        Remito remito = this.remitoRepository.findById(remitoConsultDTO.getIdRemito())
+                .orElseThrow(() -> new NotFoundException("\nWARNING: Error no existe remito con id: " + remitoConsultDTO.getIdRemito()));
+        if (remito.getEntregado()) {
+            throw new NotFoundException("\nWARNING: Error el remito ya fue entregado y no es posible cambiar el estado");
+        }
+        remito.setEntregado(true);
+        remito = remitoRepository.save(remito);
+        if (remito == null) {
+            throw new NotFoundException("\nWARNING: Error al cambiar el estado del remito");
+        }
+        saveDetalleRemitoEnMovimiento(remito);
+        return remito;
+    }
+
+
+    private List<RemitoListDTO> mapperRemitoListDTO(List<Remito> remitos) {
+        if (remitos == null || remitos.isEmpty()) {
+            throw new NotFoundException("\nWARNING: No se encontraron remitos");
+        }
+        List<RemitoListDTO> remitosList = new ArrayList<>();
+        for (Remito remito : remitos) {
+            RemitoListDTO remitoListDTO = new RemitoListDTO();
+            remitoListDTO.setIdRemito(remito.getIdRemito());
+            remitoListDTO.setFechaRemito(remito.getFechaRemito());
+            remitoListDTO.setNroRemito(remito.getNroRemito());
+            remitoListDTO.setCliente(remito.getCliente());
+            remitoListDTO.setDireccion(remito.getDireccion());
+            remitoListDTO.setEntregado(remito.getEntregado());
+            remitosList.add(remitoListDTO);
+        }
+        return remitosList;
     }
 
     private Remito validatorRemito(VentaDTO ventaDTO, Venta venta) {
@@ -93,6 +141,39 @@ public class RemitoService {
         return numeroRemito;
     }
 
+    private RemitoConsultDTO mapperRemitoConsultDTO(Remito remito) {
+        RemitoConsultDTO remitoConsultDTO = new RemitoConsultDTO();
+        if (remito == null || remito.toString().isEmpty()) {
+            throw new NotFoundException("\nWARNING: No se encontro el remito");
+        }
+        remitoConsultDTO.setIdRemito(remito.getIdRemito());
+        remitoConsultDTO.setFechaRemito(remito.getFechaRemito());
+        remitoConsultDTO.setNroRemito(remito.getNroRemito());
+        remitoConsultDTO.setCliente(remito.getCliente());
+        remitoConsultDTO.setDireccion(remito.getDireccion());
+        remitoConsultDTO.setEntregado(remito.getEntregado());
+        remitoConsultDTO.setEmpresa(remito.getEmpresa());
+        remitoConsultDTO.setArticulos(mapperRemitoDetails(remito));
+        return remitoConsultDTO;
+    }
+
+    private List<ArticuloRemitoDTO> mapperRemitoDetails(Remito remito) {
+        List<ArticuloRemitoDTO> articuloRemitoDTOList = new ArrayList<>();
+        List<DetalleRemito> detalleRemitoList = detalleRemitoRepository.findByIdRemito(remito.getIdRemito());
+        if (detalleRemitoList == null || detalleRemitoList.isEmpty()) {
+            throw new NotFoundException("\nWARNING: No se encontro el detalle del remito");
+        }
+        for (DetalleRemito detalleRemito : detalleRemitoList) {
+            ArticuloRemitoDTO articuloRemitoDTO = new ArticuloRemitoDTO();
+            articuloRemitoDTO.setIdArticulo(detalleRemito.getArticulo().getIdArticulo());
+            articuloRemitoDTO.setNombre(detalleRemito.getArticulo().getNombre());
+            articuloRemitoDTO.setCodigoArticulo(detalleRemito.getArticulo().getCodigo());
+            articuloRemitoDTO.setCantidad(detalleRemito.getCantidad());
+            articuloRemitoDTOList.add(articuloRemitoDTO);
+        }
+        return articuloRemitoDTOList;
+    }
+
     private void mappedDetailRemito(Remito remito, VentaDTO ventaDTO) {
         Articulo article;
         for (ArticuloVentaDTO detalle : ventaDTO.getArticulos()) {
@@ -111,14 +192,22 @@ public class RemitoService {
             if (detalleRemito == null || detalleRemito.getIdDetalleRemito() == null) {
                 throw new NotFoundException("Error al guardar el detalle del remito");
             }
-//TODO: se debe contemplar actualizar el estado de los remitos al momento de descontar
-/*
-           las cantidades de los articulos
-            movimientoArticulo = this.movimientoArticuloService.saveMovimiento(detalleVenta);
+        }
+    }
+
+    private void saveDetalleRemitoEnMovimiento(Remito remito) {
+        List<DetalleRemito> detalleRemitoList = detalleRemitoRepository.findByIdRemito(remito.getIdRemito());
+
+        for (DetalleRemito detalle : detalleRemitoList) {
+            MovimientoArticulo movimientoArticulo = new MovimientoArticulo();
+            if (detalle == null || detalle.getIdDetalleRemito() == null) {
+                throw new NotFoundException("Detalle de remito vacio o null");
+            }
+            movimientoArticulo = this.movimientoArticuloService.saveMovimientoRemito(detalle);
             if (movimientoArticulo == null || movimientoArticulo.toString().isEmpty()) {
                 throw new NotFoundException("\nWARNING: No se guardo el movimiento de articulo");
             }
- */
+
         }
     }
 }
