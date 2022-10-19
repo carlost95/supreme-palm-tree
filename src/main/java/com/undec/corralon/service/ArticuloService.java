@@ -12,8 +12,10 @@ import com.undec.corralon.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,6 +49,8 @@ public class ArticuloService {
 
     @Autowired
     MovimientoArticuloRepository movimientoArticuloRepository;
+    @Autowired
+    MovimientoArticuloService movimientoArticuloService;
 
 
     public List<ArticuloDTO> listAllArticles() {
@@ -340,18 +344,36 @@ public class ArticuloService {
         return precioSave;
     }
 
-    public List<ArticuloVentaDTO> obtenerArticulosVenta() {
-        return this.articuloRepository
+    public List<ArticuloVentaDTO> obtenerArticulosVenta() throws ParseException {
+        List<ArticuloVentaDTO> articulos;
+        articulos = this.articuloRepository
                 .findArticulosByHabilitadoIsTrue()
                 .stream()
-                .map( this::obtenerArticuloVenta )
+                .map(this::obtenerArticuloVenta)
                 .collect(Collectors.toList());
+        return mapperStockToArticuloVentaDTO(articulos);
     }
-    public List<ArticuloRemitoDTO>obtenerArticulosRemito(){
+
+    private List<ArticuloVentaDTO> mapperStockToArticuloVentaDTO(List<ArticuloVentaDTO> articulos) throws ParseException {
+        List<ArticuloVentaDTO> articulosVenta = new ArrayList<>();
+        for (ArticuloVentaDTO articulo : articulos) {
+            Double stock = movimientoArticuloService.findStockArticle(articulo.getIdArticulo());
+            if (stock == null) {
+                throw new NotFoundException("No se encontro stock para el articulo" + '\n' +
+                        "idArticulo: " + articulo.getIdArticulo() + '\n' +
+                        "Nombre: " + articulo.getNombre());
+            }
+            articulo.setStock(stock);
+            articulosVenta.add(articulo);
+        }
+        return articulosVenta;
+    }
+
+    public List<ArticuloRemitoDTO> obtenerArticulosRemito() {
         return this.articuloRepository
                 .findArticulosByHabilitadoIsTrue()
                 .stream()
-                .map( this::obtenerArticuloRemito )
+                .map(this::obtenerArticuloRemito)
                 .collect(Collectors.toList());
     }
 
@@ -363,6 +385,7 @@ public class ArticuloService {
         articuloVenta.setPrecio(articulo.getPrecio());
         return articuloVenta;
     }
+
     private ArticuloRemitoDTO obtenerArticuloRemito(Articulo articulo) {
         ArticuloRemitoDTO articuloRemitoDTO = new ArticuloRemitoDTO();
         articuloRemitoDTO.setIdArticulo(articulo.getIdArticulo());
