@@ -75,7 +75,7 @@ public class ArticuloController {
     }
 
     @GetMapping("/venta")
-    public ResponseEntity<List<ArticuloVentaDTO>> obtenerArticulosVentaHabilitados(){
+    public ResponseEntity<List<ArticuloVentaDTO>> obtenerArticulosVentaHabilitados() throws ParseException{
         return ResponseEntity.status(HttpStatus.OK).body(articuloService.obtenerArticulosVenta());
     }
     @GetMapping("/remito")
