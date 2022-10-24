@@ -5,6 +5,11 @@ import com.undec.corralon.repository.VentaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +26,22 @@ public class ReporteService {
                 .stream()
                 .map(venta -> new VentaPorMes(venta.get(1), venta.get(0)))
                 .collect(Collectors.toList());
-//        return Arrays.asList(new VentaPorMes(1, 66),
-//                new VentaPorMes(2, 59),
-//                new VentaPorMes(3, 80),
-//                new VentaPorMes(4, 81),
-//                new VentaPorMes(5, 56),
-//                new VentaPorMes(6, 55),
-//                new VentaPorMes(7, 40));
+    }
+//    public List<VentaPorMes> obtenerVentasPorMes(Date fecha) {
+//        // TODO: cambiar fecha por anio
+//        return this.ventaRepository.obtenerVentasPorMes(fecha)
+//                .stream()
+//                .map(venta -> new VentaPorMes(venta.get(1), venta.get(0)))
+//                .collect(Collectors.toList());
+//    }
+
+    public List<VentaPorMes> obtenerVentas(Date fechaInicial, Date fechaFinal){
+        System.out.println(fechaInicial);
+        System.out.println(fechaFinal);
+        Date dateEnd = new Date(fechaFinal.getTime() + 86400000);
+        return this.ventaRepository.obtenerVentas(fechaInicial, dateEnd)
+                .stream()
+                .map(venta -> new VentaPorMes(venta.get(1), venta.get(0)))
+                .collect(Collectors.toList());
     }
 }
