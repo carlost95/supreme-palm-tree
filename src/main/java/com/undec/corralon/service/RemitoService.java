@@ -7,6 +7,7 @@ import com.undec.corralon.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -68,6 +69,7 @@ public class RemitoService {
         mappedDetailRemito(remito, ventaDTO);
     }
 
+    @Transactional
     public Remito changeStatusRemito(RemitoConsultDTO remitoConsultDTO) {
         Remito remito = this.remitoRepository.findById(remitoConsultDTO.getIdRemito())
                 .orElseThrow(() -> new NotFoundException("\nWARNING: Error no existe remito con id: " + remitoConsultDTO.getIdRemito()));
@@ -181,7 +183,6 @@ public class RemitoService {
             if (article == null || article.toString().isEmpty()) {
                 throw new NotFoundException("\nWARNING: No existe articulo con codigo: " + detalle.getCodigoArticulo());
             }
-//            MovimientoArticulo movimientoArticulo;
             DetalleRemito detalleRemito = new DetalleRemito();
 
             detalleRemito.setArticulo(article);
