@@ -26,5 +26,9 @@ public class ReportesController {
     public ResponseEntity <List<DataReporte>> reporteFechasRemito(@RequestBody FechaReporte fechaReporte){
         return new ResponseEntity<>(reporteService.obtenerRemitos(fechaReporte.getFechaInicial(), fechaReporte.getFechaFinal()), HttpStatus.OK);
     }
+    @PostMapping("/pedidos")
+    public ResponseEntity <List<DataReporte>> reporteFechasPedido(@RequestBody FechaReporte fechaReporte){
+        return new ResponseEntity<>(reporteService.obtenerPedidos(fechaReporte.getFechaInicial(), fechaReporte.getFechaFinal()), HttpStatus.OK);
+    }
 
 }
