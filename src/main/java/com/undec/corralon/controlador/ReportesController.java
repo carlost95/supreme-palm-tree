@@ -2,6 +2,7 @@ package com.undec.corralon.controlador;
 
 import com.undec.corralon.DTO.DataReporte;
 import com.undec.corralon.DTO.FechaReporte;
+import com.undec.corralon.DTO.RecaudacionDTO;
 import com.undec.corralon.reportes.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,10 @@ public class ReportesController {
     @PostMapping("/pedidos")
     public ResponseEntity <List<DataReporte>> reporteFechasPedido(@RequestBody FechaReporte fechaReporte){
         return new ResponseEntity<>(reporteService.obtenerPedidos(fechaReporte.getFechaInicial(), fechaReporte.getFechaFinal()), HttpStatus.OK);
+    }
+    @PostMapping ("/recaudaciones")
+    public ResponseEntity <List<RecaudacionDTO>> reporteFechasRecaudaciones(@RequestBody FechaReporte fechaReporte){
+        return new ResponseEntity<>(reporteService.obtenerRecaudacion(fechaReporte.getFechaInicial(), fechaReporte.getFechaFinal()), HttpStatus.OK);
     }
 
 }
