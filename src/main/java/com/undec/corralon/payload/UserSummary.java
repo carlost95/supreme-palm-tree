@@ -2,21 +2,21 @@ package com.undec.corralon.payload;
 
 
 public class UserSummary {
-    private Long id;
+    private Integer id;
     private String username;
     private String name;
 
-    public UserSummary(Long id, String username, String name) {
+    public UserSummary(Integer id, String username, String name) {
         this.id = id;
         this.username = username;
         this.name = name;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

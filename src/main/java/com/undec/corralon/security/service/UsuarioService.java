@@ -1,6 +1,7 @@
 package com.undec.corralon.security.service;
 
 import com.undec.corralon.DTO.Response;
+import com.undec.corralon.excepciones.exception.NotFoundException;
 import com.undec.corralon.security.dto.NewUsuario;
 import com.undec.corralon.security.entity.Rol;
 import com.undec.corralon.security.entity.Usuario;
@@ -45,7 +46,10 @@ public class UsuarioService {
     }
 
     public void updateUser(NewUsuario newUsuario) {
-        Usuario usuario = usuarioRepository.findById(newUsuario.getId()).get();
+        Usuario usuario = usuarioRepository.findById(newUsuario.getId()).orElseThrow(
+                () -> new NotFoundException("\nWarning: No se encontro el usuario a actualizar")
+        );
+
         usuario.setNombre(newUsuario.getNombre());
         usuario.setNombreUsuario(newUsuario.getNombreUsuario());
         usuario.setEmail(newUsuario.getEmail());
