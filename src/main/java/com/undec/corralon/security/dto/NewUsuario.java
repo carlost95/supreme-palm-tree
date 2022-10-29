@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class NewUsuario {
-    private Integer id;
+    private Long id;
     @NotBlank
     private String nombre;
     @NotBlank
@@ -20,11 +20,11 @@ public class NewUsuario {
     private String password;
     private Set<String> roles = new HashSet<>();
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
