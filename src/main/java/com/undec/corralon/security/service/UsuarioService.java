@@ -46,9 +46,9 @@ public class UsuarioService {
     }
 
     public void updateUser(NewUsuario newUsuario) {
-        Usuario usuario = usuarioRepository.findById(newUsuario.getId()).orElseThrow(
-                () -> new NotFoundException("\nWarning: No se encontro el usuario a actualizar")
-        );
+        Usuario usuario = usuarioRepository.findById(newUsuario.getId())
+                .orElseThrow(
+                        () -> new NotFoundException("\nWarning: No se encontro el usuario a actualizar"));
 
         usuario.setNombre(newUsuario.getNombre());
         usuario.setNombreUsuario(newUsuario.getNombreUsuario());
@@ -68,8 +68,7 @@ public class UsuarioService {
     public Response getListUserName(String nombreUsuario) {
         Response response = new Response();
         Optional<Usuario> user = usuarioRepository.findByNombreUsuario(nombreUsuario);
-        if (user == null)
-            throw new EntityNotFoundException();
+        if (user == null) throw new EntityNotFoundException();
         response.setCode(200);
         response.setMsg("usuario Encontrado");
         response.setData(user);
@@ -80,8 +79,7 @@ public class UsuarioService {
         Response response = new Response();
         List<Usuario> users = usuarioRepository.findAll();
 
-        if (users == null)
-            throw new EntityNotFoundException();
+        if (users == null) throw new EntityNotFoundException();
 
         response.setCode(200);
         response.setMsg("List users");
