@@ -22,13 +22,8 @@ public class AjusteController {
         return ResponseEntity.status(HttpStatus.OK).body(ajusteService.findAllTheSetting());
     }
 
-    @GetMapping("/habilitados")
-    public ResponseEntity<List<Ajuste>> findAllTheSettingEnabled() {
-        return ResponseEntity.status(HttpStatus.OK).body(ajusteService.findAllSettingEnabled());
-    }
-
     @GetMapping("/{id}")
-    public ResponseEntity<Ajuste> findSettingById(@PathVariable("id") Integer id) {
+    public ResponseEntity<AjusteDTO> findSettingById(@PathVariable Integer id) {
         return ResponseEntity.status(HttpStatus.OK).body(ajusteService.findSettingById(id));
     }
 
@@ -37,13 +32,4 @@ public class AjusteController {
         return ResponseEntity.status(HttpStatus.OK).body(ajusteService.saveSetting(ajusteDTO));
     }
 
-    @PutMapping
-    public ResponseEntity<Ajuste> modificateSettig(@RequestBody Ajuste ajuste) {
-        return ResponseEntity.status(HttpStatus.OK).body(ajusteService.modifySettingh(ajuste));
-    }
-
-    @PutMapping("/{id}")
-    public ResponseEntity<Ajuste> changeHabilitationSetting(@PathVariable Integer id) {
-        return ResponseEntity.status(HttpStatus.OK).body(ajusteService.changeHabilitationSetting(id));
-    }
 }

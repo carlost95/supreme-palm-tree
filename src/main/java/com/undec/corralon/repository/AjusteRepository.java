@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface AjusteRepository extends JpaRepository <Ajuste, Integer> {
-    List <Ajuste> findAjusteByHabilitadoEquals(boolean habilitado);
+//    List <Ajuste> findAjusteByHabilitadoEquals(boolean habilitado);
 
 }

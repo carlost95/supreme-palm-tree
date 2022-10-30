@@ -1,20 +1,21 @@
 package com.undec.corralon.service;
 
 import com.undec.corralon.DTO.AjusteDTO;
+import com.undec.corralon.DTO.ArticuloStockDTO;
 import com.undec.corralon.DTO.DetalleTipoMovimientoDTO;
 import com.undec.corralon.excepciones.exception.BadRequestException;
 import com.undec.corralon.excepciones.exception.NotFoundException;
-import com.undec.corralon.modelo.Ajuste;
-import com.undec.corralon.modelo.Articulo;
-import com.undec.corralon.modelo.DetalleAjuste;
-import com.undec.corralon.modelo.MovimientoArticulo;
+import com.undec.corralon.modelo.*;
 import com.undec.corralon.repository.AjusteRepository;
 import com.undec.corralon.repository.ArticuloRepository;
 import com.undec.corralon.repository.DetalleAjusteRepository;
+import com.undec.corralon.repository.MovimientoArticuloRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AjusteService {
@@ -29,6 +30,8 @@ public class AjusteService {
 
     @Autowired
     MovimientoArticuloService movimientoArticuloService;
+    @Autowired
+    MovimientoArticuloRepository movimientoArticuloRepository;
 
     public List<Ajuste> findAllTheSetting() {
         List<Ajuste> ajustes = this.ajusteRepository.findAll();
@@ -36,59 +39,68 @@ public class AjusteService {
         return ajustes;
     }
 
-    public List<Ajuste> findAllSettingEnabled() {
-        List<Ajuste> settingEnabled = this.ajusteRepository.findAjusteByHabilitadoEquals(true);
-        if (settingEnabled == null) throw new NotFoundException("\nWARNING: Error no existen ajustes habilitados");
-        return settingEnabled;
+
+    public AjusteDTO findSettingById(Integer id) {
+
+        AjusteDTO ajusteDTO = this.ajusteRepository
+                .findById(id)
+                .map(order -> this.ajusteToAjusteDTO(order))
+                .orElseThrow(
+                        () -> new NotFoundException("Warning: no existe el ajuste con el identificador" + id)
+                );
+        return ajusteDTO;
     }
 
-    public Ajuste findSettingById(Integer id) {
-        Ajuste settingSelect = this.ajusteRepository.findById(id).
-                orElseThrow(
-                        () -> new NotFoundException("\nWARNING: Error no existe ajuste por id"));
-        return settingSelect;
+    private AjusteDTO ajusteToAjusteDTO(Ajuste ajuste) {
+        AjusteDTO ajusteDTO = new AjusteDTO();
+        ajusteDTO.setId(ajuste.getIdAjuste());
+        ajusteDTO.setNombre(ajuste.getNombre());
+        ajusteDTO.setDescripcion(ajuste.getDescripcion());
+        ajusteDTO.setFecha(ajuste.getFecha());
+        List <ArticuloStockDTO> articulos = this.detalleAjusteRepository
+                .findByAjusteByIdAjuste(ajuste)
+                .stream()
+                .map(detalle->{
+                    ArticuloStockDTO articuloStockDTO = this.mapToArticuloStockDTO(detalle.getArticuloByIdArticulo(), ajuste.getFecha());
+                    articuloStockDTO.setCantidad(detalle.getCantidad());
+                    return articuloStockDTO;
+                })
+                .collect(Collectors.toList());
+        Integer idProveedor = articulos
+                .stream()
+                .findFirst()
+                .map(articulo -> articulo.getIdProveedor())
+                .get();
+
+        ajusteDTO.setArticulos(articulos);
+        ajusteDTO.setIdProveedor(idProveedor);
+        return ajusteDTO;
+    }
+    private ArticuloStockDTO mapToArticuloStockDTO(Articulo articulo, Date fecha) {
+        ArticuloStockDTO articuloStockDTO = new ArticuloStockDTO();
+        try{
+            Double stock = this.movimientoArticuloRepository.stockPorArticuloPrevio(articulo, fecha);
+            articuloStockDTO.setId(articulo.getIdArticulo());
+            articuloStockDTO.setStockActual(stock == null ? 0 : stock);
+            articuloStockDTO.setCodigoArt(articulo.getCodigo());
+            articuloStockDTO.setNombre(articulo.getNombre());
+            articuloStockDTO.setIdProveedor(articulo.getProveedorByIdProveedor().getIdProveedor());
+        } catch (Exception e) {
+            System.out.println("Error al mapear articulo a dto");
+        }
+        return articuloStockDTO;
     }
 
     public AjusteDTO saveSetting(AjusteDTO ajusteDTO) {
         Ajuste ajusteToSave = new Ajuste();
 
-        ajusteToSave.setHabilitado(true);
         ajusteToSave = mappedSetting(ajusteToSave, ajusteDTO);
         ajusteToSave = ajusteRepository.save(ajusteToSave);
 
         if (ajusteToSave == null)
             throw new NotFoundException("\nWARNING: No se guardo el ajuste");
         mappedDetailSetting(ajusteToSave, ajusteDTO);
-
         return ajusteDTO;
-    }
-
-    public Ajuste modifySettingh(Ajuste ajuste) {
-        if (validationSettingNull(ajuste))
-            throw new BadRequestException("\nError: no se admiten valores nullos en los ajustes a modificar");
-
-        Ajuste ajusteModify = this.ajusteRepository.findById(ajuste.getIdAjuste())
-                .orElseThrow(() ->
-                        new NotFoundException("\nWARING: no existe un ajuste por modificar"));
-
-        ajusteModify.setNombre(ajuste.getNombre());
-        ajusteModify.setDescripcion(ajuste.getDescripcion());
-        ajusteModify.setFecha(ajuste.getFecha());
-
-        ajusteModify = this.ajusteRepository.save(ajusteModify);
-        if (ajusteModify == null)
-            throw new NotFoundException("\nError al almacenar ajuste no se puede modificar");
-
-        return ajusteModify;
-    }
-
-    private boolean validationSettingNull(Ajuste ajuste) {
-        if (ajuste.getIdAjuste() == null
-                || ajuste.getNombre() == null
-                || ajuste.getFecha() == null) {
-            return true;
-        }
-        return false;
     }
 
     private Ajuste mappedSetting(Ajuste ajusteTosave, AjusteDTO ajusteDTO) {
@@ -110,44 +122,27 @@ public class AjusteService {
 
     private void mappedDetailSetting(Ajuste ajuste, AjusteDTO ajusteDTO) {
         Articulo article;
+        for (ArticuloStockDTO articulo : ajusteDTO.getArticulos()) {
 
-        for (DetalleTipoMovimientoDTO detalle : ajusteDTO.getDetallesAjuste()) {
             MovimientoArticulo movimientoArticulo;
             DetalleAjuste detalleAjuste = new DetalleAjuste();
-            article = articuloRepository.findArticuloForCodigo(detalle.getNombreArticulo(), detalle.getCodigoArticulo());
+            article = articuloRepository.findArticuloByCodigo(articulo.getCodigoArt());
             if (article == null) {
                 throw new NotFoundException("\nWARINNG: No existe articulo en base de datos");
             }
             detalleAjuste.setArticuloByIdArticulo(article);
             detalleAjuste.setAjusteByIdAjuste(ajuste);
             detalleAjuste.setFecha(ajusteDTO.getFecha());
-            detalleAjuste.setCantidad(detalle.getValorIngresado());
+            detalleAjuste.setCantidad(articulo.getCantidad());
             detalleAjuste = detalleAjusteRepository.save(detalleAjuste);
-
             if (detalleAjuste == null) {
-                throw new NotFoundException("\nWARNING: Error al almacenar el detalle del ajuste");
+                throw new NotFoundException("\nWARNING: Error al almacenar el detalle del pedido");
             }
             movimientoArticulo = this.movimientoArticuloService.saveMovimientoSetting(detalleAjuste);
-            if (movimientoArticulo == null)
+            if (movimientoArticulo == null) {
                 throw new NotFoundException("\nWARNING: Error en la carga de movimientos");
+            }
         }
-    }
-
-
-    public Ajuste changeHabilitationSetting(Integer id) {
-        if (id == null) {
-            throw new BadRequestException("\nWARNING: El identificador de ajuste es null");
-        }
-        Ajuste ajusteOptional = ajusteRepository.findById(id).
-                orElseThrow(
-                        () -> new NotFoundException("WARNIGN: no existe el ajuste"));
-
-        ajusteOptional.setHabilitado(!ajusteOptional.getHabilitado());
-        ajusteOptional = ajusteRepository.save(ajusteOptional);
-        if (ajusteOptional == null) {
-            throw new NotFoundException("\nWARNING: error al realizar el cambio de habilitacion del ajuste");
-        }
-        return ajusteOptional;
     }
 
 }

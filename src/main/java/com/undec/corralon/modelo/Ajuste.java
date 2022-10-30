@@ -8,17 +8,23 @@ import java.util.Objects;
 
 @Entity
 public class Ajuste  extends UserDateAudit {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_ajuste")
     private Integer idAjuste;
+    @Basic
+    @Column(name = "nombre")
     private String nombre;
+    @Basic
+    @Column(name = "descripcion")
     private String descripcion;
-    private Boolean habilitado;
+    @Basic
+    @Column(name = "fecha", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date fecha;
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_ajuste")
+
     public Integer getIdAjuste() {
         return idAjuste;
     }
@@ -27,9 +33,7 @@ public class Ajuste  extends UserDateAudit {
         this.idAjuste = idAjuste;
     }
 
-    @Basic
-    @Column(name = "nombre")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     public String getNombre() {
         return nombre;
     }
@@ -38,8 +42,7 @@ public class Ajuste  extends UserDateAudit {
         this.nombre = nombre;
     }
 
-    @Basic
-    @Column(name = "descripcion")
+
     public String getDescripcion() {
         return descripcion;
     }
@@ -48,18 +51,8 @@ public class Ajuste  extends UserDateAudit {
         this.descripcion = descripcion;
     }
 
-    @Basic
-    @Column(name = "habilitado")
-    public Boolean getHabilitado() {
-        return habilitado;
-    }
 
-    public void setHabilitado(Boolean habilitado) {
-        this.habilitado = habilitado;
-    }
 
-    @Basic
-    @Column(name = "fecha")
     public Date getFecha() {
         return fecha;
     }
@@ -76,12 +69,11 @@ public class Ajuste  extends UserDateAudit {
         return Objects.equals(idAjuste, ajuste.idAjuste) &&
                 Objects.equals(nombre, ajuste.nombre) &&
                 Objects.equals(descripcion, ajuste.descripcion) &&
-                Objects.equals(habilitado, ajuste.habilitado) &&
                 Objects.equals(fecha, ajuste.fecha);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idAjuste, nombre, descripcion, habilitado, fecha);
+        return Objects.hash(idAjuste, nombre, descripcion, fecha);
     }
 }

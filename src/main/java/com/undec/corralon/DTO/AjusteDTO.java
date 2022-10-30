@@ -4,18 +4,19 @@ import java.util.Date;
 import java.util.List;
 
 public class AjusteDTO {
-    private int idAjusteDTO;
+    private int id;
     private String nombre;
     private Date fecha;
     private String descripcion;
-    List<DetalleTipoMovimientoDTO> detallesAjuste;
+    private Integer idProveedor;
+    private List<ArticuloStockDTO> articulos;
 
-    public int getIdAjusteDTO() {
-        return idAjusteDTO;
+    public int getId() {
+        return id;
     }
 
-    public void setIdAjusteDTO(int idAjusteDTO) {
-        this.idAjusteDTO = idAjusteDTO;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNombre() {
@@ -42,11 +43,19 @@ public class AjusteDTO {
         this.descripcion = descripcion;
     }
 
-    public List<DetalleTipoMovimientoDTO> getDetallesAjuste() {
-        return detallesAjuste;
+    public Integer getIdProveedor() {
+        return idProveedor;
     }
 
-    public void setDetallesAjuste(List<DetalleTipoMovimientoDTO> detallesAjuste) {
-        this.detallesAjuste = detallesAjuste;
+    public void setIdProveedor(Integer idProveedor) {
+        this.idProveedor = idProveedor;
+    }
+
+    public List<ArticuloStockDTO> getArticulos() {
+        return articulos;
+    }
+
+    public void setArticulos(List<ArticuloStockDTO> articulos) {
+        this.articulos = articulos;
     }
 }
