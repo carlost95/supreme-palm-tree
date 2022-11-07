@@ -6,7 +6,6 @@ import com.undec.corralon.modelo.*;
 import com.undec.corralon.repository.ClienteRepository;
 import com.undec.corralon.repository.DireccionRepository;
 import com.undec.corralon.repository.DistritoRepository;
-import com.undec.corralon.repository.UbicacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +24,6 @@ public class DireccionService {
     @Autowired
     DistritoRepository distritoRepository;
 
-    @Autowired
-    UbicacionRepository ubicacionRepository;
 
     public DireccionDTO getDirectionById(Integer idDireccion) {
         DireccionDTO direccionDTO = new DireccionDTO();

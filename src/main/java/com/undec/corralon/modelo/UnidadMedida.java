@@ -1,10 +1,8 @@
 package com.undec.corralon.modelo;
 
-import com.undec.corralon.modelo.audit.DateAudit;
 import com.undec.corralon.modelo.audit.UserDateAudit;
 
 import javax.persistence.*;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
